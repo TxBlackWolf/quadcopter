@@ -1,0 +1,5 @@
+set(COMPONENTS
+    FlightController
+)
+
+RegisterPacket()

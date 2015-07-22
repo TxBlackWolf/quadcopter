@@ -1,0 +1,61 @@
+macro(ConfigureHAL)
+    SetAccelerometer()
+    SetBarometer()
+    SetBuzzer()
+    SetCamera()
+    SetEngine()
+    SetGyroscope()
+    SetLights()
+    SetMagnetometer()
+
+    # Configure file for HAL manager.
+    # TODO: implement.
+endmacro()
+
+macro(SetAccelerometer)
+    set(FLIGHTCONTROLLER_USE_ACCELEROMETER true)
+    #set(FLIGHTCONTROLLER_ACCELEROMETER_DEVICE "LSM303D")
+    set(FLIGHTCONTROLLER_ACCELEROMETER_DEVICE "Emulator")
+endmacro()
+
+macro(SetBarometer)
+    set(FLIGHTCONTROLLER_USE_BAROMETER true)
+    #set(FLIGHTCONTROLLER_BAROMETER_DEVICE "LPS25H")
+    set(FLIGHTCONTROLLER_BAROMETER_DEVICE "Emulator")
+endmacro()
+
+macro(SetBuzzer)
+    set(FLIGHTCONTROLLER_USE_BUZZER true)
+    #set(FLIGHTCONTROLLER_BUZZER_DEVICE "CommonBuzzer")
+    set(FLIGHTCONTROLLER_BUZZER_DEVICE "Emulator")
+endmacro()
+
+macro(SetCamera)
+    set(FLIGHTCONTROLLER_USE_CAMERA true)
+    #set(FLIGHTCONTROLLER_CAMERA_DEVICE "GoPro-HERO4")
+    set(FLIGHTCONTROLLER_CAMERA_DEVICE "Emulator")
+endmacro()
+
+macro(SetEngine)
+    set(FLIGHTCONTROLLER_USE_ENGINES true)
+    #set(FLIGHTCONTROLLER_ENGINES_DEVICE "AfroESC")
+    set(FLIGHTCONTROLLER_ENGINES_DEVICE "Emulator")
+endmacro()
+
+macro(SetGyroscope)
+    set(FLIGHTCONTROLLER_USE_GYROSCOPE true)
+    #set(FLIGHTCONTROLLER_GYROSCOPE_DEVICE "L3GD20H")
+    set(FLIGHTCONTROLLER_GYROSCOPE_DEVICE "Emulator")
+endmacro()
+
+macro(SetLights)
+    set(FLIGHTCONTROLLER_USE_LIGHTS true)
+    #set(FLIGHTCONTROLLER_LIGHTS_DEVICE "LED")
+    set(FLIGHTCONTROLLER_LIGHTS_DEVICE "Emulator")
+endmacro()
+
+macro(SetMagnetometer)
+    set(FLIGHTCONTROLLER_USE_MAGNETOMETER true)
+    #set(FLIGHTCONTROLLER_MAGNETOMETER_DEVICE "LSM303D")
+    set(FLIGHTCONTROLLER_MAGNETOMETER_DEVICE "Emulator")
+endmacro()

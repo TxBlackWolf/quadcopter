@@ -1,0 +1,9 @@
+# GroundStation
+GroundStation/src/GroundStation.pro.user
+GroundStation/build/*
+GroundStation/bin/*
+
+# FlightController
+FlightController/build/*
+FlightController/bin/*
+CMakeLists.txt.user

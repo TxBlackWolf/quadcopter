@@ -1,0 +1,18 @@
+macro(FindExternalLibs)
+    FindBoost()
+endmacro()
+
+macro(FindBoost)
+    set(Boost_USE_STATIC_LIBS OFF)
+    if(${PLATFORM_BUILD_TYPE} STREQUAL "target")
+        set(BOOST_LIBRARYDIR ${FLIGHTCONTROLLER_TARGET_LIBS_PATH}/boost-1.55.0)
+        message(STATUS "Using target libs for boost-1.55.0: " ${BOOST_LIBRARYDIR})
+    endif()
+    find_package(Boost 1.55.0 COMPONENTS system serialization REQUIRED)
+
+    if(Boost_FOUND)
+        include_directories(${Boost_INCLUDE_DIR})
+        add_definitions(-DHAS_BOOST)
+        add_definitions(-DBOOST_ALL_NO_LIB)
+    endif()
+endmacro()
