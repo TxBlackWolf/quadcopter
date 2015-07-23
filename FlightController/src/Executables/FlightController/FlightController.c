@@ -13,8 +13,25 @@
 #include "Misc/Version.h"
 #include "Platform/Console.h"
 
-int main()
+#include <stdbool.h>
+
+void show_welcome_message()
 {
     console_write("Hello World!\n");
+}
+
+int main()
+{
+    if(!console_init())
+    {
+    }
+
+    show_welcome_message();
+
+    // Main program loop.
+    while(true)
+    {
+    }
+
     return 0;
 }

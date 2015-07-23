@@ -1,7 +1,7 @@
 set(COMPONENTS
     #Arch
     Executables
-    #HAL
+    HAL
     #Misc
     Platform
 )

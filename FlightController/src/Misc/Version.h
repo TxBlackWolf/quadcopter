@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : Console.h
+// Filename   : Version.h
 // Author     : Kuba Sejdak
 // Created on : 22.07.2015
 //
@@ -10,12 +10,14 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef CONSOLE_H
-#define CONSOLE_H
+#ifndef VERSION_H
+#define VERSION_H
 
-#include <stdbool.h>
-
-bool console_init();
-int console_write(const char *format, ... );
+#define DEVICE_NAME         "SkyViper"
+#define DEVICE_VERSION      "F-1"
+#define FIRMWARE_NAME       "FlightController"
+#define FIRMWARE_VERSION    "0.0.1"
+#define FIRMWARE_AUTHOR     "Kuba Sejdak"
+#define CONTACT_INFO        "kuba.sejdak@gmail.com"
 
 #endif

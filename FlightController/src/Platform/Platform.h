@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : Console.h
+// Filename   : Platform.h
 // Author     : Kuba Sejdak
-// Created on : 22.07.2015
+// Created on : 23.07.2015
 //
 // This file is a part of SkyViper project.
 //
@@ -10,12 +10,11 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef CONSOLE_H
-#define CONSOLE_H
+#ifndef PLATFORM_H
+#define PLATFORM_H
 
 #include <stdbool.h>
 
-bool console_init();
-int console_write(const char *format, ... );
+bool platform_init();
 
 #endif

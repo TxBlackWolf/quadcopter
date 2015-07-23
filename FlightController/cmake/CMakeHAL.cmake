@@ -7,9 +7,6 @@ macro(ConfigureHAL)
     SetGyroscope()
     SetLights()
     SetMagnetometer()
-
-    # Configure file for HAL manager.
-    # TODO: implement.
 endmacro()
 
 macro(SetAccelerometer)

@@ -25,12 +25,12 @@ set(APP_NAME FlightController)
 set(APP_TARGET_NAME FlightController)
 project(${PROJECT_NAME})
 
-if(NOT FLIGHTCONTROLER_PLATFORM_TYPE)
-    set(FLIGHTCONTROLER_PLATFORM_TYPE "Emulator")
-endif()
-
 if(NOT FLIGHTCONTROLER_ARCH_TYPE)
     set(FLIGHTCONTROLER_ARCH_TYPE "x86")
+endif()
+
+if(NOT FLIGHTCONTROLER_PLATFORM_TYPE)
+    set(FLIGHTCONTROLER_PLATFORM_TYPE "Emulator")
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -51,13 +51,24 @@ message(STATUS "  Project build type: " ${CMAKE_BUILD_TYPE})
 #################################################################################################################
 
 if(${FLIGHTCONTROLER_ARCH_TYPE} STREQUAL "x86")
-    set(CMAKE_C_COMPILER gcc)
+    set(CMAKE_C_COMPILER "gcc")
+    set(CMAKE_C_FLAGS "-Wall -Wextra")
+    set(CMAKE_C_FLAGS_DEBUG "-O0")
+    set(CMAKE_C_FLAGS_RELEASE "-O2 -Werror")
 elseif(${FLIGHTCONTROLER_ARCH_TYPE} STREQUAL "arm")
-    set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
+    set(CMAKE_C_COMPILER "arm-linux-gnueabihf-gcc")
+    set(CMAKE_C_FLAGS "-Wall -Wextra")
+    set(CMAKE_C_FLAGS_DEBUG "-O0")
+    set(CMAKE_C_FLAGS_RELEASE "-O2 -Werror")
 endif()
 
 message(STATUS "Setting toolchain to:")
-message(STATUS "  gcc: " ${CMAKE_C_COMPILER})
+message(STATUS "  compiler: " ${CMAKE_C_COMPILER})
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+    message(STATUS "  compiler flags: ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG}")
+else()
+    message(STATUS "  compiler flags: ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}")
+endif()
 
 # options passed to the compiler
 add_definitions(-std=c11)
@@ -72,7 +83,7 @@ add_definitions(-std=c11)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # configure HAL
-#ConfigureHal()
+ConfigureHal()
 
 # source and include paths
 include_directories(.)
