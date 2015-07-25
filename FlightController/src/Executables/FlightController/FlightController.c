@@ -13,7 +13,7 @@
 #include "Misc/Version.h"
 #include "Platform/Console.h"
 
-#include <stdbool.h>
+//#include <stdbool.h>
 
 void show_welcome_message()
 {
@@ -29,7 +29,7 @@ int main()
     show_welcome_message();
 
     // Main program loop.
-    while(true)
+    while(1)
     {
     }
 

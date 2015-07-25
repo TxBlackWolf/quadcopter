@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : STDConsole.c
+// Filename   : UARTConsole.h
 // Author     : Kuba Sejdak
 // Created on : 22.07.2015
 //
@@ -10,15 +10,7 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#include "Platform/Console.h"
+#ifndef UARTCONSOLE_H
+#define UARTCONSOLE_H
 
-#include <stdio.h>
-#include <stdarg.h>
-
-int console_write(const char *format, ... )
-{
-    va_list argptr;
-    va_start(argptr, format);
-    vfprintf(stderr, format, argptr);
-    va_end(argptr);
-}
+#endif

@@ -1,6 +1,6 @@
  //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : Console.h
+// Filename   : STM32Discovery.c
 // Author     : Kuba Sejdak
 // Created on : 22.07.2015
 //
@@ -10,9 +10,11 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef CONSOLE_H
-#define CONSOLE_H
+#include "Platform/Platform.h"
+#include "STM32Discovery.h"
 
-int console_write(const char *format, ... );
-
-#endif
+int platform_init()
+{
+    // TODO: implement.
+    return 0;
+}
