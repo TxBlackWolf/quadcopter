@@ -54,29 +54,34 @@ if(${FLIGHTCONTROLER_ARCH_TYPE} STREQUAL "x86")
     # Set toolchain for target.
     set(CMAKE_C_COMPILER "x86_64-linux-gnu-gcc")
     set(CMAKE_ASM_COMPILER "x86_64-linux-gnu-as")
-    set(CMAKE_C_FLAGS "")
+    set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS})
 
     # Set compilation flags.
     set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-std=c11 -Wall -Wextra")
-    set(CMAKE_C_FLAGS_DEBUG "-O0")
-    set(CMAKE_C_FLAGS_RELEASE "-O2 -Werror")
+    set(CMAKE_C_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG} "-O0")
+    set(CMAKE_C_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE} "-O2 -Werror")
 elseif(${FLIGHTCONTROLER_ARCH_TYPE} STREQUAL "arm")
     # Set toolchain for target.
     set(CMAKE_C_COMPILER "arm-none-eabi-gcc")
     set(CMAKE_ASM_COMPILER "arm-none-eabi-as")
-    set(CMAKE_C_FLAGS "-mcpu=cortex-m4 -march=armv7e-m -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fno-common -ffunction-sections -fdata-sections -nostdlib -static -lc -lgcc") # -nostdinc
+    set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-mcpu=cortex-m4 -march=armv7e-m -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fno-common -ffunction-sections -fdata-sections -nostdlib -static -lc -lgcc") # -nostdinc
     set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS)
     set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 
     # Set linker script.
-    set(CMAKE_EXE_LINKER_FLAGS "-s -T ${FLIGHTCONTROLLER_PATH}/src/Platform/${FLIGHTCONTROLER_PLATFORM_TYPE}/${FLIGHTCONTROLER_PLATFORM_TYPE}.ld")
+    set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-T ${FLIGHTCONTROLLER_PATH}/src/Platform/${FLIGHTCONTROLER_PLATFORM_TYPE}/${FLIGHTCONTROLER_PLATFORM_TYPE}.ld")
+    set(CMAKE_EXE_LINKER_FLAGS_RELEASE ${CMAKE_EXE_LINKER_FLAGS_RELEASE} "-s")
 
     # Set compilation flags.
     set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-std=c11 -Wall -Wextra")
-    set(CMAKE_C_FLAGS_DEBUG "-O0")
-    set(CMAKE_C_FLAGS_RELEASE "-O2 -Werror")
+    set(CMAKE_C_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG} "-O0")
+    set(CMAKE_C_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE} "-O2 -Werror")
 endif()
 string(REGEX REPLACE ";" " " CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+string(REGEX REPLACE ";" " " CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+string(REGEX REPLACE ";" " " CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
+string(REGEX REPLACE ";" " " CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
+string(REGEX REPLACE ";" " " CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE}")
 
 message(STATUS "Setting toolchain to:")
 message(STATUS "  compiler: " ${CMAKE_C_COMPILER})

@@ -1,7 +1,7 @@
 /*
 *****************************************************************************
 **
-**  File        : stm32_flash.ld
+**  File        : STM32Discovery.ld
 **
 **  Abstract    : Linker script for STM32F207IG Device with
 **                1024KByte FLASH, 112KByte RAM

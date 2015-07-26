@@ -13,9 +13,9 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-//#include <stdbool.h>
+#include <stdbool.h>
 
-int console_init();
+bool console_init();
 int console_write(const char *format, ... );
 
 #endif

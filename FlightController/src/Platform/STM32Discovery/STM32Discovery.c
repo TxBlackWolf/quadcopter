@@ -13,8 +13,8 @@
 #include "Platform/Platform.h"
 #include "STM32Discovery.h"
 
-int platform_init()
+bool platform_init()
 {
     // TODO: implement.
-    return 0;
+    return false;
 }

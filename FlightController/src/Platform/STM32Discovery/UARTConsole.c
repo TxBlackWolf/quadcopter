@@ -13,10 +13,10 @@
 #include "Platform/Console.h"
 #include "UARTConsole.h"
 
-int console_init()
+bool console_init()
 {
     // TODO: implement.
-    return 1;
+    return false;
 }
 
 int console_write(const char *format, ... )

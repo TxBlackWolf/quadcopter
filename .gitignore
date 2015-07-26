@@ -1,3 +1,8 @@
+# Eclipse project files
+.project
+.cproject
+.settings/
+
 # GroundStation
 GroundStation/src/GroundStation.pro.user
 GroundStation/build/*

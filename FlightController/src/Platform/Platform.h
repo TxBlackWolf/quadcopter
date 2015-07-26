@@ -13,8 +13,8 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
-//#include <stdbool.h>
+#include <stdbool.h>
 
-int platform_init();
+bool platform_init();
 
 #endif

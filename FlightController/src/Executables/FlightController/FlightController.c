@@ -13,7 +13,7 @@
 #include "Misc/Version.h"
 #include "Platform/Console.h"
 
-//#include <stdbool.h>
+#include <stdbool.h>
 
 void show_welcome_message()
 {
@@ -29,8 +29,12 @@ int main()
     show_welcome_message();
 
     // Main program loop.
-    while(1)
+    while(true)
     {
+        volatile int a = 0;
+        a++;
+        if(a == 1)
+            a++;
     }
 
     return 0;
