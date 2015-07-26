@@ -1,9 +1,11 @@
 set(SOURCES
     Console.h
-    Platform.h
+    Platform.c
 )
 
-add_subdirectory(${FLIGHTCONTROLER_PLATFORM_TYPE})
+set(MODULES
+    ${FLIGHTCONTROLER_PLATFORM_TYPE}
+)
 
-RegisterModule()
+RegisterComponent()
  

@@ -1,6 +1,14 @@
-list(APPEND SOURCES
-    ${FLIGHTCONTROLER_PLATFORM_TYPE}/STM32Discovery.c
-    ${FLIGHTCONTROLER_PLATFORM_TYPE}/UARTConsole.c
+set(SOURCES
+    STM32Discovery.c
+    UARTConsole.c
 )
 
-set(SOURCES "${SOURCES}" PARENT_SCOPE)
+# Needed by Drivers.
+include_directories(CMSIS)
+
+set(MODULES
+    CMSIS
+    Drivers
+)
+
+RegisterComponent()

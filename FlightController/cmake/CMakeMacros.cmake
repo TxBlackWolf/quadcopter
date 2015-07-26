@@ -1,3 +1,4 @@
+# Requires: SOURCES
 macro(RegisterExecutable)
     set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(EXECUTABLE ${CURRENT_PATH} NAME)
@@ -6,6 +7,7 @@ macro(RegisterExecutable)
     add_executable(${EXECUTABLE} ${SOURCES})
 endmacro()
 
+# Requires: COMPONENTS
 macro(RegisterPacket)
     set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(PACKET ${CURRENT_PATH} NAME)
@@ -16,28 +18,29 @@ macro(RegisterPacket)
     endforeach()
 endmacro()
 
+# Requires: Component.c [SOURCES] [MODULES]
 macro(RegisterComponent)
     set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(COMPONENT ${CURRENT_PATH} NAME)
     message(STATUS "Creating component [${COMPONENT}]")
 
-    add_library(${COMPONENT} ${COMPONENT}.cpp ${SOURCES})
+    add_library(${COMPONENT} ${COMPONENT}.c ${SOURCES})
     set_property(TARGET ${COMPONENT} PROPERTY FOLDER ${COMPONENT})
     
     foreach(MODULE ${MODULES})
-    
         add_subdirectory(${MODULE})
         set_property(TARGET ${MODULE} PROPERTY FOLDER ${COMPONENT})
-        
+
         target_link_libraries(${COMPONENT} ${MODULE})
     endforeach()
 endmacro()
 
+# Requires: SOURCES
 macro(RegisterModule)
-	set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-	get_filename_component(MODULE ${CURRENT_PATH} NAME)
+    set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+    get_filename_component(MODULE ${CURRENT_PATH} NAME)
     message(STATUS "Creating module [${MODULE}]")
-    
+
     add_library(${MODULE} ${SOURCES})
 endmacro()
 
