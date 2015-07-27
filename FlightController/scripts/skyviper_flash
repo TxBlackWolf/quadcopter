@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# Author      : Kuba Sejdak <kuba.sejdak@gmail.com>
+# Description : Flashes new firmware using OpenOCD.
+
+FLIGHTCONTROLLER_PATH="/home/kuba/Projects/SkyViper/FlightController"
+FLIGHTCONTROLLER_FIRMWARE_PATH="$FLIGHTCONTROLLER_PATH/bin/arm/STM32Discovery/Debug/FlightController.elf"
+
+openocd -f /usr/share/openocd/scripts/board/stm32f4discovery.cfg -c init \
+                                                                 -c targets \
+                                                                 -c "halt" \
+                                                                 -c "flash write_image erase $FLIGHTCONTROLLER_FIRMWARE_PATH" \
+                                                                 -c "verify_image $FLIGHTCONTROLLER_FIRMWARE_PATH" \
+                                                                 -c "reset halt" \
+                                                                 -c shutdown

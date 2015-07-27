@@ -1,8 +1,7 @@
-monitor reset
-monitor halt
+target remote localhost:3333
 
+set output-radix 16
+
+monitor reset halt
 load
-
-monitor reset
-
-tbreak main
+monitor reset halt

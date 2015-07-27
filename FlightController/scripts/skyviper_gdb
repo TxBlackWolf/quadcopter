@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# Author      : Kuba Sejdak <kuba.sejdak@gmail.com>
+# Description : Starts debugging session for STM32Discovery.
+
+FLIGHTCONTROLLER_PATH="/home/kuba/Projects/SkyViper/FlightController"
+FLIGHTCONTROLLER_FIRMWARE_PATH="$FLIGHTCONTROLLER_PATH/bin/arm/STM32Discovery/Debug/FlightController.elf"
+FLIGHTCONTROLLER_GDBINIT_PATH="$FLIGHTCONTROLLER_PATH/src/Platform/STM32Discovery/STM32Discovery.gdbinit"
+
+
+arm-none-eabi-gdb --tui $FLIGHTCONTROLLER_FIRMWARE_PATH -x $FLIGHTCONTROLLER_GDBINIT_PATH
