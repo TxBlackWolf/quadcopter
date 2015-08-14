@@ -12,14 +12,14 @@
 
 #include "Platform/Console.h"
 #include "UARTConsole.h"
+#include "Drivers/UART.h"
 
 bool console_init()
 {
-    // TODO: implement.
-    return false;
+    return UARTInit(USART_1, UART_TX);
 }
 
-int console_write(const char *format, ... )
+int console_write(const char *format, ...)
 {
     // TODO: implement.
     return 0;

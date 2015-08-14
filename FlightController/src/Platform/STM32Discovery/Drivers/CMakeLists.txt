@@ -1,4 +1,7 @@
 set(SOURCES
+    GPIO.c
+    RCC.c
+    UART.c
     misc.c
     stm32f4xx_adc.c
     stm32f4xx_can.c

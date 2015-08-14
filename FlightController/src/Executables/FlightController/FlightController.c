@@ -31,10 +31,13 @@ int main()
     // Main program loop.
     while(true)
     {
-        volatile int a = 0;
-        a++;
-        if(a == 1)
-            a++;
+        if(c == 100000)
+        {
+            c = 0;
+            console_write("0");
+        }
+
+        console_write("1");
     }
 
     return 0;

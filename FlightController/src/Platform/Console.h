@@ -16,6 +16,6 @@
 #include <stdbool.h>
 
 bool console_init();
-int console_write(const char *format, ... );
+int console_write(const char *format, ...);
 
 #endif

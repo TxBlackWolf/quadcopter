@@ -47,8 +47,8 @@ endmacro()
 
 macro(SetLights)
     set(FLIGHTCONTROLLER_USE_LIGHTS true)
-    #set(FLIGHTCONTROLLER_LIGHTS_DEVICE "LED")
-    set(FLIGHTCONTROLLER_LIGHTS_DEVICE "Emulator")
+    set(FLIGHTCONTROLLER_LIGHTS_DEVICE "LED")
+    #set(FLIGHTCONTROLLER_LIGHTS_DEVICE "Emulator")
 endmacro()
 
 macro(SetMagnetometer)
