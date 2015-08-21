@@ -1,5 +1,0 @@
-set(COMPONENTS
-    FlightController
-)
-
-RegisterPacket()

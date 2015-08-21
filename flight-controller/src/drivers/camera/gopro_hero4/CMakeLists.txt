@@ -1,0 +1,5 @@
+list(APPEND SOURCES
+    ${FLIGHTCONTROLLER_CAMERA_DEVICE}/gopro_hero4_camera.c
+)
+
+set(SOURCES "${SOURCES}" PARENT_SCOPE)
