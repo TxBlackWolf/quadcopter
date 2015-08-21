@@ -11,23 +11,28 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "led_lights.h"
-#include "board/board.h"
 #include "drivers/lights/lights.h"
 #include "hal/gpio.h"
+#include "board/board.h"
+#include "board/board_pinout.h"
+
+static GPIOHandle_t strobe_handle;
 
 void strobe_init()
 {
     GPIOConfig_t config;
-    config.function = PA9_USART1_TX;
-    config.mode = GPIO_MODE_OUT;
-    config.speed = GPIO_SPEED_50MHz;
-    config.output_type = GPIO_OUTPUT_PUSHPULL;
+    config.direction = GPIO_DIRECTION_OUT;
     config.resistor_type = GPIO_RESISTOR_NONE;
-    board_strobeInit(&config);
 
-    GPIOHandle_t strobe_handle = gpio_init(config);
+    strobe_handle = board_strobeInit(STROBE_PORT, STROBE_PIN, config);
 }
 
 void strobe_blink()
 {
+    gpio_writePin(strobe_handle, true);
+
+    volatile int i;
+    for(i = 0; i < 100000000; ++i);
+
+    gpio_writePin(strobe_handle, false);
 }

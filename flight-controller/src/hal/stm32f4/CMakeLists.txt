@@ -1,7 +1,7 @@
 set(SOURCES
-    gpio.c
-    rcc.c
-    uart.c
+    stm32f4_gpio.c
+    stm32f4_rcc.c
+    stm32f4_uart.c
 )
 
 # Needed by Drivers.

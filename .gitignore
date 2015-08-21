@@ -1,14 +1,11 @@
-# Eclipse project files
-.project
-.cproject
-.settings/
+# flight-controller
+flight-controller/build/*
+flight-controller/bin/*
+flight-controller/src/board/board_drivers_support.h
+flight-controller/src/board/board_pinout.h
+CMakeLists.txt.user
 
 # GroundStation
 GroundStation/src/GroundStation.pro.user
 GroundStation/build/*
 GroundStation/bin/*
-
-# FlightController
-FlightController/build/*
-FlightController/bin/*
-CMakeLists.txt.user
