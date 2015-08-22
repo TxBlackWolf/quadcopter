@@ -11,6 +11,7 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "stm32f4_gpio.h"
+#include "stm32f4_gpio_functions.h"
 #include "hal/gpio.h"
 #include "hal/rcc.h"
 #include "CMSIS/stm32f4xx.h"
@@ -44,10 +45,6 @@ uint32_t gpio_getPinMask(GPIOPin_t pin)
     return (1 << pin);
 }
 
-//---------------------------------------------------------------------------------------------------------------
-// INTERFACE FUNCTIONS
-//---------------------------------------------------------------------------------------------------------------
-
 void gpio_setPinFunction(GPIOPort_t port, GPIOPin_t pin, uint8_t function)
 {
     GPIO_t *gpio = gpio_getRegisters(port);
@@ -56,10 +53,41 @@ void gpio_setPinFunction(GPIOPort_t port, GPIOPin_t pin, uint8_t function)
     gpio->AFR[afr_half] |= value;
 }
 
+void stm32f4_gpioEnableClock(GPIOHandle_t handle, bool value)
+{
+    uint32_t ahb1_peripheral = 0;
+    switch(handle.port)
+    {
+    case STM32F4_GPIO_PORT_A:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOA; break;
+    case STM32F4_GPIO_PORT_B:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOB; break;
+    case STM32F4_GPIO_PORT_C:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOC; break;
+    case STM32F4_GPIO_PORT_D:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOD; break;
+    case STM32F4_GPIO_PORT_E:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOE; break;
+    case STM32F4_GPIO_PORT_F:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOF; break;
+    case STM32F4_GPIO_PORT_G:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOG; break;
+    case STM32F4_GPIO_PORT_H:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOH; break;
+    case STM32F4_GPIO_PORT_I:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOI; break;
+    }
+
+    rcc_enablePeripheralClockAHB1(ahb1_peripheral, value);
+}
+
+//---------------------------------------------------------------------------------------------------------------
+// INTERFACE FUNCTIONS
+//---------------------------------------------------------------------------------------------------------------
+
 GPIOHandle_t stm32f4_gpioInit(GPIOPort_t port, GPIOPort_t pin, STM32F4_GPIOConfig_t config)
 {
-    // Set pin alternate function.
-    gpio_setPinFunction(port, pin, config.function);
+    GPIOHandle_t handle;
+    handle.port = port;
+    handle.pin = pin;
+
+    // Enable clock for pin.
+    gpio_activate(handle);
+
+    // Set pin alternate function if set
+    if(config.function != GPIO_DIGITAL_PIN)
+        gpio_setPinFunction(port, pin, config.function);
 
     GPIO_t *gpio = gpio_getRegisters(port);
 
@@ -78,37 +106,24 @@ GPIOHandle_t stm32f4_gpioInit(GPIOPort_t port, GPIOPort_t pin, STM32F4_GPIOConfi
     // Set pullup/pulldown resistor.
     gpio->PUPDR |= (config.general_config.resistor_type << (pin * 2));
 
-    GPIOHandle_t handle;
-    handle.port = port;
-    handle.pin = pin;
     return handle;
+}
+
+void gpio_activate(GPIOHandle_t handle)
+{
+    stm32f4_gpioEnableClock(handle, true);
 }
 
 void gpio_deactivate(GPIOHandle_t handle)
 {
-    /*
-    uint32_t port_clock = 0;
-    switch(handle.port)
-    {
-    case STM32F4_GPIO_PORT_A:   port_clock = RCC_AHB1_PERIPHERAL_GPIOA; break;
-    case STM32F4_GPIO_PORT_B:   port_clock = RCC_AHB1_PERIPHERAL_GPIOB; break;
-    case STM32F4_GPIO_PORT_C:   port_clock = RCC_AHB1_PERIPHERAL_GPIOC; break;
-    case STM32F4_GPIO_PORT_D:   port_clock = RCC_AHB1_PERIPHERAL_GPIOD; break;
-    case STM32F4_GPIO_PORT_E:   port_clock = RCC_AHB1_PERIPHERAL_GPIOE; break;
-    case STM32F4_GPIO_PORT_F:   port_clock = RCC_AHB1_PERIPHERAL_GPIOF; break;
-    case STM32F4_GPIO_PORT_G:   port_clock = RCC_AHB1_PERIPHERAL_GPIOG; break;
-    case STM32F4_GPIO_PORT_H:   port_clock = RCC_AHB1_PERIPHERAL_GPIOH; break;
-    case STM32F4_GPIO_PORT_I:   port_clock = RCC_AHB1_PERIPHERAL_GPIOI; break;
-    }
-
-    rcc_resetPeripheralAHB1(port_clock, false);
-    */
+    stm32f4_gpioEnableClock(handle, true);
 }
 
 bool gpio_readPin(GPIOHandle_t handle)
 {
     GPIO_t *gpio = gpio_getRegisters(handle.port);
-    return (gpio->IDR & handle.pin);
+    uint16_t pin_mask = gpio_getPinMask(handle.pin);
+    return (gpio->IDR & pin_mask);
 }
 
 uint16_t gpio_readPort(GPIOPort_t port)
@@ -120,12 +135,13 @@ uint16_t gpio_readPort(GPIOPort_t port)
 bool gpio_writePin(GPIOHandle_t handle, bool value)
 {
     GPIO_t *gpio = gpio_getRegisters(handle.port);
+    uint16_t pin_mask = gpio_getPinMask(handle.pin);
     if(value)
-        gpio->ODR |= handle.pin;
+        gpio->ODR |= pin_mask;
     else
-        gpio->ODR &= ~handle.pin;
+        gpio->ODR &= ~pin_mask;
 
-    return (gpio->ODR & handle.pin);
+    return (gpio->ODR & pin_mask);
 }
 
 bool gpio_writePort(GPIOPort_t port, uint16_t value)

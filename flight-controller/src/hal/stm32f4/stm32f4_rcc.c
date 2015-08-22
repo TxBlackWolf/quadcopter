@@ -12,8 +12,8 @@
 
 #include "stm32f4_rcc.h"
 #include "hal/rcc.h"
+#include "CMSIS/stm32f4xx.h"
 
-#if 0
 void rcc_enablePeripheralClockAHB1(uint32_t peripheral, bool enabled)
 {
     if(enabled)
@@ -29,4 +29,3 @@ void rcc_resetPeripheralAHB1(uint32_t peripheral, bool enabled)
     else
         RCC->AHB1RSTR &= ~peripheral;
 }
-#endif

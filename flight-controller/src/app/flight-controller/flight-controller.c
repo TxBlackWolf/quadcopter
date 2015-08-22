@@ -11,6 +11,7 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "misc/version.h"
+#include "board/board.h"
 #include "board/console.h"
 #include "drivers/lights/lights.h"
 
@@ -21,20 +22,21 @@ void show_welcome_message()
     console_write("Hello World!\n");
 }
 
+void panic()
+{
+    // TODO: implement as red user LED blinking.
+}
+
 int main()
 {
-    if(!console_init())
-    {
-    }
+    if(!board_init())
+        panic();
 
     show_welcome_message();
-    strobe_init();
 
     while(true)
     {
         strobe_blink();
-        volatile int i;
-        for(i = 0; i < 10000000; ++i);
     }
 
     return 0;

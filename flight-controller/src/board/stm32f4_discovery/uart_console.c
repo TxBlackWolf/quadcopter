@@ -16,7 +16,7 @@
 
 bool console_init()
 {
-    return false;
+    return true;
     //return uart_init(USART_1, UART_TX);
 }
 

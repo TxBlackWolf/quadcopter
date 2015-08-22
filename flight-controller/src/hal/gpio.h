@@ -16,26 +16,22 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-//---------------------------------------------------------------------------------------------------------------
-// BASIC PIN CONFIGURATION
-//---------------------------------------------------------------------------------------------------------------
-
 typedef uint32_t GPIOPort_t;
 typedef uint32_t GPIOPin_t;
 
 // Pin mode.
 typedef enum
 {
-    GPIO_DIRECTION_IN,
-    GPIO_DIRECTION_OUT,
+    GPIO_DIRECTION_IN  = 0x0,
+    GPIO_DIRECTION_OUT = 0x1
 } GPIODirection_t;
 
 // Pullup/pulldown resistors.
 typedef enum
 {
-    GPIO_RESISTOR_NONE,
-    GPIO_RESISTOR_PULLUP,
-    GPIO_RESISTOR_PULLDOWN
+    GPIO_RESISTOR_NONE     = 0x1,
+    GPIO_RESISTOR_PULLUP   = 0x2,
+    GPIO_RESISTOR_PULLDOWN = 0x3
 } GPIOResistorType_t;
 
 // Pin configuration structure.
@@ -52,6 +48,7 @@ typedef struct
     GPIOPin_t pin;
 } GPIOHandle_t;
 
+void gpio_activate(GPIOHandle_t handle);
 void gpio_deactivate(GPIOHandle_t handle);
 
 bool gpio_readPin(GPIOHandle_t handle);
