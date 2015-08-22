@@ -12,6 +12,7 @@
 
 #include "misc/version.h"
 #include "board/console.h"
+#include "drivers/lights/lights.h"
 
 #include <stdbool.h>
 
@@ -27,9 +28,13 @@ int main()
     }
 
     show_welcome_message();
+    strobe_init();
 
     while(true)
     {
+        strobe_blink();
+        volatile int i;
+        for(i = 0; i < 10000000; ++i);
     }
 
     return 0;

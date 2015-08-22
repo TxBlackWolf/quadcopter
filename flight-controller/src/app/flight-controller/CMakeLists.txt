@@ -2,6 +2,7 @@ set(SOURCES
     ${APP_NAME}.c
 )
 
-RegisterExecutable()
+register_executable()
 
-LinkTarget(${FLIGHTCONTROLLER_SRC_PATH}/board)
+link_target(${FLIGHTCONTROLLER_SRC_PATH}/board)
+link_target(${FLIGHTCONTROLLER_DRIVERS_PATH}/lights)

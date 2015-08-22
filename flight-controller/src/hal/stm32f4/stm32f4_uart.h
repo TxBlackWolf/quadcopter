@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : uart.c
+// Filename   : stm32f4_uart.h
 // Author     : Kuba Sejdak
 // Created on : 11.08.2015
 //
@@ -10,26 +10,7 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#include "hal/uart.h"
-#include "hal/rcc.h"
-#include "hal/gpio.h"
+#ifndef STM32F4_UART_H
+#define STM32F4_UART_H
 
-bool uart_init(UARTDevice_t device, UARTDirection_t direction)
-{
-    // Enable clock for GPIO port A.
-    rcc_enablePeripheralClockAHB1(RCC_AHB1_PERIPHERAL_GPIOA, true);
-
-    // Configure pin.
-    GPIOConfig_t config;
-    config.port = GPIO_PORT_A;
-    config.pin = GPIO_PIN_9;
-    config.function = PA9_USART1_TX;
-    config.mode = GPIO_MODE_ALTERNATE;
-    config.speed = GPIO_SPEED_100MHz;
-    config.output_type = GPIO_OUTPUT_PUSHPULL;
-    config.resistor_type = GPIO_RESISTOR_PULLUP;
-
-    GPIOHandle_t tx_handle = gpio_init(config);
-
-    return true;
-}
+#endif

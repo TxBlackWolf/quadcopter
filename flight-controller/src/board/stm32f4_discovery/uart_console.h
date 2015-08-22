@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : UARTConsole.h
+// Filename   : uart_console.h
 // Author     : Kuba Sejdak
 // Created on : 22.07.2015
 //
@@ -10,7 +10,7 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef UARTCONSOLE_H
-#define UARTCONSOLE_H
+#ifndef UART_CONSOLE_H
+#define UART_CONSOLE_H
 
 #endif

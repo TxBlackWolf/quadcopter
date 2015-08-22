@@ -9,4 +9,4 @@ else()
     message(STATUS "Lights disabled")
 endif()
 
-RegisterModule()
+register_module()

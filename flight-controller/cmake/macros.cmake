@@ -1,5 +1,5 @@
 # Requires: SOURCES
-macro(RegisterExecutable)
+macro(register_executable)
     set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(EXECUTABLE ${CURRENT_PATH} NAME)
     message(STATUS "Creating executable [${EXECUTABLE}]")
@@ -8,7 +8,7 @@ macro(RegisterExecutable)
 endmacro()
 
 # Requires: COMPONENTS
-macro(RegisterPacket)
+macro(register_packet)
     set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(PACKET ${CURRENT_PATH} NAME)
     message(STATUS "Creating packet [${PACKET}]")
@@ -19,7 +19,7 @@ macro(RegisterPacket)
 endmacro()
 
 # Requires: Component.c [SOURCES] [MODULES]
-macro(RegisterComponent)
+macro(register_component)
     set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(COMPONENT ${CURRENT_PATH} NAME)
     message(STATUS "Creating component [${COMPONENT}]")
@@ -36,7 +36,7 @@ macro(RegisterComponent)
 endmacro()
 
 # Requires: SOURCES
-macro(RegisterModule)
+macro(register_module)
     set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(MODULE ${CURRENT_PATH} NAME)
     message(STATUS "Creating module [${MODULE}]")
@@ -44,18 +44,18 @@ macro(RegisterModule)
     add_library(${MODULE} ${SOURCES})
 endmacro()
 
-macro(LinkTarget targetName)
+macro(link_target TARGET_NAME)
     set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(CURRENT_TARGET ${CURRENT_PATH} NAME)
-    get_filename_component(LINKED_TARGET ${targetName} NAME)
+    get_filename_component(LINKED_TARGET ${TARGET_NAME} NAME)
 
     target_link_libraries(${CURRENT_TARGET} ${LINKED_TARGET})
 endmacro()
 
-macro(LinkExternalTarget targetName)
+macro(link_external_target TARGET_NAME)
     set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(CURRENT_TARGET ${CURRENT_PATH} NAME)
-    set(LINKED_TARGET ${targetName})
+    set(LINKED_TARGET ${TARGET_NAME})
 
     target_link_libraries(${CURRENT_TARGET} ${LINKED_TARGET})
 endmacro()

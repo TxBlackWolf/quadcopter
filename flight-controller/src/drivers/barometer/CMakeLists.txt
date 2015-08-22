@@ -9,4 +9,4 @@ else()
     message(STATUS "Barometer disabled")
 endif()
 
-RegisterModule()
+register_module()

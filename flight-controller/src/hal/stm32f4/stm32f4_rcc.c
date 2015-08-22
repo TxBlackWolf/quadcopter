@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : RCC.c
+// Filename   : stm32f4_rcc.c
 // Author     : Kuba Sejdak
 // Created on : 12.08.2015
 //
@@ -10,8 +10,10 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
+#include "stm32f4_rcc.h"
 #include "hal/rcc.h"
 
+#if 0
 void rcc_enablePeripheralClockAHB1(uint32_t peripheral, bool enabled)
 {
     if(enabled)
@@ -27,3 +29,4 @@ void rcc_resetPeripheralAHB1(uint32_t peripheral, bool enabled)
     else
         RCC->AHB1RSTR &= ~peripheral;
 }
+#endif

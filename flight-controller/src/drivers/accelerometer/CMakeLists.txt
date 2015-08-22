@@ -9,4 +9,4 @@ else()
     message(STATUS "Accelerometer disabled")
 endif()
 
-RegisterModule()
+register_module()

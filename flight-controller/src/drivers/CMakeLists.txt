@@ -9,4 +9,4 @@ set(COMPONENTS
     magnetometer
 )
 
-RegisterPacket()
+register_packet()

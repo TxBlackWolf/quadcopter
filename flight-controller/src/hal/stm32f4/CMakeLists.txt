@@ -7,4 +7,8 @@ set(SOURCES
 # Needed by Drivers.
 include_directories(CMSIS)
 
-RegisterModule()
+set(MODULES
+    CMSIS
+)
+
+register_component()

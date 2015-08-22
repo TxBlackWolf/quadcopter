@@ -32,4 +32,4 @@ set(SOURCES
     stm32f4xx_wwdg.c
 )
 
-RegisterModule()
+register_module()

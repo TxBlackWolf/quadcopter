@@ -4,4 +4,4 @@ set(SOURCES
     uart_console.c
 )
 
-RegisterModule()
+register_module()

@@ -10,8 +10,8 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#include "board/board.h"
 #include "stm32f4_discovery.h"
+#include "board/board.h"
 #include "hal/stm32f4/stm32f4_gpio.h"
 
 bool board_init()

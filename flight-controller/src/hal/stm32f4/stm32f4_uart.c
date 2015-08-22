@@ -10,17 +10,18 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
+#include "stm32f4_uart.h"
 #include "hal/uart.h"
 #include "hal/rcc.h"
 #include "hal/gpio.h"
 
 bool uart_init(UARTDevice_t device, UARTDirection_t direction)
 {
+#if 0
     // Enable clock for GPIO port A.
     rcc_enablePeripheralClockAHB1(RCC_AHB1_PERIPHERAL_GPIOA, true);
 
     // Configure pin.
-    /*
     GPIOConfig_t config;
     config.port = GPIO_PORT_A;
     config.pin = GPIO_PIN_9;
@@ -31,7 +32,7 @@ bool uart_init(UARTDevice_t device, UARTDirection_t direction)
     config.resistor_type = GPIO_RESISTOR_PULLUP;
 
     GPIOHandle_t tx_handle = gpio_init(config);
-    */
+#endif
 
     return true;
 }

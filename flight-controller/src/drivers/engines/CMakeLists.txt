@@ -9,4 +9,4 @@ else()
     message(STATUS "Engines disabled")
 endif()
 
-RegisterModule()
+register_module()

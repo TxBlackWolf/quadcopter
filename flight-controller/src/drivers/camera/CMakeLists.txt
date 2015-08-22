@@ -9,4 +9,4 @@ else()
     message(STATUS "Camera disabled")
 endif()
 
-RegisterModule()
+register_module()

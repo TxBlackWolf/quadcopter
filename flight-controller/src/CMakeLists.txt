@@ -6,4 +6,4 @@ set(COMPONENTS
     #misc
 )
 
-RegisterPacket()
+register_packet()

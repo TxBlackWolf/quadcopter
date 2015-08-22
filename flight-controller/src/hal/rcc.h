@@ -13,12 +13,14 @@
 #ifndef RCC_H
 #define RCC_H
 
+/*
 #include "hal/stm32f4/CMSIS/stm32f4xx.h"
+*/
 
 #include <stdint.h>
 #include <stdbool.h>
 
-typedef RCC_TypeDef RCC_t;
+//typedef RCC_TypeDef RCC_t;
 
 // AHB1 peripherals.
 #define RCC_AHB1_PERIPHERAL_GPIOA           ((uint32_t) 0x00000001)

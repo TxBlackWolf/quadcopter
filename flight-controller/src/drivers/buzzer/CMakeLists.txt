@@ -9,4 +9,4 @@ else()
     message(STATUS "Buzzer disabled")
 endif()
 
-RegisterModule()
+register_module()

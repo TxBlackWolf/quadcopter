@@ -13,7 +13,7 @@
 #include "stm32f4_gpio.h"
 #include "hal/gpio.h"
 #include "hal/rcc.h"
-#include "hal/stm32f4/CMSIS/stm32f4xx.h"
+#include "CMSIS/stm32f4xx.h"
 
 typedef GPIO_TypeDef GPIO_t;
 
@@ -51,9 +51,8 @@ uint32_t gpio_getPinMask(GPIOPin_t pin)
 void gpio_setPinFunction(GPIOPort_t port, GPIOPin_t pin, uint8_t function)
 {
     GPIO_t *gpio = gpio_getRegisters(port);
-    uint32_t pin_number = gpio_getPinNumber(pin);
-    uint32_t value = (function << (pin_number & 0x7) * 4);
-    uint32_t afr_half = pin_number >> 3;
+    uint32_t value = (function << (pin & 0x7) * 4);
+    uint32_t afr_half = pin >> 3;
     gpio->AFR[afr_half] |= value;
 }
 
@@ -87,6 +86,7 @@ GPIOHandle_t stm32f4_gpioInit(GPIOPort_t port, GPIOPort_t pin, STM32F4_GPIOConfi
 
 void gpio_deactivate(GPIOHandle_t handle)
 {
+    /*
     uint32_t port_clock = 0;
     switch(handle.port)
     {
@@ -102,6 +102,7 @@ void gpio_deactivate(GPIOHandle_t handle)
     }
 
     rcc_resetPeripheralAHB1(port_clock, false);
+    */
 }
 
 bool gpio_readPin(GPIOHandle_t handle)

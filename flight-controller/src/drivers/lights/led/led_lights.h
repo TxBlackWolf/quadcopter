@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : LEDLights.h
+// Filename   : led_lights.h
 // Author     : Kuba Sejdak
 // Created on : 12.08.2015
 //
@@ -10,7 +10,7 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef LEDLIGHTS_H
-#define LEDLIGHTS_H
+#ifndef LED_LIGHTS_H
+#define LED_LIGHTS_H
 
 #endif

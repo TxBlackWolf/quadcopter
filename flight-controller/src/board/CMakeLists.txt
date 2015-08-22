@@ -15,7 +15,7 @@ set(MODULES
     ${FLIGHTCONTROLLER_BOARD}
 )
 
-RegisterComponent()
+register_component()
 
-LinkTarget(${FLIGHTCONTROLLER_SRC_PATH}/hal)
+link_target(${FLIGHTCONTROLLER_SRC_PATH}/hal)
  

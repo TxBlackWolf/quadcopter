@@ -12,7 +12,4 @@ set(SOURCES
     stm32f4xx.h
 )
 
-# This is required, because some ST files globally include local files.
-include_directories(.)
-
-RegisterModule()
+register_module()

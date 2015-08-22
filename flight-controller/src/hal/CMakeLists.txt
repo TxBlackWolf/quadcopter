@@ -8,4 +8,4 @@ set(MODULES
     ${FLIGHTCONTROLLER_HAL}
 )
 
-RegisterComponent()
+register_component()

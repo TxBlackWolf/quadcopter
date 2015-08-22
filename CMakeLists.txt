@@ -9,6 +9,7 @@ cmake_minimum_required(VERSION 2.8.12)
 set(SKYVIPER_COMMON_PATH ${CMAKE_SOURCE_DIR}/common)
 set(FLIGHTCONTROLLER_PATH ${CMAKE_SOURCE_DIR}/flight-controller)
 set(FLIGHTCONTROLLER_SRC_PATH ${APP_PATH}/src)
+set(FLIGHTCONTROLLER_DRIVERS_PATH ${FLIGHTCONTROLLER_SRC_PATH}/drivers)
 
 # Additional user defined macros.
 include(${FLIGHTCONTROLLER_PATH}/cmake/drivers.cmake)

@@ -10,13 +10,14 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#include "board/console.h"
 #include "uart_console.h"
+#include "board/console.h"
 #include "hal/uart.h"
 
 bool console_init()
 {
-    return uart_init(USART_1, UART_TX);
+    return false;
+    //return uart_init(USART_1, UART_TX);
 }
 
 int console_write(const char *format, ...)

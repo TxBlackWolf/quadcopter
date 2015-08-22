@@ -13,7 +13,6 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-
 #include "hal/gpio.h"
 
 #include <stdbool.h>

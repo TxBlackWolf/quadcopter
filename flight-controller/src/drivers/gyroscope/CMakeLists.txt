@@ -9,4 +9,4 @@ else()
     message(STATUS "Gyroscope disabled")
 endif()
 
-RegisterModule()
+register_module()

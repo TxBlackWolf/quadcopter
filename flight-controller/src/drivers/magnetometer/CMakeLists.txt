@@ -9,4 +9,4 @@ else()
     message(STATUS "Magnetometer disabled")
 endif()
 
-RegisterModule()
+register_module()

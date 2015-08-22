@@ -2,4 +2,4 @@ set(COMPONENTS
     ${APP_NAME}
 )
 
-RegisterPacket()
+register_packet()
