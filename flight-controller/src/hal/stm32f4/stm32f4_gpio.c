@@ -12,8 +12,8 @@
 
 #include "stm32f4_gpio.h"
 #include "stm32f4_gpio_functions.h"
+#include "stm32f4_rcc.h"
 #include "hal/gpio.h"
-#include "hal/rcc.h"
 #include "CMSIS/stm32f4xx.h"
 
 typedef GPIO_TypeDef GPIO_t;
@@ -69,44 +69,38 @@ void stm32f4_gpioEnableClock(GPIOHandle_t handle, bool value)
     case STM32F4_GPIO_PORT_I:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOI; break;
     }
 
-    rcc_enablePeripheralClockAHB1(ahb1_peripheral, value);
+    stm32f4_rccEnablePeripheralClockAHB1(ahb1_peripheral, value);
 }
 
 //---------------------------------------------------------------------------------------------------------------
 // INTERFACE FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
 
-GPIOHandle_t stm32f4_gpioInit(GPIOPort_t port, GPIOPort_t pin, STM32F4_GPIOConfig_t config)
+bool stm32f4_gpioInit(STM32F4_GPIOConfig_t config, GPIOHandle_t handle)
 {
-    GPIOHandle_t handle;
-    handle.port = port;
-    handle.pin = pin;
+    stm32f4_gpioEnableClock(handle, true);
 
-    // Enable clock for pin.
-    gpio_activate(handle);
-
-    // Set pin alternate function if set
     if(config.function != GPIO_DIGITAL_PIN)
-        gpio_setPinFunction(port, pin, config.function);
+        gpio_setPinFunction(handle.port, handle.pin, config.function);
 
-    GPIO_t *gpio = gpio_getRegisters(port);
+    GPIO_t *gpio = gpio_getRegisters(handle.port);
 
     // Set mode.
-    gpio->MODER |= (config.mode << (pin * 2));
+    gpio->MODER |= (config.mode << (handle.pin * 2));
 
     if(config.mode == GPIO_MODE_OUT || config.mode == GPIO_MODE_ALTERNATE)
     {
         // Set speed.
-        gpio->OSPEEDR |= (config.speed << (pin * 2));
+        gpio->OSPEEDR |= (config.speed << (handle.pin * 2));
 
         // Set output mode.
-        gpio->OTYPER |= (config.output_type << pin);
+        gpio->OTYPER |= (config.output_type << handle.pin);
     }
 
     // Set pullup/pulldown resistor.
-    gpio->PUPDR |= (config.general_config.resistor_type << (pin * 2));
+    gpio->PUPDR |= (config.general_config.resistor_type << (handle.pin * 2));
 
-    return handle;
+    return true;
 }
 
 void gpio_activate(GPIOHandle_t handle)
@@ -116,7 +110,7 @@ void gpio_activate(GPIOHandle_t handle)
 
 void gpio_deactivate(GPIOHandle_t handle)
 {
-    stm32f4_gpioEnableClock(handle, true);
+    stm32f4_gpioEnableClock(handle, false);
 }
 
 bool gpio_readPin(GPIOHandle_t handle)

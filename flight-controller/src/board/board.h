@@ -17,8 +17,10 @@
 
 #include <stdbool.h>
 
+void panic(const char *format, ...);
+
 bool board_init();
 
-GPIOHandle_t board_strobeInit(GPIOPort_t port, GPIOPort_t pin, GPIOConfig_t config);
+bool board_strobeInit(GPIOHandle_t gpio_handle, GPIOConfig_t config);
 
 #endif

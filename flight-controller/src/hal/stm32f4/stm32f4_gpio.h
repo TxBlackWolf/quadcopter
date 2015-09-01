@@ -71,7 +71,7 @@ typedef enum
     GPIO_OUTPUT_OPENDRAIN = 0x01
 } STM32F4_GPIOOutputType_t;
 
-// STM32F4 pin configuration structure.
+// Pin configuration structure.
 typedef struct
 {
     GPIOConfig_t general_config;
@@ -81,6 +81,6 @@ typedef struct
     STM32F4_GPIOOutputType_t output_type;
 } STM32F4_GPIOConfig_t;
 
-GPIOHandle_t stm32f4_gpioInit(GPIOPort_t port, GPIOPort_t pin, STM32F4_GPIOConfig_t config);
+bool stm32f4_gpioInit(STM32F4_GPIOConfig_t config, GPIOHandle_t handle);
 
 #endif

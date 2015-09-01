@@ -15,6 +15,11 @@
 #include "console.h"
 #include "drivers/lights/lights.h"
 
+void panic(const char *format, ...)
+{
+    // TODO: implement as red user LED blinking.
+}
+
 bool board_init()
 {
     // TODO: init panic LED
@@ -23,7 +28,8 @@ bool board_init()
         return false;
 
 #if LIGHTS_ENABLED
-    strobe_init();
+    if(!strobe_init())
+        return false;
 #endif
 
     return true;

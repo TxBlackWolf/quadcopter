@@ -22,21 +22,19 @@ void show_welcome_message()
     console_write("Hello World!\n");
 }
 
-void panic()
-{
-    // TODO: implement as red user LED blinking.
-}
-
 int main()
 {
+    // TODO: check if this is reboot in emergency mode.
+
     if(!board_init())
-        panic();
+        panic("Failed to initialize board.");
 
     show_welcome_message();
 
     while(true)
     {
         strobe_blink();
+        console_write("");
     }
 
     return 0;

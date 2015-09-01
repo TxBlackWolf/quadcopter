@@ -15,14 +15,14 @@
 #include "hal/stm32f4/stm32f4_gpio.h"
 #include "hal/stm32f4/stm32f4_gpio_functions.h"
 
-GPIOHandle_t board_strobeInit(GPIOPort_t port, GPIOPort_t pin, GPIOConfig_t config)
+bool board_strobeInit(GPIOHandle_t gpio_handle, GPIOConfig_t config)
 {
-    STM32F4_GPIOConfig_t pin_config;
-    pin_config.general_config = config;
-    pin_config.function = GPIO_DIGITAL_PIN;
-    pin_config.speed = GPIO_SPEED_50MHz;
-    pin_config.mode = GPIO_MODE_OUT;
-    pin_config.output_type = GPIO_OUTPUT_PUSHPULL;
+    STM32F4_GPIOConfig_t gpio_config;
+    gpio_config.general_config = config;
+    gpio_config.function = GPIO_DIGITAL_PIN;
+    gpio_config.speed = GPIO_SPEED_50MHz;
+    gpio_config.mode = GPIO_MODE_OUT;
+    gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
-    return stm32f4_gpioInit(port, pin, pin_config);
+    return stm32f4_gpioInit(gpio_config, gpio_handle);
 }
