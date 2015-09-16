@@ -3,7 +3,7 @@ set(COMPONENTS
     board
     drivers
     hal
-    #misc
+    utils
 )
 
 register_packet()

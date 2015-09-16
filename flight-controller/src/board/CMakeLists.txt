@@ -18,4 +18,5 @@ set(MODULES
 register_component()
 
 link_target(${FLIGHTCONTROLLER_SRC_PATH}/hal)
+link_target(${FLIGHTCONTROLLER_SRC_PATH}/utils)
  

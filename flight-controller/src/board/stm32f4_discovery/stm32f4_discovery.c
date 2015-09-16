@@ -14,6 +14,7 @@
 #include "board/board.h"
 #include "hal/stm32f4/stm32f4_gpio.h"
 #include "hal/stm32f4/stm32f4_gpio_functions.h"
+#include "hal/stm32f4/stm32f4_pwm.h"
 
 bool board_strobeInit(GPIOHandle_t gpio_handle, GPIOConfig_t config)
 {
@@ -25,4 +26,9 @@ bool board_strobeInit(GPIOHandle_t gpio_handle, GPIOConfig_t config)
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
     return stm32f4_gpioInit(gpio_config, gpio_handle);
+}
+
+bool board_engineInit(PWMHandle_t pwm_handle, PWMConfig_t config)
+{
+
 }

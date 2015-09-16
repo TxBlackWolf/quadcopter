@@ -18,7 +18,7 @@ macro(register_packet)
     endforeach()
 endmacro()
 
-# Requires: Component.c [SOURCES] [MODULES]
+# Requires: component.c [SOURCES] [MODULES]
 macro(register_component)
     set(CURRENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(COMPONENT ${CURRENT_PATH} NAME)

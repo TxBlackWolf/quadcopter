@@ -13,7 +13,6 @@
 #include "stm32f4_gpio.h"
 #include "stm32f4_gpio_functions.h"
 #include "stm32f4_rcc.h"
-#include "hal/gpio.h"
 #include "CMSIS/stm32f4xx.h"
 
 typedef GPIO_TypeDef GPIO_t;
@@ -22,7 +21,7 @@ typedef GPIO_TypeDef GPIO_t;
 // HELPER FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
 
-GPIO_t *gpio_getRegisters(GPIOPort_t port)
+GPIO_t *stm32f4_gpioGetRegisters(GPIOPort_t port)
 {
     switch(port)
     {
@@ -40,14 +39,14 @@ GPIO_t *gpio_getRegisters(GPIOPort_t port)
     return 0;
 }
 
-uint32_t gpio_getPinMask(GPIOPin_t pin)
+uint32_t stm32f4_gpioGetPinMask(GPIOPin_t pin)
 {
     return (1 << pin);
 }
 
-void gpio_setPinFunction(GPIOPort_t port, GPIOPin_t pin, uint8_t function)
+void stm32f4_gpioSetPinFunction(GPIOPort_t port, GPIOPin_t pin, uint8_t function)
 {
-    GPIO_t *gpio = gpio_getRegisters(port);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(port);
     uint32_t value = (function << (pin & 0x7) * 4);
     uint32_t afr_half = pin >> 3;
     gpio->AFR[afr_half] |= value;
@@ -81,9 +80,9 @@ bool stm32f4_gpioInit(STM32F4_GPIOConfig_t config, GPIOHandle_t handle)
     stm32f4_gpioEnableClock(handle, true);
 
     if(config.function != GPIO_DIGITAL_PIN)
-        gpio_setPinFunction(handle.port, handle.pin, config.function);
+        stm32f4_gpioSetPinFunction(handle.port, handle.pin, config.function);
 
-    GPIO_t *gpio = gpio_getRegisters(handle.port);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle.port);
 
     // Set mode.
     gpio->MODER |= (config.mode << (handle.pin * 2));
@@ -115,21 +114,21 @@ void gpio_deactivate(GPIOHandle_t handle)
 
 bool gpio_readPin(GPIOHandle_t handle)
 {
-    GPIO_t *gpio = gpio_getRegisters(handle.port);
-    uint16_t pin_mask = gpio_getPinMask(handle.pin);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle.port);
+    uint16_t pin_mask = stm32f4_gpioGetPinMask(handle.pin);
     return (gpio->IDR & pin_mask);
 }
 
 uint16_t gpio_readPort(GPIOPort_t port)
 {
-    GPIO_t *gpio = gpio_getRegisters(port);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(port);
     return gpio->IDR;
 }
 
 bool gpio_writePin(GPIOHandle_t handle, bool value)
 {
-    GPIO_t *gpio = gpio_getRegisters(handle.port);
-    uint16_t pin_mask = gpio_getPinMask(handle.pin);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle.port);
+    uint16_t pin_mask = stm32f4_gpioGetPinMask(handle.pin);
     if(value)
         gpio->ODR |= pin_mask;
     else
@@ -140,7 +139,7 @@ bool gpio_writePin(GPIOHandle_t handle, bool value)
 
 bool gpio_writePort(GPIOPort_t port, uint16_t value)
 {
-    GPIO_t *gpio = gpio_getRegisters(port);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(port);
     gpio->ODR = value;
 
     return (gpio->ODR == value);
@@ -148,7 +147,7 @@ bool gpio_writePort(GPIOPort_t port, uint16_t value)
 
 void gpio_pinConfigLock(GPIOHandle_t handle)
 {
-    GPIO_t *gpio = gpio_getRegisters(handle.port);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle.port);
     volatile uint32_t value = (1 << 16);
 
     value |= handle.pin;

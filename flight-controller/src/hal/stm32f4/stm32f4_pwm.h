@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : board.h
+// Filename   : stm32f4_pwm.h
 // Author     : Kuba Sejdak
-// Created on : 23.07.2015
+// Created on : 14.09.2015
 //
 // This file is a part of SkyViper project.
 //
@@ -10,19 +10,12 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef BOARD_H
-#define BOARD_H
+#ifndef STM32F4_PWM_H
+#define STM32F4_PWM_H
 
-#include "hal/gpio.h"
 #include "hal/pwm.h"
+#include "stm32f4_timer.h"
 
-#include <stdbool.h>
-
-void panic(const char *format, ...);
-
-bool board_init();
-
-bool board_strobeInit(GPIOHandle_t gpio_handle, GPIOConfig_t config);
-bool board_engineInit(PWMHandle_t pwm_handle, PWMConfig_t config);
+bool stm32f4_pwmInit(PWMConfig_t config, PWMHandle_t handle);
 
 #endif

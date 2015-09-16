@@ -35,8 +35,8 @@ endmacro()
 
 macro(configure_engine)
     set(FLIGHTCONTROLLER_USE_ENGINES 1)
-    #set(FLIGHTCONTROLLER_ENGINES_DEVICE "afro_esc")
-    set(FLIGHTCONTROLLER_ENGINES_DEVICE "emulator")
+    set(FLIGHTCONTROLLER_ENGINES_DEVICE "afro_esc")
+    #set(FLIGHTCONTROLLER_ENGINES_DEVICE "emulator")
 endmacro()
 
 macro(configure_gyroscope)

@@ -46,7 +46,7 @@
 #define STM32F4_GPIO_PIN_14     14
 #define STM32F4_GPIO_PIN_15     15
 
-// Pin mode.
+// GPIO pin mode.
 typedef enum
 {
     GPIO_MODE_IN        = 0x00,
@@ -55,7 +55,7 @@ typedef enum
     GPIO_MODE_ANALOG    = 0x03
 } STM32F4_GPIOMode_t;
 
-// Pin speed.
+// GPIO pin speed.
 typedef enum
 {
     GPIO_SPEED_2MHz   = 0x00,   // Low speed.
@@ -64,14 +64,14 @@ typedef enum
     GPIO_SPEED_100MHz = 0x03    // High speed on 30 pF (80 MHz output max speed on 15 pF).
 } STM32F4_GPIOSpeed_t;
 
-// Pin output type.
+// GPIO pin output type.
 typedef enum
 {
     GPIO_OUTPUT_PUSHPULL  = 0x00,
     GPIO_OUTPUT_OPENDRAIN = 0x01
 } STM32F4_GPIOOutputType_t;
 
-// Pin configuration structure.
+// GPIO pin configuration structure.
 typedef struct
 {
     GPIOConfig_t general_config;

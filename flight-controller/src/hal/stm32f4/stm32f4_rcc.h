@@ -16,6 +16,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "hal/rcc.h"
+
 // AHB1 peripherals.
 #define RCC_AHB1_PERIPHERAL_GPIOA           (1 << 0)
 #define RCC_AHB1_PERIPHERAL_GPIOB           (1 << 1)

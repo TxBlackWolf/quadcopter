@@ -5,6 +5,7 @@
 // Created on : 22.07.2015
 //
 // This file is a part of SkyViper project.
+// Based on ee_printf: https://github.com/jpbonn/coremark_lm32
 //
 // %LICENSE%
 //
@@ -17,8 +18,15 @@
 #include "hal/stm32f4/stm32f4_gpio.h"
 #include "hal/stm32f4/stm32f4_gpio_functions.h"
 #include "hal/stm32f4/stm32f4_uart.h"
+#include "utils/std/string_manipulation.h"
+
+#include <stdarg.h>
+#include <stdlib.h>
+
+#define BUFFER_SIZE     1024
 
 static UARTHandle_t uart_handle;
+static bool console_initialized = false;
 
 bool console_init()
 {
@@ -48,13 +56,28 @@ bool console_init()
     uart_config.general_config.direction = UART_DIRECTION_WRITE;
     uart_config.general_config.mode = UART_MODE_ASYNCHRONOUS;
 
-    return stm32f4_uartInit(uart_config, uart_handle.device);
+    console_initialized = stm32f4_uartInit(uart_config, uart_handle.device);
+    if(console_initialized)
+        console_write("\n");
+
+    return console_initialized;
 }
 
 int console_write(const char *format, ...)
 {
-    // TODO: implement.
-    uart_send(uart_handle, 'A');
-    return 0;
-}
+    if(!console_initialized)
+        return;
 
+    char buffer[BUFFER_SIZE];
+
+    va_list args;
+    va_start(args, format);
+    vsprintf(buffer, format, args);
+    va_end(args);
+
+    int i;
+    for(i = 0; buffer[i]; ++i)
+        uart_send(uart_handle, buffer[i]);
+
+    return i;
+}

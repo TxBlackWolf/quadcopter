@@ -207,6 +207,10 @@ void uart_deactivate(UARTDevice_t device)
 void uart_send(UARTHandle_t handle, uint16_t data)
 {
     UART_t *uart = stm32f4_uartGetRegisters(handle.device);
+
+    // Wait until previous transfer completes.
+    while(!(uart->SR & USART_SR_TXE));
+
     uart->DR = data & 0x1ff;
 }
 

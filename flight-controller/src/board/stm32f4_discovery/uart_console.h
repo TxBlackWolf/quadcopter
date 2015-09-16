@@ -5,6 +5,7 @@
 // Created on : 22.07.2015
 //
 // This file is a part of SkyViper project.
+// Based on ee_printf: https://github.com/jpbonn/coremark_lm32
 //
 // %LICENSE%
 //
