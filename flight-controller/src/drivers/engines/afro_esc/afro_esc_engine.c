@@ -18,9 +18,12 @@
 #include "board/board_pinout.h"
 #include "board/console.h"
 
-#define AFRO_ESC_PWM_FREQUENCY_HZ = 10000;
+#define AFRO_ESC_PWM_FREQUENCY_HZ   10000
 
 static PWMHandle_t front_left_engine_handle;
+static PWMHandle_t front_right_engine_handle;
+static PWMHandle_t rear_left_engine_handle;
+static PWMHandle_t rear_right_engine_handle;
 
 bool engines_init()
 {
