@@ -32,50 +32,25 @@ bool stm32f4_pwmInit(PWMConfig_t config, PWMHandle_t handle)
 
     // TODO: calculate 84 MHz frequency, do not hardcode it.
     // Timer period = (Timer tick frequency / PWM frequency) - 1
-    uint16_t period = 84000000 / config.frequency - 1;
+    uint16_t period = 84000000 / config.frequency_hz - 1;
     timer_config.period = period;
     timer_config.clock_division = CLOCK_DIVISION_1;
     timer_config.repetition_counter = 0;
 
-    if(!stm32f4_timerInit(timer_config, handle.timer_handle.timer_device))
+    if(!stm32f4_timerInit(handle.timer.device, timer_config))
         return false;
 
     // Configure PWM channel.
-    STM32F4_OutputCompareConfig_t output_compare_config;
-    output_compare_config.mode = OUTPUT_COMPARE_MODE_PWM2;
-    output_compare_config.output_state = OUTPUT_COMPARE_STATE_ENABLE;
-    output_compare_config.polarity = OUTPUT_COMPARE_POLARITY_LOW;
-    output_compare_config.pulse = config.pulse_width_perc * period;
+    STM32F4_OutputCompareConfig_t oc_config;
+    oc_config.mode = OUTPUT_COMPARE_MODE_PWM2;
+    oc_config.output_state = OUTPUT_COMPARE_STATE_ENABLE;
+    oc_config.polarity = OUTPUT_COMPARE_POLARITY_LOW;
+    oc_config.pulse = config.pulse_width_perc * period;
 
-    switch(config.channel)
-    {
-    case 1:
-        if(!stm32f4_outputCompareChannel1Init(output_compare_config, handle.timer_handle.timer_device))
-            return false;
-        stm32f4_outputComparePreload1Config(OUTPUT_COMPARE_PRELOAD_ENABLE, handle.timer_handle.timer_device);
-        break;
-
-    case 2:
-        if(!stm32f4_outputCompareChannel2Init(output_compare_config, handle.timer_handle.timer_device))
-            return false;
-        stm32f4_outputComparePreload2Config(OUTPUT_COMPARE_PRELOAD_ENABLE, handle.timer_handle.timer_device);
-        break;
-
-    case 3:
-        if(!stm32f4_outputCompareChannel3Init(output_compare_config, handle.timer_handle.timer_device))
-            return false;
-        stm32f4_outputComparePreload3Config(OUTPUT_COMPARE_PRELOAD_ENABLE, handle.timer_handle.timer_device);
-        break;
-
-    case 4:
-        if(!stm32f4_outputCompareChannel4Init(output_compare_config, handle.timer_handle.timer_device))
-            return false;
-        break;
-        stm32f4_outputComparePreload4Config(OUTPUT_COMPARE_PRELOAD_ENABLE, handle.timer_handle.timer_device);
-
-    default:
+    if(!stm32f4_outputCompareInit(handle.timer.device, config.channel, oc_config))
         return false;
-    }
+
+    stm32f4_outputComparePreloadConfig(handle.timer.device, config.channel, OUTPUT_COMPARE_PRELOAD_ENABLE);
 
     // Configure GPIO.
     STM32F4_GPIOConfig_t gpio_config;
@@ -86,7 +61,7 @@ bool stm32f4_pwmInit(PWMConfig_t config, PWMHandle_t handle)
     gpio_config.mode = GPIO_MODE_ALTERNATE;
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
-    return stm32f4_gpioInit(gpio_config, handle.gpio_handle);
+    return stm32f4_gpioInit(handle.gpio, gpio_config);
 }
 
 void pwm_activate(TimerDevice_t device)

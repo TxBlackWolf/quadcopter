@@ -22,7 +22,7 @@ typedef uint32_t TimerDevice_t;
 // Timer handle.
 typedef struct
 {
-    TimerDevice_t timer_device;
+    TimerDevice_t device;
 } TimerHandle_t;
 
 void timer_activate(TimerDevice_t device);

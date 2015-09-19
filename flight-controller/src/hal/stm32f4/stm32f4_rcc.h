@@ -13,10 +13,10 @@
 #ifndef STM32F4_RCC_H
 #define STM32F4_RCC_H
 
+#include "hal/rcc.h"
+
 #include <stdint.h>
 #include <stdbool.h>
-
-#include "hal/rcc.h"
 
 // AHB1 peripherals.
 #define RCC_AHB1_PERIPHERAL_GPIOA           (1 << 0)

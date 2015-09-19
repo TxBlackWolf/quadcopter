@@ -17,6 +17,7 @@ set(MODULES
 
 register_component()
 
-link_target(${FLIGHTCONTROLLER_SRC_PATH}/hal)
-link_target(${FLIGHTCONTROLLER_SRC_PATH}/utils)
+link_target(${FLIGHTCONTROLLER_DRIVERS_PATH})
+link_target(${FLIGHTCONTROLLER_HAL_PATH})
+link_target(${FLIGHTCONTROLLER_UTILS_PATH})
  

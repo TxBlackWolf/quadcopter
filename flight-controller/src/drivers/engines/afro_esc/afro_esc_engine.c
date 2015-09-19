@@ -20,10 +20,10 @@
 
 #define AFRO_ESC_PWM_FREQUENCY_HZ   10000
 
-static PWMHandle_t front_left_engine_handle;
-static PWMHandle_t front_right_engine_handle;
-static PWMHandle_t rear_left_engine_handle;
-static PWMHandle_t rear_right_engine_handle;
+static PWMHandle_t front_left_engine;
+static PWMHandle_t front_right_engine;
+static PWMHandle_t rear_left_engine;
+static PWMHandle_t rear_right_engine;
 
 bool engines_init()
 {
@@ -31,13 +31,13 @@ bool engines_init()
     gpio_config.direction = GPIO_DIRECTION_OUT;
     gpio_config.resistor_type = GPIO_RESISTOR_NONE;
 
-    front_left_engine_handle.gpio_handle.port = ENGINE_FRONT_LEFT_PORT;
-    front_left_engine_handle.gpio_handle.pin = ENGINE_FRONT_LEFT_PIN;
+    front_left_engine.gpio.port = ENGINE_FRONT_LEFT_PORT;
+    front_left_engine.gpio.pin = ENGINE_FRONT_LEFT_PIN;
 
     PWMConfig_t pwm_config;
     pwm_config.frequency_hz = AFRO_ESC_PWM_FREQUENCY_HZ;
     pwm_config.pulse_width_perc = 0;
     pwm_config.gpio_config = gpio_config;
 
-    return board_engineInit(front_left_engine_handle, pwm_config)
+    return board_engineInit(front_left_engine, pwm_config)
 }

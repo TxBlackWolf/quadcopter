@@ -143,16 +143,18 @@ typedef enum
     OUTPUT_COMPARE_PRELOAD_DISABLE = 0x0
 } STM32F4_OutputComparePreloadState_t;
 
-bool stm32f4_timerInit(STM32F4_TimerConfig_t config, TimerDevice_t device);
+bool stm32f4_timerInit(TimerDevice_t device, STM32F4_TimerConfig_t config);
 
-bool stm32f4_outputCompareChannel1Init(STM32F4_OutputCompareConfig_t config, TimerDevice_t device);
-bool stm32f4_outputCompareChannel2Init(STM32F4_OutputCompareConfig_t config, TimerDevice_t device);
-bool stm32f4_outputCompareChannel3Init(STM32F4_OutputCompareConfig_t config, TimerDevice_t device);
-bool stm32f4_outputCompareChannel4Init(STM32F4_OutputCompareConfig_t config, TimerDevice_t device);
+bool stm32f4_outputCompareInit(TimerDevice_t device, uint32_t channel, STM32F4_OutputCompareConfig_t config);
+bool stm32f4_outputCompareChannel1Init(TimerDevice_t device, STM32F4_OutputCompareConfig_t config);
+bool stm32f4_outputCompareChannel2Init(TimerDevice_t device, STM32F4_OutputCompareConfig_t config);
+bool stm32f4_outputCompareChannel3Init(TimerDevice_t device, STM32F4_OutputCompareConfig_t config);
+bool stm32f4_outputCompareChannel4Init(TimerDevice_t device, STM32F4_OutputCompareConfig_t config);
 
-void stm32f4_outputComparePreload1Config(STM32F4_OutputComparePreloadState_t preload_state, TimerDevice_t device);
-void stm32f4_outputComparePreload2Config(STM32F4_OutputComparePreloadState_t preload_state, TimerDevice_t device);
-void stm32f4_outputComparePreload3Config(STM32F4_OutputComparePreloadState_t preload_state, TimerDevice_t device);
-void stm32f4_outputComparePreload4Config(STM32F4_OutputComparePreloadState_t preload_state, TimerDevice_t device);
+void stm32f4_outputComparePreloadConfig(TimerDevice_t device, uint32_t channel, STM32F4_OutputComparePreloadState_t preload_state);
+void stm32f4_outputComparePreload1Config(TimerDevice_t device, STM32F4_OutputComparePreloadState_t preload_state);
+void stm32f4_outputComparePreload2Config(TimerDevice_t device, STM32F4_OutputComparePreloadState_t preload_state);
+void stm32f4_outputComparePreload3Config(TimerDevice_t device, STM32F4_OutputComparePreloadState_t preload_state);
+void stm32f4_outputComparePreload4Config(TimerDevice_t device, STM32F4_OutputComparePreloadState_t preload_state);
 
 #endif

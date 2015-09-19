@@ -25,10 +25,10 @@ bool board_strobeInit(GPIOHandle_t gpio_handle, GPIOConfig_t config)
     gpio_config.mode = GPIO_MODE_OUT;
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
-    return stm32f4_gpioInit(gpio_config, gpio_handle);
+    return stm32f4_gpioInit(gpio_handle, gpio_config);
 }
 
 bool board_engineInit(PWMHandle_t pwm_handle, PWMConfig_t config)
 {
-
+    return false;
 }

@@ -44,11 +44,11 @@ uint32_t stm32f4_gpioGetPinMask(GPIOPin_t pin)
     return (1 << pin);
 }
 
-void stm32f4_gpioSetPinFunction(GPIOPort_t port, GPIOPin_t pin, uint8_t function)
+void stm32f4_gpioSetPinFunction(GPIOHandle_t handle, uint8_t function)
 {
-    GPIO_t *gpio = stm32f4_gpioGetRegisters(port);
-    uint32_t value = (function << (pin & 0x7) * 4);
-    uint32_t afr_half = pin >> 3;
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle.port);
+    uint32_t value = (function << (handle.pin & 0x7) * 4);
+    uint32_t afr_half = handle.pin >> 3;
     gpio->AFR[afr_half] |= value;
 }
 
@@ -75,12 +75,12 @@ void stm32f4_gpioEnableClock(GPIOHandle_t handle, bool value)
 // INTERFACE FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
 
-bool stm32f4_gpioInit(STM32F4_GPIOConfig_t config, GPIOHandle_t handle)
+bool stm32f4_gpioInit(GPIOHandle_t handle, STM32F4_GPIOConfig_t config)
 {
     stm32f4_gpioEnableClock(handle, true);
 
     if(config.function != GPIO_DIGITAL_PIN)
-        stm32f4_gpioSetPinFunction(handle.port, handle.pin, config.function);
+        stm32f4_gpioSetPinFunction(handle, config.function);
 
     GPIO_t *gpio = stm32f4_gpioGetRegisters(handle.port);
 

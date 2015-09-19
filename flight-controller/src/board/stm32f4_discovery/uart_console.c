@@ -43,7 +43,7 @@ bool console_init()
     gpio_config.mode = GPIO_MODE_ALTERNATE;
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
-    if(!stm32f4_gpioInit(gpio_config, uart_handle.uart_gpio))
+    if(!stm32f4_gpioInit(uart_handle.uart_gpio, gpio_config))
         return false;
 
     // Configure UART.
