@@ -67,7 +67,8 @@ typedef struct
     STM32F4_UARTClockConfig_t clock_config;
 } STM32F4_UARTConfig_t;
 
-bool stm32f4_uartInit(STM32F4_UARTConfig_t config, UARTDevice_t device);
-void stm32f4_uartClockInit(STM32F4_UARTClockConfig_t clock_config, UARTDevice_t device);
+bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t config);
+void stm32f4_uartClockInit(UARTHandle_t *handle, STM32F4_UARTClockConfig_t clock_config);
+int stm32f4_uartToPinFunction(UARTHandle_t *handle);
 
 #endif

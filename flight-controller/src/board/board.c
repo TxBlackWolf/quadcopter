@@ -21,12 +21,22 @@ void panic(const char *format, ...)
     // TODO: implement as red user LED blinking + console write.
 }
 
+bool board_isEmergencyBoot()
+{
+    // TODO: implement.
+    return false;
+}
+
 bool board_init()
 {
     // TODO: init panic LED
 
     if(!console_init())
         return false;
+
+    console_write("board: Console ready\n");
+
+    board_showSystemClocks();
 
 #if ACCELEROMETER_ENABLED
 #endif
@@ -41,20 +51,32 @@ bool board_init()
 #endif
 
 #if ENGINES_ENABLED
+    console_write("board: Initializing engines\n");
     if(!engines_init())
+    {
+        console_write("board: Failed to initialize engines\n");
         return false;
+    }
+
+    console_write("board: Engines ready\n");
 #endif
 
 #if GYROSCOPE_ENABLED
 #endif
 
 #if LIGHTS_ENABLED
+    console_write("board: Initializing lights\n");
     if(!strobe_init())
+    {
+        console_write("board: Failed to initialize lights\n");
         return false;
+    }
+    console_write("board: Lights ready\n");
 #endif
 
 #if MAGNETOMETER_ENABLED
 #endif
 
+    console_write("board: Init procedure completed\n");
     return true;
 }

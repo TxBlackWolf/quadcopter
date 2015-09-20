@@ -46,17 +46,18 @@ typedef struct
 {
     GPIOPort_t port;
     GPIOPin_t pin;
+    const char *name;
 } GPIOHandle_t;
 
-void gpio_activate(GPIOHandle_t handle);
-void gpio_deactivate(GPIOHandle_t handle);
+void gpio_activate(GPIOHandle_t *handle);
+void gpio_deactivate(GPIOHandle_t *handle);
 
-bool gpio_readPin(GPIOHandle_t handle);
-uint16_t gpio_readPort(GPIOPort_t port);
+bool gpio_readPin(GPIOHandle_t *handle);
+uint16_t gpio_readPort(GPIOHandle_t *handle);
 
-bool gpio_writePin(GPIOHandle_t handle, bool value);
-bool gpio_writePort(GPIOPort_t port, uint16_t value);
+bool gpio_writePin(GPIOHandle_t *handle, bool value);
+bool gpio_writePort(GPIOHandle_t *handle, uint16_t value);
 
-void gpio_pinConfigLock(GPIOHandle_t handle);
+void gpio_pinConfigLock(GPIOHandle_t *handle);
 
 #endif

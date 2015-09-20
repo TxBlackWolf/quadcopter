@@ -12,6 +12,7 @@
 
 #include "stm32f4_uart.h"
 #include "stm32f4_rcc.h"
+#include "stm32f4_gpio_functions.h"
 #include "CMSIS/stm32f4xx.h"
 
 typedef USART_TypeDef UART_t;
@@ -19,6 +20,21 @@ typedef USART_TypeDef UART_t;
 //---------------------------------------------------------------------------------------------------------------
 // HELPER FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
+
+int stm32f4_uartToPinFunction(UARTHandle_t *handle)
+{
+    switch(handle->device)
+    {
+    case STM32F4_USART_1:   return GPIO_AF_USART1;
+    case STM32F4_USART_2:   return GPIO_AF_USART2;
+    case STM32F4_USART_3:   return GPIO_AF_USART3;
+    case STM32F4_UART_4:    return GPIO_AF_UART4;
+    case STM32F4_UART_5:    return GPIO_AF_UART5;
+    case STM32F4_USART_6:   return GPIO_AF_USART6;
+    }
+
+    return -1;
+}
 
 UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
 {
@@ -125,24 +141,24 @@ void stm32f4_uartEnableClock(UARTDevice_t device, bool value)
 // INTERFACE FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
 
-bool stm32f4_uartInit(STM32F4_UARTConfig_t config, UARTDevice_t device)
+bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t config)
 {
     if(config.general_config.protocol.flow_control != UART_FLOW_CONTROL_NONE)
     {
         // Hardware flow control is available only for USART1, USART2, USART3 and USART6.
-        if(device == STM32F4_UART_4 || device == STM32F4_UART_5)
+        if(handle->device == STM32F4_UART_4 || handle->device == STM32F4_UART_5)
             return false;
     }
 
-    if(config.general_config.mode == UART_MODE_SYNCHRONOUS && (device == STM32F4_UART_4 || device == STM32F4_UART_5))
+    if(config.general_config.mode == UART_MODE_SYNCHRONOUS && (handle->device == STM32F4_UART_4 || handle->device == STM32F4_UART_5))
         return false;
 
     if(config.general_config.mode == UART_MODE_SYNCHRONOUS)
-        stm32f4_uartClockInit(config.clock_config, device);
+        stm32f4_uartClockInit(handle, config.clock_config);
 
-    stm32f4_uartEnableClock(device, true);
+    stm32f4_uartEnableClock(handle->device, true);
 
-    UART_t *uart = stm32f4_uartGetRegisters(device);
+    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
 
     uart->CR1 |= stm32f4_uartGetDataBitsValue(config.general_config.protocol.data_bits);
     uart->CR2 |= stm32f4_uartGetStopBitsValue(config.general_config.protocol.stop_bits);
@@ -155,7 +171,7 @@ bool stm32f4_uartInit(STM32F4_UARTConfig_t config, UARTDevice_t device)
     stm32f4_rccGetClocksFrequencies(&clocks_frequencies);
 
     uint32_t uart_freq = 0;
-    if(device == STM32F4_USART_1 || device == STM32F4_USART_6)
+    if(handle->device == STM32F4_USART_1 || handle->device == STM32F4_USART_6)
         uart_freq = clocks_frequencies.pclk2_frequency_hz;
     else
         uart_freq = clocks_frequencies.pclk1_frequency_hz;
@@ -178,13 +194,13 @@ bool stm32f4_uartInit(STM32F4_UARTConfig_t config, UARTDevice_t device)
 
     uart->BRR = baud_rate_value;
 
-    uart_activate(device);
+    uart_activate(handle);
     return true;
 }
 
-void stm32f4_uartClockInit(STM32F4_UARTClockConfig_t clock_config, UARTDevice_t device)
+void stm32f4_uartClockInit(UARTHandle_t *handle, STM32F4_UARTClockConfig_t clock_config)
 {
-    UART_t *uart = stm32f4_uartGetRegisters(device);
+    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
 
     uart->CR2 |= clock_config.enabled;
     uart->CR2 |= clock_config.polarity;
@@ -192,21 +208,21 @@ void stm32f4_uartClockInit(STM32F4_UARTClockConfig_t clock_config, UARTDevice_t 
     uart->CR2 |= clock_config.last_bit;
 }
 
-void uart_activate(UARTDevice_t device)
+void uart_activate(UARTHandle_t *handle)
 {
-    UART_t *uart = stm32f4_uartGetRegisters(device);
+    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
     uart->CR1 |= USART_CR1_UE;
 }
 
-void uart_deactivate(UARTDevice_t device)
+void uart_deactivate(UARTHandle_t *handle)
 {
-    UART_t *uart = stm32f4_uartGetRegisters(device);
+    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
     uart->CR1 &= ~USART_CR1_UE;
 }
 
-void uart_send(UARTHandle_t handle, uint16_t data)
+void uart_send(UARTHandle_t *handle, uint16_t data)
 {
-    UART_t *uart = stm32f4_uartGetRegisters(handle.device);
+    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
 
     // Wait until previous transfer completes.
     while(!(uart->SR & USART_SR_TXE));
@@ -214,8 +230,8 @@ void uart_send(UARTHandle_t handle, uint16_t data)
     uart->DR = data & 0x1ff;
 }
 
-uint16_t uart_receive(UARTHandle_t handle)
+uint16_t uart_receive(UARTHandle_t *handle)
 {
-    UART_t *uart = stm32f4_uartGetRegisters(handle.device);
+    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
     return (uart->DR & 0x01ff);
 }

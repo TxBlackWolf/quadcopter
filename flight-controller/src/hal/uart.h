@@ -94,10 +94,10 @@ typedef struct
     GPIOHandle_t uart_gpio;
 } UARTHandle_t;
 
-void uart_activate(UARTDevice_t device);
-void uart_deactivate(UARTDevice_t device);
+void uart_activate(UARTHandle_t *handle);
+void uart_deactivate(UARTHandle_t *handle);
 
-void uart_send(UARTHandle_t handle, uint16_t data);
-uint16_t uart_receive(UARTHandle_t handle);
+void uart_send(UARTHandle_t *handle, uint16_t data);
+uint16_t uart_receive(UARTHandle_t *handle);
 
 #endif

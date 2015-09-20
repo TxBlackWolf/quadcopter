@@ -11,6 +11,8 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "stm32f4_timer.h"
+#include "stm32f4_rcc.h"
+#include "stm32f4_gpio_functions.h"
 #include "CMSIS/stm32f4xx.h"
 
 typedef TIM_TypeDef Timer_t;
@@ -18,6 +20,60 @@ typedef TIM_TypeDef Timer_t;
 //---------------------------------------------------------------------------------------------------------------
 // HELPER FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
+
+int stm32f4_timerToPinFunction(TimerHandle_t *handle)
+{
+    switch(handle->device)
+    {
+    case STM32F4_TIMER_1:   return GPIO_AF_TIM1;
+    case STM32F4_TIMER_2:   return GPIO_AF_TIM2;
+    case STM32F4_TIMER_3:   return GPIO_AF_TIM3;
+    case STM32F4_TIMER_4:   return GPIO_AF_TIM4;
+    case STM32F4_TIMER_5:   return GPIO_AF_TIM5;
+    case STM32F4_TIMER_6:   return -1;
+    case STM32F4_TIMER_7:   return -1;
+    case STM32F4_TIMER_8:   return GPIO_AF_TIM8;
+    case STM32F4_TIMER_9:   return GPIO_AF_TIM9;
+    case STM32F4_TIMER_10:  return GPIO_AF_TIM10;
+    case STM32F4_TIMER_11:  return GPIO_AF_TIM11;
+    case STM32F4_TIMER_12:  return GPIO_AF_TIM12;
+    case STM32F4_TIMER_13:  return GPIO_AF_TIM13;
+    case STM32F4_TIMER_14:  return GPIO_AF_TIM14;
+    }
+
+    return -1;
+}
+
+uint16_t stm32f4_timerFrequencyToPeriod(TimerHandle_t *handle, uint32_t frequency_hz)
+{
+    uint32_t bus_default_frequency_hz = 0;
+    switch(handle->device)
+    {
+    // APB1 bus.
+    case STM32F4_TIMER_1:
+    case STM32F4_TIMER_8:
+    case STM32F4_TIMER_9:
+    case STM32F4_TIMER_10:
+    case STM32F4_TIMER_11:
+        bus_default_frequency_hz = 53760000;
+        break;
+
+        // APB2 bus.
+    case STM32F4_TIMER_2:
+    case STM32F4_TIMER_3:
+    case STM32F4_TIMER_4:
+    case STM32F4_TIMER_5:
+    case STM32F4_TIMER_6:
+    case STM32F4_TIMER_7:
+    case STM32F4_TIMER_12:
+    case STM32F4_TIMER_13:
+    case STM32F4_TIMER_14:
+        bus_default_frequency_hz = 26880000;
+        break;
+    }
+
+    return (bus_default_frequency_hz / frequency_hz) - 1;
+}
 
 Timer_t *stm32f4_timerGetRegisters(TimerDevice_t device)
 {
@@ -42,13 +98,62 @@ Timer_t *stm32f4_timerGetRegisters(TimerDevice_t device)
     return 0;
 }
 
+void stm32f4_timerEnableClock(TimerDevice_t device, bool value)
+{
+    switch(device)
+    {
+    case STM32F4_TIMER_1:
+        stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM1, value);
+        break;
+    case STM32F4_TIMER_2:
+        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM2, value);
+        break;
+    case STM32F4_TIMER_3:
+        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM3, value);
+        break;
+    case STM32F4_TIMER_4:
+        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM4, value);
+        break;
+    case STM32F4_TIMER_5:
+        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM5, value);
+        break;
+    case STM32F4_TIMER_6:
+        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM6, value);
+        break;
+    case STM32F4_TIMER_7:
+        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM7, value);
+        break;
+    case STM32F4_TIMER_8:
+        stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM8, value);
+        break;
+    case STM32F4_TIMER_9:
+        stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM9, value);
+        break;
+    case STM32F4_TIMER_10:
+        stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM10, value);
+        break;
+    case STM32F4_TIMER_11:
+        stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM11, value);
+        break;
+    case STM32F4_TIMER_12:
+        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM12, value);
+        break;
+    case STM32F4_TIMER_13:
+        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM13, value);
+        break;
+    case STM32F4_TIMER_14:
+        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM14, value);
+        break;
+    }
+}
+
 //---------------------------------------------------------------------------------------------------------------
 // INTERFACE FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
 
-bool stm32f4_timerInit(TimerDevice_t device, STM32F4_TimerConfig_t config)
+bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t config)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
 
     if((timer == TIM1) || (timer == TIM8) || (timer == TIM2) || (timer == TIM3) || (timer == TIM4) || (timer == TIM5))
     {
@@ -76,38 +181,39 @@ bool stm32f4_timerInit(TimerDevice_t device, STM32F4_TimerConfig_t config)
 
     timer->EGR = PRESCALER_RELOAD_MODE_IMMEDIATE;
 
-    timer_activate(device);
+    stm32f4_timerEnableClock(handle->device, true);
+    timer_activate(handle);
     return true;
 }
 
-void timer_activate(TimerDevice_t device)
+void timer_activate(TimerHandle_t *handle)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     timer->CR1 |= TIM_CR1_CEN;
 }
 
-void timer_deactivate(TimerDevice_t device)
+void timer_deactivate(TimerHandle_t *handle)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     timer->CR1 &= ~TIM_CR1_CEN;
 }
 
-bool stm32f4_outputCompareInit(TimerDevice_t device, uint32_t channel, STM32F4_OutputCompareConfig_t config)
+bool stm32f4_outputCompareInit(TimerHandle_t *handle, uint32_t channel, STM32F4_OutputCompareConfig_t config)
 {
     switch(channel)
     {
-    case 1:     return stm32f4_outputCompareChannel1Init(device, config);
-    case 2:     return stm32f4_outputCompareChannel2Init(device, config);
-    case 3:     return stm32f4_outputCompareChannel3Init(device, config);
-    case 4:     return stm32f4_outputCompareChannel4Init(device, config);
+    case 1:     return stm32f4_outputCompareChannel1Init(handle, config);
+    case 2:     return stm32f4_outputCompareChannel2Init(handle, config);
+    case 3:     return stm32f4_outputCompareChannel3Init(handle, config);
+    case 4:     return stm32f4_outputCompareChannel4Init(handle, config);
     }
 
     return false;
 }
 
-bool stm32f4_outputCompareChannel1Init(TimerDevice_t device, STM32F4_OutputCompareConfig_t config)
+bool stm32f4_outputCompareChannel1Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7)
         return false;
 
@@ -144,9 +250,9 @@ bool stm32f4_outputCompareChannel1Init(TimerDevice_t device, STM32F4_OutputCompa
     return true;
 }
 
-bool stm32f4_outputCompareChannel2Init(TimerDevice_t device, STM32F4_OutputCompareConfig_t config)
+bool stm32f4_outputCompareChannel2Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7 || timer == TIM10 || timer == TIM11 || timer == TIM13 || timer == TIM14)
         return false;
 
@@ -183,9 +289,9 @@ bool stm32f4_outputCompareChannel2Init(TimerDevice_t device, STM32F4_OutputCompa
     return true;
 }
 
-bool stm32f4_outputCompareChannel3Init(TimerDevice_t device, STM32F4_OutputCompareConfig_t config)
+bool stm32f4_outputCompareChannel3Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
         return false;
 
@@ -222,9 +328,9 @@ bool stm32f4_outputCompareChannel3Init(TimerDevice_t device, STM32F4_OutputCompa
     return true;
 }
 
-bool stm32f4_outputCompareChannel4Init(TimerDevice_t device, STM32F4_OutputCompareConfig_t config)
+bool stm32f4_outputCompareChannel4Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
         return false;
 
@@ -252,63 +358,80 @@ bool stm32f4_outputCompareChannel4Init(TimerDevice_t device, STM32F4_OutputCompa
     return true;
 }
 
-void stm32f4_outputComparePreloadConfig(TimerDevice_t device, uint32_t channel, STM32F4_OutputComparePreloadState_t preload_state)
+void stm32f4_outputComparePreloadConfig(TimerHandle_t *handle, uint32_t channel, STM32F4_OutputComparePreloadState_t preload_state)
 {
     switch(channel)
     {
-    case 1:     return stm32f4_outputComparePreload1Config(device, preload_state);
-    case 2:     return stm32f4_outputComparePreload2Config(device, preload_state);
-    case 3:     return stm32f4_outputComparePreload3Config(device, preload_state);
-    case 4:     return stm32f4_outputComparePreload4Config(device, preload_state);
+    case 1:     stm32f4_outputComparePreload1Config(handle, preload_state); break;
+    case 2:     stm32f4_outputComparePreload2Config(handle, preload_state); break;
+    case 3:     stm32f4_outputComparePreload3Config(handle, preload_state); break;
+    case 4:     stm32f4_outputComparePreload4Config(handle, preload_state); break;
     }
-
-    return false;
 }
 
-void stm32f4_outputComparePreload1Config(TimerDevice_t device, STM32F4_OutputComparePreloadState_t preload_state)
+void stm32f4_outputComparePreload1Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7)
         return;
 
     timer->CCMR1 |= preload_state;
 }
 
-void stm32f4_outputComparePreload2Config(TimerDevice_t device, STM32F4_OutputComparePreloadState_t preload_state)
+void stm32f4_outputComparePreload2Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7 || timer == TIM10 || timer == TIM11 || timer == TIM13 || timer == TIM14)
         return;
 
     timer->CCMR1 |= (preload_state << 8);
 }
 
-void stm32f4_outputComparePreload3Config(TimerDevice_t device, STM32F4_OutputComparePreloadState_t preload_state)
+void stm32f4_outputComparePreload3Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
         return;
 
     timer->CCMR2 |= preload_state;
 }
 
-void stm32f4_outputComparePreload4Config(TimerDevice_t device, STM32F4_OutputComparePreloadState_t preload_state)
+void stm32f4_outputComparePreload4Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
         return;
 
     timer->CCMR2 |= (preload_state << 8);
 }
 
-uint32_t timer_getCounter(TimerDevice_t device)
+uint32_t timer_getCounter(TimerHandle_t *handle)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     return timer->CNT;
 }
 
-void timer_setCounter(TimerDevice_t device, uint32_t value)
+uint16_t stm32f4_getOutputComparePeriod(TimerHandle_t *handle)
 {
-    Timer_t *timer = stm32f4_timerGetRegisters(device);
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
+    return timer->ARR;
+}
+
+void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint32_t channel, uint16_t pulse)
+{
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
+
+    switch(channel)
+    {
+    case 1:     timer->CCR1 = pulse; break;
+    case 2:     timer->CCR2 = pulse; break;
+    case 3:     timer->CCR3 = pulse; break;
+    case 4:     timer->CCR4 = pulse; break;
+    }
+}
+
+void timer_setCounter(TimerHandle_t *handle, uint32_t value)
+{
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     timer->CNT = value;
 }

@@ -18,7 +18,7 @@
 #include "hal/stm32f4/stm32f4_gpio.h"
 #include "hal/stm32f4/stm32f4_gpio_functions.h"
 #include "hal/stm32f4/stm32f4_uart.h"
-#include "utils/std/string_manipulation.h"
+#include "utils/misc/string_manipulation.h"
 
 #include <stdarg.h>
 #include <stdlib.h>
@@ -38,12 +38,12 @@ bool console_init()
     STM32F4_GPIOConfig_t gpio_config;
     gpio_config.general_config.direction = GPIO_DIRECTION_OUT;
     gpio_config.general_config.resistor_type = GPIO_RESISTOR_PULLUP;
-    gpio_config.function = GPIO_AF_UART4;
+    gpio_config.function = stm32f4_uartToPinFunction(&uart_handle);
     gpio_config.speed = GPIO_SPEED_100MHz;
     gpio_config.mode = GPIO_MODE_ALTERNATE;
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
-    if(!stm32f4_gpioInit(uart_handle.uart_gpio, gpio_config))
+    if(!stm32f4_gpioInit(&uart_handle.uart_gpio, gpio_config))
         return false;
 
     // Configure UART.
@@ -56,7 +56,7 @@ bool console_init()
     uart_config.general_config.direction = UART_DIRECTION_WRITE;
     uart_config.general_config.mode = UART_MODE_ASYNCHRONOUS;
 
-    console_initialized = stm32f4_uartInit(uart_config, uart_handle.device);
+    console_initialized = stm32f4_uartInit(&uart_handle, uart_config);
     if(console_initialized)
         console_write("\n");
 
@@ -66,7 +66,7 @@ bool console_init()
 int console_write(const char *format, ...)
 {
     if(!console_initialized)
-        return;
+        return -1;
 
     char buffer[BUFFER_SIZE];
 
@@ -77,7 +77,7 @@ int console_write(const char *format, ...)
 
     int i;
     for(i = 0; buffer[i]; ++i)
-        uart_send(uart_handle, buffer[i]);
+        uart_send(&uart_handle, buffer[i]);
 
     return i;
 }

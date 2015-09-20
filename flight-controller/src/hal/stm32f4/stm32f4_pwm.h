@@ -16,6 +16,6 @@
 #include "hal/pwm.h"
 #include "stm32f4_timer.h"
 
-bool stm32f4_pwmInit(PWMConfig_t config, PWMHandle_t handle);
+bool stm32f4_pwmInit(PWMHandle_t *handle, PWMConfig_t config);
 
 #endif

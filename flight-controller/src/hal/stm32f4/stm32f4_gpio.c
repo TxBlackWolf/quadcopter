@@ -13,6 +13,7 @@
 #include "stm32f4_gpio.h"
 #include "stm32f4_gpio_functions.h"
 #include "stm32f4_rcc.h"
+#include "board/console.h"
 #include "CMSIS/stm32f4xx.h"
 
 typedef GPIO_TypeDef GPIO_t;
@@ -44,18 +45,18 @@ uint32_t stm32f4_gpioGetPinMask(GPIOPin_t pin)
     return (1 << pin);
 }
 
-void stm32f4_gpioSetPinFunction(GPIOHandle_t handle, uint8_t function)
+void stm32f4_gpioSetPinFunction(GPIOHandle_t *handle, uint8_t function)
 {
-    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle.port);
-    uint32_t value = (function << (handle.pin & 0x7) * 4);
-    uint32_t afr_half = handle.pin >> 3;
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle->port);
+    uint32_t value = (function << (handle->pin & 0x7) * 4);
+    uint32_t afr_half = handle->pin >> 3;
     gpio->AFR[afr_half] |= value;
 }
 
-void stm32f4_gpioEnableClock(GPIOHandle_t handle, bool value)
+void stm32f4_gpioEnableClock(GPIOPort_t port, bool value)
 {
     uint32_t ahb1_peripheral = 0;
-    switch(handle.port)
+    switch(port)
     {
     case STM32F4_GPIO_PORT_A:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOA; break;
     case STM32F4_GPIO_PORT_B:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOB; break;
@@ -75,60 +76,68 @@ void stm32f4_gpioEnableClock(GPIOHandle_t handle, bool value)
 // INTERFACE FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
 
-bool stm32f4_gpioInit(GPIOHandle_t handle, STM32F4_GPIOConfig_t config)
+bool stm32f4_gpioInit(GPIOHandle_t *handle, STM32F4_GPIOConfig_t config)
 {
-    stm32f4_gpioEnableClock(handle, true);
+    stm32f4_gpioEnableClock(handle->port, true);
 
     if(config.function != GPIO_DIGITAL_PIN)
-        stm32f4_gpioSetPinFunction(handle, config.function);
+    {
+        if(config.function < 0)
+        {
+            console_write("gpio: Bad alternate function number: %d\n", config.function);
+            return false;
+        }
 
-    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle.port);
+        stm32f4_gpioSetPinFunction(handle, config.function);
+    }
+
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle->port);
 
     // Set mode.
-    gpio->MODER |= (config.mode << (handle.pin * 2));
+    gpio->MODER |= (config.mode << (handle->pin * 2));
 
     if(config.mode == GPIO_MODE_OUT || config.mode == GPIO_MODE_ALTERNATE)
     {
         // Set speed.
-        gpio->OSPEEDR |= (config.speed << (handle.pin * 2));
+        gpio->OSPEEDR |= (config.speed << (handle->pin * 2));
 
         // Set output mode.
-        gpio->OTYPER |= (config.output_type << handle.pin);
+        gpio->OTYPER |= (config.output_type << handle->pin);
     }
 
     // Set pullup/pulldown resistor.
-    gpio->PUPDR |= (config.general_config.resistor_type << (handle.pin * 2));
+    gpio->PUPDR |= (config.general_config.resistor_type << (handle->pin * 2));
 
     return true;
 }
 
-void gpio_activate(GPIOHandle_t handle)
+void gpio_activate(GPIOHandle_t *handle)
 {
-    stm32f4_gpioEnableClock(handle, true);
+    stm32f4_gpioEnableClock(handle->port, true);
 }
 
-void gpio_deactivate(GPIOHandle_t handle)
+void gpio_deactivate(GPIOHandle_t *handle)
 {
-    stm32f4_gpioEnableClock(handle, false);
+    stm32f4_gpioEnableClock(handle->port, false);
 }
 
-bool gpio_readPin(GPIOHandle_t handle)
+bool gpio_readPin(GPIOHandle_t *handle)
 {
-    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle.port);
-    uint16_t pin_mask = stm32f4_gpioGetPinMask(handle.pin);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle->port);
+    uint16_t pin_mask = stm32f4_gpioGetPinMask(handle->pin);
     return (gpio->IDR & pin_mask);
 }
 
-uint16_t gpio_readPort(GPIOPort_t port)
+uint16_t gpio_readPort(GPIOHandle_t *handle)
 {
-    GPIO_t *gpio = stm32f4_gpioGetRegisters(port);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle->port);
     return gpio->IDR;
 }
 
-bool gpio_writePin(GPIOHandle_t handle, bool value)
+bool gpio_writePin(GPIOHandle_t *handle, bool value)
 {
-    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle.port);
-    uint16_t pin_mask = stm32f4_gpioGetPinMask(handle.pin);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle->port);
+    uint16_t pin_mask = stm32f4_gpioGetPinMask(handle->pin);
     if(value)
         gpio->ODR |= pin_mask;
     else
@@ -137,23 +146,25 @@ bool gpio_writePin(GPIOHandle_t handle, bool value)
     return (gpio->ODR & pin_mask);
 }
 
-bool gpio_writePort(GPIOPort_t port, uint16_t value)
+bool gpio_writePort(GPIOHandle_t *handle, uint16_t value)
 {
-    GPIO_t *gpio = stm32f4_gpioGetRegisters(port);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle->port);
     gpio->ODR = value;
 
     return (gpio->ODR == value);
 }
 
-void gpio_pinConfigLock(GPIOHandle_t handle)
+void gpio_pinConfigLock(GPIOHandle_t *handle)
 {
-    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle.port);
+    GPIO_t *gpio = stm32f4_gpioGetRegisters(handle->port);
     volatile uint32_t value = (1 << 16);
 
-    value |= handle.pin;
+    value |= handle->pin;
     gpio->LCKR = value;
-    gpio->LCKR = handle.pin;
+    gpio->LCKR = handle->pin;
     gpio->LCKR = value;
     value = gpio->LCKR;
     value = gpio->LCKR;
+
+    console_write("gpio: GPIO P%d.%d config locked (%s)\n", handle->port, handle->pin, handle->name);
 }

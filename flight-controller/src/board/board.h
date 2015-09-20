@@ -19,10 +19,11 @@
 #include <stdbool.h>
 
 void panic(const char *format, ...);
+bool board_isEmergencyBoot();
+void board_showSystemClocks();
 
 bool board_init();
-
-bool board_strobeInit(GPIOHandle_t gpio_handle, GPIOConfig_t config);
-bool board_engineInit(PWMHandle_t pwm_handle, PWMConfig_t config);
+bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t config);
+bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t pwm_config, GPIOConfig_t gpio_general_config);
 
 #endif

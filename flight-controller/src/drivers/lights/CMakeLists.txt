@@ -10,3 +10,5 @@ else()
 endif()
 
 register_module()
+
+link_target(${FLIGHTCONTROLLER_BOARD_PATH})

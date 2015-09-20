@@ -14,6 +14,7 @@
 #include "board/board.h"
 #include "board/console.h"
 #include "drivers/lights/lights.h"
+#include "drivers/engines/engine.h"
 
 #include <stdbool.h>
 
@@ -53,6 +54,19 @@ int main()
 
     while(true)
     {
+        engines_setThrottle(&front_left_engine, 0);
+        for(int i = 0; i < 1000000; ++i);
+        engines_setThrottle(&front_left_engine, 20);
+        for(int i = 0; i < 1000000; ++i);
+        engines_setThrottle(&front_left_engine, 40);
+        for(int i = 0; i < 1000000; ++i);
+        engines_setThrottle(&front_left_engine, 60);
+        for(int i = 0; i < 1000000; ++i);
+        engines_setThrottle(&front_left_engine, 80);
+        for(int i = 0; i < 1000000; ++i);
+        engines_setThrottle(&front_left_engine, 100);
+        for(int i = 0; i < 1000000; ++i);
+
         strobe_blink();
     }
 

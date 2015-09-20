@@ -13,8 +13,16 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include "hal/pwm.h"
+
 #include <stdbool.h>
 
+extern PWMHandle_t front_left_engine;
+extern PWMHandle_t front_right_engine;
+extern PWMHandle_t rear_left_engine;
+extern PWMHandle_t rear_right_engine;
+
 bool engines_init();
+void engines_setThrottle(PWMHandle_t *engine, uint32_t throttle_perc);
 
 #endif

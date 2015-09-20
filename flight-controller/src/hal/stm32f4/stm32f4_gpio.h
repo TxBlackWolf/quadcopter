@@ -81,6 +81,6 @@ typedef struct
     STM32F4_GPIOOutputType_t output_type;
 } STM32F4_GPIOConfig_t;
 
-bool stm32f4_gpioInit(GPIOHandle_t handle, STM32F4_GPIOConfig_t config);
+bool stm32f4_gpioInit(GPIOHandle_t *handle, STM32F4_GPIOConfig_t config);
 
 #endif

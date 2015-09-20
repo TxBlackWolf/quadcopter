@@ -4,7 +4,7 @@ set(SOURCES
 
 set(MODULES
     log
-    std
+    misc
 )
 
 register_component()

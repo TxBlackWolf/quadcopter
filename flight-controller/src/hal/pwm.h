@@ -23,6 +23,8 @@ typedef struct
 {
     TimerHandle_t timer;
     GPIOHandle_t gpio;
+    uint32_t channel;
+    uint16_t period;
 } PWMHandle_t;
 
 // PWM config structure.
@@ -30,15 +32,12 @@ typedef struct
 {
     uint32_t frequency_hz;
     uint32_t pulse_width_perc;
-    uint32_t channel;
-    GPIOConfig_t gpio_config;
 } PWMConfig_t;
 
-void pwm_activate(TimerDevice_t device);
-void pwm_deactivate(TimerDevice_t device);
+void pwm_activate(PWMHandle_t *handle);
+void pwm_deactivate(PWMHandle_t *handle);
 
-void pwm_setFrequency(uint32_t frequency_hz, TimerDevice_t device);
-void pwm_setPulseWidthPerc(uint32_t width_perc, TimerDevice_t device);
-void pwm_setPulseWidthUsec(uint32_t width_us, TimerDevice_t device);
+void pwm_setFrequency(PWMHandle_t *handle, uint32_t frequency_hz);
+void pwm_setPulseWidthPerc(PWMHandle_t *handle, uint32_t width_perc);
 
 #endif
