@@ -99,8 +99,7 @@ void stm32f4_rccGetClocksFrequencies(STM32F4_ClockFrequencies_t *clocks)
 {
     // SYSCLK.
     uint32_t sysclk_source = RCC->CFGR & RCC_CFGR_SWS;
-    switch(sysclk_source)
-    {
+    switch(sysclk_source) {
     case RCC_SYSCLK_SOURCE_USED_HSI:
         clocks->sysclk_frequency_hz = HSI_VALUE;
         break;
@@ -109,8 +108,7 @@ void stm32f4_rccGetClocksFrequencies(STM32F4_ClockFrequencies_t *clocks)
         clocks->sysclk_frequency_hz = HSE_VALUE;
         break;
 
-    case RCC_SYSCLK_SOURCE_USED_PLLCLK:
-    {
+    case RCC_SYSCLK_SOURCE_USED_PLLCLK: {
         uint32_t pll_source = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
         uint32_t pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
         uint32_t pll_vco = 0;

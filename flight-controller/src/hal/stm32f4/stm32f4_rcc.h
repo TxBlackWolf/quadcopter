@@ -108,12 +108,11 @@
 #define RCC_PLL_SOURCE_HSE                  (1 << 22)
 
 // Clock frequencies structure.
-typedef struct
-{
+typedef struct {
   uint32_t sysclk_frequency_hz;
-  uint32_t hclk_frequency_hz;
-  uint32_t pclk1_frequency_hz;
-  uint32_t pclk2_frequency_hz;
+  uint32_t hclk_frequency_hz;       // AHB bus
+  uint32_t pclk1_frequency_hz;      // APB1 bus
+  uint32_t pclk2_frequency_hz;      // APB2 bus
 } STM32F4_ClockFrequencies_t;
 
 void stm32f4_rccEnablePeripheralClockAHB1(uint32_t peripheral, bool enabled);

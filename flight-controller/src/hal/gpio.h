@@ -20,30 +20,26 @@ typedef uint32_t GPIOPort_t;
 typedef uint32_t GPIOPin_t;
 
 // Pin mode.
-typedef enum
-{
+typedef enum {
     GPIO_DIRECTION_IN  = 0x0,
     GPIO_DIRECTION_OUT = 0x1
 } GPIODirection_t;
 
 // Pullup/pulldown resistors.
-typedef enum
-{
+typedef enum {
     GPIO_RESISTOR_NONE     = 0x1,
     GPIO_RESISTOR_PULLUP   = 0x2,
     GPIO_RESISTOR_PULLDOWN = 0x3
 } GPIOResistorType_t;
 
 // Pin configuration structure.
-typedef struct
-{
+typedef struct {
     GPIODirection_t direction;
     GPIOResistorType_t resistor_type;
 } GPIOConfig_t;
 
 // Pin handle.
-typedef struct
-{
+typedef struct {
     GPIOPort_t port;
     GPIOPin_t pin;
     const char *name;

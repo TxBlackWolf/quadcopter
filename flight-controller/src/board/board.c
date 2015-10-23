@@ -52,8 +52,7 @@ bool board_init()
 
 #if ENGINES_ENABLED
     console_write("board: Initializing engines\n");
-    if(!engines_init())
-    {
+    if(!engines_init()) {
         console_write("board: Failed to initialize engines\n");
         return false;
     }
@@ -66,8 +65,7 @@ bool board_init()
 
 #if LIGHTS_ENABLED
     console_write("board: Initializing lights\n");
-    if(!strobe_init())
-    {
+    if(!strobe_init()) {
         console_write("board: Failed to initialize lights\n");
         return false;
     }

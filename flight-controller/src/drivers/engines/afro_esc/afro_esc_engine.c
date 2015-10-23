@@ -43,7 +43,7 @@ bool engines_init()
 
     PWMConfig_t pwm_config;
     pwm_config.frequency_hz = AFRO_ESC_PWM_FREQUENCY_HZ;
-    pwm_config.pulse_width_perc = 0;
+    pwm_config.pulse_width_perc = 60;
 
     console_write("engines: Afro ESC frequency: %d Hz\n", AFRO_ESC_PWM_FREQUENCY_HZ);
     console_write("engines: Afro ESC max pulse duration: %d us\n", AFRO_ESC_MAX_PULSE_WIDTH_US);

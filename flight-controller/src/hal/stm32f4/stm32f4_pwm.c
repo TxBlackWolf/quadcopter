@@ -26,15 +26,17 @@ bool stm32f4_pwmInit(PWMHandle_t *handle, PWMConfig_t config)
 {
     // Configure timer.
     STM32F4_TimerConfig_t timer_config;
-    timer_config.prescaler = 0;
     timer_config.counter_mode = COUNTER_MODE_UP;
-    timer_config.period = stm32f4_timerFrequencyToPeriod(&handle->timer, config.frequency_hz);
-    handle->period = timer_config.period;
     timer_config.clock_division = CLOCK_DIVISION_1;
     timer_config.repetition_counter = 0;
 
-    if(!stm32f4_timerInit(&handle->timer, timer_config))
-    {
+    if(!stm32f4_timerSetEventFrequency(&handle->timer, config.frequency_hz, &timer_config)) {
+        console_write("pwm: Failed to configure timer for frequency %d Hz\n");
+        return false;
+    }
+    handle->period = timer_config.period;
+
+    if(!stm32f4_timerInit(&handle->timer, timer_config)) {
         console_write("pwm: Failed to initialize PWM timer\n");
         return false;
     }
@@ -47,8 +49,7 @@ bool stm32f4_pwmInit(PWMHandle_t *handle, PWMConfig_t config)
     oc_config.pulse = timer_config.period * (float) (config.pulse_width_perc / 100.0f);
     console_write("pwm: Signal width: %d%%, period: %d, pulse: %d\n", config.pulse_width_perc, timer_config.period, oc_config.pulse);
 
-    if(!stm32f4_outputCompareInit(&handle->timer, handle->channel, oc_config))
-    {
+    if(!stm32f4_outputCompareInit(&handle->timer, handle->channel, oc_config)) {
         console_write("pwm: Failed to initialize PWM output compare mode\n");
         return false;
     }
@@ -65,10 +66,6 @@ void pwm_activate(PWMHandle_t *handle)
 void pwm_deactivate(PWMHandle_t *handle)
 {
     timer_deactivate(&handle->timer);
-}
-
-void pwm_setFrequency(PWMHandle_t *handle, uint32_t frequency_hz)
-{
 }
 
 void pwm_setPulseWidthPerc(PWMHandle_t *handle, uint32_t width_perc)

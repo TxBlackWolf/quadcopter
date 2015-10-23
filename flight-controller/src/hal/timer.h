@@ -20,8 +20,7 @@
 typedef uint32_t TimerDevice_t;
 
 // Timer handle.
-typedef struct
-{
+typedef struct {
     TimerDevice_t device;
 } TimerHandle_t;
 

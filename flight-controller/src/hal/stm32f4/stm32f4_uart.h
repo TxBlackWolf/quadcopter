@@ -24,36 +24,31 @@
 #define STM32F4_USART_6     6
 
 // UART clock enabled.
-typedef enum
-{
+typedef enum {
     UART_CLOCK_DISABLED = 0x000,
     UART_CLOCK_ENABLED  = 0x800
 } STM32F4_UARTClockEnabled_t;
 
 // UART clock polarity.
-typedef enum
-{
+typedef enum {
     UART_CLOCK_POLARITY_LOW  = 0x000,
     UART_CLOCK_POLARITY_HIGH = 0x400
 } STM32F4_UARTClockPolarity_t;
 
 // UART clock phase.
-typedef enum
-{
+typedef enum {
     UART_CLOCK_PHASE_1_TRANSITION = 0x000,
     UART_CLOCK_PHASE_2_TRANSITION = 0x200
 } STM32F4_UARTClockPhase_t;
 
 // UART clock last bit.
-typedef enum
-{
+typedef enum {
     UART_CLOCK_LAST_BIT_DISABLED = 0x000,
     UART_CLOCK_LAST_BIT_ENABLED  = 0x100
 } STM32F4_UARTClockLastBit_t;
 
 // UART clock config structure.
-typedef struct
-{
+typedef struct {
     STM32F4_UARTClockEnabled_t enabled;
     STM32F4_UARTClockPolarity_t polarity;
     STM32F4_UARTClockPhase_t phase;
@@ -61,8 +56,7 @@ typedef struct
 } STM32F4_UARTClockConfig_t;
 
 // UART config strucrure.
-typedef struct
-{
+typedef struct {
     UARTConfig_t general_config;
     STM32F4_UARTClockConfig_t clock_config;
 } STM32F4_UARTConfig_t;

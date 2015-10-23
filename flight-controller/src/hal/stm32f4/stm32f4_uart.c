@@ -23,8 +23,7 @@ typedef USART_TypeDef UART_t;
 
 int stm32f4_uartToPinFunction(UARTHandle_t *handle)
 {
-    switch(handle->device)
-    {
+    switch(handle->device) {
     case STM32F4_USART_1:   return GPIO_AF_USART1;
     case STM32F4_USART_2:   return GPIO_AF_USART2;
     case STM32F4_USART_3:   return GPIO_AF_USART3;
@@ -38,8 +37,7 @@ int stm32f4_uartToPinFunction(UARTHandle_t *handle)
 
 UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
 {
-    switch(device)
-    {
+    switch(device) {
     case STM32F4_USART_1:   return USART1;
     case STM32F4_USART_2:   return USART2;
     case STM32F4_USART_3:   return USART3;
@@ -53,8 +51,7 @@ UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
 
 uint32_t stm32f4_uartGetDataBitsValue(UARTDataBits_t data_bits)
 {
-    switch(data_bits)
-    {
+    switch(data_bits) {
     case UART_DATA_BITS_8:  return 0x00000000;
     case UART_DATA_BITS_9:  return 0x00001000;
     default:                break;
@@ -65,8 +62,7 @@ uint32_t stm32f4_uartGetDataBitsValue(UARTDataBits_t data_bits)
 
 uint32_t stm32f4_uartGetStopBitsValue(UARTStopBits_t stop_bits)
 {
-    switch(stop_bits)
-    {
+    switch(stop_bits) {
     case UART_STOP_BITS_0_5:    return 0x00001000;
     case UART_STOP_BITS_1:      return 0x00000000;
     case UART_STOP_BITS_1_5:    return 0x00003000;
@@ -78,8 +74,7 @@ uint32_t stm32f4_uartGetStopBitsValue(UARTStopBits_t stop_bits)
 
 uint32_t stm32f4_uartGetPartityValue(UARTPartity_t partity)
 {
-    switch(partity)
-    {
+    switch(partity) {
     case UART_PARTITY_NONE:     return 0x00000000;
     case UART_PARTITY_EVEN:     return 0x00000400;
     case UART_PARTITY_ODD:      return 0x00000600;
@@ -90,8 +85,7 @@ uint32_t stm32f4_uartGetPartityValue(UARTPartity_t partity)
 
 uint32_t stm32f4_uartGetFlowControlValue(UARTFlowControl_t flow_control)
 {
-    switch(flow_control)
-    {
+    switch(flow_control) {
     case UART_FLOW_CONTROL_NONE:        return 0x00000000;
     case UART_FLOW_CONTROL_RTS_CTS:     return 0x00000300;
     default:                            break;
@@ -102,8 +96,7 @@ uint32_t stm32f4_uartGetFlowControlValue(UARTFlowControl_t flow_control)
 
 uint32_t stm32f4_uartGetDirectionValue(UARTDirection_t direction)
 {
-    switch(direction)
-    {
+    switch(direction) {
     case UART_DIRECTION_READ:           return 0x00000004;
     case UART_DIRECTION_WRITE:          return 0x00000008;
     case UART_DIRECTION_BIDIRECTIONAL:  return 0x0000000C;
@@ -114,26 +107,13 @@ uint32_t stm32f4_uartGetDirectionValue(UARTDirection_t direction)
 
 void stm32f4_uartEnableClock(UARTDevice_t device, bool value)
 {
-    switch(device)
-    {
-    case STM32F4_USART_1:
-        stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_USART1, value);
-        break;
-    case STM32F4_USART_2:
-        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_USART2, value);
-        break;
-    case STM32F4_USART_3:
-        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_USART3, value);
-        break;
-    case STM32F4_UART_4:
-        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_UART4, value);
-        break;
-    case STM32F4_UART_5:
-        stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_UART5, value);
-        break;
-    case STM32F4_USART_6:
-        stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_USART6, value);
-        break;
+    switch(device) {
+    case STM32F4_USART_1:   stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_USART1, value); break;
+    case STM32F4_USART_2:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_USART2, value); break;
+    case STM32F4_USART_3:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_USART3, value); break;
+    case STM32F4_UART_4:    stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_UART4, value);  break;
+    case STM32F4_UART_5:    stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_UART5, value);  break;
+    case STM32F4_USART_6:   stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_USART6, value); break;
     }
 }
 
@@ -143,8 +123,7 @@ void stm32f4_uartEnableClock(UARTDevice_t device, bool value)
 
 bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t config)
 {
-    if(config.general_config.protocol.flow_control != UART_FLOW_CONTROL_NONE)
-    {
+    if(config.general_config.protocol.flow_control != UART_FLOW_CONTROL_NONE) {
         // Hardware flow control is available only for USART1, USART2, USART3 and USART6.
         if(handle->device == STM32F4_UART_4 || handle->device == STM32F4_UART_5)
             return false;

@@ -19,8 +19,7 @@
 #include <stdint.h>
 
 // PWM handle.
-typedef struct
-{
+typedef struct {
     TimerHandle_t timer;
     GPIOHandle_t gpio;
     uint32_t channel;
@@ -28,8 +27,7 @@ typedef struct
 } PWMHandle_t;
 
 // PWM config structure.
-typedef struct
-{
+typedef struct {
     uint32_t frequency_hz;
     uint32_t pulse_width_perc;
 } PWMConfig_t;
@@ -37,7 +35,6 @@ typedef struct
 void pwm_activate(PWMHandle_t *handle);
 void pwm_deactivate(PWMHandle_t *handle);
 
-void pwm_setFrequency(PWMHandle_t *handle, uint32_t frequency_hz);
 void pwm_setPulseWidthPerc(PWMHandle_t *handle, uint32_t width_perc);
 
 #endif
