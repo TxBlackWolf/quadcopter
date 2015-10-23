@@ -53,7 +53,6 @@ int main()
     show_welcome_message();
 
     while(true) {
-        /*
         engines_setThrottle(&front_left_engine, 0);
         for(int i = 0; i < 1000000; ++i);
         engines_setThrottle(&front_left_engine, 20);
@@ -66,7 +65,6 @@ int main()
         for(int i = 0; i < 1000000; ++i);
         engines_setThrottle(&front_left_engine, 100);
         for(int i = 0; i < 1000000; ++i);
-        */
 
         strobe_blink();
     }
