@@ -22,7 +22,6 @@
 typedef struct {
     TimerHandle_t timer;
     GPIOHandle_t gpio;
-    uint32_t channel;
     uint16_t period;
 } PWMHandle_t;
 

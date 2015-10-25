@@ -132,19 +132,19 @@ bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t config);
 int stm32f4_timerToPinFunction(TimerHandle_t *handle);
 bool stm32f4_timerSetEventFrequency(TimerHandle_t *handle, uint32_t frequency_hz, STM32F4_TimerConfig_t *config);
 
-bool stm32f4_outputCompareInit(TimerHandle_t *handle, uint32_t channel, STM32F4_OutputCompareConfig_t config);
+bool stm32f4_outputCompareInit(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config);
 bool stm32f4_outputCompareChannel1Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config);
 bool stm32f4_outputCompareChannel2Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config);
 bool stm32f4_outputCompareChannel3Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config);
 bool stm32f4_outputCompareChannel4Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config);
 
-void stm32f4_outputComparePreloadConfig(TimerHandle_t *handle, uint32_t channel, STM32F4_OutputComparePreloadState_t preload_state);
+void stm32f4_outputComparePreloadConfig(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state);
 void stm32f4_outputComparePreload1Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state);
 void stm32f4_outputComparePreload2Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state);
 void stm32f4_outputComparePreload3Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state);
 void stm32f4_outputComparePreload4Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state);
 
 uint16_t stm32f4_getOutputComparePeriod(TimerHandle_t *handle);
-void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint32_t channel, uint16_t pulse);
+void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint16_t pulse);
 
 #endif

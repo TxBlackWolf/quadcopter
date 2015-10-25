@@ -180,9 +180,9 @@ void timer_deactivate(TimerHandle_t *handle)
     timer->CR1 &= ~TIM_CR1_CEN;
 }
 
-bool stm32f4_outputCompareInit(TimerHandle_t *handle, uint32_t channel, STM32F4_OutputCompareConfig_t config)
+bool stm32f4_outputCompareInit(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config)
 {
-    switch(channel) {
+    switch(handle->channel) {
     case 1:     return stm32f4_outputCompareChannel1Init(handle, config);
     case 2:     return stm32f4_outputCompareChannel2Init(handle, config);
     case 3:     return stm32f4_outputCompareChannel3Init(handle, config);
@@ -288,9 +288,9 @@ bool stm32f4_outputCompareChannel4Init(TimerHandle_t *handle, STM32F4_OutputComp
     return true;
 }
 
-void stm32f4_outputComparePreloadConfig(TimerHandle_t *handle, uint32_t channel, STM32F4_OutputComparePreloadState_t preload_state)
+void stm32f4_outputComparePreloadConfig(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state)
 {
-    switch(channel) {
+    switch(handle->channel) {
     case 1:     stm32f4_outputComparePreload1Config(handle, preload_state); break;
     case 2:     stm32f4_outputComparePreload2Config(handle, preload_state); break;
     case 3:     stm32f4_outputComparePreload3Config(handle, preload_state); break;
@@ -346,11 +346,11 @@ uint16_t stm32f4_getOutputComparePeriod(TimerHandle_t *handle)
     return timer->ARR;
 }
 
-void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint32_t channel, uint16_t pulse)
+void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint16_t pulse)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
 
-    switch(channel) {
+    switch(handle->channel) {
     case 1:     timer->CCR1 = pulse; break;
     case 2:     timer->CCR2 = pulse; break;
     case 3:     timer->CCR3 = pulse; break;

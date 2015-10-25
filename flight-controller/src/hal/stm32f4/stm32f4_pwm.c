@@ -49,12 +49,12 @@ bool stm32f4_pwmInit(PWMHandle_t *handle, PWMConfig_t config)
     oc_config.pulse = timer_config.period * (float) (config.pulse_width_perc / 100.0f);
     console_write("pwm: Signal width: %d%%, period: %d, pulse: %d\n", config.pulse_width_perc, timer_config.period, oc_config.pulse);
 
-    if(!stm32f4_outputCompareInit(&handle->timer, handle->channel, oc_config)) {
+    if(!stm32f4_outputCompareInit(&handle->timer, oc_config)) {
         console_write("pwm: Failed to initialize PWM output compare mode\n");
         return false;
     }
 
-    stm32f4_outputComparePreloadConfig(&handle->timer, handle->channel, OUTPUT_COMPARE_PRELOAD_ENABLE);
+    stm32f4_outputComparePreloadConfig(&handle->timer, OUTPUT_COMPARE_PRELOAD_ENABLE);
     return true;
 }
 
@@ -71,5 +71,5 @@ void pwm_deactivate(PWMHandle_t *handle)
 void pwm_setPulseWidthPerc(PWMHandle_t *handle, uint32_t width_perc)
 {
     uint16_t pulse = handle->period * (float) (width_perc / 100.0f);
-    stm32f4_setOutputComparePulse(&handle->timer, handle->channel, pulse);
+    stm32f4_setOutputComparePulse(&handle->timer, pulse);
 }

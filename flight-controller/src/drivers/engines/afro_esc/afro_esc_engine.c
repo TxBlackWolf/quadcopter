@@ -39,7 +39,7 @@ bool engines_init()
     front_left_engine.gpio.pin = ENGINE_FRONT_LEFT_PIN;
     front_left_engine.gpio.name = "front left engine";
     front_left_engine.timer.device = ENGINE_FRONT_LEFT_TIMER;
-    front_left_engine.channel = ENGINE_FRONT_LEFT_TIMER_CHANNEL;
+    front_left_engine.timer.channel = ENGINE_FRONT_LEFT_TIMER_CHANNEL;
 
     PWMConfig_t pwm_config;
     pwm_config.frequency_hz = AFRO_ESC_PWM_FREQUENCY_HZ;
