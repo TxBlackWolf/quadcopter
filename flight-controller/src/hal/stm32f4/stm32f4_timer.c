@@ -21,6 +21,75 @@ typedef TIM_TypeDef Timer_t;
 // HELPER FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
 
+Timer_t *stm32f4_timerGetRegisters(TimerDevice_t device)
+{
+    switch(device) {
+    case STM32F4_TIMER_1:   return TIM1;
+    case STM32F4_TIMER_2:   return TIM2;
+    case STM32F4_TIMER_3:   return TIM3;
+    case STM32F4_TIMER_4:   return TIM4;
+    case STM32F4_TIMER_5:   return TIM5;
+    case STM32F4_TIMER_6:   return TIM6;
+    case STM32F4_TIMER_7:   return TIM7;
+    case STM32F4_TIMER_8:   return TIM8;
+    case STM32F4_TIMER_9:   return TIM9;
+    case STM32F4_TIMER_10:  return TIM10;
+    case STM32F4_TIMER_11:  return TIM11;
+    case STM32F4_TIMER_12:  return TIM12;
+    case STM32F4_TIMER_13:  return TIM13;
+    case STM32F4_TIMER_14:  return TIM14;
+    }
+
+    return 0;
+}
+
+void stm32f4_timerEnableClock(TimerDevice_t device, bool value)
+{
+    switch(device) {
+    case STM32F4_TIMER_1:   stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM1, value);  break;
+    case STM32F4_TIMER_2:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM2, value);  break;
+    case STM32F4_TIMER_3:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM3, value);  break;
+    case STM32F4_TIMER_4:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM4, value);  break;
+    case STM32F4_TIMER_5:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM5, value);  break;
+    case STM32F4_TIMER_6:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM6, value);  break;
+    case STM32F4_TIMER_7:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM7, value);  break;
+    case STM32F4_TIMER_8:   stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM8, value);  break;
+    case STM32F4_TIMER_9:   stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM9, value);  break;
+    case STM32F4_TIMER_10:  stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM10, value); break;
+    case STM32F4_TIMER_11:  stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM11, value); break;
+    case STM32F4_TIMER_12:  stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM12, value); break;
+    case STM32F4_TIMER_13:  stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM13, value); break;
+    case STM32F4_TIMER_14:  stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM14, value); break;
+    }
+}
+
+//---------------------------------------------------------------------------------------------------------------
+// INTERFACE FUNCTIONS
+//---------------------------------------------------------------------------------------------------------------
+
+bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t config)
+{
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
+    stm32f4_timerEnableClock(handle->device, true);
+
+    if((timer == TIM1) || (timer == TIM8) || (timer == TIM2) || (timer == TIM3) || (timer == TIM4) || (timer == TIM5))
+        timer->CR1 |= config.counter_mode;
+
+    if((timer != TIM6) && (timer != TIM7))
+        timer->CR1 |= config.clock_division;
+
+    timer->ARR = config.period;
+    timer->PSC = config.prescaler;
+
+    if((timer == TIM1) || (timer == TIM8))
+        timer->RCR = config.repetition_counter;
+
+    timer->EGR = PRESCALER_RELOAD_MODE_IMMEDIATE;
+
+    timer_activate(handle);
+    return true;
+}
+
 int stm32f4_timerToPinFunction(TimerHandle_t *handle)
 {
     switch(handle->device) {
@@ -97,87 +166,6 @@ bool stm32f4_timerSetEventFrequency(TimerHandle_t *handle, uint32_t frequency_hz
     config->period = (UINT16_MAX * demanded_period_ms) / timer_period_ms;
 
     return true;
-}
-
-Timer_t *stm32f4_timerGetRegisters(TimerDevice_t device)
-{
-    switch(device) {
-    case STM32F4_TIMER_1:   return TIM1;
-    case STM32F4_TIMER_2:   return TIM2;
-    case STM32F4_TIMER_3:   return TIM3;
-    case STM32F4_TIMER_4:   return TIM4;
-    case STM32F4_TIMER_5:   return TIM5;
-    case STM32F4_TIMER_6:   return TIM6;
-    case STM32F4_TIMER_7:   return TIM7;
-    case STM32F4_TIMER_8:   return TIM8;
-    case STM32F4_TIMER_9:   return TIM9;
-    case STM32F4_TIMER_10:  return TIM10;
-    case STM32F4_TIMER_11:  return TIM11;
-    case STM32F4_TIMER_12:  return TIM12;
-    case STM32F4_TIMER_13:  return TIM13;
-    case STM32F4_TIMER_14:  return TIM14;
-    }
-
-    return 0;
-}
-
-void stm32f4_timerEnableClock(TimerDevice_t device, bool value)
-{
-    switch(device) {
-    case STM32F4_TIMER_1:   stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM1, value);  break;
-    case STM32F4_TIMER_2:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM2, value);  break;
-    case STM32F4_TIMER_3:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM3, value);  break;
-    case STM32F4_TIMER_4:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM4, value);  break;
-    case STM32F4_TIMER_5:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM5, value);  break;
-    case STM32F4_TIMER_6:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM6, value);  break;
-    case STM32F4_TIMER_7:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM7, value);  break;
-    case STM32F4_TIMER_8:   stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM8, value);  break;
-    case STM32F4_TIMER_9:   stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM9, value);  break;
-    case STM32F4_TIMER_10:  stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM10, value); break;
-    case STM32F4_TIMER_11:  stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM11, value); break;
-    case STM32F4_TIMER_12:  stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM12, value); break;
-    case STM32F4_TIMER_13:  stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM13, value); break;
-    case STM32F4_TIMER_14:  stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM14, value); break;
-    }
-}
-
-//---------------------------------------------------------------------------------------------------------------
-// INTERFACE FUNCTIONS
-//---------------------------------------------------------------------------------------------------------------
-
-bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t config)
-{
-    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    stm32f4_timerEnableClock(handle->device, true);
-
-    if((timer == TIM1) || (timer == TIM8) || (timer == TIM2) || (timer == TIM3) || (timer == TIM4) || (timer == TIM5))
-        timer->CR1 |= config.counter_mode;
-
-    if((timer != TIM6) && (timer != TIM7))
-        timer->CR1 |= config.clock_division;
-
-    timer->ARR = config.period;
-    timer->PSC = config.prescaler;
-
-    if((timer == TIM1) || (timer == TIM8))
-        timer->RCR = config.repetition_counter;
-
-    timer->EGR = PRESCALER_RELOAD_MODE_IMMEDIATE;
-
-    timer_activate(handle);
-    return true;
-}
-
-void timer_activate(TimerHandle_t *handle)
-{
-    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    timer->CR1 |= TIM_CR1_CEN;
-}
-
-void timer_deactivate(TimerHandle_t *handle)
-{
-    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    timer->CR1 &= ~TIM_CR1_CEN;
 }
 
 bool stm32f4_outputCompareInit(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config)
@@ -334,12 +322,6 @@ void stm32f4_outputComparePreload4Config(TimerHandle_t *handle, STM32F4_OutputCo
     timer->CCMR2 |= (preload_state << 8);
 }
 
-uint32_t timer_getCounter(TimerHandle_t *handle)
-{
-    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    return timer->CNT;
-}
-
 uint16_t stm32f4_getOutputComparePeriod(TimerHandle_t *handle)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
@@ -356,6 +338,33 @@ void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint16_t pulse)
     case 3:     timer->CCR3 = pulse; break;
     case 4:     timer->CCR4 = pulse; break;
     }
+}
+
+void stm32f4_timerEnableIRQ(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, bool enabled)
+{
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
+    if(enabled)
+        timer->DIER |= irq_source;
+    else
+        timer->DIER &= ~irq_source;
+}
+
+void timer_activate(TimerHandle_t *handle)
+{
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
+    timer->CR1 |= TIM_CR1_CEN;
+}
+
+void timer_deactivate(TimerHandle_t *handle)
+{
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
+    timer->CR1 &= ~TIM_CR1_CEN;
+}
+
+uint32_t timer_getCounter(TimerHandle_t *handle)
+{
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
+    return timer->CNT;
 }
 
 void timer_setCounter(TimerHandle_t *handle, uint32_t value)

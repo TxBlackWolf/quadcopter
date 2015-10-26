@@ -128,6 +128,18 @@ typedef enum {
     OUTPUT_COMPARE_PRELOAD_DISABLE = 0x0
 } STM32F4_OutputComparePreloadState_t;
 
+// Timer interrupt source.
+typedef enum {
+    TIMER_IRQ_UPDATE            = 0x01,
+    TIMER_IRQ_CAPTURE_COMPARE_1 = 0x02,
+    TIMER_IRQ_CAPTURE_COMPARE_2 = 0x04,
+    TIMER_IRQ_CAPTURE_COMPARE_3 = 0x08,
+    TIMER_IRQ_CAPTURE_COMPARE_4 = 0x10,
+    TIMER_IRQ_COM               = 0x20,
+    TIMER_IRQ_TRIGGER           = 0x40,
+    TIMER_IRQ_BREAK             = 0x80
+} STM32F4_TimerIRQSource_t;
+
 bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t config);
 int stm32f4_timerToPinFunction(TimerHandle_t *handle);
 bool stm32f4_timerSetEventFrequency(TimerHandle_t *handle, uint32_t frequency_hz, STM32F4_TimerConfig_t *config);
@@ -146,5 +158,7 @@ void stm32f4_outputComparePreload4Config(TimerHandle_t *handle, STM32F4_OutputCo
 
 uint16_t stm32f4_getOutputComparePeriod(TimerHandle_t *handle);
 void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint16_t pulse);
+
+void stm32f4_timerEnableIRQ(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, bool enabled);
 
 #endif

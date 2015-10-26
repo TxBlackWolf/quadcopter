@@ -33,6 +33,7 @@ void timer_activate(TimerHandle_t *handle);
 void timer_deactivate(TimerHandle_t *handle);
 
 bool timer_registerEventCallback(TimerHandle_t *handle, TimerEventCallback_t callback);
+bool timer_unregisterEventCallback(TimerHandle_t *handle, TimerEventCallback_t callback);
 
 uint32_t timer_getCounter(TimerHandle_t *handle);
 void timer_setCounter(TimerHandle_t *handle, uint32_t value);

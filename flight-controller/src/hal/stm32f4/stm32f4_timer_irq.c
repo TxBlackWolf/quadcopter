@@ -129,22 +129,50 @@ void TIM7_IRQHandler()
 
 bool timer_registerEventCallback(TimerHandle_t *handle, TimerEventCallback_t callback)
 {
+    TimerEventCallback_t *callback_set = NULL;
+
     switch(handle->device) {
-    case STM32F4_TIMER_1:   return stm32f4_timerAddCallback(tim1_callbacks, callback);
-    case STM32F4_TIMER_2:   return stm32f4_timerAddCallback(tim2_callbacks, callback);
-    case STM32F4_TIMER_3:   return stm32f4_timerAddCallback(tim3_callbacks, callback);
-    case STM32F4_TIMER_4:   return stm32f4_timerAddCallback(tim4_callbacks, callback);
-    case STM32F4_TIMER_5:   return stm32f4_timerAddCallback(tim5_callbacks, callback);
-    case STM32F4_TIMER_6:   return stm32f4_timerAddCallback(tim6_callbacks, callback);
-    case STM32F4_TIMER_7:   return stm32f4_timerAddCallback(tim7_callbacks, callback);
-    case STM32F4_TIMER_8:   return stm32f4_timerAddCallback(tim8_callbacks, callback);
-    case STM32F4_TIMER_9:   return stm32f4_timerAddCallback(tim9_callbacks, callback);
-    case STM32F4_TIMER_10:  return stm32f4_timerAddCallback(tim10_callbacks, callback);
-    case STM32F4_TIMER_11:  return stm32f4_timerAddCallback(tim11_callbacks, callback);
-    case STM32F4_TIMER_12:  return stm32f4_timerAddCallback(tim12_callbacks, callback);
-    case STM32F4_TIMER_13:  return stm32f4_timerAddCallback(tim13_callbacks, callback);
-    case STM32F4_TIMER_14:  return stm32f4_timerAddCallback(tim14_callbacks, callback);
+    case STM32F4_TIMER_1:   callback_set = tim1_callbacks; break;
+    case STM32F4_TIMER_2:   callback_set = tim2_callbacks; break;
+    case STM32F4_TIMER_3:   callback_set = tim3_callbacks; break;
+    case STM32F4_TIMER_4:   callback_set = tim4_callbacks; break;
+    case STM32F4_TIMER_5:   callback_set = tim5_callbacks; break;
+    case STM32F4_TIMER_6:   callback_set = tim6_callbacks; break;
+    case STM32F4_TIMER_7:   callback_set = tim7_callbacks; break;
+    case STM32F4_TIMER_8:   callback_set = tim8_callbacks; break;
+    case STM32F4_TIMER_9:   callback_set = tim9_callbacks; break;
+    case STM32F4_TIMER_10:  callback_set = tim10_callbacks; break;
+    case STM32F4_TIMER_11:  callback_set = tim11_callbacks; break;
+    case STM32F4_TIMER_12:  callback_set = tim12_callbacks; break;
+    case STM32F4_TIMER_13:  callback_set = tim13_callbacks; break;
+    case STM32F4_TIMER_14:  callback_set = tim14_callbacks; break;
+    default:                return false;
     }
 
-    return false;
+    return stm32f4_timerAddCallback(callback_set, callback);
+}
+
+bool timer_unregisterEventCallback(TimerHandle_t *handle, TimerEventCallback_t callback)
+{
+    TimerEventCallback_t *callback_set = NULL;
+
+    switch(handle->device) {
+    case STM32F4_TIMER_1:   callback_set = tim1_callbacks; break;
+    case STM32F4_TIMER_2:   callback_set = tim2_callbacks; break;
+    case STM32F4_TIMER_3:   callback_set = tim3_callbacks; break;
+    case STM32F4_TIMER_4:   callback_set = tim4_callbacks; break;
+    case STM32F4_TIMER_5:   callback_set = tim5_callbacks; break;
+    case STM32F4_TIMER_6:   callback_set = tim6_callbacks; break;
+    case STM32F4_TIMER_7:   callback_set = tim7_callbacks; break;
+    case STM32F4_TIMER_8:   callback_set = tim8_callbacks; break;
+    case STM32F4_TIMER_9:   callback_set = tim9_callbacks; break;
+    case STM32F4_TIMER_10:  callback_set = tim10_callbacks; break;
+    case STM32F4_TIMER_11:  callback_set = tim11_callbacks; break;
+    case STM32F4_TIMER_12:  callback_set = tim12_callbacks; break;
+    case STM32F4_TIMER_13:  callback_set = tim13_callbacks; break;
+    case STM32F4_TIMER_14:  callback_set = tim14_callbacks; break;
+    default:                return false;
+    }
+
+    return stm32f4_timerRemoveCallback(callback_set, callback);
 }
