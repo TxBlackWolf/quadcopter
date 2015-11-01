@@ -12,8 +12,10 @@
 
 #include "hal/timer.h"
 #include "stm32f4_timer.h"
+#include "CMSIS/stm32f4xx.h"
 
 #include <stdlib.h>
+#include <stdint.h>
 
 #define STM32F4_TIMER_MAX_CALLBACK_COUNT    5
 
@@ -171,6 +173,28 @@ void TIM7_IRQHandler()
 //---------------------------------------------------------------------------------------------------------------
 // INTERFACE FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
+
+uint8_t stm32f4_timerToIRQChannel(TimerHandle_t *handle)
+{
+    switch(handle->device) {
+    case STM32F4_TIMER_1:   return 0;
+    case STM32F4_TIMER_2:   return TIM2_IRQn;
+    case STM32F4_TIMER_3:   return TIM3_IRQn;
+    case STM32F4_TIMER_4:   return TIM4_IRQn;
+    case STM32F4_TIMER_5:   return TIM5_IRQn;
+    case STM32F4_TIMER_6:   return TIM6_DAC_IRQn;
+    case STM32F4_TIMER_7:   return TIM7_IRQn;
+    case STM32F4_TIMER_8:   return 0;
+    case STM32F4_TIMER_9:   return TIM1_BRK_TIM9_IRQn;
+    case STM32F4_TIMER_10:  return TIM1_UP_TIM10_IRQn;
+    case STM32F4_TIMER_11:  return TIM1_TRG_COM_TIM11_IRQn;
+    case STM32F4_TIMER_12:  return TIM8_BRK_TIM12_IRQn;
+    case STM32F4_TIMER_13:  return TIM8_UP_TIM13_IRQn;
+    case STM32F4_TIMER_14:  return TIM8_TRG_COM_TIM14_IRQn;
+    }
+
+    return 0;
+}
 
 bool timer_registerEventCallback(TimerHandle_t *handle, TimerEventCallback_t callback)
 {

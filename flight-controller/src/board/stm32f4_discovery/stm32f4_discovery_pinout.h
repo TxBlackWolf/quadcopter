@@ -42,9 +42,27 @@
 #if ENGINES_ENABLED
     // Front left.
     #define ENGINE_FRONT_LEFT_PORT              STM32F4_GPIO_PORT_B
-    #define ENGINE_FRONT_LEFT_PIN               STM32F4_GPIO_PIN_6
-    #define ENGINE_FRONT_LEFT_TIMER             STM32F4_TIMER_4
+    #define ENGINE_FRONT_LEFT_PIN               STM32F4_GPIO_PIN_4
+    #define ENGINE_FRONT_LEFT_TIMER             STM32F4_TIMER_3
     #define ENGINE_FRONT_LEFT_TIMER_CHANNEL     1
+
+    // Front right.
+    #define ENGINE_FRONT_RIGHT_PORT             STM32F4_GPIO_PORT_B
+    #define ENGINE_FRONT_RIGHT_PIN              STM32F4_GPIO_PIN_5
+    #define ENGINE_FRONT_RIGHT_TIMER            STM32F4_TIMER_3
+    #define ENGINE_FRONT_RIGHT_TIMER_CHANNEL    2
+
+    // Rear left.
+    #define ENGINE_REAR_LEFT_PORT               STM32F4_GPIO_PORT_B
+    #define ENGINE_REAR_LEFT_PIN                STM32F4_GPIO_PIN_0
+    #define ENGINE_REAR_LEFT_TIMER              STM32F4_TIMER_3
+    #define ENGINE_REAR_LEFT_TIMER_CHANNEL      3
+
+    // Rear right.
+    #define ENGINE_REAR_RIGHT_PORT              STM32F4_GPIO_PORT_B
+    #define ENGINE_REAR_RIGHT_PIN               STM32F4_GPIO_PIN_1
+    #define ENGINE_REAR_RIGHT_TIMER             STM32F4_TIMER_3
+    #define ENGINE_REAR_RIGHT_TIMER_CHANNEL     4
 #endif
 
 #if GYROSCOPE_ENABLED
@@ -56,7 +74,7 @@
     #define BLUE_STROBE_PORT                    STM32F4_GPIO_PORT_D
     #define BLUE_STROBE_PIN                     STM32F4_GPIO_PIN_15
     #define BLUE_STROBE_TIMER                   STM32F4_TIMER_4
-    #define BLUE_STROBE_TIMER_CHANNEL           2
+    #define BLUE_STROBE_TIMER_CHANNEL           1
 #endif
 
 #if MAGNETOMETER_ENABLED

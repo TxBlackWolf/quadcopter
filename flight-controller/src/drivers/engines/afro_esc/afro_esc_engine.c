@@ -18,7 +18,6 @@
 #include "board/board_pinout.h"
 #include "board/console.h"
 
-#define AFRO_ESC_PWM_FREQUENCY_HZ           537
 #define AFRO_ESC_MAX_PULSE_WIDTH_US         1860
 #define AFRO_ESC_MIN_PULSE_WIDTH_US         1060
 #define AFRO_ESC_MIN_PULSE_WIDTH_PERC       (((AFRO_ESC_MIN_PULSE_WIDTH_US * 100) / AFRO_ESC_MAX_PULSE_WIDTH_US) + 1)
@@ -46,7 +45,8 @@ bool engines_init()
     pwm_config.timer_config.period_ms = AFRO_ESC_MAX_PULSE_WIDTH_US / 1000.0f;
     pwm_config.pulse_width_perc = 60;
 
-    console_write("engines: Afro ESC frequency: %d Hz\n", AFRO_ESC_PWM_FREQUENCY_HZ);
+    float engine_frequency = 1000.0f / pwm_config.timer_config.period_ms;
+    console_write("engines: Afro ESC frequency: %d Hz\n", engine_frequency);
     console_write("engines: Afro ESC max pulse duration: %d us\n", AFRO_ESC_MAX_PULSE_WIDTH_US);
     console_write("engines: Afro ESC min pulse duration: %d us\n", AFRO_ESC_MIN_PULSE_WIDTH_US);
     console_write("engines: Afro ESC min pulse width: %d%%\n", AFRO_ESC_MIN_PULSE_WIDTH_PERC);

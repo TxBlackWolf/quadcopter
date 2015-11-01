@@ -18,7 +18,7 @@
 #include "board/console.h"
 
 #define STROBE_DELAY_PERIOD_MSEC    2000
-#define STROBE_BLINK_PERIOD_MSEC    100
+#define STROBE_BLINK_PERIOD_MSEC    150
 
 typedef struct {
     GPIOHandle_t gpio;
@@ -76,22 +76,22 @@ void strobe_blink()
 
     switch(blue_strobe.phase) {
     case 1:
-        gpio_writePin(&blue_strobe.gpio, true);
+        gpio_writePin(&blue_strobe.gpio, false);
         config.period_ms = STROBE_BLINK_PERIOD_MSEC;
         blue_strobe.phase = 2;
         break;
     case 2:
-        gpio_writePin(&blue_strobe.gpio, false);
+        gpio_writePin(&blue_strobe.gpio, true);
         config.period_ms = STROBE_BLINK_PERIOD_MSEC;
         blue_strobe.phase = 3;
         break;
     case 3:
-        gpio_writePin(&blue_strobe.gpio, true);
+        gpio_writePin(&blue_strobe.gpio, false);
         config.period_ms = STROBE_BLINK_PERIOD_MSEC;
         blue_strobe.phase = 4;
         break;
     case 4:
-        gpio_writePin(&blue_strobe.gpio, false);
+        gpio_writePin(&blue_strobe.gpio, true);
         config.period_ms = STROBE_DELAY_PERIOD_MSEC;
         blue_strobe.phase = 1;
         break;

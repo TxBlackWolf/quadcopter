@@ -66,7 +66,7 @@ bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t gpio_general_confi
 
     // Configure NVIC.
     IRQConfig_t nvic_config;
-    nvic_config.channel = TIM3_IRQn;
+    nvic_config.channel = TIM4_IRQn;
     nvic_config.channel_preemption_priority = 0;
     nvic_config.channel_subpriority = 0;
     nvic_config.enabled = true;
