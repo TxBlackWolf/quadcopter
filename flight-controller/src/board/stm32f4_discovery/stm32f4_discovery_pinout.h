@@ -53,14 +53,10 @@
 
 #if LIGHTS_ENABLED
     // Strobe.
-    #define ORANGE_STROBE_PORT                  STM32F4_GPIO_PORT_D
-    #define ORANGE_STROBE_PIN                   STM32F4_GPIO_PIN_13
-    #define RED_STROBE_PORT                     STM32F4_GPIO_PORT_D
-    #define RED_STROBE_PIN                      STM32F4_GPIO_PIN_14
     #define BLUE_STROBE_PORT                    STM32F4_GPIO_PORT_D
     #define BLUE_STROBE_PIN                     STM32F4_GPIO_PIN_15
-    #define GREEN_STROBE_PORT                   STM32F4_GPIO_PORT_D
-    #define GREEN_STROBE_PIN                    STM32F4_GPIO_PIN_12
+    #define BLUE_STROBE_TIMER                   STM32F4_TIMER_4
+    #define BLUE_STROBE_TIMER_CHANNEL           2
 #endif
 
 #if MAGNETOMETER_ENABLED

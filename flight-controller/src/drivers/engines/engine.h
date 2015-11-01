@@ -23,6 +23,11 @@ extern PWMHandle_t rear_left_engine;
 extern PWMHandle_t rear_right_engine;
 
 bool engines_init();
+void engines_enable_one(PWMHandle_t *engine);
+void engines_disable_one(PWMHandle_t *engine);
+void engines_enable_all();
+void engines_disable_all();
+
 void engines_setThrottle(PWMHandle_t *engine, uint32_t throttle_perc);
 
 #endif

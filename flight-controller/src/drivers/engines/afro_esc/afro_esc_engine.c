@@ -42,15 +42,50 @@ bool engines_init()
     front_left_engine.timer.channel = ENGINE_FRONT_LEFT_TIMER_CHANNEL;
 
     PWMConfig_t pwm_config;
-    pwm_config.frequency_hz = AFRO_ESC_PWM_FREQUENCY_HZ;
-    pwm_config.pulse_width_perc = 0;
+    pwm_config.timer_config.use_period = true;
+    pwm_config.timer_config.period_ms = AFRO_ESC_MAX_PULSE_WIDTH_US / 1000.0f;
+    pwm_config.pulse_width_perc = 60;
 
     console_write("engines: Afro ESC frequency: %d Hz\n", AFRO_ESC_PWM_FREQUENCY_HZ);
     console_write("engines: Afro ESC max pulse duration: %d us\n", AFRO_ESC_MAX_PULSE_WIDTH_US);
     console_write("engines: Afro ESC min pulse duration: %d us\n", AFRO_ESC_MIN_PULSE_WIDTH_US);
     console_write("engines: Afro ESC min pulse width: %d%%\n", AFRO_ESC_MIN_PULSE_WIDTH_PERC);
 
-    return board_engineInit(&front_left_engine, pwm_config, gpio_config);
+    if(!board_engineInit(&front_left_engine, pwm_config, gpio_config)) {
+        console_write("engines: Failed to initialize board for engines\n");
+        return false;
+    }
+
+    engines_enable_one(&front_left_engine);
+    return true;
+}
+
+void engines_enable_one(PWMHandle_t *engine)
+{
+    pwm_activate(engine);
+    gpio_activate(&engine->gpio);
+}
+
+void engines_disable_one(PWMHandle_t *engine)
+{
+    gpio_deactivate(&engine->gpio);
+    pwm_deactivate(engine);
+}
+
+void engines_enable_all()
+{
+    engines_enable_one(&front_left_engine);
+    engines_enable_one(&front_right_engine);
+    engines_enable_one(&rear_left_engine);
+    engines_enable_one(&rear_right_engine);
+}
+
+void engines_disable_all()
+{
+    engines_disable_one(&front_left_engine);
+    engines_disable_one(&front_right_engine);
+    engines_disable_one(&rear_left_engine);
+    engines_disable_one(&rear_right_engine);
 }
 
 void engines_setThrottle(PWMHandle_t *engine, uint32_t throttle_perc)

@@ -17,67 +17,85 @@
 #include "board/board_pinout.h"
 #include "board/console.h"
 
-static GPIOHandle_t orange_strobe;
-static GPIOHandle_t red_strobe;
-static GPIOHandle_t blue_strobe;
-static GPIOHandle_t green_strobe;
+#define STROBE_DELAY_PERIOD_MSEC    2000
+#define STROBE_BLINK_PERIOD_MSEC    100
+
+typedef struct {
+    GPIOHandle_t gpio;
+    TimerHandle_t timer;
+    bool state;
+    uint8_t phase;
+} StrobeLight_t;
+
+static StrobeLight_t blue_strobe;
 
 bool strobe_init()
 {
-    GPIOConfig_t config;
-    config.direction = GPIO_DIRECTION_OUT;
-    config.resistor_type = GPIO_RESISTOR_NONE;
+    blue_strobe.gpio.port = BLUE_STROBE_PORT;
+    blue_strobe.gpio.pin = BLUE_STROBE_PIN;
+    blue_strobe.gpio.name = "blue strobe";
+    blue_strobe.timer.device = BLUE_STROBE_TIMER;
+    blue_strobe.timer.channel = BLUE_STROBE_TIMER_CHANNEL;
+    blue_strobe.state = false;
+    blue_strobe.phase = 1;
 
-    orange_strobe.port = ORANGE_STROBE_PORT;
-    orange_strobe.pin = ORANGE_STROBE_PIN;
-    orange_strobe.name = "orange strobe";
-    if(!board_strobeInit(&orange_strobe, config))
+    GPIOConfig_t gpio_config;
+    gpio_config.direction = GPIO_DIRECTION_OUT;
+    gpio_config.resistor_type = GPIO_RESISTOR_NONE;
+
+    TimerConfig_t timer_config;
+    timer_config.use_period = true;
+    timer_config.period_ms = STROBE_DELAY_PERIOD_MSEC;
+
+    if(!board_strobeInit(&blue_strobe.gpio, gpio_config, &blue_strobe.timer, timer_config))
         return false;
 
-    console_write("lights: Initialized %s (GPIO P%d.%d)\n", orange_strobe.name, orange_strobe.port, orange_strobe.pin);
+    timer_registerEventCallback(&blue_strobe.timer, strobe_blink);
+    strobe_enable();
 
-    red_strobe.port = RED_STROBE_PORT;
-    red_strobe.pin = RED_STROBE_PIN;
-    red_strobe.name = "red strobe";
-    if(!board_strobeInit(&red_strobe, config))
-        return false;
-
-    console_write("lights: Initialized %s (GPIO P%d.%d)\n", red_strobe.name, red_strobe.port, red_strobe.pin);
-
-    blue_strobe.port = BLUE_STROBE_PORT;
-    blue_strobe.pin = BLUE_STROBE_PIN;
-    blue_strobe.name = "blue strobe";
-    if(!board_strobeInit(&blue_strobe, config))
-        return false;
-
-    console_write("lights: Initialized %s (GPIO P%d.%d)\n", blue_strobe.name, blue_strobe.port, blue_strobe.pin);
-
-    green_strobe.port = GREEN_STROBE_PORT;
-    green_strobe.pin = GREEN_STROBE_PIN;
-    green_strobe.name = "green strobe";
-    if(!board_strobeInit(&green_strobe, config))
-        return false;
-
-    console_write("lights: Initialized %s (GPIO P%d.%d)\n", green_strobe.name, green_strobe.port, green_strobe.pin);
-
+    console_write("lights: Initialized %s (GPIO P%d.%d)\n", blue_strobe.gpio.name, blue_strobe.gpio.port, blue_strobe.gpio.pin);
     return true;
+}
+
+void strobe_enable()
+{
+    timer_activate(&blue_strobe.timer);
+    gpio_activate(&blue_strobe.gpio);
+}
+
+void strobe_disable()
+{
+    gpio_deactivate(&blue_strobe.gpio);
+    timer_deactivate(&blue_strobe.timer);
 }
 
 void strobe_blink()
 {
-    gpio_writePin(&orange_strobe, true);
-    for(int i = 0; i < 1000000; ++i);
-    gpio_writePin(&orange_strobe, false);
+    TimerConfig_t config;
+    config.use_period = true;
 
-    gpio_writePin(&red_strobe, true);
-    for(int i = 0; i < 1000000; ++i);
-    gpio_writePin(&red_strobe, false);
+    switch(blue_strobe.phase) {
+    case 1:
+        gpio_writePin(&blue_strobe.gpio, true);
+        config.period_ms = STROBE_BLINK_PERIOD_MSEC;
+        blue_strobe.phase = 2;
+        break;
+    case 2:
+        gpio_writePin(&blue_strobe.gpio, false);
+        config.period_ms = STROBE_BLINK_PERIOD_MSEC;
+        blue_strobe.phase = 3;
+        break;
+    case 3:
+        gpio_writePin(&blue_strobe.gpio, true);
+        config.period_ms = STROBE_BLINK_PERIOD_MSEC;
+        blue_strobe.phase = 4;
+        break;
+    case 4:
+        gpio_writePin(&blue_strobe.gpio, false);
+        config.period_ms = STROBE_DELAY_PERIOD_MSEC;
+        blue_strobe.phase = 1;
+        break;
+    }
 
-    gpio_writePin(&blue_strobe, true);
-    for(int i = 0; i < 1000000; ++i);
-    gpio_writePin(&blue_strobe, false);
-
-    gpio_writePin(&green_strobe, true);
-    for(int i = 0; i < 1000000; ++i);
-    gpio_writePin(&green_strobe, false);
+    timer_setEventFrequency(&blue_strobe.timer, config);
 }

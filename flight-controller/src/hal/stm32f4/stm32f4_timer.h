@@ -142,7 +142,7 @@ typedef enum {
 
 bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t config);
 int stm32f4_timerToPinFunction(TimerHandle_t *handle);
-bool stm32f4_timerSetEventFrequency(TimerHandle_t *handle, uint32_t frequency_hz, STM32F4_TimerConfig_t *config);
+bool stm32f4_timerSetPeriodConfig(TimerHandle_t *handle, float period_ms, STM32F4_TimerConfig_t *config);
 
 bool stm32f4_outputCompareInit(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config);
 bool stm32f4_outputCompareChannel1Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config);
@@ -160,5 +160,6 @@ uint16_t stm32f4_getOutputComparePeriod(TimerHandle_t *handle);
 void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint16_t pulse);
 
 void stm32f4_timerEnableIRQ(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, bool enabled);
+void stm32f4_timerClearIRQPending(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source);
 
 #endif

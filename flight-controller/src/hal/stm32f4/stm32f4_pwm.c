@@ -30,8 +30,9 @@ bool stm32f4_pwmInit(PWMHandle_t *handle, PWMConfig_t config)
     timer_config.clock_division = CLOCK_DIVISION_1;
     timer_config.repetition_counter = 0;
 
-    if(!stm32f4_timerSetEventFrequency(&handle->timer, config.frequency_hz, &timer_config)) {
-        console_write("pwm: Failed to configure timer for event frequency of %d Hz\n");
+    float period_ms = config.timer_config.use_period ? config.timer_config.period_ms : ((1.0f / config.timer_config.frequency_hz) * 1000);
+    if(!stm32f4_timerSetPeriodConfig(&handle->timer, period_ms, &timer_config)) {
+        console_write("pwm: Failed to set config for timer event frequency\n");
         return false;
     }
     handle->period = timer_config.period;

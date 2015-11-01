@@ -12,7 +12,6 @@
 
 #include "hal/timer.h"
 #include "stm32f4_timer.h"
-#include "board/console.h"
 
 #include <stdlib.h>
 
@@ -50,13 +49,19 @@ bool stm32f4_timerAddCallback(TimerEventCallback_t *callback_set, TimerEventCall
     return false;
 }
 
-bool stm32f4_timerRemoveCallback(TimerEventCallback_t *callback_set, TimerEventCallback_t callback)
+bool stm32f4_timerRemoveCallback(TimerEventCallback_t *callback_set, TimerEventCallback_t callback, int *slots_used)
 {
     for(int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+        if(callback_set[i] == NULL) {
+            (*slots_used)--;
+            continue;
+        }
+
         if(callback_set[i] != callback)
             continue;
 
         callback_set[i] = NULL;
+        (*slots_used)--;
         return true;
     }
 
@@ -85,14 +90,38 @@ void TIM1_CC_IRQHandler()
 
 void TIM2_IRQHandler()
 {
+    for(int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+        if(tim2_callbacks[i])
+            tim2_callbacks[i]();
+    }
+
+    TimerHandle_t handle;
+    handle.device = STM32F4_TIMER_2;
+    stm32f4_timerClearIRQPending(&handle, TIMER_IRQ_UPDATE);
 }
 
 void TIM3_IRQHandler()
 {
+    for(int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+        if(tim3_callbacks[i])
+            tim3_callbacks[i]();
+    }
+
+    TimerHandle_t handle;
+    handle.device = STM32F4_TIMER_3;
+    stm32f4_timerClearIRQPending(&handle, TIMER_IRQ_UPDATE);
 }
 
 void TIM4_IRQHandler()
 {
+    for(int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+        if(tim4_callbacks[i])
+            tim4_callbacks[i]();
+    }
+
+    TimerHandle_t handle;
+    handle.device = STM32F4_TIMER_4;
+    stm32f4_timerClearIRQPending(&handle, TIMER_IRQ_UPDATE);
 }
 
 void TIM8_BRK_TIM12_IRQHandler()
@@ -113,6 +142,14 @@ void TIM8_CC_IRQHandler()
 
 void TIM5_IRQHandler()
 {
+    for(int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+        if(tim5_callbacks[i])
+            tim5_callbacks[i]();
+    }
+
+    TimerHandle_t handle;
+    handle.device = STM32F4_TIMER_5;
+    stm32f4_timerClearIRQPending(&handle, TIMER_IRQ_UPDATE);
 }
 
 void TIM6_DAC_IRQHandler()
@@ -121,6 +158,14 @@ void TIM6_DAC_IRQHandler()
 
 void TIM7_IRQHandler()
 {
+    for(int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+        if(tim7_callbacks[i])
+            tim7_callbacks[i]();
+    }
+
+    TimerHandle_t handle;
+    handle.device = STM32F4_TIMER_7;
+    stm32f4_timerClearIRQPending(&handle, TIMER_IRQ_UPDATE);
 }
 
 //---------------------------------------------------------------------------------------------------------------
@@ -149,7 +194,9 @@ bool timer_registerEventCallback(TimerHandle_t *handle, TimerEventCallback_t cal
     default:                return false;
     }
 
-    return stm32f4_timerAddCallback(callback_set, callback);
+    bool status = stm32f4_timerAddCallback(callback_set, callback);
+    stm32f4_timerEnableIRQ(handle, TIMER_IRQ_UPDATE, true);
+    return status;
 }
 
 bool timer_unregisterEventCallback(TimerHandle_t *handle, TimerEventCallback_t callback)
@@ -174,5 +221,10 @@ bool timer_unregisterEventCallback(TimerHandle_t *handle, TimerEventCallback_t c
     default:                return false;
     }
 
-    return stm32f4_timerRemoveCallback(callback_set, callback);
+    int used_slots = STM32F4_TIMER_MAX_CALLBACK_COUNT;
+    bool status = stm32f4_timerRemoveCallback(callback_set, callback, &used_slots);
+    if(used_slots == 0)
+        stm32f4_timerEnableIRQ(handle, TIMER_IRQ_UPDATE, false);
+
+    return status;
 }

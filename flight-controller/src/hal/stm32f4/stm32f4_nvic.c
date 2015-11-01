@@ -23,24 +23,20 @@
 
 void stm32f4_nvicInitIRQ(IRQConfig_t *config)
 {
-    uint8_t tmppriority = 0x00, tmppre = 0x00, tmpsub = 0x0F;
-
     if(!config->enabled) {
         NVIC->ICER[config->channel >> 5] = 1 << (config->channel & 0x1f);
         return;
     }
 
-    /* Compute the Corresponding IRQ Priority --------------------------------*/
-    tmppriority = (0x700 - ((SCB->AIRCR) & (uint32_t)0x700)) >> 8;
-    tmppre = (0x4 - tmppriority);
-    tmpsub = tmpsub >> tmppriority;
+    // Compute corresponding IRQ priority.
+    uint8_t priority = (0x700 - (SCB->AIRCR & 0x700)) >> 8;
+    uint8_t group_prio_shift = 0x4 - priority;
+    uint8_t sub_prio_mask = 0xf >> priority;
 
-    tmppriority = config->channel_preemption_priority << tmppre;
-    tmppriority |= (uint8_t)(config->channel_subpriority & tmpsub);
-
-    tmppriority = tmppriority << 0x04;
-
-    NVIC->IP[config->channel] = tmppriority;
+    priority = config->channel_preemption_priority << group_prio_shift;
+    priority |= config->channel_subpriority & sub_prio_mask;
+    priority <<= 4;
+    NVIC->IP[config->channel] = priority;
 
     // Enable selected IRQ channel.
     NVIC->ISER[config->channel >> 5] = 1 << (config->channel & 0x1f);

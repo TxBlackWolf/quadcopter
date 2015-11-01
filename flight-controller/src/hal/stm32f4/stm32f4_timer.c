@@ -85,8 +85,6 @@ bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t config)
         timer->RCR = config.repetition_counter;
 
     timer->EGR = PRESCALER_RELOAD_MODE_IMMEDIATE;
-
-    timer_activate(handle);
     return true;
 }
 
@@ -112,7 +110,7 @@ int stm32f4_timerToPinFunction(TimerHandle_t *handle)
     return -1;
 }
 
-bool stm32f4_timerSetEventFrequency(TimerHandle_t *handle, uint32_t frequency_hz, STM32F4_TimerConfig_t *config)
+bool stm32f4_timerSetPeriodConfig(TimerHandle_t *handle, float period_ms, STM32F4_TimerConfig_t *config)
 {
     STM32F4_ClockFrequencies_t sys_freqs;
     stm32f4_rccGetClocksFrequencies(&sys_freqs);
@@ -144,8 +142,6 @@ bool stm32f4_timerSetEventFrequency(TimerHandle_t *handle, uint32_t frequency_hz
     }
 
     // Find appropriate prescaler to match demanded period.
-    float demanded_period_ms = (1.0f / frequency_hz) * 1000;
-
     uint16_t prescaler = 0;
     float timer_freq_hz = 0.0f;
     float timer_period_ms = 0.0f;
@@ -154,7 +150,7 @@ bool stm32f4_timerSetEventFrequency(TimerHandle_t *handle, uint32_t frequency_hz
         // Add 1, because this is what MCU will do (and avoid dividing by 0);
         timer_freq_hz = base_freq_hz / (prescaler + 1);
         timer_period_ms = (UINT16_MAX / timer_freq_hz) * 1000;
-        if(timer_period_ms >= demanded_period_ms)
+        if(timer_period_ms >= period_ms)
             break;
 
         if(prescaler + 1 == UINT16_MAX)
@@ -163,7 +159,7 @@ bool stm32f4_timerSetEventFrequency(TimerHandle_t *handle, uint32_t frequency_hz
     config->prescaler = prescaler;
 
     // Find approproate counter to match demanded period.
-    config->period = (UINT16_MAX * demanded_period_ms) / timer_period_ms;
+    config->period = (UINT16_MAX * period_ms) / timer_period_ms;
 
     return true;
 }
@@ -349,6 +345,12 @@ void stm32f4_timerEnableIRQ(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_
         timer->DIER &= ~irq_source;
 }
 
+void stm32f4_timerClearIRQPending(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source)
+{
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
+    timer->SR &= ~irq_source;
+}
+
 void timer_activate(TimerHandle_t *handle)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
@@ -359,6 +361,21 @@ void timer_deactivate(TimerHandle_t *handle)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     timer->CR1 &= ~TIM_CR1_CEN;
+}
+
+void timer_setEventFrequency(TimerHandle_t *handle, TimerConfig_t config)
+{
+    timer_deactivate(handle);
+
+    float period_ms = config.use_period ? config.period_ms : ((1.0f / config.frequency_hz) * 1000);
+    STM32F4_TimerConfig_t timer_config;
+    stm32f4_timerSetPeriodConfig(handle, period_ms, &timer_config);
+
+    Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
+    timer->ARR = timer_config.period;
+    timer->PSC = timer_config.prescaler;
+
+    timer_activate(handle);
 }
 
 uint32_t timer_getCounter(TimerHandle_t *handle)

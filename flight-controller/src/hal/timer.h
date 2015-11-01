@@ -16,6 +16,7 @@
 #include "gpio.h"
 
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef uint32_t TimerDevice_t;
 typedef uint8_t TimerChannel_t;
@@ -26,12 +27,20 @@ typedef struct {
     TimerChannel_t channel;
 } TimerHandle_t;
 
+// Timer config structure.
+typedef struct {
+    bool use_period;
+    float period_ms;
+    uint32_t frequency_hz;
+} TimerConfig_t;
+
 // General timer event callback.
 typedef void (*TimerEventCallback_t)(void);
 
 void timer_activate(TimerHandle_t *handle);
 void timer_deactivate(TimerHandle_t *handle);
 
+void timer_setEventFrequency(TimerHandle_t *handle, TimerConfig_t config);
 bool timer_registerEventCallback(TimerHandle_t *handle, TimerEventCallback_t callback);
 bool timer_unregisterEventCallback(TimerHandle_t *handle, TimerEventCallback_t callback);
 

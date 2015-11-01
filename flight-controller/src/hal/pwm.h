@@ -27,7 +27,7 @@ typedef struct {
 
 // PWM config structure.
 typedef struct {
-    uint32_t frequency_hz;
+    TimerConfig_t timer_config;
     uint32_t pulse_width_perc;
 } PWMConfig_t;
 
