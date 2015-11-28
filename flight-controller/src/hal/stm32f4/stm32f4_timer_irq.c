@@ -174,17 +174,40 @@ void TIM7_IRQHandler()
 // INTERFACE FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
 
-uint8_t stm32f4_timerToIRQChannel(TimerHandle_t *handle)
+uint8_t stm32f4_timerToIRQChannel(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source)
 {
     switch(handle->device) {
-    case STM32F4_TIMER_1:   return 0;
+    case STM32F4_TIMER_1: {
+        switch(irq_source) {
+        case TIMER_IRQ_BREAK:               return TIM1_BRK_TIM9_IRQn;
+        case TIMER_IRQ_UPDATE:              return TIM1_UP_TIM10_IRQn;
+        case TIMER_IRQ_COM:                 // Fall through
+        case TIMER_IRQ_TRIGGER:             return TIM1_TRG_COM_TIM11_IRQn;
+        case TIMER_IRQ_CAPTURE_COMPARE_1:   // Fall through
+        case TIMER_IRQ_CAPTURE_COMPARE_2:   // Fall through
+        case TIMER_IRQ_CAPTURE_COMPARE_3:   // Fall through
+        case TIMER_IRQ_CAPTURE_COMPARE_4:   return TIM1_CC_IRQn;
+        }
+    }
     case STM32F4_TIMER_2:   return TIM2_IRQn;
     case STM32F4_TIMER_3:   return TIM3_IRQn;
     case STM32F4_TIMER_4:   return TIM4_IRQn;
     case STM32F4_TIMER_5:   return TIM5_IRQn;
     case STM32F4_TIMER_6:   return TIM6_DAC_IRQn;
     case STM32F4_TIMER_7:   return TIM7_IRQn;
-    case STM32F4_TIMER_8:   return 0;
+    case STM32F4_TIMER_8: {
+        switch(irq_source) {
+        case TIMER_IRQ_BREAK:               return TIM8_BRK_TIM12_IRQn;
+        case TIMER_IRQ_UPDATE:              return TIM8_UP_TIM13_IRQn;
+        case TIMER_IRQ_COM:                 // Fall through
+        case TIMER_IRQ_TRIGGER:             return TIM8_TRG_COM_TIM14_IRQn;
+        case TIMER_IRQ_CAPTURE_COMPARE_1:   // Fall through
+        case TIMER_IRQ_CAPTURE_COMPARE_2:   // Fall through
+        case TIMER_IRQ_CAPTURE_COMPARE_3:   // Fall through
+        case TIMER_IRQ_CAPTURE_COMPARE_4:   return TIM8_CC_IRQn;
+        }
+
+    }
     case STM32F4_TIMER_9:   return TIM1_BRK_TIM9_IRQn;
     case STM32F4_TIMER_10:  return TIM1_UP_TIM10_IRQn;
     case STM32F4_TIMER_11:  return TIM1_TRG_COM_TIM11_IRQn;

@@ -159,7 +159,7 @@ void stm32f4_outputComparePreload4Config(TimerHandle_t *handle, STM32F4_OutputCo
 uint16_t stm32f4_getOutputComparePeriod(TimerHandle_t *handle);
 void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint16_t pulse);
 
-uint8_t stm32f4_timerToIRQChannel(TimerHandle_t *handle);
+uint8_t stm32f4_timerToIRQChannel(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source);
 void stm32f4_timerEnableIRQ(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, bool enabled);
 void stm32f4_timerClearIRQPending(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source);
 
