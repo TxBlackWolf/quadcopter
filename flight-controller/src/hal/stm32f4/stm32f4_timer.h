@@ -14,8 +14,11 @@
 #define STM32F4_TIMER_H
 
 #include "hal/timer.h"
+#include "CMSIS/stm32f4xx.h"
 
 #include <stdint.h>
+
+typedef TIM_TypeDef Timer_t;
 
 // Timer device.
 #define STM32F4_TIMER_1     1

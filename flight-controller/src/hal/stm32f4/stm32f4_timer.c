@@ -13,9 +13,6 @@
 #include "stm32f4_timer.h"
 #include "stm32f4_rcc.h"
 #include "stm32f4_gpio_functions.h"
-#include "CMSIS/stm32f4xx.h"
-
-typedef TIM_TypeDef Timer_t;
 
 //---------------------------------------------------------------------------------------------------------------
 // HELPER FUNCTIONS
