@@ -24,9 +24,9 @@ include(${FLIGHTCONTROLLER_PATH}/cmake/macros.cmake)
 # PROJECT SETTINGS
 #################################################################################################################
 
-set(PROJECT_NAME flight-controller)
-set(APP_NAME flight-controller)
-project(${PROJECT_NAME} C ASM)
+if(NOT FLIGHTCONTROLLER_APP)
+    set(FLIGHTCONTROLLER_APP "flight-controller")
+endif()
 
 if(NOT FLIGHTCONTROLLER_BOARD)
     set(FLIGHTCONTROLLER_BOARD "emulator")
@@ -35,6 +35,11 @@ endif()
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 endif()
+
+set(PROJECT_NAME ${FLIGHTCONTROLLER_APP})
+set(APP_NAME "flight-controller")
+set(SUBAPP_NAME ${FLIGHTCONTROLLER_APP})
+project(${PROJECT_NAME} C ASM)
 
 #################################################################################################################
 # TOOLCHAIN SETTINGS

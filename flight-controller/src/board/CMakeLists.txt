@@ -8,6 +8,7 @@ set(SOURCES
     board.h
     board_drivers_support.h
     board_pinout.h
+    clock.c
     console.h
 )
 

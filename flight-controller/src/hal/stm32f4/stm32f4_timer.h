@@ -20,6 +20,9 @@
 
 typedef TIM_TypeDef Timer_t;
 
+// General timer event callback.
+typedef void (*TimerEventCallback_t)(void);
+
 // Timer device.
 #define STM32F4_TIMER_1     1
 #define STM32F4_TIMER_2     2
@@ -165,5 +168,8 @@ void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint16_t pulse);
 uint8_t stm32f4_timerToIRQChannel(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source);
 void stm32f4_timerEnableIRQ(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, bool enabled);
 void stm32f4_timerClearIRQPending(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source);
+
+bool stm32f4_registerEventCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, TimerEventCallback_t callback);
+bool stm32f4_unregisterEventCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, TimerEventCallback_t callback);
 
 #endif

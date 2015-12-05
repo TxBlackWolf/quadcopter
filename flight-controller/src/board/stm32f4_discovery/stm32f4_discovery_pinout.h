@@ -23,6 +23,10 @@
 #define UART_CONSOLE_PORT                       STM32F4_GPIO_PORT_C
 #define UART_CONSOLE_PIN                        STM32F4_GPIO_PIN_10
 
+// Periodic timer.
+#define PERIODIC_EVENT_TIMER                    STM32F4_TIMER_4
+#define PERIODIC_EVENT_TIMER_CHANNEL            1
+
 #if ACCELEROMETER_ENABLED
 // TODO: implement
 #endif
@@ -73,8 +77,6 @@
     // Strobe.
     #define BLUE_STROBE_PORT                    STM32F4_GPIO_PORT_D
     #define BLUE_STROBE_PIN                     STM32F4_GPIO_PIN_15
-    #define BLUE_STROBE_TIMER                   STM32F4_TIMER_4
-    #define BLUE_STROBE_TIMER_CHANNEL           1
 #endif
 
 #if MAGNETOMETER_ENABLED

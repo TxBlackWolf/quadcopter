@@ -1,5 +1,5 @@
 set(COMPONENTS
-    ${APP_NAME}
+    ${SUBAPP_NAME}
 )
 
 register_packet()

@@ -15,6 +15,7 @@
 #include "hal/gpio.h"
 #include "board/board.h"
 #include "board/board_pinout.h"
+#include "board/clock.h"
 #include "board/console.h"
 
 #define STROBE_DELAY_PERIOD_MSEC    2000
@@ -22,7 +23,6 @@
 
 typedef struct {
     GPIOHandle_t gpio;
-    TimerHandle_t timer;
     bool state;
     uint8_t phase;
 } StrobeLight_t;
@@ -34,8 +34,6 @@ bool strobe_init()
     blue_strobe.gpio.port = BLUE_STROBE_PORT;
     blue_strobe.gpio.pin = BLUE_STROBE_PIN;
     blue_strobe.gpio.name = "blue strobe";
-    blue_strobe.timer.device = BLUE_STROBE_TIMER;
-    blue_strobe.timer.channel = BLUE_STROBE_TIMER_CHANNEL;
     blue_strobe.state = false;
     blue_strobe.phase = 1;
 
@@ -43,14 +41,9 @@ bool strobe_init()
     gpio_config.direction = GPIO_DIRECTION_OUT;
     gpio_config.resistor_type = GPIO_RESISTOR_NONE;
 
-    TimerConfig_t timer_config;
-    timer_config.use_period = true;
-    timer_config.period_ms = STROBE_DELAY_PERIOD_MSEC;
-
-    if(!board_strobeInit(&blue_strobe.gpio, gpio_config, &blue_strobe.timer, timer_config))
+    if(!board_strobeInit(&blue_strobe.gpio, gpio_config))
         return false;
 
-    timer_registerEventCallback(&blue_strobe.timer, strobe_blink);
     strobe_enable();
 
     console_write("lights: Initialized %s (GPIO P%d.%d)\n", blue_strobe.gpio.name, blue_strobe.gpio.port, blue_strobe.gpio.pin);
@@ -59,43 +52,42 @@ bool strobe_init()
 
 void strobe_enable()
 {
-    timer_activate(&blue_strobe.timer);
     gpio_activate(&blue_strobe.gpio);
+    clock_addPeriodicCallback(strobe_blink, STROBE_DELAY_PERIOD_MSEC, 1);
 }
 
 void strobe_disable()
 {
     gpio_deactivate(&blue_strobe.gpio);
-    timer_deactivate(&blue_strobe.timer);
+    clock_removePeriodicCallback(strobe_blink);
 }
 
 void strobe_blink()
 {
-    TimerConfig_t config;
-    config.use_period = true;
+    uint32_t period_ms = 0;
 
     switch(blue_strobe.phase) {
     case 1:
         gpio_writePin(&blue_strobe.gpio, false);
-        config.period_ms = STROBE_BLINK_PERIOD_MSEC;
+        period_ms = STROBE_BLINK_PERIOD_MSEC;
         blue_strobe.phase = 2;
         break;
     case 2:
         gpio_writePin(&blue_strobe.gpio, true);
-        config.period_ms = STROBE_BLINK_PERIOD_MSEC;
+        period_ms = STROBE_BLINK_PERIOD_MSEC;
         blue_strobe.phase = 3;
         break;
     case 3:
         gpio_writePin(&blue_strobe.gpio, false);
-        config.period_ms = STROBE_BLINK_PERIOD_MSEC;
+        period_ms = STROBE_BLINK_PERIOD_MSEC;
         blue_strobe.phase = 4;
         break;
     case 4:
         gpio_writePin(&blue_strobe.gpio, true);
-        config.period_ms = STROBE_DELAY_PERIOD_MSEC;
+        period_ms = STROBE_DELAY_PERIOD_MSEC;
         blue_strobe.phase = 1;
         break;
     }
 
-    timer_setEventFrequency(&blue_strobe.timer, config);
+     clock_addPeriodicCallback(strobe_blink, period_ms, 1);
 }

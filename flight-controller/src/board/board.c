@@ -12,18 +12,21 @@
 
 #include "board.h"
 #include "board_drivers_support.h"
+#include "clock.h"
 #include "console.h"
 #include "drivers/engines/engine.h"
 #include "drivers/lights/lights.h"
 
 void panic(const char *format, ...)
 {
-    // TODO: implement as red user LED blinking + console write.
+    // TODO: implement
+    // 1) when in debug moge - red user led ON + console write + CPU halt
+    // 2) when in release mode - red user led ON (permanent) + console write + CPU restart
 }
 
 bool board_isEmergencyBoot()
 {
-    // TODO: implement.
+    // TODO: implement
     return false;
 }
 
@@ -35,6 +38,11 @@ bool board_init()
         return false;
 
     console_write("board: Console ready\n");
+    
+    if(!clock_initPeriodicTimer())
+        return false;
+
+    console_write("board: Periodic timer ready\n");
 
     board_showSystemClocks();
 
@@ -69,6 +77,7 @@ bool board_init()
         console_write("board: Failed to initialize lights\n");
         return false;
     }
+
     console_write("board: Lights ready\n");
 #endif
 
