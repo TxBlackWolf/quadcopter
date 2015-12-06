@@ -71,6 +71,8 @@ void clock_processPeriodicEvents()
     if(period_counter < minimal_period)
         return;
 
+    period_counter = 0;
+
     uint32_t next_minimal_period = UINT32_MAX;
 
     for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
