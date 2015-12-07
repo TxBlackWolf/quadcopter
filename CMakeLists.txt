@@ -59,6 +59,7 @@ set(EXECUTABLE_OUTPUT_PATH ${FLIGHTCONTROLLER_PATH}/bin/${FLIGHTCONTROLLER_BOARD
 # List project configuration.
 message(STATUS "FlightController project configuration:")
 message(STATUS "  Board: " ${FLIGHTCONTROLLER_BOARD})
+message(STATUS "  Application: " ${SUBAPP_NAME})
 message(STATUS "  Build type: " ${CMAKE_BUILD_TYPE})
 
 #################################################################################################################

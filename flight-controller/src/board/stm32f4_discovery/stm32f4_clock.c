@@ -23,18 +23,14 @@ bool clock_initPeriodicTimer()
     TimerHandle_t timer_handle;
     timer_handle.device = PERIODIC_EVENT_TIMER;
     timer_handle.channel = PERIODIC_EVENT_TIMER_CHANNEL;
- 
-    TimerConfig_t timer_general_config;
-    timer_general_config.use_period = true;
-    timer_general_config.period_ms = CLOCK_PERIODIC_TIMER_PERIOD_MS;
 
+    // Configure timer.
     STM32F4_TimerConfig_t timer_config;
     timer_config.counter_mode = COUNTER_MODE_UP;
     timer_config.clock_division = CLOCK_DIVISION_1;
     timer_config.repetition_counter = 0;
 
-    float period_ms = timer_general_config.use_period ? timer_general_config.period_ms : ((1.0f / timer_general_config.frequency_hz) * 1000);
-    if(!stm32f4_timerSetPeriodConfig(&timer_handle, period_ms, &timer_config)) {
+    if(!stm32f4_timerSetPeriodConfig(&timer_handle, (float) CLOCK_PERIODIC_TIMER_PERIOD_MS, &timer_config)) {
         console_write("board: Failed to set config for timer event frequency\n");
         return false;
     }

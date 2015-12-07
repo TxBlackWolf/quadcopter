@@ -20,6 +20,7 @@
 typedef struct {
     ClockEventCallback_t callback;
     uint32_t period_ms;
+	uint32_t correction_ms;
     int32_t count;
 } PeriodicEvent_t;
 
@@ -29,6 +30,7 @@ uint32_t period_counter = 0;
 
 bool clock_addPeriodicCallback(ClockEventCallback_t callback, uint32_t period_ms, int32_t count)
 {
+    // TODO: disable timer here.
     for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
         if(periodic_events[i].callback != NULL)
             continue;
@@ -36,19 +38,23 @@ bool clock_addPeriodicCallback(ClockEventCallback_t callback, uint32_t period_ms
         periodic_events[i].callback = callback;
         periodic_events[i].period_ms = period_ms;
         periodic_events[i].count = count;
+        periodic_events[i].correction_ms = period_counter;
 
         if(minimal_period > period_ms)
             minimal_period = period_ms;
 
+        // TODO: enable timer here.
         return true;
     }
 
+    // TODO: enable timer here.
     console_write("board: Failed to find empty slot for periodic event!\n");
     return false;
 }
 
 bool clock_removePeriodicCallback(ClockEventCallback_t callback)
 {
+    // TODO: disable timer here.
     for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
         if(periodic_events[i].callback != callback)
             continue;
@@ -56,9 +62,11 @@ bool clock_removePeriodicCallback(ClockEventCallback_t callback)
         periodic_events[i].callback = NULL;
         periodic_events[i].period_ms = 0;
         periodic_events[i].count = 0;
+        // TODO: enable timer here.
         return true;
     }
 
+    // TODO: enable timer here.
     return false;
 }
 
@@ -71,8 +79,6 @@ void clock_processPeriodicEvents()
     if(period_counter < minimal_period)
         return;
 
-    period_counter = 0;
-
     uint32_t next_minimal_period = UINT32_MAX;
 
     for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
@@ -80,7 +86,8 @@ void clock_processPeriodicEvents()
             continue;
 
         if(periodic_events[i].period_ms != minimal_period) {
-            periodic_events[i].period_ms -= minimal_period;
+            periodic_events[i].period_ms -= (minimal_period - periodic_events[i].correction_ms);
+            periodic_events[i].correction_ms = 0;
             if(periodic_events[i].period_ms < next_minimal_period)
                 next_minimal_period = periodic_events[i].period_ms;
 
@@ -99,6 +106,7 @@ void clock_processPeriodicEvents()
             // Remove this event.
             periodic_events[i].callback = NULL;
             periodic_events[i].period_ms = 0;
+            periodic_events[i].correction_ms = 0;
             periodic_events[i].count = 0;
             continue;
         }
@@ -107,4 +115,6 @@ void clock_processPeriodicEvents()
 
     if(next_minimal_period == UINT32_MAX)
         minimal_period = 0;
+
+    period_counter = 0;
 }
