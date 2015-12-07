@@ -11,7 +11,9 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "clock.h"
+#include "board.h"
 #include "board/console.h"
+#include "hal/timer.h"
 
 #include <stdlib.h>
 
@@ -24,13 +26,20 @@ typedef struct {
     int32_t count;
 } PeriodicEvent_t;
 
+TimerHandle_t periodic_timer_handle;
+
 static PeriodicEvent_t periodic_events[CLOCK_MAX_PERIODIC_EVENTS_COUNT];
 uint32_t minimal_period = 0;
 uint32_t period_counter = 0;
 
+bool clock_initPeriodicTimer()
+{
+	return board_initPeriodicTimer(&periodic_timer_handle);
+}
+
 bool clock_addPeriodicCallback(ClockEventCallback_t callback, uint32_t period_ms, int32_t count)
 {
-    // TODO: disable timer here.
+    timer_deactivate(&periodic_timer_handle);
     for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
         if(periodic_events[i].callback != NULL)
             continue;
@@ -43,18 +52,18 @@ bool clock_addPeriodicCallback(ClockEventCallback_t callback, uint32_t period_ms
         if(minimal_period > period_ms)
             minimal_period = period_ms;
 
-        // TODO: enable timer here.
+        timer_activate(&periodic_timer_handle);
         return true;
     }
 
-    // TODO: enable timer here.
+    timer_activate(&periodic_timer_handle);
     console_write("board: Failed to find empty slot for periodic event!\n");
     return false;
 }
 
 bool clock_removePeriodicCallback(ClockEventCallback_t callback)
 {
-    // TODO: disable timer here.
+    timer_deactivate(&periodic_timer_handle);
     for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
         if(periodic_events[i].callback != callback)
             continue;
@@ -62,11 +71,11 @@ bool clock_removePeriodicCallback(ClockEventCallback_t callback)
         periodic_events[i].callback = NULL;
         periodic_events[i].period_ms = 0;
         periodic_events[i].count = 0;
-        // TODO: enable timer here.
+        timer_activate(&periodic_timer_handle);
         return true;
     }
 
-    // TODO: enable timer here.
+    timer_activate(&periodic_timer_handle);
     return false;
 }
 

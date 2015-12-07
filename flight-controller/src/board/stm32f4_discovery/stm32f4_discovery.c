@@ -11,13 +11,20 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "stm32f4_discovery.h"
+#include "stm32f4_discovery_pinout.h"
+#include "stm32f4_clock.h"
 #include "board/board.h"
+#include "board/clock.h"
 #include "board/console.h"
 #include "hal/stm32f4/CMSIS/stm32f4xx.h"
 #include "hal/stm32f4/stm32f4_gpio.h"
 #include "hal/stm32f4/stm32f4_gpio_functions.h"
+#include "hal/stm32f4/stm32f4_nvic.h"
 #include "hal/stm32f4/stm32f4_pwm.h"
 #include "hal/stm32f4/stm32f4_rcc.h"
+#include "hal/timer.h"
+
+#include "hal/stm32f4/stm32f4_timer.h"
 
 void board_showSystemClocks()
 {
@@ -29,6 +36,38 @@ void board_showSystemClocks()
     console_write("board: hclk (AHB bus)  : %d kHz\n", clocks.hclk_frequency_hz / 1000);
     console_write("board: pclk1 (APB1 bus): %d kHz\n", clocks.pclk1_frequency_hz / 1000);
     console_write("board: pclk2 (APB2 bus): %d kHz\n", clocks.pclk2_frequency_hz / 1000);
+}
+
+bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
+{
+    timer_handle.device = PERIODIC_EVENT_TIMER;
+    timer_handle.channel = PERIODIC_EVENT_TIMER_CHANNEL;
+
+    // Configure timer.
+    STM32F4_TimerConfig_t timer_config;
+    timer_config.counter_mode = COUNTER_MODE_UP;
+    timer_config.clock_division = CLOCK_DIVISION_1;
+    timer_config.repetition_counter = 0;
+
+    if(!stm32f4_timerSetPeriodConfig(timer_handle, (float) CLOCK_PERIODIC_TIMER_PERIOD_MS, &timer_config)) {
+        console_write("board: Failed to set config for timer event frequency\n");
+        return false;
+    }
+
+    if(!stm32f4_timerInit(&timer_handle, timer_config)) {
+        console_write("board: Failed to initialize periodic timer\n");
+        return false;
+    }
+
+    // Configure NVIC.
+    IRQConfig_t nvic_config;
+    nvic_config.channel = stm32f4_timerToIRQChannel(&timer_handle, TIMER_IRQ_UPDATE);
+    nvic_config.channel_preemption_priority = 0;
+    nvic_config.channel_subpriority = 0;
+    nvic_config.enabled = true;
+    stm32f4_nvicInitIRQ(&nvic_config);
+
+    return stm32f4_registerEventCallback(&timer_handle, TIMER_IRQ_UPDATE, clock_processPeriodicEvents);
 }
 
 bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t gpio_general_config)
