@@ -22,7 +22,7 @@
 typedef struct {
     ClockEventCallback_t callback;
     uint32_t period_ms;
-	uint32_t correction_ms;
+    uint32_t correction_ms;
     int32_t count;
 } PeriodicEvent_t;
 
@@ -34,7 +34,7 @@ uint32_t period_counter = 0;
 
 bool clock_initPeriodicTimer()
 {
-	return board_initPeriodicTimer(&periodic_timer_handle);
+    return board_initPeriodicTimer(&periodic_timer_handle);
 }
 
 bool clock_addPeriodicCallback(ClockEventCallback_t callback, uint32_t period_ms, int32_t count)
