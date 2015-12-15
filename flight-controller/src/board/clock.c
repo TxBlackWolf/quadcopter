@@ -49,10 +49,14 @@ bool clock_addPeriodicCallback(ClockEventCallback_t callback, uint32_t period_ms
         periodic_events[i].count = count;
         periodic_events[i].correction_ms = period_counter;
 
-        if(minimal_period > period_ms)
+        console_write("minimal_period: %u, period_ms: %u\n", minimal_period, period_ms);
+        if(minimal_period > period_ms || minimal_period == 0) {
             minimal_period = period_ms;
+            console_write("set new period: %d\n", minimal_period);
+        }
 
         timer_activate(&periodic_timer_handle);
+        console_write("add callback: [%d] %u\n", i, periodic_events[i].period_ms);
         return true;
     }
 
@@ -70,6 +74,7 @@ bool clock_removePeriodicCallback(ClockEventCallback_t callback)
 
         periodic_events[i].callback = NULL;
         periodic_events[i].period_ms = 0;
+        periodic_events[i].correction_ms = 0;
         periodic_events[i].count = 0;
         timer_activate(&periodic_timer_handle);
         return true;
@@ -88,14 +93,19 @@ void clock_processPeriodicEvents()
     if(period_counter < minimal_period)
         return;
 
+    timer_deactivate(&periodic_timer_handle);
+
     uint32_t next_minimal_period = UINT32_MAX;
+    uint32_t prev_minimal_period = minimal_period;
+    minimal_period = 0;
+    period_counter = 0;
 
     for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
         if(periodic_events[i].callback == NULL)
             continue;
 
-        if(periodic_events[i].period_ms != minimal_period) {
-            periodic_events[i].period_ms -= (minimal_period - periodic_events[i].correction_ms);
+        if(periodic_events[i].period_ms != prev_minimal_period) {
+            periodic_events[i].period_ms -= (prev_minimal_period - periodic_events[i].correction_ms);
             periodic_events[i].correction_ms = 0;
             if(periodic_events[i].period_ms < next_minimal_period)
                 next_minimal_period = periodic_events[i].period_ms;
@@ -117,13 +127,14 @@ void clock_processPeriodicEvents()
             periodic_events[i].period_ms = 0;
             periodic_events[i].correction_ms = 0;
             periodic_events[i].count = 0;
+            console_write("remove callback\n");
             continue;
         }
 
     }
 
-    if(next_minimal_period == UINT32_MAX)
-        minimal_period = 0;
+    if(next_minimal_period != UINT32_MAX && minimal_period == 0)
+        minimal_period = next_minimal_period;
 
-    period_counter = 0;
+    timer_activate(&periodic_timer_handle);
 }

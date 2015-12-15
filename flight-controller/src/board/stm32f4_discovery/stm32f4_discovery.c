@@ -12,7 +12,6 @@
 
 #include "stm32f4_discovery.h"
 #include "stm32f4_discovery_pinout.h"
-#include "stm32f4_clock.h"
 #include "board/board.h"
 #include "board/clock.h"
 #include "board/console.h"
@@ -40,8 +39,8 @@ void board_showSystemClocks()
 
 bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
 {
-    timer_handle.device = PERIODIC_EVENT_TIMER;
-    timer_handle.channel = PERIODIC_EVENT_TIMER_CHANNEL;
+    timer_handle->device = PERIODIC_EVENT_TIMER;
+    timer_handle->channel = PERIODIC_EVENT_TIMER_CHANNEL;
 
     // Configure timer.
     STM32F4_TimerConfig_t timer_config;
@@ -54,20 +53,20 @@ bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
         return false;
     }
 
-    if(!stm32f4_timerInit(&timer_handle, timer_config)) {
+    if(!stm32f4_timerInit(timer_handle, timer_config)) {
         console_write("board: Failed to initialize periodic timer\n");
         return false;
     }
 
     // Configure NVIC.
     IRQConfig_t nvic_config;
-    nvic_config.channel = stm32f4_timerToIRQChannel(&timer_handle, TIMER_IRQ_UPDATE);
+    nvic_config.channel = stm32f4_timerToIRQChannel(timer_handle, TIMER_IRQ_UPDATE);
     nvic_config.channel_preemption_priority = 0;
     nvic_config.channel_subpriority = 0;
     nvic_config.enabled = true;
     stm32f4_nvicInitIRQ(&nvic_config);
 
-    return stm32f4_registerEventCallback(&timer_handle, TIMER_IRQ_UPDATE, clock_processPeriodicEvents);
+    return stm32f4_registerEventCallback(timer_handle, TIMER_IRQ_UPDATE, clock_processPeriodicEvents);
 }
 
 bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t gpio_general_config)
