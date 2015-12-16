@@ -18,6 +18,8 @@
 #include "board/clock.h"
 #include "board/console.h"
 
+#include "hal/timer.h"
+
 #define STROBE_DELAY_PERIOD_MSEC    2000
 #define STROBE_BLINK_PERIOD_MSEC    150
 
@@ -93,5 +95,5 @@ void strobe_blink()
         break;
     }
 
-     clock_addPeriodicCallback(strobe_blink, period_ms, 1);
+     clock_addPeriodicCallbackAsync(strobe_blink, period_ms, 1);
 }

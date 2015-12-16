@@ -22,7 +22,6 @@
 #include "hal/stm32f4/stm32f4_pwm.h"
 #include "hal/stm32f4/stm32f4_rcc.h"
 #include "hal/timer.h"
-
 #include "hal/stm32f4/stm32f4_timer.h"
 
 void board_showSystemClocks()
@@ -66,6 +65,7 @@ bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
     nvic_config.enabled = true;
     stm32f4_nvicInitIRQ(&nvic_config);
 
+    timer_activate(timer_handle);
     return stm32f4_registerEventCallback(timer_handle, TIMER_IRQ_UPDATE, clock_processPeriodicEvents);
 }
 

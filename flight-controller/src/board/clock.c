@@ -40,6 +40,14 @@ bool clock_initPeriodicTimer()
 bool clock_addPeriodicCallback(ClockEventCallback_t callback, uint32_t period_ms, int32_t count)
 {
     timer_deactivate(&periodic_timer_handle);
+    bool ret = clock_addPeriodicCallbackAsync(callback, period_ms, count);
+    timer_activate(&periodic_timer_handle);
+
+    return ret;
+}
+
+bool clock_addPeriodicCallbackAsync(ClockEventCallback_t callback, uint32_t period_ms, int32_t count)
+{
     for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
         if(periodic_events[i].callback != NULL)
             continue;
@@ -55,12 +63,10 @@ bool clock_addPeriodicCallback(ClockEventCallback_t callback, uint32_t period_ms
             console_write("set new period: %d\n", minimal_period);
         }
 
-        timer_activate(&periodic_timer_handle);
         console_write("add callback: [%d] %u\n", i, periodic_events[i].period_ms);
         return true;
     }
 
-    timer_activate(&periodic_timer_handle);
     console_write("board: Failed to find empty slot for periodic event!\n");
     return false;
 }
@@ -68,6 +74,14 @@ bool clock_addPeriodicCallback(ClockEventCallback_t callback, uint32_t period_ms
 bool clock_removePeriodicCallback(ClockEventCallback_t callback)
 {
     timer_deactivate(&periodic_timer_handle);
+    bool ret = clock_removePeriodicCallbackAsync(callback);
+    timer_activate(&periodic_timer_handle);
+
+    return ret;
+}
+
+bool clock_removePeriodicCallbackAsync(ClockEventCallback_t callback)
+{
     for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
         if(periodic_events[i].callback != callback)
             continue;
@@ -76,11 +90,9 @@ bool clock_removePeriodicCallback(ClockEventCallback_t callback)
         periodic_events[i].period_ms = 0;
         periodic_events[i].correction_ms = 0;
         periodic_events[i].count = 0;
-        timer_activate(&periodic_timer_handle);
         return true;
     }
 
-    timer_activate(&periodic_timer_handle);
     return false;
 }
 
