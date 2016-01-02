@@ -1,4 +1,5 @@
 set(SOURCES
+    minmax.h
     string_manipulation.c
 )
 

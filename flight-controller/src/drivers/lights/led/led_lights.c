@@ -70,28 +70,24 @@ void strobe_blink()
 
     switch(blue_strobe.phase) {
     case 1:
-        gpio_writePin(&blue_strobe.gpio, false);
+        gpio_writePin(&blue_strobe.gpio, true);
         period_ms = STROBE_BLINK_PERIOD_MSEC;
         blue_strobe.phase = 2;
-        console_write("phase 1\n");
         break;
     case 2:
-        gpio_writePin(&blue_strobe.gpio, true);
-        period_ms = STROBE_BLINK_PERIOD_MSEC + 1;
+        gpio_writePin(&blue_strobe.gpio, false);
+        period_ms = STROBE_BLINK_PERIOD_MSEC;
         blue_strobe.phase = 3;
-        console_write("phase 2\n");
         break;
     case 3:
-        gpio_writePin(&blue_strobe.gpio, false);
-        period_ms = STROBE_BLINK_PERIOD_MSEC + 2;
+        gpio_writePin(&blue_strobe.gpio, true);
+        period_ms = STROBE_BLINK_PERIOD_MSEC;
         blue_strobe.phase = 4;
-        console_write("phase 3\n");
         break;
     case 4:
-        gpio_writePin(&blue_strobe.gpio, true);
+        gpio_writePin(&blue_strobe.gpio, false);
         period_ms = STROBE_DELAY_PERIOD_MSEC;
         blue_strobe.phase = 1;
-        console_write("phase 4\n");
         break;
     }
 
