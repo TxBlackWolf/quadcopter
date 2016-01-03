@@ -27,6 +27,10 @@ bool clock_addPeriodicCallback(ClockEventCallback_t callback, uint32_t period_ms
 bool clock_addPeriodicCallbackAsync(ClockEventCallback_t callback, uint32_t period_ms, int32_t count);
 bool clock_removePeriodicCallback(ClockEventCallback_t callback);
 bool clock_removePeriodicCallbackAsync(ClockEventCallback_t callback);
+void clock_removePeriodicEvent(int index);
+
+void clock_updateEventsDeadline();
+void clock_updateEarliestDeadline();
 
 void clock_processPeriodicEvents();
 

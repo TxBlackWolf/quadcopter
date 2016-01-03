@@ -5,6 +5,7 @@ message(STATUS "  ---> Generating header with board pinout")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/board_pinout.h.in ${CMAKE_CURRENT_SOURCE_DIR}/board_pinout.h)
 
 set(SOURCES
+    assert.h
     board.h
     board_drivers_support.h
     board_pinout.h
