@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : emulated_engine.h
+// Filename   : emulator_board_pinout.c
 // Author     : Kuba Sejdak
 // Created on : 04.01.2016
 //
@@ -10,7 +10,7 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef EMULATED_ENGINE_H
-#define EMULATED_ENGINE_H
+#ifndef EMULATOR_BOARD_PINOUT_H
+#define EMULATOR_BOARD_PINOUT_H
 
 #endif

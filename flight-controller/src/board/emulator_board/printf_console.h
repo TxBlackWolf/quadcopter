@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : emulated_engine.h
+// Filename   : printf_console.h
 // Author     : Kuba Sejdak
 // Created on : 04.01.2016
 //
@@ -10,7 +10,7 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef EMULATED_ENGINE_H
-#define EMULATED_ENGINE_H
+#ifndef PRINTF_CONSOLE_H
+#define PRINTF_CONSOLE_H
 
 #endif

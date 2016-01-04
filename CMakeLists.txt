@@ -29,7 +29,7 @@ if(NOT FLIGHTCONTROLLER_APP)
 endif()
 
 if(NOT FLIGHTCONTROLLER_BOARD)
-    set(FLIGHTCONTROLLER_BOARD "emulator")
+    set(FLIGHTCONTROLLER_BOARD "emulator_board")
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -45,9 +45,9 @@ project(${PROJECT_NAME} C ASM)
 # TOOLCHAIN SETTINGS
 #################################################################################################################
 
-if(${FLIGHTCONTROLLER_BOARD} STREQUAL "emulator")
+if(${FLIGHTCONTROLLER_BOARD} STREQUAL "emulator_board")
     set_toolchain("x86")
-    set(FLIGHTCONTROLLER_HAL "emulator")
+    set(FLIGHTCONTROLLER_HAL "emulator_hal")
 elseif(${FLIGHTCONTROLLER_BOARD} STREQUAL "stm32f4_discovery")
     set_toolchain("arm")
     set(FLIGHTCONTROLLER_HAL "stm32f4")

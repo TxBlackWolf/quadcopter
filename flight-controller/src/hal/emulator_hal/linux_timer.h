@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : emulated_engine.h
+// Filename   : linux_timer.h
 // Author     : Kuba Sejdak
 // Created on : 04.01.2016
 //
@@ -10,7 +10,7 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef EMULATED_ENGINE_H
-#define EMULATED_ENGINE_H
+#ifndef LINUX_TIMER_H
+#define LINUX_TIMER_H
 
 #endif
