@@ -14,8 +14,8 @@
 #include "stm32f4_timer.h"
 #include "CMSIS/stm32f4xx.h"
 
-#include <stdlib.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #define STM32F4_TIMER_MAX_CALLBACK_COUNT    5
 

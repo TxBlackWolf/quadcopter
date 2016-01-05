@@ -15,8 +15,8 @@
 
 #include "gpio.h"
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef uint32_t UARTDevice_t;
 typedef uint32_t UARTBaurRate_t;

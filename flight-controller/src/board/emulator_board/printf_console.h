@@ -13,4 +13,6 @@
 #ifndef PRINTF_CONSOLE_H
 #define PRINTF_CONSOLE_H
 
+#include "board/console.h"
+
 #endif

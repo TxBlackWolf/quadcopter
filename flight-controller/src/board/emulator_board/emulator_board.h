@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : camera.h
+// Filename   : emulator_board.h
 // Author     : Kuba Sejdak
 // Created on : 06.01.2016
 //
@@ -10,7 +10,9 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef EMULATOR_BOARD_H
+#define EMULATOR_BOARD_H
+
+#include "board/board.h"
 
 #endif

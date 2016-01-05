@@ -15,8 +15,8 @@
 
 #include "board/board_drivers_support.h"
 #include "hal/stm32f4/stm32f4_gpio.h"
-#include "hal/stm32f4/stm32f4_uart.h"
 #include "hal/stm32f4/stm32f4_timer.h"
+#include "hal/stm32f4/stm32f4_uart.h"
 
 // UART console.
 #define UART_CONSOLE_DEVICE                     STM32F4_UART_4

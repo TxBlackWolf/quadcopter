@@ -21,20 +21,6 @@ typedef USART_TypeDef UART_t;
 // HELPER FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
 
-int stm32f4_uartToPinFunction(UARTHandle_t *handle)
-{
-    switch(handle->device) {
-    case STM32F4_USART_1:   return GPIO_AF_USART1;
-    case STM32F4_USART_2:   return GPIO_AF_USART2;
-    case STM32F4_USART_3:   return GPIO_AF_USART3;
-    case STM32F4_UART_4:    return GPIO_AF_UART4;
-    case STM32F4_UART_5:    return GPIO_AF_UART5;
-    case STM32F4_USART_6:   return GPIO_AF_USART6;
-    }
-
-    return -1;
-}
-
 UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
 {
     switch(device) {
@@ -47,6 +33,16 @@ UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
     }
 
     return 0;
+}
+
+void stm32f4_uartClockInit(UARTHandle_t *handle, STM32F4_UARTClockConfig_t clock_config)
+{
+    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
+
+    uart->CR2 |= clock_config.enabled;
+    uart->CR2 |= clock_config.polarity;
+    uart->CR2 |= clock_config.phase;
+    uart->CR2 |= clock_config.last_bit;
 }
 
 uint32_t stm32f4_uartGetDataBitsValue(UARTDataBits_t data_bits)
@@ -177,14 +173,18 @@ bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t config)
     return true;
 }
 
-void stm32f4_uartClockInit(UARTHandle_t *handle, STM32F4_UARTClockConfig_t clock_config)
+int stm32f4_uartToPinFunction(UARTHandle_t *handle)
 {
-    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
+    switch(handle->device) {
+    case STM32F4_USART_1:   return GPIO_AF_USART1;
+    case STM32F4_USART_2:   return GPIO_AF_USART2;
+    case STM32F4_USART_3:   return GPIO_AF_USART3;
+    case STM32F4_UART_4:    return GPIO_AF_UART4;
+    case STM32F4_UART_5:    return GPIO_AF_UART5;
+    case STM32F4_USART_6:   return GPIO_AF_USART6;
+    }
 
-    uart->CR2 |= clock_config.enabled;
-    uart->CR2 |= clock_config.polarity;
-    uart->CR2 |= clock_config.phase;
-    uart->CR2 |= clock_config.last_bit;
+    return -1;
 }
 
 void uart_activate(UARTHandle_t *handle)

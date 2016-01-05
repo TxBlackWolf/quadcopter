@@ -11,12 +11,11 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "afro_esc_engine.h"
-#include "drivers/engines/engine.h"
-#include "hal/gpio.h"
-#include "hal/pwm.h"
 #include "board/board.h"
 #include "board/board_pinout.h"
 #include "board/console.h"
+#include "hal/gpio.h"
+#include "hal/pwm.h"
 
 #define AFRO_ESC_MAX_PULSE_WIDTH_US         1860
 #define AFRO_ESC_MIN_PULSE_WIDTH_US         1060

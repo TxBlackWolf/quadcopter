@@ -15,8 +15,8 @@
 
 #include "gpio.h"
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef uint32_t TimerDevice_t;
 typedef uint8_t TimerChannel_t;

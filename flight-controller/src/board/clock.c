@@ -16,8 +16,8 @@
 #include "hal/timer.h"
 #include "utils/misc/minmax.h"
 
-#include <stdlib.h>
 #include <limits.h>
+#include <stdlib.h>
 
 #define CLOCK_MAX_PERIODIC_EVENTS_COUNT     5
 

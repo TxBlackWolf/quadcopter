@@ -13,8 +13,8 @@
 #ifndef PWM_H
 #define PWM_H
 
-#include "timer.h"
 #include "gpio.h"
+#include "timer.h"
 
 #include <stdint.h>
 

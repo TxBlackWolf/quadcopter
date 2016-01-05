@@ -10,11 +10,11 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#include "utils/version.h"
 #include "board/board.h"
 #include "board/console.h"
-#include "drivers/lights/lights.h"
 #include "drivers/engines/engine.h"
+#include "drivers/lights/lights.h"
+#include "utils/version.h"
 
 #include <stdbool.h>
 

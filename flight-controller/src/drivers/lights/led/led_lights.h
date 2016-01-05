@@ -13,4 +13,6 @@
 #ifndef LED_LIGHTS_H
 #define LED_LIGHTS_H
 
+#include "drivers/lights/lights.h"
+
 #endif

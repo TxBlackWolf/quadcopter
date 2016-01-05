@@ -10,24 +10,27 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#include "board/board.h"
-#include "board/clock.h"
+#include "emulator_board.h"
 
 void board_showSystemClocks()
 {
+    // Empty.
 }
 
-bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
+bool board_initPeriodicTimer(TimerHandle_t *timer_handle __attribute__((unused)))
 {
+    // TODO: implement.
     return true;
 }
 
-bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t gpio_general_config)
+bool board_strobeInit(GPIOHandle_t *gpio_handle __attribute__((unused)), GPIOConfig_t gpio_general_config __attribute__((unused)))
 {
+    // TODO: implement.
     return true;
 }
 
-bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t pwm_config, GPIOConfig_t gpio_general_config)
+bool board_engineInit(PWMHandle_t *pwm_handle __attribute__((unused)), PWMConfig_t pwm_config __attribute__((unused)), GPIOConfig_t gpio_general_config __attribute__((unused)))
 {
+    // TODO: implement.
     return true;
 }

@@ -11,13 +11,11 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "led_lights.h"
-#include "drivers/lights/lights.h"
-#include "hal/gpio.h"
 #include "board/board.h"
 #include "board/board_pinout.h"
 #include "board/clock.h"
 #include "board/console.h"
-
+#include "hal/gpio.h"
 #include "hal/timer.h"
 
 #define STROBE_DELAY_PERIOD_MSEC    2000

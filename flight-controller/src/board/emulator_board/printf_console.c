@@ -11,7 +11,6 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "printf_console.h"
-#include "board/console.h"
 
 #include <stdarg.h>
 #include <stdio.h>

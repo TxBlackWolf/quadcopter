@@ -13,8 +13,8 @@
 #ifndef GPIO_H
 #define GPIO_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef uint32_t GPIOPort_t;
 typedef uint32_t GPIOPin_t;

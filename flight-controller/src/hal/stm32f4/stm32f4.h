@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : camera.h
+// Filename   : stm32f4.h
 // Author     : Kuba Sejdak
-// Created on : 06.01.2016
+// Created on : 11.08.2015
 //
 // This file is a part of SkyViper project.
 //
@@ -10,7 +10,7 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef STM32F4_H
+#define STM32F4_H
 
 #endif

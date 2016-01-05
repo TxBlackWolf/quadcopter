@@ -13,4 +13,6 @@
 #ifndef AFRO_ESC_ENGINE_H
 #define AFRO_ESC_ENGINE_H
 
+#include "drivers/engines/engine.h"
+
 #endif

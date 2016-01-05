@@ -13,11 +13,10 @@
 
 #include "uart_console.h"
 #include "stm32f4_discovery_pinout.h"
-#include "board/console.h"
-#include "hal/uart.h"
 #include "hal/stm32f4/stm32f4_gpio.h"
 #include "hal/stm32f4/stm32f4_gpio_functions.h"
 #include "hal/stm32f4/stm32f4_uart.h"
+#include "hal/uart.h"
 #include "utils/misc/string_manipulation.h"
 
 #include <stdarg.h>

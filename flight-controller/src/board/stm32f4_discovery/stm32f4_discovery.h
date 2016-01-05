@@ -13,4 +13,6 @@
 #ifndef STM32F4_DISCOVERY_H
 #define STM32F4_DISCOVERY_H
 
+#include "board/board.h"
+
 #endif

@@ -13,8 +13,8 @@
 #ifndef STM32F4_NVIC_H
 #define STM32F4_NVIC_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 // IRQ config structure in NVIC.
 typedef struct {

@@ -14,4 +14,6 @@
 #ifndef UART_CONSOLE_H
 #define UART_CONSOLE_H
 
+#include "board/console.h"
+
 #endif

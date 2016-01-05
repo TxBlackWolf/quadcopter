@@ -13,4 +13,6 @@
 #ifndef LINUX_TIMER_H
 #define LINUX_TIMER_H
 
+#include "hal/timer.h"
+
 #endif

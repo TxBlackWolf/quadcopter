@@ -12,7 +12,6 @@
 
 #include "stm32f4_discovery.h"
 #include "stm32f4_discovery_pinout.h"
-#include "board/board.h"
 #include "board/clock.h"
 #include "board/console.h"
 #include "hal/stm32f4/CMSIS/stm32f4xx.h"
@@ -21,8 +20,8 @@
 #include "hal/stm32f4/stm32f4_nvic.h"
 #include "hal/stm32f4/stm32f4_pwm.h"
 #include "hal/stm32f4/stm32f4_rcc.h"
-#include "hal/timer.h"
 #include "hal/stm32f4/stm32f4_timer.h"
+#include "hal/timer.h"
 
 void board_showSystemClocks()
 {
