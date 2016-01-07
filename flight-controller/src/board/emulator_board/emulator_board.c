@@ -11,11 +11,14 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "emulator_board.h"
+#include "signal_handlers.h"
 #include "board/clock.h"
 #include "board/console.h"
 
 #include <errno.h>
 #include <signal.h>
+#include <stdio.h>
+#include <string.h>
 #include <time.h>
 
 void board_showSystemClocks()
@@ -29,22 +32,29 @@ bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
     sig_event.sigev_notify = SIGEV_SIGNAL;
     sig_event.sigev_signo = SIGALRM;
 
-    if(timer_create(CLOCK_REALTIME, &sig_event, (timer_t *) &timer_handle->device)) {
+	if(signal(SIGALRM, signal_handler) == SIG_ERR) {
+		console_write("Failed to register signal handler for periodic timer: %s.", strerror(errno));
+		return false;
+	}
+
+	timer_t timer_id;
+	if(timer_create(CLOCK_REALTIME, &sig_event, &timer_id)) {
         console_write("Failed to create periodic timer: %s.", strerror(errno));
         return false;
     }
 
-    struct itimerspec itimer_spec;
+	struct itimerspec itimer_spec;
     itimer_spec.it_value.tv_sec = CLOCK_PERIODIC_TIMER_PERIOD_MS / 1000;
     itimer_spec.it_value.tv_nsec = (CLOCK_PERIODIC_TIMER_PERIOD_MS * 1000000) % 1000000000;
     itimer_spec.it_interval.tv_sec = itimer_spec.it_value.tv_sec;
     itimer_spec.it_interval.tv_nsec = itimer_spec.it_value.tv_nsec;
 
-    if(timer_settime((timer_t) timer_handle->device, )) {
+	if(timer_settime(timer_id, CLOCK_REALTIME, &itimer_spec, NULL)) {
         console_write("Failed to set periodic timer: %s.", strerror(errno));
         return false;
     }
 
+	timer_handle->device = *((TimerDevice_t *) timer_id);
     return true;
 }
 
