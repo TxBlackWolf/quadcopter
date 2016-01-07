@@ -13,4 +13,6 @@
 #ifndef EMULATED_ENGINE_H
 #define EMULATED_ENGINE_H
 
+#include "drivers/engines/engine.h"
+
 #endif

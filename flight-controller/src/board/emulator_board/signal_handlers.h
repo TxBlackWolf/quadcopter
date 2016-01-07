@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : emulator_hal.h
+// Filename   : signal_handlers.h
 // Author     : Kuba Sejdak
 // Created on : 06.01.2016
 //
@@ -10,9 +10,9 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef EMULATOR_HAL_H
-#define EMULATOR_HAL_H
+#ifndef SIGNAL_HANDLERS_H
+#define SIGNAL_HANDLERS_H
 
-#include "hal/hal.h"
+void signal_handler(int sig_num);
 
 #endif

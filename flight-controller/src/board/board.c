@@ -19,20 +19,20 @@
 
 void panic(const char *format, ...)
 {
-    // TODO: implement
+    // TODO: implement.
     // 1) when in debug moge - red user led ON + console write + CPU halt
     // 2) when in release mode - red user led ON (permanent) + console write + CPU restart
 }
 
 bool board_isEmergencyBoot()
 {
-    // TODO: implement
+    // TODO: implement.
     return false;
 }
 
 bool board_init()
 {
-    // TODO: init panic LED
+    // TODO: init panic LED.
 
     if(!console_init())
         return false;

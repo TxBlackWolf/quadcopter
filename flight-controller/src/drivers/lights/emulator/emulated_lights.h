@@ -13,4 +13,6 @@
 #ifndef EMULATED_LIGHTS_H
 #define EMULATED_LIGHTS_H
 
+#include "drivers/lights/lights.h"
+
 #endif

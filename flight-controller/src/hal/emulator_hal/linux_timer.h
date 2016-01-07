@@ -10,8 +10,8 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef LINUX_TIMER_H
-#define LINUX_TIMER_H
+#ifndef LINUX_TIMER_Hasd
+#define LINUX_TIMER_Hasd
 
 #include "hal/timer.h"
 

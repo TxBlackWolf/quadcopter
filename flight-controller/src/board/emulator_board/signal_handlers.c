@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------
 //
-// Filename   : emulator_hal.h
+// Filename   : signal_handlers.c
 // Author     : Kuba Sejdak
 // Created on : 06.01.2016
 //
@@ -10,9 +10,16 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef EMULATOR_HAL_H
-#define EMULATOR_HAL_H
+#include "signal_handlers.h"
+#include "board/clock.h"
 
-#include "hal/hal.h"
+#include <signal.h>
 
-#endif
+void signal_handler(int sig_num)
+{
+    switch(sig_num) {
+    case SIGALRM:
+        clock_processPeriodicEvents();
+        break;
+    }
+}

@@ -11,7 +11,6 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "emulated_lights.h"
-#include "drivers/lights/lights.h"
 
 bool strobe_init()
 {
