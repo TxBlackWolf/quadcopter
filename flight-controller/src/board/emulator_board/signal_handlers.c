@@ -12,14 +12,15 @@
 
 #include "signal_handlers.h"
 #include "board/clock.h"
+#include "hal/timer.h"
 
-#include <signal.h>
+#include <assert.h>
 
-void signal_handler(int sig_num)
+void sigalrm_handler(int sig_num, siginfo_t *sig_info, void *unused __attribute__((unused)))
 {
-    switch(sig_num) {
-    case SIGALRM:
+    assert(sig_num == SIGALRM);
+
+    TimerHandle_t *timer_handle = (TimerHandle_t *) sig_info->si_value.sival_ptr;
+    if(timer_handle->private_data == 1)
         clock_processPeriodicEvents();
-        break;
-    }
 }

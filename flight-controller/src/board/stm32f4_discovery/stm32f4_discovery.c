@@ -51,7 +51,7 @@ bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
         return false;
     }
 
-    if(!stm32f4_timerInit(timer_handle, timer_config)) {
+    if(!stm32f4_timerInit(timer_handle, &timer_config)) {
         console_write("board: Failed to initialize periodic timer\n");
         return false;
     }

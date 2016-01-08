@@ -13,6 +13,8 @@
 #ifndef SIGNAL_HANDLERS_H
 #define SIGNAL_HANDLERS_H
 
-void signal_handler(int sig_num);
+#include <signal.h>
+
+void sigalrm_handler(int sig_num, siginfo_t *sig_info, void *unused);
 
 #endif

@@ -6,5 +6,3 @@ set(SOURCES
 )
 
 register_module()
-
-target_link_libraries(${MODULE} rt)

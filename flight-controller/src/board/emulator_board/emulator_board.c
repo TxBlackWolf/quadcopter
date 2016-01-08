@@ -14,12 +14,9 @@
 #include "signal_handlers.h"
 #include "board/clock.h"
 #include "board/console.h"
+#include "hal/emulator_hal/linux_timer.h"
 
-#include <errno.h>
 #include <signal.h>
-#include <stdio.h>
-#include <string.h>
-#include <time.h>
 
 void board_showSystemClocks()
 {
@@ -28,33 +25,17 @@ void board_showSystemClocks()
 
 bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
 {
-    struct sigevent sig_event;
-    sig_event.sigev_notify = SIGEV_SIGNAL;
-    sig_event.sigev_signo = SIGALRM;
+    Emulator_TimerConfig_t timer_config;
+    timer_config.signal_handler = sigalrm_handler;
+    timer_config.sig_num = SIGALRM;
+    timer_config.period_ms = CLOCK_PERIODIC_TIMER_PERIOD_MS;
 
-	if(signal(SIGALRM, signal_handler) == SIG_ERR) {
-		console_write("Failed to register signal handler for periodic timer: %s.", strerror(errno));
-		return false;
-	}
-
-	timer_t timer_id;
-	if(timer_create(CLOCK_REALTIME, &sig_event, &timer_id)) {
-        console_write("Failed to create periodic timer: %s.", strerror(errno));
+    if(!emulator_timerInit(timer_handle, &timer_config)) {
+        console_write("board: Failed to initialize emulator timer for periodic timer\n");
         return false;
     }
 
-	struct itimerspec itimer_spec;
-    itimer_spec.it_value.tv_sec = CLOCK_PERIODIC_TIMER_PERIOD_MS / 1000;
-    itimer_spec.it_value.tv_nsec = (CLOCK_PERIODIC_TIMER_PERIOD_MS * 1000000) % 1000000000;
-    itimer_spec.it_interval.tv_sec = itimer_spec.it_value.tv_sec;
-    itimer_spec.it_interval.tv_nsec = itimer_spec.it_value.tv_nsec;
-
-	if(timer_settime(timer_id, CLOCK_REALTIME, &itimer_spec, NULL)) {
-        console_write("Failed to set periodic timer: %s.", strerror(errno));
-        return false;
-    }
-
-	timer_handle->device = *((TimerDevice_t *) timer_id);
+    timer_activate(timer_handle);
     return true;
 }
 

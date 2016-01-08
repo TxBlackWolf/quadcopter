@@ -10,9 +10,24 @@
 //
 //---------------------------------------------------------------------------------------------------------------
 
-#ifndef LINUX_TIMER_Hasd
-#define LINUX_TIMER_Hasd
+#ifndef LINUX_TIMER_H
+#define LINUX_TIMER_H
 
 #include "hal/timer.h"
+
+#include <signal.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+typedef void (*signal_handler_t)(int, siginfo_t *, void *);
+
+// Timer config structure.
+typedef struct {
+    signal_handler_t signal_handler;
+    int sig_num;
+    uint32_t period_ms;
+} Emulator_TimerConfig_t;
+
+bool emulator_timerInit(TimerHandle_t *handle, Emulator_TimerConfig_t *config);
 
 #endif

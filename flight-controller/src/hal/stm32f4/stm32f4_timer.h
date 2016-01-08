@@ -146,7 +146,7 @@ typedef enum {
     TIMER_IRQ_BREAK             = 0x80
 } STM32F4_TimerIRQSource_t;
 
-bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t config);
+bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t *config);
 int stm32f4_timerToPinFunction(TimerHandle_t *handle);
 bool stm32f4_timerSetPeriodConfig(TimerHandle_t *handle, float period_ms, STM32F4_TimerConfig_t *config);
 

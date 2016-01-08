@@ -25,6 +25,7 @@ typedef uint8_t TimerChannel_t;
 typedef struct {
     TimerDevice_t device;
     TimerChannel_t channel;
+    uint32_t private_data;
 } TimerHandle_t;
 
 // Timer config structure.

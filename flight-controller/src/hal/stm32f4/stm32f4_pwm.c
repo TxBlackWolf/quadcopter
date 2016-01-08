@@ -33,7 +33,7 @@ bool stm32f4_pwmInit(PWMHandle_t *handle, PWMConfig_t config)
     }
     handle->period = timer_config.period;
 
-    if(!stm32f4_timerInit(&handle->timer, timer_config)) {
+    if(!stm32f4_timerInit(&handle->timer, &timer_config)) {
         console_write("pwm: Failed to initialize PWM timer\n");
         return false;
     }

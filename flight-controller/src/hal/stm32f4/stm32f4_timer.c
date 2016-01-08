@@ -64,22 +64,22 @@ void stm32f4_timerEnableClock(TimerDevice_t device, bool value)
 // INTERFACE FUNCTIONS
 //---------------------------------------------------------------------------------------------------------------
 
-bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t config)
+bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t *config)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     stm32f4_timerEnableClock(handle->device, true);
 
     if((timer == TIM1) || (timer == TIM8) || (timer == TIM2) || (timer == TIM3) || (timer == TIM4) || (timer == TIM5))
-        timer->CR1 |= config.counter_mode;
+        timer->CR1 |= config->counter_mode;
 
     if((timer != TIM6) && (timer != TIM7))
-        timer->CR1 |= config.clock_division;
+        timer->CR1 |= config->clock_division;
 
-    timer->ARR = config.period;
-    timer->PSC = config.prescaler;
+    timer->ARR = config->period;
+    timer->PSC = config->prescaler;
 
     if((timer == TIM1) || (timer == TIM8))
-        timer->RCR = config.repetition_counter;
+        timer->RCR = config->repetition_counter;
 
     timer->EGR = PRESCALER_RELOAD_MODE_IMMEDIATE;
     return true;
