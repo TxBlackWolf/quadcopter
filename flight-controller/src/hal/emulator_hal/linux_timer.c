@@ -29,7 +29,7 @@ bool emulator_timerInit(TimerHandle_t *handle, Emulator_TimerConfig_t *config)
 {
     LinuxTimerPrivateData_t *private_data = (LinuxTimerPrivateData_t *) malloc(sizeof(LinuxTimerPrivateData_t));
     if(!private_data) {
-        console_write("hal: Failed to alloc Linux timer private data: %s.", strerror(errno));
+        console_write("linux_timer: Failed to alloc Linux timer private data: %s.", strerror(errno));
         return false;
     }
 
@@ -47,13 +47,13 @@ bool emulator_timerInit(TimerHandle_t *handle, Emulator_TimerConfig_t *config)
     sig_action.sa_sigaction = config->signal_handler;
 
     if(sigaction(sig_event.sigev_signo, &sig_action, NULL)) {
-        console_write("hal: Failed to register signal handler for Linux timer: %s.", strerror(errno));
+        console_write("linux_timer: Failed to register signal handler for Linux timer: %s.", strerror(errno));
         return false;
     }
 
     timer_t timer_id;
     if(timer_create(CLOCK_REALTIME, &sig_event, &timer_id)) {
-        console_write("hal: Failed to create Linux timer: %s.", strerror(errno));
+        console_write("linux_timer: Failed to create Linux timer: %s.", strerror(errno));
         return false;
     }
 
@@ -64,7 +64,7 @@ bool emulator_timerInit(TimerHandle_t *handle, Emulator_TimerConfig_t *config)
     itimer_spec.it_interval.tv_nsec = itimer_spec.it_value.tv_nsec;
 
     if(timer_settime(timer_id, CLOCK_REALTIME, &itimer_spec, NULL)) {
-        console_write("hal: Failed to set Linux timer: %s.", strerror(errno));
+        console_write("linux_timer: Failed to set Linux timer: %s.", strerror(errno));
         return false;
     }
 
