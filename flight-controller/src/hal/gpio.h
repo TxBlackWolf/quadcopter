@@ -43,6 +43,7 @@ typedef struct {
     GPIOPort_t port;
     GPIOPin_t pin;
     const char *name;
+    void *private_data;
 } GPIOHandle_t;
 
 void gpio_activate(GPIOHandle_t *handle);

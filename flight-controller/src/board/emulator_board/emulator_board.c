@@ -35,6 +35,9 @@ bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
         return false;
     }
 
+    LinuxTimerPrivateData_t *private_data = (LinuxTimerPrivateData_t *) timer_handle->private_data;
+    private_data->callback = clock_processPeriodicEvents;
+
     timer_activate(timer_handle);
     return true;
 }

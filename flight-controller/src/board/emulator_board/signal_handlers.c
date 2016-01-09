@@ -11,8 +11,8 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "signal_handlers.h"
-#include "board/clock.h"
 #include "hal/timer.h"
+#include "hal/emulator_hal/linux_timer.h"
 
 #include <assert.h>
 
@@ -21,6 +21,9 @@ void sigalrm_handler(int sig_num, siginfo_t *sig_info, void *unused __attribute_
     assert(sig_num == SIGALRM);
 
     TimerHandle_t *timer_handle = (TimerHandle_t *) sig_info->si_value.sival_ptr;
-    if(timer_handle->private_data == 1)
-        clock_processPeriodicEvents();
+    LinuxTimerPrivateData_t *private_data = (LinuxTimerPrivateData_t *) timer_handle->private_data;
+    if(private_data->enabled) {
+        assert(private_data->callback);
+        private_data->callback();
+    }
 }

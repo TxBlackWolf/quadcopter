@@ -16,7 +16,7 @@
 #define DEVICE_NAME         "SkyViper"
 #define DEVICE_VERSION      "F-1"
 #define FIRMWARE_NAME       "flight-controller"
-#define FIRMWARE_VERSION    "0.0.5"
+#define FIRMWARE_VERSION    "0.0.6"
 #define FIRMWARE_AUTHOR     "Kuba Sejdak"
 #define CONTACT_INFO        "kuba.sejdak@gmail.com"
 
