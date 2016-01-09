@@ -11,6 +11,7 @@
 //---------------------------------------------------------------------------------------------------------------
 
 #include "clock.h"
+#include "assert.h"
 #include "board.h"
 #include "console.h"
 #include "hal/timer.h"
@@ -148,13 +149,14 @@ void clock_processPeriodicEvents()
             continue;
 
         // Launch event callback.
+        board_assert(periodic_events[i].callback);
         periodic_events[i].callback();
 
         // Restore event deadline.
         periodic_events[i].deadline_ms = periodic_events[i].period_ms;
 
         if(periodic_events[i].count == -1) {
-            // This is infinite periodic event.
+            // This is an infinite periodic event.
             continue;
         }
 
