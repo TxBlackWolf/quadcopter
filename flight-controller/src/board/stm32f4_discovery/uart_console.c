@@ -22,7 +22,8 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-#define BUFFER_SIZE     1024
+#define CONSOLE_BUFFER_SIZE     1024
+#define CONSOLE_BAUD_RATE       115200
 
 static UARTHandle_t uart_handle;
 static bool console_initialized = false;
@@ -47,7 +48,7 @@ bool console_init()
 
     // Configure UART.
     STM32F4_UARTConfig_t uart_config;
-    uart_config.general_config.protocol.baud_rate = 115200;
+    uart_config.general_config.protocol.baud_rate = CONSOLE_BAUD_RATE;
     uart_config.general_config.protocol.data_bits = UART_DATA_BITS_8;
     uart_config.general_config.protocol.stop_bits = UART_STOP_BITS_1;
     uart_config.general_config.protocol.parity = UART_PARTITY_NONE;
@@ -67,7 +68,7 @@ int console_write(const char *format, ...)
     if(!console_initialized)
         return -1;
 
-    char buffer[BUFFER_SIZE];
+    char buffer[CONSOLE_BUFFER_SIZE];
 
     va_list args;
     va_start(args, format);

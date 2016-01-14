@@ -19,7 +19,7 @@
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
-    , m_ui(new Ui::MainWindow)
+    , m_ui(new Ui::MainWindow())
     , m_centralView(CENTRAL_VIEW_UNKNOWN)
     , m_currentlySelectedToolbar(nullptr)
     , m_currentTopDockWidget(nullptr)

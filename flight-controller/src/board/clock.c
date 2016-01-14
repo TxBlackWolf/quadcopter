@@ -88,6 +88,7 @@ bool clock_removePeriodicCallbackAsync(ClockEventCallback_t callback)
             continue;
 
         clock_removePeriodicEvent(i);
+        clock_updateEarliestDeadline();
         return true;
     }
 
