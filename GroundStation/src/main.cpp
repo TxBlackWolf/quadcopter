@@ -1,10 +1,14 @@
-//============================================================================
+//---------------------------------------------------------------------------------------------------------------
 //
 // Filename   : main.cpp
 // Author     : Kuba Sejdak
-// Created on : 28 lis 2014
+// Created on : 28.11.2014
 //
-//============================================================================
+// This file is a part of SkyViper project.
+//
+// %LICENSE%
+//
+//---------------------------------------------------------------------------------------------------------------
 
 #include "MainWindow.h"
 
@@ -12,8 +16,8 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setOrganizationName("ARMCopter");
-    QCoreApplication::setOrganizationDomain("armcopter.com");
+    QCoreApplication::setOrganizationName("SkyViper");
+    QCoreApplication::setOrganizationDomain("skyviper.com");
     QCoreApplication::setApplicationName("GroundStation");
 
     QApplication app(argc, argv);

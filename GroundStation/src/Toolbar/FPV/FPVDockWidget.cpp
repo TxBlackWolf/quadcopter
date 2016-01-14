@@ -1,17 +1,21 @@
-//============================================================================
+//---------------------------------------------------------------------------------------------------------------
 //
 // Filename   : FPVDockWidget.cpp
 // Author     : Kuba Sejdak
-// Created on : 11 lut 2015
+// Created on : 11.02.2015
 //
-//============================================================================
+// This file is a part of SkyViper project.
+//
+// %LICENSE%
+//
+//---------------------------------------------------------------------------------------------------------------
 
 #include "FPVDockWidget.h"
 #include "ui_FPVDockWidget.h"
 
 FPVDockWidget::FPVDockWidget(QWidget* parent)
     : QDockWidget(parent)
-    , m_ui(new Ui::FPVDockWidget)
+    , m_ui(new Ui::FPVDockWidget())
 {
     m_ui->setupUi(this);
 }

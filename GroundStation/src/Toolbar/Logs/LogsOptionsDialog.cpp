@@ -1,10 +1,14 @@
-//============================================================================
+//---------------------------------------------------------------------------------------------------------------
 //
 // Filename   : LogsOptionsDialog.cpp
 // Author     : Kuba Sejdak
-// Created on : 28 lis 2014
+// Created on : 28.11.2014
 //
-//============================================================================
+// This file is a part of SkyViper project.
+//
+// %LICENSE%
+//
+//---------------------------------------------------------------------------------------------------------------
 
 #include "LogsOptionsDialog.h"
 #include "ui_LogsOptionsDialog.h"
@@ -79,8 +83,7 @@ void LogsOptionsDialog::initSerialPortOptions()
     options.load();
 
     // Scan available serial ports.
-    for(const QSerialPortInfo &info : QSerialPortInfo::availablePorts())
-    {
+    for(const QSerialPortInfo &info : QSerialPortInfo::availablePorts()) {
         m_ui->comboBoxPortSerial->addItem(info.portName(), info.description());
         m_ui->comboBoxPortRadio->addItem(info.portName(), info.description());
     }
@@ -97,8 +100,7 @@ void LogsOptionsDialog::initSerialPortOptions()
 
     // Scan available baud rates.
     auto standardSpeeds = QSerialPortInfo::standardBaudRates();
-    for(unsigned int speed : standardSpeeds)
-    {
+    for(unsigned int speed : standardSpeeds) {
         m_ui->comboBoxSpeedSerial->addItem(QString::number(speed), speed);
         m_ui->comboBoxSpeedRadio->addItem(QString::number(speed), speed);
     }

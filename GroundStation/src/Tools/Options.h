@@ -1,10 +1,14 @@
-//============================================================================
+//---------------------------------------------------------------------------------------------------------------
 //
 // Filename   : Options.h
 // Author     : Kuba Sejdak
-// Created on : 1 gru 2014
+// Created on : 01.12.2014
 //
-//============================================================================
+// This file is a part of SkyViper project.
+//
+// %LICENSE%
+//
+//---------------------------------------------------------------------------------------------------------------
 
 #ifndef OPTIONS_H
 #define OPTIONS_H
@@ -13,8 +17,7 @@
 #include <QString>
 #include <QSerialPort>
 
-class SerialPortOptions
-{
+class SerialPortOptions {
 public:
     /// @brief Saves current serial port options.
     /// @param [in] settings        handle to settings object
@@ -33,8 +36,7 @@ public:
     QSerialPort::FlowControl flowControl;
 };
 
-class LogsOptions
-{
+class LogsOptions {
 public:
     /// @brief Saves current communication options.
     void save();

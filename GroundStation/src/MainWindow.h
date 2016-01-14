@@ -1,10 +1,14 @@
-//============================================================================
+//---------------------------------------------------------------------------------------------------------------
 //
 // Filename   : MainWindow.h
 // Author     : Kuba Sejdak
-// Created on : 28 lis 2014
+// Created on : 28.11.2014
 //
-//============================================================================
+// This file is a part of SkyViper project.
+//
+// %LICENSE%
+//
+//---------------------------------------------------------------------------------------------------------------
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -18,17 +22,14 @@
 
 #include <QMainWindow>
 
-namespace Ui
-{
+namespace Ui {
     class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
-    enum CentralView
-    {
+    enum CentralView {
         CENTRAL_VIEW_UNKNOWN,
         CENTRAL_VIEW_LOGS,
         CENTRAL_VIEW_GEOLOCATION,

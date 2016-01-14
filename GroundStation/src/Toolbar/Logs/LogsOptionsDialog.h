@@ -1,23 +1,25 @@
-//============================================================================
+//---------------------------------------------------------------------------------------------------------------
 //
 // Filename   : LogsOptionsDialog.h
 // Author     : Kuba Sejdak
-// Created on : 28 lis 2014
+// Created on : 28.11.2014
 //
-//============================================================================
+// This file is a part of SkyViper project.
+//
+// %LICENSE%
+//
+//---------------------------------------------------------------------------------------------------------------
 
 #ifndef LOGSOPTIONSDIALOG_H
 #define LOGSOPTIONSDIALOG_H
 
 #include <QDialog>
 
-namespace Ui
-{
+namespace Ui {
     class LogsOptionsDialog;
 }
 
-class LogsOptionsDialog : public QDialog
-{
+class LogsOptionsDialog : public QDialog {
     Q_OBJECT
 
 public:

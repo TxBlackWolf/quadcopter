@@ -1,10 +1,14 @@
-//============================================================================
+//---------------------------------------------------------------------------------------------------------------
 //
 // Filename   : MainWindow.cpp
 // Author     : Kuba Sejdak
-// Created on : 28 lis 2014
+// Created on : 28.11.2014
 //
-//============================================================================
+// This file is a part of SkyViper project.
+//
+// %LICENSE%
+//
+//---------------------------------------------------------------------------------------------------------------
 
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
@@ -28,9 +32,8 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow()
 {
-    if(centralWidget())
-    {
-        // This to prevent QMainWindow from deleting central widget (because it takes ownership of it).
+    if(centralWidget()) {
+        // This prevents QMainWindow from deleting central widget (because it takes ownership of it).
         centralWidget()->setParent(nullptr);
     }
 
@@ -70,8 +73,7 @@ void MainWindow::toolbarAlertsClicked()
 
 void MainWindow::setCentralView(CentralView centralView)
 {
-    if(m_centralView == centralView)
-    {
+    if(m_centralView == centralView) {
         // Clicked icon is already clicked, then do nothing.
         m_currentlySelectedToolbar->setChecked(true);
         return;
@@ -83,14 +85,12 @@ void MainWindow::setCentralView(CentralView centralView)
     if(m_currentTopDockWidget)
         m_currentTopDockWidget->hide();
 
-    if(centralWidget())
-    {
-        // This to prevent QMainWindow from deleting central widget (because it takes ownership of it).
+    if(centralWidget()) {
+        // This prevents QMainWindow from deleting central widget (because it takes ownership of it).
         centralWidget()->setParent(nullptr);
     }
 
-    switch(centralView)
-    {
+    switch(centralView) {
     case CENTRAL_VIEW_LOGS:
         m_currentlySelectedToolbar = m_ui->toolbarLogs;
         m_currentTopDockWidget = m_logsDockWidget;
