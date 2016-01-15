@@ -37,35 +37,38 @@ LIBS            += -lboost_system -lboost_serialization
 SOURCES         += main.cpp \
                 MainWindow.cpp \
                 Misc/AboutDialog.cpp \
+                Toolbar/Alerts/AlertsDockWidget.cpp \
+                Toolbar/FPV/FPVDockWidget.cpp \
+                Toolbar/Geolocation/GeolocationDockWidget.cpp \
+                Toolbar/Logs/ConsoleLogsWidget.cpp \
                 Toolbar/Logs/LogsDockWidget.cpp \
                 Toolbar/Logs/LogsOptionsDialog.cpp \
-                Toolbar/Logs/ConsoleLogsWidget.cpp \
-                Toolbar/Geolocation/GeolocationDockWidget.cpp \
-                Toolbar/FPV/FPVDockWidget.cpp \
                 Toolbar/SystemInfo/SystemInfoDockWidget.cpp \
-                Toolbar/Alerts/AlertsDockWidget.cpp \
+                Toolbar/Telemetry/TelemetryDockWidget.cpp \
                 Tools/Options.cpp
 
 HEADERS         += MainWindow.h \
                 Misc/AboutDialog.h \
                 Misc/Version.h \
+                Toolbar/Alerts/AlertsDockWidget.h \
+                Toolbar/FPV/FPVDockWidget.h \
+                Toolbar/Geolocation/GeolocationDockWidget.h \
+                Toolbar/Logs/ConsoleLogsWidget.h \
                 Toolbar/Logs/LogsDockWidget.h \
                 Toolbar/Logs/LogsOptionsDialog.h \
-                Toolbar/Logs/ConsoleLogsWidget.h \
-                Toolbar/Geolocation/GeolocationDockWidget.h \
-                Toolbar/FPV/FPVDockWidget.h \
                 Toolbar/SystemInfo/SystemInfoDockWidget.h \
-                Toolbar/Alerts/AlertsDockWidget.h \
+                Toolbar/Telemetry/TelemetryDockWidget.h \
                 Tools/Options.h
 
 FORMS           += MainWindow.ui \
                 Misc/AboutDialog.ui \
+                Toolbar/Alerts/AlertsDockWidget.ui \
+                Toolbar/FPV/FPVDockWidget.ui \
+                Toolbar/Geolocation/GeolocationDockWidget.ui \
                 Toolbar/Logs/LogsDockWidget.ui \
                 Toolbar/Logs/LogsOptionsDialog.ui \
                 Toolbar/Logs/ConsoleLogsWidget.ui \
-                Toolbar/Geolocation/GeolocationDockWidget.ui \
-                Toolbar/FPV/FPVDockWidget.ui \
                 Toolbar/SystemInfo/SystemInfoDockWidget.ui \
-                Toolbar/Alerts/AlertsDockWidget.ui
+                Toolbar/Telemetry/TelemetryDockWidget.ui
 
 RESOURCES       += resources.qrc
