@@ -155,8 +155,8 @@ void MainWindow::setCentralView(CentralView centralView)
         m_currentTopDockWidget = m_geolocationDockWidget;
         break;
 	case CENTRAL_VIEW_TELEMETRY:
-		m_currentTopDockWidget = m_telemetryDockWidget;
-		break;
+        m_currentTopDockWidget = m_telemetryDockWidget;
+        break;
     case CENTRAL_VIEW_FPV:
         m_currentTopDockWidget = m_fpvDockWidget;
         break;

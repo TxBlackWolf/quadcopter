@@ -78,7 +78,7 @@ bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t gpio_general_confi
     gpio_config.mode = GPIO_MODE_OUT;
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
-    if(!stm32f4_gpioInit(gpio_handle, gpio_config)) {
+    if(!stm32f4_gpioInit(gpio_handle, &gpio_config)) {
         console_write("board: Failed to initialize GPIO for %s\n", gpio_handle->name);
         return false;
     }
@@ -96,13 +96,13 @@ bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t pwm_config, GPIOConfi
     gpio_config.mode = GPIO_MODE_ALTERNATE;
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
-    if(!stm32f4_gpioInit(&pwm_handle->gpio, gpio_config)) {
+    if(!stm32f4_gpioInit(&pwm_handle->gpio, &gpio_config)) {
         console_write("board: Failed to initialize GPIO for %s\n", pwm_handle->gpio.name);
         return false;
     }
 
     // Configure PWM.
-    if(!stm32f4_pwmInit(pwm_handle, pwm_config)) {
+    if(!stm32f4_pwmInit(pwm_handle, &pwm_config)) {
         console_write("board: Failed to initialize PWM for %s\n", pwm_handle->gpio.name);
         return false;
     }

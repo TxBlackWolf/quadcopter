@@ -35,14 +35,14 @@ UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
     return 0;
 }
 
-void stm32f4_uartClockInit(UARTHandle_t *handle, STM32F4_UARTClockConfig_t clock_config)
+void stm32f4_uartClockInit(UARTHandle_t *handle, STM32F4_UARTClockConfig_t *clock_config)
 {
     UART_t *uart = stm32f4_uartGetRegisters(handle->device);
 
-    uart->CR2 |= clock_config.enabled;
-    uart->CR2 |= clock_config.polarity;
-    uart->CR2 |= clock_config.phase;
-    uart->CR2 |= clock_config.last_bit;
+    uart->CR2 |= clock_config->enabled;
+    uart->CR2 |= clock_config->polarity;
+    uart->CR2 |= clock_config->phase;
+    uart->CR2 |= clock_config->last_bit;
 }
 
 uint32_t stm32f4_uartGetDataBitsValue(UARTDataBits_t data_bits)
@@ -117,29 +117,29 @@ void stm32f4_uartEnableClock(UARTDevice_t device, bool value)
 // INTERFACE FUNCTIONS
 //=============================================================================================
 
-bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t config)
+bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t *config)
 {
-    if(config.general_config.protocol.flow_control != UART_FLOW_CONTROL_NONE) {
+    if(config->general_config.protocol.flow_control != UART_FLOW_CONTROL_NONE) {
         // Hardware flow control is available only for USART1, USART2, USART3 and USART6.
         if(handle->device == STM32F4_UART_4 || handle->device == STM32F4_UART_5)
             return false;
     }
 
-    if(config.general_config.mode == UART_MODE_SYNCHRONOUS && (handle->device == STM32F4_UART_4 || handle->device == STM32F4_UART_5))
+    if(config->general_config.mode == UART_MODE_SYNCHRONOUS && (handle->device == STM32F4_UART_4 || handle->device == STM32F4_UART_5))
         return false;
 
-    if(config.general_config.mode == UART_MODE_SYNCHRONOUS)
-        stm32f4_uartClockInit(handle, config.clock_config);
+    if(config->general_config.mode == UART_MODE_SYNCHRONOUS)
+        stm32f4_uartClockInit(handle, &config->clock_config);
 
     stm32f4_uartEnableClock(handle->device, true);
 
     UART_t *uart = stm32f4_uartGetRegisters(handle->device);
 
-    uart->CR1 |= stm32f4_uartGetDataBitsValue(config.general_config.protocol.data_bits);
-    uart->CR2 |= stm32f4_uartGetStopBitsValue(config.general_config.protocol.stop_bits);
-    uart->CR1 |= stm32f4_uartGetPartityValue(config.general_config.protocol.parity);
-    uart->CR3 |= stm32f4_uartGetFlowControlValue(config.general_config.protocol.flow_control);
-    uart->CR1 |= stm32f4_uartGetDirectionValue(config.general_config.direction);
+    uart->CR1 |= stm32f4_uartGetDataBitsValue(config->general_config.protocol.data_bits);
+    uart->CR2 |= stm32f4_uartGetStopBitsValue(config->general_config.protocol.stop_bits);
+    uart->CR1 |= stm32f4_uartGetPartityValue(config->general_config.protocol.parity);
+    uart->CR3 |= stm32f4_uartGetFlowControlValue(config->general_config.protocol.flow_control);
+    uart->CR1 |= stm32f4_uartGetDirectionValue(config->general_config.direction);
 
     // Configure baud rate.
     STM32F4_ClockFrequencies_t clocks_frequencies;
@@ -154,9 +154,9 @@ bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t config)
     // Determine the integer part.
     uint32_t integer_divider = 0;
     if((uart->CR1 & USART_CR1_OVER8) != 0)
-        integer_divider = (25 * uart_freq) / (2 * config.general_config.protocol.baud_rate);
+        integer_divider = (25 * uart_freq) / (2 * config->general_config.protocol.baud_rate);
     else
-        integer_divider = (25 * uart_freq) / (4 * config.general_config.protocol.baud_rate);
+        integer_divider = (25 * uart_freq) / (4 * config->general_config.protocol.baud_rate);
 
     uint32_t baud_rate_value = (integer_divider / 100) << 4;
 

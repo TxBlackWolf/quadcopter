@@ -161,7 +161,7 @@ bool stm32f4_timerSetPeriodConfig(TimerHandle_t *handle, float period_ms, STM32F
     return true;
 }
 
-bool stm32f4_outputCompareInit(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config)
+bool stm32f4_outputCompareInit(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t *config)
 {
     switch(handle->channel) {
     case 1:     return stm32f4_outputCompareChannel1Init(handle, config);
@@ -173,7 +173,7 @@ bool stm32f4_outputCompareInit(TimerHandle_t *handle, STM32F4_OutputCompareConfi
     return false;
 }
 
-bool stm32f4_outputCompareChannel1Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config)
+bool stm32f4_outputCompareChannel1Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t *config)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7)
@@ -182,23 +182,23 @@ bool stm32f4_outputCompareChannel1Init(TimerHandle_t *handle, STM32F4_OutputComp
     // Disable channel 1.
     timer->CCER &= ~TIM_CCER_CC1E;
 
-    timer->CCMR1 |= config.mode;
-    timer->CCER |= config.polarity;
-    timer->CCER |= config.output_state;
+    timer->CCMR1 |= config->mode;
+    timer->CCER |= config->polarity;
+    timer->CCER |= config->output_state;
 
     if(timer == TIM1 || timer == TIM8) {
-        timer->CCER |= config.n_polarity;
-        timer->CCER |= config.output_n_state;
-        timer->CCR2 |= config.idle_state;
-        timer->CCR2 |= config.n_idle_state;
+        timer->CCER |= config->n_polarity;
+        timer->CCER |= config->output_n_state;
+        timer->CCR2 |= config->idle_state;
+        timer->CCR2 |= config->n_idle_state;
     }
 
-    timer->CCR1 = config.pulse;
+    timer->CCR1 = config->pulse;
 
     return true;
 }
 
-bool stm32f4_outputCompareChannel2Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config)
+bool stm32f4_outputCompareChannel2Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t *config)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7 || timer == TIM10 || timer == TIM11 || timer == TIM13 || timer == TIM14)
@@ -207,23 +207,23 @@ bool stm32f4_outputCompareChannel2Init(TimerHandle_t *handle, STM32F4_OutputComp
     // Disable channel 2.
     timer->CCER &= ~TIM_CCER_CC2E;
 
-    timer->CCMR1 |= (config.mode << 8);
-    timer->CCER |= (config.polarity << 4);
-    timer->CCER |= (config.output_state << 4);
+    timer->CCMR1 |= (config->mode << 8);
+    timer->CCER |= (config->polarity << 4);
+    timer->CCER |= (config->output_state << 4);
 
     if(timer == TIM1 || timer == TIM8) {
-        timer->CCER |= (config.n_polarity << 4);
-        timer->CCER |= (config.output_n_state << 4);
-        timer->CCR2 |= (config.idle_state << 2);
-        timer->CCR2 |= (config.n_idle_state << 2);
+        timer->CCER |= (config->n_polarity << 4);
+        timer->CCER |= (config->output_n_state << 4);
+        timer->CCR2 |= (config->idle_state << 2);
+        timer->CCR2 |= (config->n_idle_state << 2);
     }
 
-    timer->CCR2 = config.pulse;
+    timer->CCR2 = config->pulse;
 
     return true;
 }
 
-bool stm32f4_outputCompareChannel3Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config)
+bool stm32f4_outputCompareChannel3Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t *config)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
@@ -232,23 +232,23 @@ bool stm32f4_outputCompareChannel3Init(TimerHandle_t *handle, STM32F4_OutputComp
     // Disable channel 3.
     timer->CCER &= ~TIM_CCER_CC3E;
 
-    timer->CCMR2 |= config.mode;
-    timer->CCER |= (config.polarity << 8);
-    timer->CCER |= (config.output_state << 8);
+    timer->CCMR2 |= config->mode;
+    timer->CCER |= (config->polarity << 8);
+    timer->CCER |= (config->output_state << 8);
 
     if(timer == TIM1 || timer == TIM8) {
-        timer->CCER |= (config.n_polarity << 8);
-        timer->CCER |= (config.output_n_state << 8);
-        timer->CCR2 |= (config.idle_state << 4);
-        timer->CCR2 |= (config.n_idle_state << 4);
+        timer->CCER |= (config->n_polarity << 8);
+        timer->CCER |= (config->output_n_state << 8);
+        timer->CCR2 |= (config->idle_state << 4);
+        timer->CCR2 |= (config->n_idle_state << 4);
     }
 
-    timer->CCR3 = config.pulse;
+    timer->CCR3 = config->pulse;
 
     return true;
 }
 
-bool stm32f4_outputCompareChannel4Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t config)
+bool stm32f4_outputCompareChannel4Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t *config)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     if(timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
@@ -257,14 +257,14 @@ bool stm32f4_outputCompareChannel4Init(TimerHandle_t *handle, STM32F4_OutputComp
     // Disable channel 4.
     timer->CCER &= ~TIM_CCER_CC4E;
 
-    timer->CCMR2 |= (config.mode << 8);
-    timer->CCER |= (config.polarity << 12);
-    timer->CCER |= (config.output_state << 12);
+    timer->CCMR2 |= (config->mode << 8);
+    timer->CCER |= (config->polarity << 12);
+    timer->CCER |= (config->output_state << 12);
 
     if(timer == TIM1 || timer == TIM8)
-        timer->CCR2 |= (config.idle_state << 6);
+        timer->CCR2 |= (config->idle_state << 6);
 
-    timer->CCR4 = config.pulse;
+    timer->CCR4 = config->pulse;
 
     return true;
 }

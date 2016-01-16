@@ -74,29 +74,29 @@ void stm32f4_gpioEnableClock(GPIOPort_t port, bool value)
 // INTERFACE FUNCTIONS
 //=============================================================================================
 
-bool stm32f4_gpioInit(GPIOHandle_t *handle, STM32F4_GPIOConfig_t config)
+bool stm32f4_gpioInit(GPIOHandle_t *handle, STM32F4_GPIOConfig_t *config)
 {
     stm32f4_gpioEnableClock(handle->port, true);
 
-    if(config.function != GPIO_DIGITAL_PIN) {
-        if(config.function < 0) {
-            console_write("gpio: Bad alternate function number: %d\n", config.function);
+    if(config->function != GPIO_DIGITAL_PIN) {
+        if(config->function < 0) {
+            console_write("gpio: Bad alternate function number: %d\n", config->function);
             return false;
         }
 
-        stm32f4_gpioSetPinFunction(handle, config.function);
+        stm32f4_gpioSetPinFunction(handle, config->function);
     }
 
     GPIO_t *gpio = stm32f4_gpioGetRegisters(handle->port);
 
-    gpio->MODER |= (config.mode << (handle->pin * 2));
+    gpio->MODER |= (config->mode << (handle->pin * 2));
 
-    if(config.mode == GPIO_MODE_OUT || config.mode == GPIO_MODE_ALTERNATE) {
-        gpio->OSPEEDR |= (config.speed << (handle->pin * 2));
-        gpio->OTYPER |= (config.output_type << handle->pin);
+    if(config->mode == GPIO_MODE_OUT || config->mode == GPIO_MODE_ALTERNATE) {
+        gpio->OSPEEDR |= (config->speed << (handle->pin * 2));
+        gpio->OTYPER |= (config->output_type << handle->pin);
     }
 
-    gpio->PUPDR |= (config.general_config.resistor_type << (handle->pin * 2));
+    gpio->PUPDR |= (config->general_config.resistor_type << (handle->pin * 2));
 
     return true;
 }

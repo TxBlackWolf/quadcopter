@@ -28,19 +28,19 @@
 #define PERIODIC_EVENT_TIMER_CHANNEL            1
 
 #if ACCELEROMETER_ENABLED
-// TODO: implement
+// TODO: implement.
 #endif
 
 #if BAROMETER_ENABLED
-// TODO: implement
+// TODO: implement.
 #endif
 
 #if BUZZER_ENABLED
-// TODO: implement
+// TODO: implement.
 #endif
 
 #if CAMERA_ENABLED
-// TODO: implement
+// TODO: implement.
 #endif
 
 #if ENGINES_ENABLED
@@ -70,7 +70,7 @@
 #endif
 
 #if GYROSCOPE_ENABLED
-// TODO: implement
+// TODO: implement.
 #endif
 
 #if LIGHTS_ENABLED
@@ -80,7 +80,7 @@
 #endif
 
 #if MAGNETOMETER_ENABLED
-// TODO: implement
+// TODO: implement.
 #endif
 
 #endif
