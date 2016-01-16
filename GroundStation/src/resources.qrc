@@ -45,5 +45,14 @@
         <file>Icons/web42.png</file>
         <file>Icons/wifi85.png</file>
         <file>Icons/app_icon.ico</file>
+        <file>Icons/computer261.png</file>
+        <file>Icons/injection2.png</file>
+        <file>Icons/laptop119.png</file>
+        <file>Icons/screen213.png</file>
+        <file>Icons/traffic14.png</file>
+        <file>Icons/videogame10.png</file>
+        <file>Icons/wiring.png</file>
+        <file>Icons/writing14.png</file>
+        <file>Icons/xbox19.png</file>
     </qresource>
 </RCC>
