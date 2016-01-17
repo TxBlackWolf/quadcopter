@@ -15,6 +15,7 @@
 
 #include "hal/uart.h"
 
+#include <netinet/in.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -30,6 +31,11 @@ typedef struct {
     uint16_t port;
     Emulator_UARTConnectionProtocol_t protocol;
 } Emulator_UARTConfig_t;
+
+typedef struct {
+    bool enabled;
+    struct sockaddr_in server_addr;
+} NetworkUARTPrivateData_t;
 
 bool emulator_uartInit(UARTHandle_t *handle, Emulator_UARTConfig_t *config);
 

@@ -27,15 +27,7 @@
 
 bool emulator_timerInit(TimerHandle_t *handle, Emulator_TimerConfig_t *config)
 {
-    LinuxTimerPrivateData_t *private_data = (LinuxTimerPrivateData_t *) malloc(sizeof(LinuxTimerPrivateData_t));
-    if(!private_data) {
-        console_write("linux_timer: Failed to alloc Linux timer private data: %s.", strerror(errno));
-        return false;
-    }
-
-    private_data->enabled = false;
-    private_data->callback = NULL;
-
+    // Register handler for given signal.
     struct sigevent sig_event;
     sig_event.sigev_notify = SIGEV_SIGNAL;
     sig_event.sigev_signo = config->sig_num;
@@ -51,6 +43,7 @@ bool emulator_timerInit(TimerHandle_t *handle, Emulator_TimerConfig_t *config)
         return false;
     }
 
+    // Create Linux timer.
     timer_t timer_id;
     if(timer_create(CLOCK_REALTIME, &sig_event, &timer_id)) {
         console_write("linux_timer: Failed to create Linux timer: %s.", strerror(errno));
@@ -67,6 +60,16 @@ bool emulator_timerInit(TimerHandle_t *handle, Emulator_TimerConfig_t *config)
         console_write("linux_timer: Failed to set Linux timer: %s.", strerror(errno));
         return false;
     }
+
+    // Allocate and init private data.
+    LinuxTimerPrivateData_t *private_data = (LinuxTimerPrivateData_t *) malloc(sizeof(LinuxTimerPrivateData_t));
+    if(!private_data) {
+        console_write("linux_timer: Failed to alloc Linux timer private data: %s", strerror(errno));
+        return false;
+    }
+
+    private_data->enabled = false;
+    private_data->callback = NULL;
 
     handle->device = *((TimerDevice_t *) timer_id);
     handle->private_data = private_data;

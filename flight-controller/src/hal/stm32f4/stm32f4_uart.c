@@ -169,7 +169,6 @@ bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t *config)
 
     uart->BRR = baud_rate_value;
 
-    uart_activate(handle);
     return true;
 }
 
@@ -199,18 +198,25 @@ void uart_deactivate(UARTHandle_t *handle)
     uart->CR1 &= ~USART_CR1_UE;
 }
 
-void uart_send(UARTHandle_t *handle, uint16_t data)
+bool uart_send(UARTHandle_t *handle, uint16_t data)
 {
     UART_t *uart = stm32f4_uartGetRegisters(handle->device);
+    if((uart->CR1 & USART_CR1_UE) == 0)
+        return false;
 
     // Wait until previous transfer completes.
     while(!(uart->SR & USART_SR_TXE));
 
     uart->DR = data & 0x1ff;
+    return true;
 }
 
-uint16_t uart_receive(UARTHandle_t *handle)
+bool uart_receive(UARTHandle_t *handle, uint16_t *data)
 {
     UART_t *uart = stm32f4_uartGetRegisters(handle->device);
-    return (uart->DR & 0x01ff);
+    if((uart->CR1 & USART_CR1_UE) == 0)
+        return false;
+
+    *data = (uart->DR & 0x01ff);
+    return true;
 }

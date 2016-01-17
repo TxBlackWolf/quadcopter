@@ -83,12 +83,13 @@ typedef struct {
 typedef struct {
     UARTDevice_t device;
     GPIOHandle_t uart_gpio;
+    void *private_data;
 } UARTHandle_t;
 
 void uart_activate(UARTHandle_t *handle);
 void uart_deactivate(UARTHandle_t *handle);
 
-void uart_send(UARTHandle_t *handle, uint16_t data);
-uint16_t uart_receive(UARTHandle_t *handle);
+bool uart_send(UARTHandle_t *handle, uint16_t data);
+bool uart_receive(UARTHandle_t *handle, uint16_t *data);
 
 #endif

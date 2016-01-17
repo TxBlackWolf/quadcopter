@@ -57,8 +57,10 @@ bool console_init()
     uart_config.general_config.mode = UART_MODE_ASYNCHRONOUS;
 
     console_initialized = stm32f4_uartInit(&uart_handle, &uart_config);
-    if(console_initialized)
+    if(console_initialized) {
+        uart_activate(&uart_handle);
         console_write("\n");
+    }
 
     return console_initialized;
 }

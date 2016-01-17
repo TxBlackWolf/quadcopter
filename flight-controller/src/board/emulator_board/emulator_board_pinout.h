@@ -13,4 +13,11 @@
 #ifndef EMULATOR_BOARD_PINOUT_H
 #define EMULATOR_BOARD_PINOUT_H
 
+#include "hal/emulator_hal/network_uart.h"
+
+// Network console.
+#define NETWORK_CONSOLE_IP                      "127.0.0.1"
+#define NETWORK_CONSOLE_PORT                    12555
+#define NETWORK_CONSOLE_PROTOCOL                UART_CONNECTION_TCP
+
 #endif
