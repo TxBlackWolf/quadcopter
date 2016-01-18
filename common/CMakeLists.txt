@@ -1,5 +1,5 @@
 set(COMPONENTS
-    Commands
+    commands
 )
 
 register_packet()

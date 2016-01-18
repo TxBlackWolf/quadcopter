@@ -71,5 +71,5 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 configure_drivers()
 
 include_directories(.)
-add_subdirectory(Common)
+add_subdirectory(common)
 add_subdirectory(${APP_NAME})

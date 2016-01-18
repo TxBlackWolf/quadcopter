@@ -1,5 +1,5 @@
 set(SOURCES
-    Command.c
+    telemetry.c
 )
 
 register_module()
