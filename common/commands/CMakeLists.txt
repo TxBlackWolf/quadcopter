@@ -1,13 +1,10 @@
 set(SOURCES
     commands.c
+    control.c
+    debug_info.c
+    emulator.c
+    system_status.c
+    telemetry.c
 )
 
-set(MODULES
-    control
-    debug_info
-    emulator
-    system_status
-    telemetry
-)
-
-register_component()
+register_module()

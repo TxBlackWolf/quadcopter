@@ -11,12 +11,16 @@
 //=============================================================================================
 
 #include "commands.h"
-#include "emulator/emulator.h"
+#include "emulator.h"
+
+#include <stdio.h>
 
 static uint32_t command_nextId = 0;
 static uint32_t command_receivedCount = 0;
 static uint32_t command_lostCount = 0;
 static uint32_t command_brokenCount = 0;
+
+static CRCFunctor crc_functor = NULL;
 
 bool command_checkVersion(CommandHeader_t *header)
 {
@@ -41,6 +45,7 @@ bool command_checkCRC(uint8_t *buffer, uint32_t size, uint32_t crc)
 CommandParsingError_t command_parse(uint8_t *buffer)
 {
     CommandHeader_t *header = (CommandHeader_t *) buffer;
+    ++command_receivedCount;
 
     if(!command_checkVersion(header)) {
         ++command_brokenCount;

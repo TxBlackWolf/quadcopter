@@ -1,6 +1,6 @@
 //=============================================================================================
 //
-// Filename   : debug_info.h
+// Filename   : control.h
 // Author     : Kuba Sejdak
 // Created on : 18.01.2016
 //
@@ -10,9 +10,9 @@
 //
 //=============================================================================================
 
-#ifndef DEBUG_INFO_H
-#define DEBUG_INFO_H
+#ifndef CONTROL_H
+#define CONTROL_H
 
-#include "common/commands/commands.h"
+#include "commands.h"
 
 #endif

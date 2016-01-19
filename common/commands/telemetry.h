@@ -1,6 +1,6 @@
 //=============================================================================================
 //
-// Filename   : control.h
+// Filename   : telemetry.h
 // Author     : Kuba Sejdak
 // Created on : 18.01.2016
 //
@@ -10,9 +10,9 @@
 //
 //=============================================================================================
 
-#ifndef CONTROL_H
-#define CONTROL_H
+#ifndef TELEMETRY_H
+#define TELEMETRY_H
 
-#include "common/commands/commands.h"
+#include "commands.h"
 
 #endif

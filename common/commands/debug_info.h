@@ -1,6 +1,6 @@
 //=============================================================================================
 //
-// Filename   : telemetry.h
+// Filename   : debug_info.h
 // Author     : Kuba Sejdak
 // Created on : 18.01.2016
 //
@@ -10,9 +10,9 @@
 //
 //=============================================================================================
 
-#ifndef TELEMETRY_H
-#define TELEMETRY_H
+#ifndef DEBUG_INFO_H
+#define DEBUG_INFO_H
 
-#include "common/commands/commands.h"
+#include "commands.h"
 
 #endif

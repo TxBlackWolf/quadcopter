@@ -22,9 +22,9 @@
 typedef enum {
     PARSING_OK,
     PARSING_BAD_VERSION,
-    PARSING_UNSUPPORTED_TYPE,
     PARSING_PACKET_LOST,
     PARSING_BAD_CRC,
+    PARSING_UNSUPPORTED_TYPE,
     PARSING_INVALID_DATA
 } CommandParsingError_t;
 
@@ -37,14 +37,18 @@ typedef enum {
 } CommandType_t;
 
 typedef struct {
-    uint8_t version_major;
-    uint8_t version_minor;
-    uint8_t version_patch;
+    uint16_t version_major;
+    uint16_t version_minor;
+    uint16_t version_patch;
     uint32_t command_id;
     CommandType_t type;
     uint8_t payload_size;
     uint32_t payload_crc;
 } __attribute__((packed)) CommandHeader_t;
+
+typedef uint32_t (*CRCFunctor)(uint8_t *, uint32_t);
+
+void command_registerCRCFunctor(CRCFunctor functor);
 
 bool command_checkVersion(CommandHeader_t *header);
 bool command_checkId(CommandHeader_t *header);

@@ -13,6 +13,6 @@
 #ifndef SYSTEM_STATUS_H
 #define SYSTEM_STATUS_H
 
-#include "common/commands/commands.h"
+#include "commands.h"
 
 #endif

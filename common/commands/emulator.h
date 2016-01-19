@@ -13,7 +13,7 @@
 #ifndef EMULATOR_H
 #define EMULATOR_H
 
-#include "common/commands/commands.h"
+#include "commands.h"
 
 #include <stdbool.h>
 #include <stdint.h>
