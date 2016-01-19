@@ -11,3 +11,9 @@
 //=============================================================================================
 
 #include "emulator.h"
+
+bool command_parseEmulator(uint8_t *payload, uint32_t size)
+{
+    // TODO: implement.
+    return true;
+}

@@ -13,9 +13,20 @@
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
+#include <stdbool.h>
 #include <stdint.h>
 
 #define COMMANDS_VERSION            "0.0.1"
+#define COMMANDS_MAX_SIZE_BYTES     1024
+
+typedef enum {
+    PARSING_OK,
+    PARSING_BAD_VERSION,
+    PARSING_UNSUPPORTED_TYPE,
+    PARSING_PACKET_LOST,
+    PARSING_BAD_CRC,
+    PARSING_INVALID_DATA
+} CommandParsingError_t;
 
 typedef enum {
     COMMAND_EMULATOR,               // Commands related to emulator (ex. GPIO status, PWM wave width).
@@ -29,10 +40,15 @@ typedef struct {
     uint8_t version_major;
     uint8_t version_minor;
     uint8_t version_patch;
+    uint32_t command_id;
     CommandType_t type;
     uint8_t payload_size;
-    uint32_t command_id;
-    uint32_t crc;
+    uint32_t payload_crc;
 } __attribute__((packed)) CommandHeader_t;
+
+bool command_checkVersion(CommandHeader_t *header);
+bool command_checkId(CommandHeader_t *header);
+bool command_checkCRC(uint8_t *buffer, uint32_t size, uint32_t crc);
+CommandParsingError_t command_parse(uint8_t *buffer);
 
 #endif

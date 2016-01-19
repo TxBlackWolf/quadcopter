@@ -13,6 +13,6 @@
 #ifndef DEBUG_INFO_H
 #define DEBUG_INFO_H
 
-#include "common/commands/command.h"
+#include "common/commands/commands.h"
 
 #endif
