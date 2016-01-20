@@ -1,6 +1,7 @@
 # flight-controller
 flight-controller/build/*
 flight-controller/bin/*
+flight-controller/index.html
 flight-controller/src/board/board_drivers_support.h
 flight-controller/src/board/board_pinout.h
 CMakeLists.txt.user

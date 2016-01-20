@@ -2,9 +2,9 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       05/12/2015
+/// @date       05.12.2015
 ///
-/// @copyright This file is a part of SkyViper project.
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 

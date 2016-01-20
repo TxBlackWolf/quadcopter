@@ -1,0 +1,6 @@
+<map id="command_parse" name="command_parse">
+<area shape="rect" id="node2" href="$commands_8c.html#a07d5d77e64d209354c91466e4c4883ed" title="Checks, if this message is compatible with this framework. " alt="" coords="175,5,340,32"/>
+<area shape="rect" id="node3" href="$commands_8c.html#a48062bd948be5dce9973272ea7a25bea" title="Checks, if this message is next in sequence order,. " alt="" coords="191,56,323,83"/>
+<area shape="rect" id="node4" href="$commands_8c.html#affef987539161e1dcae70ca8a8959331" title="Checks, if this command payload has correct CRC. " alt="" coords="182,107,333,133"/>
+<area shape="rect" id="node5" href="$emulator_8c.html#a8b02bfed0d908dabcc6983d7910eb9e7" title="Parses payload, that should contain emulator command. " alt="" coords="172,157,343,184"/>
+</map>

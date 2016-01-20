@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : commands.c
-// Author     : Kuba Sejdak
-// Created on : 15.01.2016
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       15.01.2016
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "commands.h"
 #include "emulator.h"
@@ -24,7 +22,7 @@ static CRCFunctor crc_functor = NULL;
 
 bool command_checkVersion(CommandHeader_t *header)
 {
-    // TODO: implement.
+    /// @todo Implement.
     return true;
 }
 
@@ -38,7 +36,7 @@ bool command_checkId(CommandHeader_t *header)
 
 bool command_checkCRC(uint8_t *buffer, uint32_t size, uint32_t crc)
 {
-    // TODO: implement.
+    /// @todo Implement.
     return true;
 }
 
