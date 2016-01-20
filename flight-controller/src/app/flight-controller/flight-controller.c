@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : flight-controller.c
-// Author     : Kuba Sejdak
-// Created on : 22.07.2015
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       22/07/2015
+///
+/// @copyright This file is a part of SkyViper project.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "board/board.h"
 #include "board/console.h"
@@ -16,6 +14,8 @@
 
 #include <stdbool.h>
 
+/// @brief Prints welcome message along with firmware info.
+/// @return None
 void show_welcome_message()
 {
     console_write("\n");
@@ -41,9 +41,11 @@ void show_welcome_message()
     console_write("\n");
 }
 
+/// @brief Main program function.
+/// @return 0 on success, 1 otherwise.
 int main()
 {
-    // TODO: check if this is reboot in emergency mode.
+    /// @todo Check if this is reboot in emergency mode.
 
     if(!board_init())
         panic("Failed to initialize board.");
