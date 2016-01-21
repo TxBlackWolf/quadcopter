@@ -14,6 +14,7 @@
 #include "Core/Alerts/AlertsDockWidget.h"
 #include "Core/FPV/FPVDockWidget.h"
 #include "Core/Geolocation/GeolocationDockWidget.h"
+#include "Core/Geolocation/GoogleMapsView.h"
 #include "Core/Logs/LogsDockWidget.h"
 #include "Core/Logs/ConsoleLogsWidget.h"
 #include "Core/Steering/SteeringDockWidget.h"
@@ -71,6 +72,7 @@ private:
     ConsoleLogsWidget* m_consoleLogsWidget;
 
     GeolocationDockWidget* m_geolocationDockWidget;
+    GoogleMapsView *m_googleMapsView;
 
     TelemetryDockWidget* m_telemetryDockWidget;
     TelemetryTabWidget* m_telemetryTabWidget;

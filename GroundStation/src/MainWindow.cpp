@@ -39,6 +39,7 @@ MainWindow::~MainWindow()
     delete m_logsDockWidget;
     delete m_consoleLogsWidget;
     delete m_geolocationDockWidget;
+    delete m_googleMapsView;
     delete m_telemetryDockWidget;
     delete m_telemetryTabWidget;
     delete m_fpvDockWidget;
@@ -143,6 +144,7 @@ void MainWindow::initTopDockWidgets()
 void MainWindow::initCentralWidgets()
 {
     m_consoleLogsWidget = new ConsoleLogsWidget();
+    m_googleMapsView = new GoogleMapsView();
     m_telemetryTabWidget = new TelemetryTabWidget();
 
     setCentralView(CENTRAL_VIEW_LOGS);
@@ -166,6 +168,7 @@ void MainWindow::setCentralView(CentralView centralView)
         break;
     case CENTRAL_VIEW_GEOLOCATION:
         m_currentTopDockWidget = m_geolocationDockWidget;
+        setCentralWidget(m_googleMapsView);
         break;
 	case CENTRAL_VIEW_TELEMETRY:
         m_currentTopDockWidget = m_telemetryDockWidget;

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT              += core gui serialport
+QT              += core gui serialport webkitwidgets
 CONFIG          += c++11 qwt
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -39,6 +39,7 @@ SOURCES         += main.cpp \
                 Core/Alerts/AlertsDockWidget.cpp \
                 Core/FPV/FPVDockWidget.cpp \
                 Core/Geolocation/GeolocationDockWidget.cpp \
+                Core/Geolocation/GoogleMapsView.cpp \
                 Core/Logs/ConsoleLogsWidget.cpp \
                 Core/Logs/LogsDockWidget.cpp \
                 Core/Logs/LogsOptionsDialog.cpp \
@@ -53,12 +54,13 @@ SOURCES         += main.cpp \
                 ../../common/commands/debug_info.c \
                 ../../common/commands/emulator.c \
                 ../../common/commands/system_status.c \
-                ../../common/commands/telemetry.c \
+                ../../common/commands/telemetry.c
 
 HEADERS         += MainWindow.h \
                 Core/Alerts/AlertsDockWidget.h \
                 Core/FPV/FPVDockWidget.h \
                 Core/Geolocation/GeolocationDockWidget.h \
+                Core/Geolocation/GoogleMapsView.h \
                 Core/Logs/ConsoleLogsWidget.h \
                 Core/Logs/LogsDockWidget.h \
                 Core/Logs/LogsOptionsDialog.h \
@@ -80,6 +82,7 @@ FORMS           += MainWindow.ui \
                 Core/Alerts/AlertsDockWidget.ui \
                 Core/FPV/FPVDockWidget.ui \
                 Core/Geolocation/GeolocationDockWidget.ui \
+                Core/Geolocation/GoogleMapsView.ui \
                 Core/Logs/LogsDockWidget.ui \
                 Core/Logs/LogsOptionsDialog.ui \
                 Core/Logs/ConsoleLogsWidget.ui \
