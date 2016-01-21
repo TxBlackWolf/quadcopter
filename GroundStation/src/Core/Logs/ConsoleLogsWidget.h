@@ -2,34 +2,30 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       29.11.2014
+/// @date       14.01.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef ABOUTDIALOG_H
-#define ABOUTDIALOG_H
+#ifndef CONSOLELOGSWIDGET_H
+#define CONSOLELOGSWIDGET_H
 
-#include <QDialog>
+#include <QWidget>
 
 namespace Ui {
-    class AboutDialog;
+    class ConsoleLogsWidget;
 }
 
-class AboutDialog : public QDialog {
+class ConsoleLogsWidget : public QWidget {
     Q_OBJECT
 
 public:
-    /// @brief Constructor.
-    /// @param [in] parent      parent widget
-    explicit AboutDialog(QWidget* parent = 0);
-
-    /// @brief Virtual destructor.
-    ~AboutDialog();
+    explicit ConsoleLogsWidget(QWidget* parent = 0);
+    ~ConsoleLogsWidget();
 
 private:
-    Ui::AboutDialog* m_ui;
+    Ui::ConsoleLogsWidget* m_ui;
 };
 
 #endif

@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT              += core gui serialport
-CONFIG          += c++11
+CONFIG          += c++11 qwt
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -36,39 +36,57 @@ LIBS            += -lboost_system -lboost_serialization
 
 SOURCES         += main.cpp \
                 MainWindow.cpp \
+                Core/Alerts/AlertsDockWidget.cpp \
+                Core/FPV/FPVDockWidget.cpp \
+                Core/Geolocation/GeolocationDockWidget.cpp \
+                Core/Logs/ConsoleLogsWidget.cpp \
+                Core/Logs/LogsDockWidget.cpp \
+                Core/Logs/LogsOptionsDialog.cpp \
+                Core/Steering/SteeringDockWidget.cpp \
+                Core/SystemInfo/SystemInfoDockWidget.cpp \
+                Core/Telemetry/TelemetryDockWidget.cpp \
+                Core/Telemetry/TelemetryTabWidget.cpp \
                 Misc/AboutDialog.cpp \
-                Toolbar/Alerts/AlertsDockWidget.cpp \
-                Toolbar/FPV/FPVDockWidget.cpp \
-                Toolbar/Geolocation/GeolocationDockWidget.cpp \
-                Toolbar/Logs/ConsoleLogsWidget.cpp \
-                Toolbar/Logs/LogsDockWidget.cpp \
-                Toolbar/Logs/LogsOptionsDialog.cpp \
-                Toolbar/SystemInfo/SystemInfoDockWidget.cpp \
-                Toolbar/Telemetry/TelemetryDockWidget.cpp \
-                Tools/Options.cpp
+                Tools/Options.cpp \
+                ../../common/commands/commands.c \
+                ../../common/commands/control.c \
+                ../../common/commands/debug_info.c \
+                ../../common/commands/emulator.c \
+                ../../common/commands/system_status.c \
+                ../../common/commands/telemetry.c \
 
 HEADERS         += MainWindow.h \
+                Core/Alerts/AlertsDockWidget.h \
+                Core/FPV/FPVDockWidget.h \
+                Core/Geolocation/GeolocationDockWidget.h \
+                Core/Logs/ConsoleLogsWidget.h \
+                Core/Logs/LogsDockWidget.h \
+                Core/Logs/LogsOptionsDialog.h \
+                Core/Steering/SteeringDockWidget.h \
+                Core/SystemInfo/SystemInfoDockWidget.h \
+                Core/Telemetry/TelemetryDockWidget.h \
+                Core/Telemetry/TelemetryTabWidget.h \
                 Misc/AboutDialog.h \
                 Misc/Version.h \
-                Toolbar/Alerts/AlertsDockWidget.h \
-                Toolbar/FPV/FPVDockWidget.h \
-                Toolbar/Geolocation/GeolocationDockWidget.h \
-                Toolbar/Logs/ConsoleLogsWidget.h \
-                Toolbar/Logs/LogsDockWidget.h \
-                Toolbar/Logs/LogsOptionsDialog.h \
-                Toolbar/SystemInfo/SystemInfoDockWidget.h \
-                Toolbar/Telemetry/TelemetryDockWidget.h \
-                Tools/Options.h
+                Tools/Options.h \
+                ../../common/commands/commands.h \
+                ../../common/commands/control.h \
+                ../../common/commands/debug_info.h \
+                ../../common/commands/emulator.h \
+                ../../common/commands/system_status.h \
+                ../../common/commands/telemetry.h
 
 FORMS           += MainWindow.ui \
-                Misc/AboutDialog.ui \
-                Toolbar/Alerts/AlertsDockWidget.ui \
-                Toolbar/FPV/FPVDockWidget.ui \
-                Toolbar/Geolocation/GeolocationDockWidget.ui \
-                Toolbar/Logs/LogsDockWidget.ui \
-                Toolbar/Logs/LogsOptionsDialog.ui \
-                Toolbar/Logs/ConsoleLogsWidget.ui \
-                Toolbar/SystemInfo/SystemInfoDockWidget.ui \
-                Toolbar/Telemetry/TelemetryDockWidget.ui
+                Core/Alerts/AlertsDockWidget.ui \
+                Core/FPV/FPVDockWidget.ui \
+                Core/Geolocation/GeolocationDockWidget.ui \
+                Core/Logs/LogsDockWidget.ui \
+                Core/Logs/LogsOptionsDialog.ui \
+                Core/Logs/ConsoleLogsWidget.ui \
+                Core/Steering/SteeringDockWidget.ui \
+                Core/SystemInfo/SystemInfoDockWidget.ui \
+                Core/Telemetry/TelemetryDockWidget.ui \
+                Core/Telemetry/TelemetryTabWidget.ui \
+                Misc/AboutDialog.ui
 
 RESOURCES       += resources.qrc

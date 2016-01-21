@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : GeolocationDockWidget.h
-// Author     : Kuba Sejdak
-// Created on : 09.02.2015
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       09.02.2015
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef GEOLOCATIONDOCKWIDGET_H
 #define GEOLOCATIONDOCKWIDGET_H

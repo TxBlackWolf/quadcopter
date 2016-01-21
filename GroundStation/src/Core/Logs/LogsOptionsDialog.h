@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : LogsOptionsDialog.h
-// Author     : Kuba Sejdak
-// Created on : 28.11.2014
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       28.11.2015
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef LOGSOPTIONSDIALOG_H
 #define LOGSOPTIONSDIALOG_H

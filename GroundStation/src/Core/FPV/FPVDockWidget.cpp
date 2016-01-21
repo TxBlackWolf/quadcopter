@@ -2,15 +2,23 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       30.11.2014
+/// @date       11.02.2015
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef VERSION_H
-#define VERSION_H
+#include "FPVDockWidget.h"
+#include "ui_FPVDockWidget.h"
 
-static const char* GROUNDSTATION_VERSION = "0.010";
+FPVDockWidget::FPVDockWidget(QWidget* parent)
+    : QDockWidget(parent)
+    , m_ui(new Ui::FPVDockWidget())
+{
+    m_ui->setupUi(this);
+}
 
-#endif
+FPVDockWidget::~FPVDockWidget()
+{
+    delete m_ui;
+}

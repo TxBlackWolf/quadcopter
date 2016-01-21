@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : MainWindow.cpp
-// Author     : Kuba Sejdak
-// Created on : 28.11.2014
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       28.11.2014
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
@@ -42,9 +40,11 @@ MainWindow::~MainWindow()
     delete m_consoleLogsWidget;
     delete m_geolocationDockWidget;
     delete m_telemetryDockWidget;
+    delete m_telemetryTabWidget;
     delete m_fpvDockWidget;
     delete m_systemInfoDockWidget;
     delete m_alertsDockWidget;
+    delete m_steeringDockWidget;
 }
 
 void MainWindow::toolbarLogsClicked()
@@ -77,6 +77,12 @@ void MainWindow::toolbarAlertsClicked()
     setCentralView(CENTRAL_VIEW_ALERTS);
 }
 
+void MainWindow::toolbarSteeringClicked()
+{
+    setCentralView(CENTRAL_VIEW_STEERING);
+}
+
+
 void MainWindow::init()
 {
     m_actionGroup = new QActionGroup(this);
@@ -87,6 +93,7 @@ void MainWindow::init()
     m_actionGroup->addAction(m_ui->toolbarFPV);
     m_actionGroup->addAction(m_ui->toolbarSystemInfo);
     m_actionGroup->addAction(m_ui->toolbarAlerts);
+    m_actionGroup->addAction(m_ui->toolbarSteering);
 
     initTopDockWidgets();
     initCentralWidgets();
@@ -97,6 +104,7 @@ void MainWindow::init()
     connect(m_ui->toolbarFPV, SIGNAL(triggered()), this, SLOT(toolbarFPVClicked()));
     connect(m_ui->toolbarSystemInfo, SIGNAL(triggered()), this, SLOT(toolbarSystemInfoClicked()));
     connect(m_ui->toolbarAlerts, SIGNAL(triggered()), this, SLOT(toolbarAlertsClicked()));
+    connect(m_ui->toolbarSteering, SIGNAL(triggered()), this, SLOT(toolbarSteeringClicked()));
 }
 
 void MainWindow::initTopDockWidgets()
@@ -125,12 +133,17 @@ void MainWindow::initTopDockWidgets()
     m_alertsDockWidget->hide();
     addDockWidget(Qt::TopDockWidgetArea, m_alertsDockWidget);
 
+    m_steeringDockWidget = new SteeringDockWidget();
+    m_steeringDockWidget->hide();
+    addDockWidget(Qt::TopDockWidgetArea, m_steeringDockWidget);
+
     setDockNestingEnabled(true);
 }
 
 void MainWindow::initCentralWidgets()
 {
     m_consoleLogsWidget = new ConsoleLogsWidget();
+    m_telemetryTabWidget = new TelemetryTabWidget();
 
     setCentralView(CENTRAL_VIEW_LOGS);
     m_ui->toolbarLogs->setChecked(true);
@@ -156,6 +169,7 @@ void MainWindow::setCentralView(CentralView centralView)
         break;
 	case CENTRAL_VIEW_TELEMETRY:
         m_currentTopDockWidget = m_telemetryDockWidget;
+        setCentralWidget(m_telemetryTabWidget);
         break;
     case CENTRAL_VIEW_FPV:
         m_currentTopDockWidget = m_fpvDockWidget;
@@ -165,6 +179,9 @@ void MainWindow::setCentralView(CentralView centralView)
         break;
     case CENTRAL_VIEW_ALERTS:
         m_currentTopDockWidget = m_alertsDockWidget;
+        break;
+    case CENTRAL_VIEW_STEERING:
+        m_currentTopDockWidget = m_steeringDockWidget;
         break;
     default:
         break;

@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : LogsDockWidget.cpp
-// Author     : Kuba Sejdak
-// Created on : 08.02.2015
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       08.02.2015
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "LogsDockWidget.h"
 #include "ui_LogsDockWidget.h"

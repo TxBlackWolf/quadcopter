@@ -2,34 +2,32 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       29.11.2014
+/// @date       11.02.2015
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef ABOUTDIALOG_H
-#define ABOUTDIALOG_H
+#ifndef TELEMETRYDOCKWIDGET_H
+#define TELEMETRYDOCKWIDGET_H
 
-#include <QDialog>
+#include <QDockWidget>
 
-namespace Ui {
-    class AboutDialog;
+namespace Ui
+{
+    class TelemetryDockWidget;
 }
 
-class AboutDialog : public QDialog {
+class TelemetryDockWidget : public QDockWidget
+{
     Q_OBJECT
 
 public:
-    /// @brief Constructor.
-    /// @param [in] parent      parent widget
-    explicit AboutDialog(QWidget* parent = 0);
-
-    /// @brief Virtual destructor.
-    ~AboutDialog();
+    explicit TelemetryDockWidget(QWidget* parent = 0);
+    ~TelemetryDockWidget();
 
 private:
-    Ui::AboutDialog* m_ui;
+    Ui::TelemetryDockWidget* m_ui;
 };
 
 #endif

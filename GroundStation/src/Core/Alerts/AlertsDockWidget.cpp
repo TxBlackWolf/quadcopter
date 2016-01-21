@@ -2,15 +2,23 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       30.11.2014
+/// @date       11.02.2015
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef VERSION_H
-#define VERSION_H
+#include "AlertsDockWidget.h"
+#include "ui_AlertsDockWidget.h"
 
-static const char* GROUNDSTATION_VERSION = "0.010";
+AlertsDockWidget::AlertsDockWidget(QWidget* parent)
+    : QDockWidget(parent)
+    , m_ui(new Ui::AlertsDockWidget())
+{
+    m_ui->setupUi(this);
+}
 
-#endif
+AlertsDockWidget::~AlertsDockWidget()
+{
+    delete m_ui;
+}

@@ -2,34 +2,30 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       29.11.2014
+/// @date       11.02.2015
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef ABOUTDIALOG_H
-#define ABOUTDIALOG_H
+#ifndef ALERTSDOCKWIDGET_H
+#define ALERTSDOCKWIDGET_H
 
-#include <QDialog>
+#include <QDockWidget>
 
 namespace Ui {
-    class AboutDialog;
+    class AlertsDockWidget;
 }
 
-class AboutDialog : public QDialog {
+class AlertsDockWidget : public QDockWidget {
     Q_OBJECT
 
 public:
-    /// @brief Constructor.
-    /// @param [in] parent      parent widget
-    explicit AboutDialog(QWidget* parent = 0);
-
-    /// @brief Virtual destructor.
-    ~AboutDialog();
+    explicit AlertsDockWidget(QWidget* parent = 0);
+    ~AlertsDockWidget();
 
 private:
-    Ui::AboutDialog* m_ui;
+    Ui::AlertsDockWidget* m_ui;
 };
 
 #endif
