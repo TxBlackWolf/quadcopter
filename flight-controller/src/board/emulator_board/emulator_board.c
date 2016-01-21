@@ -23,7 +23,7 @@ void board_showSystemClocks()
     // Empty.
 }
 
-bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
+bool board_periodicTimerInit(TimerHandle_t *timer_handle)
 {
     Emulator_TimerConfig_t timer_config;
     timer_config.signal_handler = sigalrm_handler;
@@ -42,14 +42,14 @@ bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
     return true;
 }
 
-bool board_strobeInit(GPIOHandle_t *gpio_handle __attribute__((unused)), GPIOConfig_t gpio_general_config __attribute__((unused)))
+bool board_strobeInit(GPIOHandle_t *gpio_handle __attribute__((unused)), GPIOConfig_t *gpio_general_config __attribute__((unused)))
 {
-    // TODO: implement.
+    /// @todo Implement.
     return true;
 }
 
-bool board_engineInit(PWMHandle_t *pwm_handle __attribute__((unused)), PWMConfig_t pwm_config __attribute__((unused)), GPIOConfig_t gpio_general_config __attribute__((unused)))
+bool board_engineInit(PWMHandle_t *pwm_handle __attribute__((unused)), PWMConfig_t *pwm_config __attribute__((unused)), GPIOConfig_t *gpio_general_config __attribute__((unused)))
 {
-    // TODO: implement.
+    /// @todo Implement.
     return true;
 }

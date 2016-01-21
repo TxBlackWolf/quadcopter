@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : board.c
-// Author     : Kuba Sejdak
-// Created on : 23.08.2015
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       23.08.2015
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "board.h"
 #include "board_drivers_support.h"
@@ -19,20 +17,20 @@
 
 void panic(const char *format, ...)
 {
-    // TODO: implement.
+    /// @todo Implement.
     // 1) when in debug moge - red user led ON + console write + CPU halt
     // 2) when in release mode - red user led ON (permanent) + console write + CPU restart
 }
 
 bool board_isEmergencyBoot()
 {
-    // TODO: implement.
+    /// @todo Implement.
     return false;
 }
 
 bool board_init()
 {
-    // TODO: init panic LED.
+    /// @todo Init panic LED.
 
     if(!console_init())
         return false;

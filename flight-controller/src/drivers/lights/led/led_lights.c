@@ -41,7 +41,7 @@ bool strobe_init()
     gpio_config.direction = GPIO_DIRECTION_OUT;
     gpio_config.resistor_type = GPIO_RESISTOR_NONE;
 
-    if(!board_strobeInit(&blue_strobe.gpio, gpio_config))
+    if(!board_strobeInit(&blue_strobe.gpio, &gpio_config))
         return false;
 
     strobe_enable();

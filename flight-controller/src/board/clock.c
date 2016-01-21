@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : clock.c
-// Author     : Kuba Sejdak
-// Created on : 05.12.2015
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       05.12.2015
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "clock.h"
 #include "assert.h"
@@ -20,13 +18,14 @@
 #include <limits.h>
 #include <stdlib.h>
 
-#define CLOCK_MAX_PERIODIC_EVENTS_COUNT     5
+#define CLOCK_MAX_PERIODIC_EVENTS_COUNT     5       ///< Maximal number of periodic events.
 
+/// @brief Internal representation of registered periodic events.
 typedef struct {
-    ClockEventCallback_t callback;
-    uint32_t period_ms;
-    uint32_t deadline_ms;
-    int32_t count;
+    ClockEventCallback_t callback;                  ///< Event callback.
+    uint32_t period_ms;                             ///< Original event period.
+    uint32_t deadline_ms;                           ///< Computed deadline for this event. Should be in sync with timer tick counter.
+    int32_t count;                                  ///< Number of occurences, before it will be removed.
 } PeriodicEvent_t;
 
 TimerHandle_t periodic_timer_handle;
@@ -37,7 +36,7 @@ uint32_t tick_counter_ms = 0;
 
 bool clock_initPeriodicTimer()
 {
-    return board_initPeriodicTimer(&periodic_timer_handle);
+    return board_periodicTimerInit(&periodic_timer_handle);
 }
 
 bool clock_addPeriodicCallback(ClockEventCallback_t callback, uint32_t period_ms, int32_t count)

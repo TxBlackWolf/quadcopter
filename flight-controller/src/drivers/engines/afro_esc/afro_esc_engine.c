@@ -50,7 +50,7 @@ bool engines_init()
     console_write("engines: Afro ESC min pulse duration: %d us\n", AFRO_ESC_MIN_PULSE_WIDTH_US);
     console_write("engines: Afro ESC min pulse width: %d%%\n", AFRO_ESC_MIN_PULSE_WIDTH_PERC);
 
-    if(!board_engineInit(&front_left_engine, pwm_config, gpio_config)) {
+    if(!board_engineInit(&front_left_engine, &pwm_config, &gpio_config)) {
         console_write("engines: Failed to initialize board for engines\n");
         return false;
     }

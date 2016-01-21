@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : board.h
-// Author     : Kuba Sejdak
-// Created on : 23.07.2015
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       23.07.2015
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef BOARD_H
 #define BOARD_H
@@ -19,13 +17,39 @@
 
 #include <stdbool.h>
 
+/// @brief System panic function.
+/// @param [in]                         Panic message.
+/// @return None.
 void panic(const char *format, ...);
+
+/// @brief Checks, if currently running system is in emergency mode.
+/// @return True if yes, false otherwise.
 bool board_isEmergencyBoot();
+
+/// @brief Prints current system-wide clock settings.
+/// @return None.
 void board_showSystemClocks();
 
+/// @brief Initializes all board specific features.
+/// @return True on success, false otherwise.
 bool board_init();
-bool board_initPeriodicTimer(TimerHandle_t *timer_handle);
-bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t gpio_general_config);
-bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t pwm_config, GPIOConfig_t gpio_general_config);
+
+/// @brief Initializes periodic timer.
+/// @param [in/out] timer_handle        Handle to timer, that should be used.
+/// @return True on success, false otherwise.
+bool board_periodicTimerInit(TimerHandle_t *timer_handle);
+
+/// @brief Initializes strobe light.
+/// @param [in/out] gpio_handle	        Handle to GPIO, that should be used.
+/// @param [in] gpio_general_config     GPIO configuration.
+/// @return True on success, false otherwise.
+bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t *gpio_general_config);
+
+/// @brief Initializes single engine.
+/// @param [in/out] pwm_handle          Handle to PWM, that should be used.
+/// @param [in] pwm_config              PWM configuration.
+/// @param [in] gpio_general_config     GPIO configuration.
+/// @return True on success, false otherwise.
+bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t *pwm_config, GPIOConfig_t *gpio_general_config);
 
 #endif

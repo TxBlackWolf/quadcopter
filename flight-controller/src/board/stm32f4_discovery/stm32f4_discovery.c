@@ -35,7 +35,7 @@ void board_showSystemClocks()
     console_write("board: pclk2 (APB2 bus): %d kHz\n", clocks.pclk2_frequency_hz / 1000);
 }
 
-bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
+bool board_periodicTimerInit(TimerHandle_t *timer_handle)
 {
     timer_handle->device = PERIODIC_EVENT_TIMER;
     timer_handle->channel = PERIODIC_EVENT_TIMER_CHANNEL;
@@ -68,11 +68,11 @@ bool board_initPeriodicTimer(TimerHandle_t *timer_handle)
     return stm32f4_registerEventCallback(timer_handle, TIMER_IRQ_UPDATE, clock_processPeriodicEvents);
 }
 
-bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t gpio_general_config)
+bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t *gpio_general_config)
 {
     // Configure GPIO.
     STM32F4_GPIOConfig_t gpio_config;
-    gpio_config.general_config = gpio_general_config;
+    gpio_config.general_config = *gpio_general_config;
     gpio_config.function = GPIO_DIGITAL_PIN;
     gpio_config.speed = GPIO_SPEED_50MHz;
     gpio_config.mode = GPIO_MODE_OUT;
@@ -86,11 +86,11 @@ bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t gpio_general_confi
     return true;
 }
 
-bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t pwm_config, GPIOConfig_t gpio_general_config)
+bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t *pwm_config, GPIOConfig_t *gpio_general_config)
 {
     // Configure GPIO.
     STM32F4_GPIOConfig_t gpio_config;
-    gpio_config.general_config = gpio_general_config;
+    gpio_config.general_config = *gpio_general_config;
     gpio_config.function = stm32f4_timerToPinFunction(&pwm_handle->timer);
     gpio_config.speed = GPIO_SPEED_100MHz;
     gpio_config.mode = GPIO_MODE_ALTERNATE;
@@ -102,7 +102,7 @@ bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t pwm_config, GPIOConfi
     }
 
     // Configure PWM.
-    if(!stm32f4_pwmInit(pwm_handle, &pwm_config)) {
+    if(!stm32f4_pwmInit(pwm_handle, pwm_config)) {
         console_write("board: Failed to initialize PWM for %s\n", pwm_handle->gpio.name);
         return false;
     }
