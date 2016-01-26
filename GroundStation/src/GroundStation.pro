@@ -48,7 +48,7 @@ SOURCES         += main.cpp \
                 Core/Telemetry/TelemetryDockWidget.cpp \
                 Core/Telemetry/TelemetryTabWidget.cpp \
                 Misc/AboutDialog.cpp \
-                Tools/Options.cpp \
+                Tools/Options/LogsOptions.cpp \
                 ../../common/commands/commands.c \
                 ../../common/commands/control.c \
                 ../../common/commands/debug_info.c \
@@ -70,7 +70,7 @@ HEADERS         += MainWindow.h \
                 Core/Telemetry/TelemetryTabWidget.h \
                 Misc/AboutDialog.h \
                 Misc/Version.h \
-                Tools/Options.h \
+                Tools/Options/LogsOptions.h \
                 ../../common/commands/commands.h \
                 ../../common/commands/control.h \
                 ../../common/commands/debug_info.h \

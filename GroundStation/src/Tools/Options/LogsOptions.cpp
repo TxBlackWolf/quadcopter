@@ -8,7 +8,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "Options.h"
+#include "LogsOptions.h"
 
 void SerialPortOptions::save(QSettings& settings)
 {
@@ -34,16 +34,33 @@ void SerialPortOptions::load(QSettings& settings)
     settings.endGroup();
 }
 
+void NetworkServerOptions::save(QSettings& settings)
+{
+    settings.beginGroup("NetworkServerOptions");
+    settings.setValue("address", address);
+    settings.setValue("port", port);
+    settings.endGroup();
+}
+
+void NetworkServerOptions::load(QSettings& settings)
+{
+    settings.beginGroup("NetworkServerOptions");
+    address = settings.value("address", "127.0.0.1").toString();
+    port = settings.value("port", 12555).toUInt();
+    settings.endGroup();
+}
+
 void LogsOptions::save()
 {
     QSettings settings;
 
     settings.beginGroup("LogsOptions");
+    settings.setValue("serialLogsEnabled", serialLogsEnabled);
     settings.beginGroup("SerialLogs");
     serialLogs.save(settings);
     settings.endGroup();
-    settings.beginGroup("RadioLogs");
-    radioLogs.save(settings);
+    settings.beginGroup("NetworkLogs");
+    networkLogs.save(settings);
     settings.endGroup();
     settings.endGroup();
 }
@@ -53,11 +70,12 @@ void LogsOptions::load()
     QSettings settings;
 
     settings.beginGroup("LogsOptions");
+    serialLogsEnabled = settings.value("serialLogsEnabled", true).toBool();
     settings.beginGroup("SerialLogs");
     serialLogs.load(settings);
     settings.endGroup();
-    settings.beginGroup("RadioLogs");
-    radioLogs.load(settings);
+    settings.beginGroup("NetworkLogs");
+    networkLogs.load(settings);
     settings.endGroup();
     settings.endGroup();
 }

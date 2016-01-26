@@ -8,21 +8,16 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef OPTIONS_H
-#define OPTIONS_H
+#ifndef LOGSOPTIONS_H
+#define LOGSOPTIONS_H
 
+#include <QSerialPort>
 #include <QSettings>
 #include <QString>
-#include <QSerialPort>
 
 class SerialPortOptions {
 public:
-    /// @brief Saves current serial port options.
-    /// @param [in] settings        handle to settings object
     void save(QSettings& settings);
-
-    /// @brief Loads current serial port options.
-    /// /// @param [in] settings        handle to settings object
     void load(QSettings& settings);
 
 public:
@@ -34,17 +29,25 @@ public:
     QSerialPort::FlowControl flowControl;
 };
 
+class NetworkServerOptions {
+public:
+    void save(QSettings& settings);
+    void load(QSettings& settings);
+
+public:
+    QString address;
+    unsigned int port;
+};
+
 class LogsOptions {
 public:
-    /// @brief Saves current communication options.
     void save();
-
-    /// @brief Loads current communication options.
     void load();
 
 public:
+    bool serialLogsEnabled;
     SerialPortOptions serialLogs;
-    SerialPortOptions radioLogs;
+    NetworkServerOptions networkLogs;
 };
 
 #endif

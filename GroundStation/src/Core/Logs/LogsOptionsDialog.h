@@ -11,6 +11,8 @@
 #ifndef LOGSOPTIONSDIALOG_H
 #define LOGSOPTIONSDIALOG_H
 
+#include "Tools/Options/LogsOptions.h"
+
 #include <QDialog>
 
 namespace Ui {
@@ -21,33 +23,21 @@ class LogsOptionsDialog : public QDialog {
     Q_OBJECT
 
 public:
-    /// @brief Constructor.
-    /// @param [in] parent              parent widget
     explicit LogsOptionsDialog(QWidget* parent = 0);
-
-    /// @brief Virtual destructor.
     virtual ~LogsOptionsDialog();
 
 public slots:
-    /// @brief Updates description for currently selected serial port.
-    /// @param [in] currentPortIndex    index of current port
     void changeSerialLogsPortInfo(int currentPortIndex);
-
-    /// @brief Updates description for currently selected radio port.
-    /// @param [in] currentPortIndex    index of current port
-    void changeRadioLogsPortInfo(int currentPortIndex);
-
-    /// @brief Saves all current options.
+    void radioButtonSerialToggled(bool state);
+    void radioButtonNetworkToggled(bool state);
     void saveOptions();
 
 
 
 private:
-    /// @brief Initializes options dialog.
     void init();
-
-    /// @brief Initializes all options related to serial ports.
-    void initSerialPortOptions();
+    void initSerialPortOptions(SerialPortOptions& options);
+    void initNetworkOptions(NetworkServerOptions& options);
 
 private:
     Ui::LogsOptionsDialog* m_ui;
