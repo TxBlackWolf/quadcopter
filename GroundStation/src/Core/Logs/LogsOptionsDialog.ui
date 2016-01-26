@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>522</width>
-    <height>354</height>
+    <height>392</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -24,7 +24,7 @@
   <property name="windowTitle">
    <string>Logs options</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_16">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
@@ -453,6 +453,51 @@
         </widget>
        </item>
       </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="labelLogDir">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>90</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Save logs to:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditLogsDir"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonLogsDir">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>120</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Select path</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

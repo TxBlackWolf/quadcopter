@@ -11,6 +11,9 @@
 #ifndef CONSOLELOGSWIDGET_H
 #define CONSOLELOGSWIDGET_H
 
+#include <QMutex>
+#include <QTcpServer>
+#include <QTcpSocket>
 #include <QWidget>
 
 namespace Ui {
@@ -26,6 +29,9 @@ public:
 
 private:
     Ui::ConsoleLogsWidget* m_ui;
+
+    QTcpServer m_tcpServer;
+    QMutex m_mutex;
 };
 
 #endif

@@ -11,7 +11,7 @@
 #include "ConsoleLogsWidget.h"
 #include "ui_ConsoleLogsWidget.h"
 
-ConsoleLogsWidget::ConsoleLogsWidget(QWidget *parent)
+ConsoleLogsWidget::ConsoleLogsWidget(QWidget* parent)
     : QWidget(parent)
     , m_ui(new Ui::ConsoleLogsWidget())
 {

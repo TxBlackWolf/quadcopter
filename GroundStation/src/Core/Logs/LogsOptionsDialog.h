@@ -30,17 +30,20 @@ public slots:
     void changeSerialLogsPortInfo(int currentPortIndex);
     void radioButtonSerialToggled(bool state);
     void radioButtonNetworkToggled(bool state);
+    void buttonSelectLogsDirClicked(bool);
     void saveOptions();
 
 
 
 private:
     void init();
-    void initSerialPortOptions(SerialPortOptions& options);
-    void initNetworkOptions(NetworkServerOptions& options);
+    void initSerialPortOptions();
+    void initNetworkOptions();
 
 private:
     Ui::LogsOptionsDialog* m_ui;
+
+    LogsOptions m_options;
 };
 
 #endif

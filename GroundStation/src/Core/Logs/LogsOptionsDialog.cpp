@@ -13,6 +13,7 @@
 
 #include "Tools/Options/LogsOptions.h"
 
+#include <QFileDialog>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 
@@ -37,15 +38,23 @@ void LogsOptionsDialog::init()
     connect(m_ui->comboBoxPortSerial, SIGNAL(currentIndexChanged(int)), this, SLOT(changeSerialLogsPortInfo(int)));
     connect(m_ui->radioButtonSerial, SIGNAL(toggled(bool)), this, SLOT(radioButtonSerialToggled(bool)));
     connect(m_ui->radioButtonNetwork, SIGNAL(toggled(bool)), this, SLOT(radioButtonNetworkToggled(bool)));
+    connect(m_ui->pushButtonLogsDir, SIGNAL(clicked(bool)), this, SLOT(buttonSelectLogsDirClicked(bool)));
 
-    LogsOptions options;
-    options.load();
+    m_options.load();
 
-    initSerialPortOptions(options.serialLogs);
-    initNetworkOptions(options.networkLogs);
+    initSerialPortOptions();
+    initNetworkOptions();
 
-    radioButtonSerialToggled(options.serialLogsEnabled);
-    radioButtonNetworkToggled(!options.serialLogsEnabled);
+    radioButtonSerialToggled(m_options.serialLogsEnabled);
+    radioButtonNetworkToggled(!m_options.serialLogsEnabled);
+
+    m_ui->lineEditLogsDir->setText(m_options.logsPath);
+}
+
+void LogsOptionsDialog::changeSerialLogsPortInfo(int currentPortIndex)
+{
+    QString portDescription = m_ui->comboBoxPortSerial->itemData(currentPortIndex).toString();
+    m_ui->labelPortDescSerial->setText(portDescription);
 }
 
 void LogsOptionsDialog::radioButtonSerialToggled(bool state)
@@ -66,40 +75,42 @@ void LogsOptionsDialog::radioButtonNetworkToggled(bool state)
     m_ui->lineEditPort->setEnabled(state);
 }
 
-void LogsOptionsDialog::changeSerialLogsPortInfo(int currentPortIndex)
+void LogsOptionsDialog::buttonSelectLogsDirClicked(bool)
 {
-    QString portDescription = m_ui->comboBoxPortSerial->itemData(currentPortIndex).toString();
-    m_ui->labelPortDescSerial->setText(portDescription);
+    QString logsPath = QFileDialog::getExistingDirectory(this, "Save logs to");
+    m_ui->lineEditLogsDir->setText(logsPath);
 }
 
 void LogsOptionsDialog::saveOptions()
 {
-    LogsOptions options;
-    options.load();
+    m_options.load();
 
-    options.serialLogsEnabled = m_ui->radioButtonSerial->isChecked();
+    m_options.serialLogsEnabled = m_ui->radioButtonSerial->isChecked();
+    m_options.logsPath = m_ui->lineEditLogsDir->text();
 
-    options.serialLogs.portName = m_ui->comboBoxPortSerial->currentText();
-    options.serialLogs.baudRate = m_ui->comboBoxSpeedSerial->currentData().toInt();
-    options.serialLogs.dataBits = (QSerialPort::DataBits) m_ui->comboBoxDataBitsSerial->currentData().toInt();
-    options.serialLogs.stopBits = (QSerialPort::StopBits) m_ui->comboBoxStopBitsSerial->currentData().toInt();
-    options.serialLogs.partity = (QSerialPort::Parity) m_ui->comboBoxPartitySerial->currentData().toInt();
-    options.serialLogs.flowControl = (QSerialPort::FlowControl) m_ui->comboBoxFlowSerial->currentData().toInt();
+    m_options.serialLogs.portName = m_ui->comboBoxPortSerial->currentText();
+    m_options.serialLogs.baudRate = m_ui->comboBoxSpeedSerial->currentData().toInt();
+    m_options.serialLogs.dataBits = (QSerialPort::DataBits) m_ui->comboBoxDataBitsSerial->currentData().toInt();
+    m_options.serialLogs.stopBits = (QSerialPort::StopBits) m_ui->comboBoxStopBitsSerial->currentData().toInt();
+    m_options.serialLogs.partity = (QSerialPort::Parity) m_ui->comboBoxPartitySerial->currentData().toInt();
+    m_options.serialLogs.flowControl = (QSerialPort::FlowControl) m_ui->comboBoxFlowSerial->currentData().toInt();
 
-    options.networkLogs.address = m_ui->lineEditAddress->text();
-    options.networkLogs.port = m_ui->lineEditPort->text().toUInt();
+    m_options.networkLogs.address = m_ui->lineEditAddress->text();
+    m_options.networkLogs.port = m_ui->lineEditPort->text().toUInt();
 
-    options.save();
+    m_options.save();
     accept();
 }
 
-void LogsOptionsDialog::initSerialPortOptions(SerialPortOptions& options)
+void LogsOptionsDialog::initSerialPortOptions()
 {
+    SerialPortOptions& serialOptions = m_options.serialLogs;
+
     // Scan available serial ports.
     for(const QSerialPortInfo &info : QSerialPortInfo::availablePorts())
         m_ui->comboBoxPortSerial->addItem(info.portName(), info.description());
 
-    QString defaultSerialLogsPort = options.portName;
+    QString defaultSerialLogsPort = serialOptions.portName;
     int findResult = m_ui->comboBoxPortSerial->findText(defaultSerialLogsPort);
     if(findResult != -1)
         m_ui->comboBoxPortSerial->setCurrentIndex(findResult);
@@ -109,7 +120,7 @@ void LogsOptionsDialog::initSerialPortOptions(SerialPortOptions& options)
     for(unsigned int speed : standardSpeeds)
         m_ui->comboBoxSpeedSerial->addItem(QString::number(speed), speed);
 
-    unsigned int defaultSerialLogsSpeed = options.baudRate;
+    unsigned int defaultSerialLogsSpeed = serialOptions.baudRate;
     findResult = m_ui->comboBoxSpeedSerial->findData(defaultSerialLogsSpeed);
     if(findResult != -1)
         m_ui->comboBoxSpeedSerial->setCurrentIndex(findResult);
@@ -120,7 +131,7 @@ void LogsOptionsDialog::initSerialPortOptions(SerialPortOptions& options)
     m_ui->comboBoxDataBitsSerial->addItem(QString::number(QSerialPort::Data7), QSerialPort::Data7);
     m_ui->comboBoxDataBitsSerial->addItem(QString::number(QSerialPort::Data8), QSerialPort::Data8);
 
-    unsigned int defaultSerialLogsDataBits = options.dataBits;
+    unsigned int defaultSerialLogsDataBits = serialOptions.dataBits;
     findResult = m_ui->comboBoxDataBitsSerial->findData(defaultSerialLogsDataBits);
     if(findResult != -1)
         m_ui->comboBoxDataBitsSerial->setCurrentIndex(findResult);
@@ -130,7 +141,7 @@ void LogsOptionsDialog::initSerialPortOptions(SerialPortOptions& options)
     m_ui->comboBoxStopBitsSerial->addItem(QString::number(1.5), QSerialPort::OneAndHalfStop);
     m_ui->comboBoxStopBitsSerial->addItem(QString::number(QSerialPort::TwoStop), QSerialPort::TwoStop);
 
-    unsigned int defaultSerialLogsStopBits = options.stopBits;
+    unsigned int defaultSerialLogsStopBits = serialOptions.stopBits;
     findResult = m_ui->comboBoxStopBitsSerial->findData(defaultSerialLogsStopBits);
     if(findResult != -1)
         m_ui->comboBoxStopBitsSerial->setCurrentIndex(findResult);
@@ -142,7 +153,7 @@ void LogsOptionsDialog::initSerialPortOptions(SerialPortOptions& options)
     m_ui->comboBoxPartitySerial->addItem("Space", QSerialPort::SpaceParity);
     m_ui->comboBoxPartitySerial->addItem("Mark", QSerialPort::MarkParity);
 
-    unsigned int defaultSerialLogsPartity = options.partity;
+    unsigned int defaultSerialLogsPartity = serialOptions.partity;
     findResult = m_ui->comboBoxPartitySerial->findData(defaultSerialLogsPartity);
     if(findResult != -1)
         m_ui->comboBoxPartitySerial->setCurrentIndex(findResult);
@@ -152,14 +163,16 @@ void LogsOptionsDialog::initSerialPortOptions(SerialPortOptions& options)
     m_ui->comboBoxFlowSerial->addItem("RTS/CTS", QSerialPort::HardwareControl);
     m_ui->comboBoxFlowSerial->addItem("XON/XOFF", QSerialPort::SoftwareControl);
 
-    unsigned int defaultSerialLogsFlow = options.flowControl;
+    unsigned int defaultSerialLogsFlow = serialOptions.flowControl;
     findResult = m_ui->comboBoxFlowSerial->findData(defaultSerialLogsFlow);
     if(findResult != -1)
         m_ui->comboBoxFlowSerial->setCurrentIndex(findResult);
 }
 
-void LogsOptionsDialog::initNetworkOptions(NetworkServerOptions& options)
+void LogsOptionsDialog::initNetworkOptions()
 {
-    m_ui->lineEditAddress->setText(options.address);
-    m_ui->lineEditPort->setText(QString::number(options.port));
+    NetworkServerOptions& serverOptions = m_options.networkLogs;
+
+    m_ui->lineEditAddress->setText(serverOptions.address);
+    m_ui->lineEditPort->setText(QString::number(serverOptions.port));
 }

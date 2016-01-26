@@ -46,6 +46,8 @@ public:
 
 public:
     bool serialLogsEnabled;
+    QString logsPath;
+
     SerialPortOptions serialLogs;
     NetworkServerOptions networkLogs;
 };
