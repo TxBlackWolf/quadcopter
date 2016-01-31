@@ -42,7 +42,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="buttonStart">
        <property name="minimumSize">
         <size>
          <width>130</width>
@@ -65,7 +65,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="buttonClear">
        <property name="minimumSize">
         <size>
          <width>130</width>
@@ -90,7 +90,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="plainTextEdit">
+    <widget class="QPlainTextEdit" name="textEditLogs">
      <property name="palette">
       <palette>
        <active>

@@ -12,8 +12,6 @@
 #define TELEMETRYTABWIDGET_H
 
 #include <QTabWidget>
-#include <QTreeWidgetItem>
-#include <QList>
 
 namespace Ui {
     class TelemetryTabWidget;
@@ -24,9 +22,8 @@ class TelemetryTabWidget : public QTabWidget {
 
 public:
     explicit TelemetryTabWidget(QWidget* parent = 0);
-    ~TelemetryTabWidget();
+    virtual ~TelemetryTabWidget();
 
-private:
     void clear();
 
 private slots:
@@ -34,8 +31,6 @@ private slots:
 
 private:
     Ui::TelemetryTabWidget* m_ui;
-
-    QList<QTreeWidgetItem*> m_treeItems;
 };
 
 #endif

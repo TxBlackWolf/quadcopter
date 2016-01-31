@@ -22,7 +22,7 @@ class GeolocationDockWidget : public QDockWidget {
 
 public:
     explicit GeolocationDockWidget(QWidget* parent = 0);
-    ~GeolocationDockWidget();
+    virtual ~GeolocationDockWidget();
 
 private:
     Ui::GeolocationDockWidget* m_ui;

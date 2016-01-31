@@ -22,7 +22,7 @@ class SteeringDockWidget : public QDockWidget {
 
 public:
     explicit SteeringDockWidget(QWidget* parent = 0);
-    ~SteeringDockWidget();
+    virtual ~SteeringDockWidget();
 
 private:
     Ui::SteeringDockWidget* m_ui;

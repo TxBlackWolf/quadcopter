@@ -30,7 +30,7 @@ public slots:
     void changeSerialLogsPortInfo(int currentPortIndex);
     void radioButtonSerialToggled(bool state);
     void radioButtonNetworkToggled(bool state);
-    void buttonSelectLogsDirClicked(bool);
+    void buttonSelectLogsDirClicked();
     void saveOptions();
 
 

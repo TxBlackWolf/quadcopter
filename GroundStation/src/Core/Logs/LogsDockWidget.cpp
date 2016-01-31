@@ -15,7 +15,7 @@
 
 LogsDockWidget::LogsDockWidget(QWidget* parent)
     : QDockWidget(parent)
-    , m_ui(new Ui::LogsDockWidget)
+    , m_ui(new Ui::LogsDockWidget())
 {
     m_ui->setupUi(this);
     init();

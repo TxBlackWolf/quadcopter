@@ -13,7 +13,7 @@
 
 SystemInfoDockWidget::SystemInfoDockWidget(QWidget* parent)
     : QDockWidget(parent)
-    , m_ui(new Ui::SystemInfoDockWidget)
+    , m_ui(new Ui::SystemInfoDockWidget())
 {
     m_ui->setupUi(this);
 }

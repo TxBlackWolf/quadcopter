@@ -25,7 +25,13 @@ class ConsoleLogsWidget : public QWidget {
 
 public:
     explicit ConsoleLogsWidget(QWidget* parent = 0);
-    ~ConsoleLogsWidget();
+    virtual ~ConsoleLogsWidget();
+
+public slots:
+    void startNetworkServer();
+    void stopNetworkServer();
+    void accept();
+    void readSocket();
 
 private:
     Ui::ConsoleLogsWidget* m_ui;

@@ -11,9 +11,12 @@
 #include "TelemetryTabWidget.h"
 #include "ui_TelemetryTabWidget.h"
 
+#include <QList>
+#include <QTreeWidgetItem>
+
 TelemetryTabWidget::TelemetryTabWidget(QWidget* parent)
     : QTabWidget(parent)
-    , m_ui(new Ui::TelemetryTabWidget)
+    , m_ui(new Ui::TelemetryTabWidget())
 {
     m_ui->setupUi(this);
 
@@ -28,8 +31,8 @@ TelemetryTabWidget::~TelemetryTabWidget()
 
 void TelemetryTabWidget::clear()
 {
-    qDeleteAll(m_treeItems);
-    m_treeItems.clear();
+    QObjectList items = m_ui->treeWidget->children();
+    qDeleteAll(items);
 }
 
 void TelemetryTabWidget::onClearButtonClicked()

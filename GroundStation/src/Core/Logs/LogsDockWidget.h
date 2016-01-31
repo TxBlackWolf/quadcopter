@@ -22,7 +22,7 @@ class LogsDockWidget : public QDockWidget {
 
 public:
     explicit LogsDockWidget(QWidget* parent = 0);
-    ~LogsDockWidget();
+    virtual ~LogsDockWidget();
 
 public slots:
     void showLoggingOptions();

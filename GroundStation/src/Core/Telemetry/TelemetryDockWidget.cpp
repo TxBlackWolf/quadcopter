@@ -13,7 +13,7 @@
 
 TelemetryDockWidget::TelemetryDockWidget(QWidget* parent)
     : QDockWidget(parent)
-    , m_ui(new Ui::TelemetryDockWidget)
+    , m_ui(new Ui::TelemetryDockWidget())
 {
     m_ui->setupUi(this);
 }

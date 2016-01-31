@@ -38,7 +38,7 @@ void LogsOptionsDialog::init()
     connect(m_ui->comboBoxPortSerial, SIGNAL(currentIndexChanged(int)), this, SLOT(changeSerialLogsPortInfo(int)));
     connect(m_ui->radioButtonSerial, SIGNAL(toggled(bool)), this, SLOT(radioButtonSerialToggled(bool)));
     connect(m_ui->radioButtonNetwork, SIGNAL(toggled(bool)), this, SLOT(radioButtonNetworkToggled(bool)));
-    connect(m_ui->pushButtonLogsDir, SIGNAL(clicked(bool)), this, SLOT(buttonSelectLogsDirClicked(bool)));
+    connect(m_ui->pushButtonLogsDir, SIGNAL(clicked()), this, SLOT(buttonSelectLogsDirClicked()));
 
     m_options.load();
 
@@ -75,7 +75,7 @@ void LogsOptionsDialog::radioButtonNetworkToggled(bool state)
     m_ui->lineEditPort->setEnabled(state);
 }
 
-void LogsOptionsDialog::buttonSelectLogsDirClicked(bool)
+void LogsOptionsDialog::buttonSelectLogsDirClicked()
 {
     QString logsPath = QFileDialog::getExistingDirectory(this, "Save logs to");
     m_ui->lineEditLogsDir->setText(logsPath);

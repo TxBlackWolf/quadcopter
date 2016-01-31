@@ -21,12 +21,8 @@ class AboutDialog : public QDialog {
     Q_OBJECT
 
 public:
-    /// @brief Constructor.
-    /// @param [in] parent      parent widget
     explicit AboutDialog(QWidget* parent = 0);
-
-    /// @brief Virtual destructor.
-    ~AboutDialog();
+    virtual ~AboutDialog();
 
 private:
     Ui::AboutDialog* m_ui;

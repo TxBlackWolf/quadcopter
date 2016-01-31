@@ -37,7 +37,7 @@ bool console_init()
 
     console_write("\n");
     if(!network_console) {
-        console_write("console: Failed to init network console [%s %s:%d].", (NETWORK_CONSOLE_PROTOCOL == UART_CONNECTION_TCP) ? "tcp" : "udp", NETWORK_CONSOLE_IP, NETWORK_CONSOLE_PORT);
+        console_write("console: Failed to init network console [%s %s:%d]. ", (NETWORK_CONSOLE_PROTOCOL == UART_CONNECTION_TCP) ? "tcp" : "udp", NETWORK_CONSOLE_IP, NETWORK_CONSOLE_PORT);
         console_write("Using local stdout\n");
     }
     else

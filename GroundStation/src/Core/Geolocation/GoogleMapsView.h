@@ -22,7 +22,7 @@ class GoogleMapsView : public QWidget {
 
 public:
     explicit GoogleMapsView(QWidget* parent = 0);
-    ~GoogleMapsView();
+    virtual ~GoogleMapsView();
 
 private:
     Ui::GoogleMapsView* m_ui;

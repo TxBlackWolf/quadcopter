@@ -22,7 +22,7 @@ class AlertsDockWidget : public QDockWidget {
 
 public:
     explicit AlertsDockWidget(QWidget* parent = 0);
-    ~AlertsDockWidget();
+    virtual ~AlertsDockWidget();
 
 private:
     Ui::AlertsDockWidget* m_ui;

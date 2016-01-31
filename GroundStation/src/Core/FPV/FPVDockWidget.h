@@ -22,7 +22,7 @@ class FPVDockWidget : public QDockWidget {
 
 public:
     explicit FPVDockWidget(QWidget* parent = 0);
-    ~FPVDockWidget();
+    virtual ~FPVDockWidget();
 
 private:
     Ui::FPVDockWidget* m_ui;

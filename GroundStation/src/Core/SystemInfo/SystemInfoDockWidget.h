@@ -22,7 +22,7 @@ class SystemInfoDockWidget : public QDockWidget {
 
 public:
     explicit SystemInfoDockWidget(QWidget* parent = 0);
-    ~SystemInfoDockWidget();
+    virtual ~SystemInfoDockWidget();
 
 private:
     Ui::SystemInfoDockWidget* m_ui;

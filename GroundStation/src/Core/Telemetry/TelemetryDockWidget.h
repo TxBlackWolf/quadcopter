@@ -13,18 +13,16 @@
 
 #include <QDockWidget>
 
-namespace Ui
-{
+namespace Ui {
     class TelemetryDockWidget;
 }
 
-class TelemetryDockWidget : public QDockWidget
-{
+class TelemetryDockWidget : public QDockWidget {
     Q_OBJECT
 
 public:
     explicit TelemetryDockWidget(QWidget* parent = 0);
-    ~TelemetryDockWidget();
+    virtual ~TelemetryDockWidget();
 
 private:
     Ui::TelemetryDockWidget* m_ui;
