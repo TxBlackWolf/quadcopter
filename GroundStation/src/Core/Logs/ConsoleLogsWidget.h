@@ -32,11 +32,13 @@ public slots:
     void stopNetworkServer();
     void accept();
     void readSocket();
+    void clientDisconnected();
 
 private:
     Ui::ConsoleLogsWidget* m_ui;
 
     QTcpServer m_tcpServer;
+    QTcpSocket* m_socket;
     QMutex m_mutex;
 };
 

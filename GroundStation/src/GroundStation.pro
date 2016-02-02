@@ -32,8 +32,6 @@ Release:DESTDIR = $$PWD/../bin/Release
 
 INCLUDEPATH     += $$PWD/../.. $$PWD/.
 
-LIBS            += -lboost_system -lboost_serialization
-
 SOURCES         += main.cpp \
                 MainWindow.cpp \
                 Core/Alerts/AlertsDockWidget.cpp \

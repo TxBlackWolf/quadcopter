@@ -14,11 +14,13 @@
 #include "Tools/Options/LogsOptions.h"
 
 #include <QDateTime>
+#include <QDebug>
 #include <QMutexLocker>
 
 ConsoleLogsWidget::ConsoleLogsWidget(QWidget* parent)
     : QWidget(parent)
     , m_ui(new Ui::ConsoleLogsWidget())
+    , m_socket(nullptr)
 {
     m_ui->setupUi(this);
 
@@ -48,34 +50,52 @@ void ConsoleLogsWidget::startNetworkServer()
 
 void ConsoleLogsWidget::stopNetworkServer()
 {
-    if(!m_tcpServer.isListening())
-        return;
-
-    m_tcpServer.close();
-
     disconnect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(stopNetworkServer()));
     connect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(startNetworkServer()));
     m_ui->buttonStart->setText("Start");
+
+    if(m_socket) {
+        disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readSocket()));
+        disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
+        m_socket->close();
+        m_socket = nullptr;
+    }
+
+    if(m_tcpServer.isListening())
+        m_tcpServer.close();
 }
 
 void ConsoleLogsWidget::accept()
 {
-    QTcpSocket* socket = m_tcpServer.nextPendingConnection();
-    if(!socket)
+    m_socket = m_tcpServer.nextPendingConnection();
+    if(!m_socket)
         return;
 
-    connect(socket, SIGNAL(readyRead()), this, SLOT(readSocket()));
+    connect(m_socket, SIGNAL(readyRead()), this, SLOT(readSocket()));
+    connect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
+
+    // We accept only one client.
+    m_tcpServer.close();
 }
 
 void ConsoleLogsWidget::readSocket()
 {
     QTcpSocket* socket = dynamic_cast<QTcpSocket*>(sender());
     QString message = socket->readAll();
-    message += "\n";
-
-    QString currentTimestamp = QDateTime::currentDateTime().toString();
+    QString currentTimestamp = QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm");
     message = "[" + currentTimestamp + "] " + message;
 
     QMutexLocker locker(&m_mutex);
     m_ui->textEditLogs->insertPlainText(message);
+}
+
+void ConsoleLogsWidget::clientDisconnected()
+{
+    disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readSocket()));
+    disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
+    m_socket = nullptr;
+
+    LogsOptions options;
+    options.load();
+    m_tcpServer.listen(QHostAddress::Any, options.networkLogs.port);
 }
