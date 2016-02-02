@@ -31,8 +31,7 @@ TelemetryTabWidget::~TelemetryTabWidget()
 
 void TelemetryTabWidget::clear()
 {
-    QObjectList items = m_ui->treeWidget->children();
-    qDeleteAll(items);
+    m_ui->treeWidget->clear();
 }
 
 void TelemetryTabWidget::onClearButtonClicked()
