@@ -11,9 +11,11 @@
 #ifndef CONSOLELOGSWIDGET_H
 #define CONSOLELOGSWIDGET_H
 
+#include <QFile>
 #include <QMutex>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QTextStream>
 #include <QWidget>
 
 namespace Ui {
@@ -40,6 +42,8 @@ private:
     QTcpServer m_tcpServer;
     QTcpSocket* m_socket;
     QMutex m_mutex;
+    QFile m_logFile;
+    QTextStream m_logStream;
 };
 
 #endif

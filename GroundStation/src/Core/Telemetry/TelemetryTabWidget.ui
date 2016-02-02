@@ -21,7 +21,7 @@
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>1</number>
   </property>
   <widget class="QWidget" name="dataTab">
    <property name="font">
@@ -123,8 +123,11 @@
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>10</number>
+      </property>
       <item>
-       <widget class="QwtPlot" name="topLeftEnginePlot">
+       <widget class="QwtPlot" name="frontLeftEnginePlot">
         <property name="frameShape">
          <enum>QFrame::Box</enum>
         </property>
@@ -165,8 +168,11 @@
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="spacing">
+       <number>10</number>
+      </property>
       <item>
-       <widget class="QwtPlot" name="topRightEnginePlot">
+       <widget class="QwtPlot" name="frontRightEnginePlot">
         <property name="frameShape">
          <enum>QFrame::Box</enum>
         </property>

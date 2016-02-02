@@ -12,6 +12,7 @@
 #define TELEMETRYTABWIDGET_H
 
 #include <QTabWidget>
+#include <qwt_plot_grid.h>
 
 namespace Ui {
     class TelemetryTabWidget;
@@ -24,6 +25,8 @@ public:
     explicit TelemetryTabWidget(QWidget* parent = 0);
     virtual ~TelemetryTabWidget();
 
+private:
+    void init();
     void clear();
 
 private slots:
@@ -31,6 +34,11 @@ private slots:
 
 private:
     Ui::TelemetryTabWidget* m_ui;
+
+    QwtPlotGrid* m_plotGridFrontLeft;
+    QwtPlotGrid* m_plotGridFrontRight;
+    QwtPlotGrid* m_plotGridRearLeft;
+    QwtPlotGrid* m_plotGridRearRight;
 };
 
 #endif

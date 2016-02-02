@@ -15,12 +15,14 @@
 
 #include <QDateTime>
 #include <QDebug>
+#include <QDir>
 #include <QMutexLocker>
 
 ConsoleLogsWidget::ConsoleLogsWidget(QWidget* parent)
     : QWidget(parent)
     , m_ui(new Ui::ConsoleLogsWidget())
     , m_socket(nullptr)
+    , m_logStream(&m_logFile)
 {
     m_ui->setupUi(this);
 
@@ -59,6 +61,7 @@ void ConsoleLogsWidget::stopNetworkServer()
         disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
         m_socket->close();
         m_socket = nullptr;
+        m_logFile.close();
     }
 
     if(m_tcpServer.isListening())
@@ -76,6 +79,14 @@ void ConsoleLogsWidget::accept()
 
     // We accept only one client.
     m_tcpServer.close();
+
+    LogsOptions options;
+    options.load();
+
+    QDir().mkpath(options.logsPath);
+    QString logFileName = QString("%1/GroundStation_%2.log").arg(options.logsPath).arg(QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss"));
+    m_logFile.setFileName(logFileName);
+    m_logFile.open(QFile::Append | QFile::Text);
 }
 
 void ConsoleLogsWidget::readSocket()
@@ -87,6 +98,8 @@ void ConsoleLogsWidget::readSocket()
 
     QMutexLocker locker(&m_mutex);
     m_ui->textEditLogs->insertPlainText(message);
+    m_logStream << message;
+    m_logStream.flush();
 }
 
 void ConsoleLogsWidget::clientDisconnected()
@@ -98,4 +111,6 @@ void ConsoleLogsWidget::clientDisconnected()
     LogsOptions options;
     options.load();
     m_tcpServer.listen(QHostAddress::Any, options.networkLogs.port);
+
+    m_logFile.close();
 }

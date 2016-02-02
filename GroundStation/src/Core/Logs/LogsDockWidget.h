@@ -26,6 +26,8 @@ public:
 
 public slots:
     void showLoggingOptions();
+
+private:
     void init();
 
 private:
