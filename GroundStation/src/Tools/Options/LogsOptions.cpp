@@ -11,46 +11,7 @@
 #include "LogsOptions.h"
 
 #include <QDir>
-
-void SerialPortOptions::save(QSettings& settings)
-{
-    settings.beginGroup("SerialPortOptions");
-    settings.setValue("portName", portName);
-    settings.setValue("baudRate", baudRate);
-    settings.setValue("dataBits", dataBits);
-    settings.setValue("partity", partity);
-    settings.setValue("stopBits", stopBits);
-    settings.setValue("flowControl", flowControl);
-    settings.endGroup();
-}
-
-void SerialPortOptions::load(QSettings& settings)
-{
-    settings.beginGroup("SerialPortOptions");
-    portName = settings.value("portName", "").toString();
-    baudRate = settings.value("baudRate", 115200).toInt();
-    dataBits = (QSerialPort::DataBits) settings.value("dataBits", QSerialPort::Data8).toInt();
-    partity = (QSerialPort::Parity) settings.value("partity", QSerialPort::NoParity).toInt();
-    stopBits = (QSerialPort::StopBits) settings.value("stopBits", QSerialPort::OneStop).toInt();
-    flowControl = (QSerialPort::FlowControl) settings.value("flowControl", QSerialPort::NoFlowControl).toInt();
-    settings.endGroup();
-}
-
-void NetworkServerOptions::save(QSettings& settings)
-{
-    settings.beginGroup("NetworkServerOptions");
-    settings.setValue("address", address);
-    settings.setValue("port", port);
-    settings.endGroup();
-}
-
-void NetworkServerOptions::load(QSettings& settings)
-{
-    settings.beginGroup("NetworkServerOptions");
-    address = settings.value("address", "127.0.0.1").toString();
-    port = settings.value("port", 12555).toUInt();
-    settings.endGroup();
-}
+#include <QSettings>
 
 void LogsOptions::save()
 {

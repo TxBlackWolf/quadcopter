@@ -2,31 +2,26 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       01.12.2014
+/// @date       05.02.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef LOGSOPTIONS_H
-#define LOGSOPTIONS_H
+#ifndef NETWORKSERVEROPTIONS_H
+#define NETWORKSERVEROPTIONS_H
 
-#include "NetworkServerOptions.h"
-#include "SerialPortOptions.h"
-
+#include <QSettings>
 #include <QString>
 
-class LogsOptions {
+class NetworkServerOptions {
 public:
-    void save();
-    void load();
+    void save(QSettings& settings);
+    void load(QSettings& settings);
 
 public:
-    bool serialLogsEnabled;
-    QString logsPath;
-
-    SerialPortOptions serialLogs;
-    NetworkServerOptions networkLogs;
+    QString address;
+    unsigned int port;
 };
 
 #endif

@@ -47,6 +47,8 @@ SOURCES         += main.cpp \
                 Core/Telemetry/TelemetryTabWidget.cpp \
                 Misc/AboutDialog.cpp \
                 Tools/Options/LogsOptions.cpp \
+                Tools/Options/NetworkServerOptions.cpp \
+                Tools/Options/SerialPortOptions.cpp \
                 ../../common/commands/commands.c \
                 ../../common/commands/control.c \
                 ../../common/commands/debug_info.c \
@@ -69,6 +71,8 @@ HEADERS         += MainWindow.h \
                 Misc/AboutDialog.h \
                 Misc/Version.h \
                 Tools/Options/LogsOptions.h \
+                Tools/Options/NetworkServerOptions.h \
+                Tools/Options/SerialPortOptions.h \
                 ../../common/commands/commands.h \
                 ../../common/commands/control.h \
                 ../../common/commands/debug_info.h \
