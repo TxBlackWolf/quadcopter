@@ -22,6 +22,7 @@
 #include "Core/Steering/CocpitConsoleWidget.h"
 #include "Core/Steering/SteeringDockWidget.h"
 #include "Core/SystemInfo/SystemInfoDockWidget.h"
+#include "Core/SystemInfo/SystemInfoWidget.h"
 #include "Core/Telemetry/TelemetryDockWidget.h"
 #include "Core/Telemetry/TelemetryTabWidget.h"
 
@@ -83,7 +84,10 @@ private:
     TelemetryTabWidget* m_telemetryTabWidget;
 
     FPVDockWidget* m_fpvDockWidget;
+
     SystemInfoDockWidget* m_systemInfoDockWidget;
+    SystemInfoWidget* m_systemInfoWidget;
+
     AlertsDockWidget* m_alertsDockWidget;
 
     SteeringDockWidget* m_steeringDockWidget;

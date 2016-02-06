@@ -46,6 +46,7 @@ SOURCES         += main.cpp \
                 Core/Steering/CocpitConsoleWidget.cpp \
                 Core/Steering/SteeringDockWidget.cpp \
                 Core/SystemInfo/SystemInfoDockWidget.cpp \
+                Core/SystemInfo/SystemInfoWidget.cpp \
                 Core/Telemetry/TelemetryDockWidget.cpp \
                 Core/Telemetry/TelemetryTabWidget.cpp \
                 Misc/AboutDialog.cpp \
@@ -72,6 +73,7 @@ HEADERS         += MainWindow.h \
                 Core/Steering/CocpitConsoleWidget.h \
                 Core/Steering/SteeringDockWidget.h \
                 Core/SystemInfo/SystemInfoDockWidget.h \
+                Core/SystemInfo/SystemInfoWidget.h \
                 Core/Telemetry/TelemetryDockWidget.h \
                 Core/Telemetry/TelemetryTabWidget.h \
                 Misc/AboutDialog.h \
@@ -99,6 +101,7 @@ FORMS           += MainWindow.ui \
                 Core/Steering/CocpitConsoleWidget.ui \
                 Core/Steering/SteeringDockWidget.ui \
                 Core/SystemInfo/SystemInfoDockWidget.ui \
+                Core/SystemInfo/SystemInfoWidget.ui \
                 Core/Telemetry/TelemetryDockWidget.ui \
                 Core/Telemetry/TelemetryTabWidget.ui \
                 Misc/AboutDialog.ui

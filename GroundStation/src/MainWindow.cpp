@@ -44,6 +44,7 @@ MainWindow::~MainWindow()
     delete m_telemetryTabWidget;
     delete m_fpvDockWidget;
     delete m_systemInfoDockWidget;
+    delete m_systemInfoWidget;
     delete m_alertsDockWidget;
     delete m_steeringDockWidget;
     delete m_cocpitConsoleWidget;
@@ -159,6 +160,7 @@ void MainWindow::initCentralWidgets()
     m_consoleLogsWidget = new ConsoleLogsWidget();
     m_googleMapsView = new GoogleMapsView();
     m_telemetryTabWidget = new TelemetryTabWidget();
+    m_systemInfoWidget = new SystemInfoWidget();
     m_cocpitConsoleWidget = new CocpitConsoleWidget();
     m_emulatorTabWidget = new EmulatorTabWidget();
 
@@ -194,6 +196,7 @@ void MainWindow::setCentralView(CentralView centralView)
         break;
     case CENTRAL_VIEW_SYSTEM_INFO:
         m_currentTopDockWidget = m_systemInfoDockWidget;
+        setCentralWidget(m_systemInfoWidget);
         break;
     case CENTRAL_VIEW_ALERTS:
         m_currentTopDockWidget = m_alertsDockWidget;

@@ -2,30 +2,30 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       06.02.2016
+/// @date       07.02.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef COCPITCONSOLEWIDGET_H
-#define COCPITCONSOLEWIDGET_H
+#ifndef SYSTEMINFOWIDGET_H
+#define SYSTEMINFOWIDGET_H
 
 #include <QWidget>
 
 namespace Ui {
-    class CocpitConsoleWidget;
+    class SystemInfoWidget;
 }
 
-class CocpitConsoleWidget : public QWidget {
+class SystemInfoWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit CocpitConsoleWidget(QWidget* parent = 0);
-    virtual ~CocpitConsoleWidget();
+    explicit SystemInfoWidget(QWidget* parent = 0);
+    virtual ~SystemInfoWidget();
 
 private:
-    Ui::CocpitConsoleWidget* m_ui;
+    Ui::SystemInfoWidget* m_ui;
 };
 
 #endif
