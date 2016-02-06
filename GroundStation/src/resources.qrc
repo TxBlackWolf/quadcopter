@@ -54,5 +54,12 @@
         <file>Icons/wiring.png</file>
         <file>Icons/writing14.png</file>
         <file>Icons/xbox19.png</file>
+        <file>Icons/power-button-green.png</file>
+        <file>Icons/power-button-red.png</file>
+        <file>Icons/led-blue.png</file>
+        <file>Icons/led-green.png</file>
+        <file>Icons/led-off.png</file>
+        <file>Icons/led-red.png</file>
+        <file>Icons/led-yellow.png</file>
     </qresource>
 </RCC>

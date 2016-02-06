@@ -12,6 +12,7 @@
 #define MAINWINDOW_H
 
 #include "Core/Alerts/AlertsDockWidget.h"
+#include "Core/Emulator/EmulatorDockWidget.h"
 #include "Core/FPV/FPVDockWidget.h"
 #include "Core/Geolocation/GeolocationDockWidget.h"
 #include "Core/Geolocation/GoogleMapsView.h"
@@ -40,7 +41,8 @@ class MainWindow : public QMainWindow {
         CENTRAL_VIEW_FPV,
         CENTRAL_VIEW_SYSTEM_INFO,
         CENTRAL_VIEW_ALERTS,
-        CENTRAL_VIEW_STEERING
+        CENTRAL_VIEW_STEERING,
+        CENTRAL_VIEW_EMULATOR
     };
 
 public:
@@ -55,6 +57,7 @@ public slots:
     void toolbarSystemInfoClicked();
     void toolbarAlertsClicked();
     void toolbarSteeringClicked();
+    void toolbarEmulatorClicked();
 
 private:
     void init();
@@ -81,6 +84,8 @@ private:
     SystemInfoDockWidget* m_systemInfoDockWidget;
     AlertsDockWidget* m_alertsDockWidget;
     SteeringDockWidget* m_steeringDockWidget;
+
+    EmulatorDockWidget* m_emulatorDockWidget;
 };
 
 #endif

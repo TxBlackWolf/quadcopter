@@ -35,6 +35,7 @@ INCLUDEPATH     += $$PWD/../.. $$PWD/.
 SOURCES         += main.cpp \
                 MainWindow.cpp \
                 Core/Alerts/AlertsDockWidget.cpp \
+                Core/Emulator/EmulatorDockWidget.cpp \
                 Core/FPV/FPVDockWidget.cpp \
                 Core/Geolocation/GeolocationDockWidget.cpp \
                 Core/Geolocation/GoogleMapsView.cpp \
@@ -58,6 +59,7 @@ SOURCES         += main.cpp \
 
 HEADERS         += MainWindow.h \
                 Core/Alerts/AlertsDockWidget.h \
+                Core/Emulator/EmulatorDockWidget.h \
                 Core/FPV/FPVDockWidget.h \
                 Core/Geolocation/GeolocationDockWidget.h \
                 Core/Geolocation/GoogleMapsView.h \
@@ -82,6 +84,7 @@ HEADERS         += MainWindow.h \
 
 FORMS           += MainWindow.ui \
                 Core/Alerts/AlertsDockWidget.ui \
+                Core/Emulator/EmulatorDockWidget.ui \
                 Core/FPV/FPVDockWidget.ui \
                 Core/Geolocation/GeolocationDockWidget.ui \
                 Core/Geolocation/GoogleMapsView.ui \

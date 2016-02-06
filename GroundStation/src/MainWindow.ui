@@ -63,6 +63,7 @@
    <addaction name="toolbarSystemInfo"/>
    <addaction name="toolbarAlerts"/>
    <addaction name="toolbarSteering"/>
+   <addaction name="toolbarEmulator"/>
   </widget>
   <action name="menuFileClose">
    <property name="icon">
@@ -203,6 +204,21 @@
    </property>
    <property name="text">
     <string>Steering</string>
+   </property>
+  </action>
+  <action name="toolbarEmulator">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/Icons/Icons/screen213.png</normaloff>:/Icons/Icons/screen213.png</iconset>
+   </property>
+   <property name="text">
+    <string>Emulator</string>
+   </property>
+   <property name="toolTip">
+    <string>Emulator</string>
    </property>
   </action>
  </widget>

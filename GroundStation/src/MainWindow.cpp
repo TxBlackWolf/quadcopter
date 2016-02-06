@@ -46,6 +46,7 @@ MainWindow::~MainWindow()
     delete m_systemInfoDockWidget;
     delete m_alertsDockWidget;
     delete m_steeringDockWidget;
+    delete m_emulatorDockWidget;
 }
 
 void MainWindow::toolbarLogsClicked()
@@ -83,6 +84,10 @@ void MainWindow::toolbarSteeringClicked()
     setCentralView(CENTRAL_VIEW_STEERING);
 }
 
+void MainWindow::toolbarEmulatorClicked()
+{
+    setCentralView(CENTRAL_VIEW_EMULATOR);
+}
 
 void MainWindow::init()
 {
@@ -95,6 +100,7 @@ void MainWindow::init()
     m_actionGroup->addAction(m_ui->toolbarSystemInfo);
     m_actionGroup->addAction(m_ui->toolbarAlerts);
     m_actionGroup->addAction(m_ui->toolbarSteering);
+    m_actionGroup->addAction(m_ui->toolbarEmulator);
 
     initTopDockWidgets();
     initCentralWidgets();
@@ -106,6 +112,7 @@ void MainWindow::init()
     connect(m_ui->toolbarSystemInfo, SIGNAL(triggered()), this, SLOT(toolbarSystemInfoClicked()));
     connect(m_ui->toolbarAlerts, SIGNAL(triggered()), this, SLOT(toolbarAlertsClicked()));
     connect(m_ui->toolbarSteering, SIGNAL(triggered()), this, SLOT(toolbarSteeringClicked()));
+    connect(m_ui->toolbarEmulator, SIGNAL(triggered()), this, SLOT(toolbarEmulatorClicked()));
 }
 
 void MainWindow::initTopDockWidgets()
@@ -137,6 +144,10 @@ void MainWindow::initTopDockWidgets()
     m_steeringDockWidget = new SteeringDockWidget();
     m_steeringDockWidget->hide();
     addDockWidget(Qt::TopDockWidgetArea, m_steeringDockWidget);
+
+    m_emulatorDockWidget = new EmulatorDockWidget();
+    m_emulatorDockWidget->hide();
+    addDockWidget(Qt::TopDockWidgetArea, m_emulatorDockWidget);
 
     setDockNestingEnabled(true);
 }
@@ -185,6 +196,9 @@ void MainWindow::setCentralView(CentralView centralView)
         break;
     case CENTRAL_VIEW_STEERING:
         m_currentTopDockWidget = m_steeringDockWidget;
+        break;
+    case CENTRAL_VIEW_EMULATOR:
+        m_currentTopDockWidget = m_emulatorDockWidget;
         break;
     default:
         break;
