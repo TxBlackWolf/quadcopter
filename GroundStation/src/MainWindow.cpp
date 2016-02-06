@@ -46,7 +46,9 @@ MainWindow::~MainWindow()
     delete m_systemInfoDockWidget;
     delete m_alertsDockWidget;
     delete m_steeringDockWidget;
+    delete m_cocpitConsoleWidget;
     delete m_emulatorDockWidget;
+    delete m_emulatorTabWidget;
 }
 
 void MainWindow::toolbarLogsClicked()
@@ -157,6 +159,8 @@ void MainWindow::initCentralWidgets()
     m_consoleLogsWidget = new ConsoleLogsWidget();
     m_googleMapsView = new GoogleMapsView();
     m_telemetryTabWidget = new TelemetryTabWidget();
+    m_cocpitConsoleWidget = new CocpitConsoleWidget();
+    m_emulatorTabWidget = new EmulatorTabWidget();
 
     setCentralView(CENTRAL_VIEW_LOGS);
     m_ui->toolbarLogs->setChecked(true);
@@ -196,9 +200,11 @@ void MainWindow::setCentralView(CentralView centralView)
         break;
     case CENTRAL_VIEW_STEERING:
         m_currentTopDockWidget = m_steeringDockWidget;
+        setCentralWidget(m_cocpitConsoleWidget);
         break;
     case CENTRAL_VIEW_EMULATOR:
         m_currentTopDockWidget = m_emulatorDockWidget;
+        setCentralWidget(m_emulatorTabWidget);
         break;
     default:
         break;

@@ -13,11 +13,13 @@
 
 #include "Core/Alerts/AlertsDockWidget.h"
 #include "Core/Emulator/EmulatorDockWidget.h"
+#include "Core/Emulator/EmulatorTabWidget.h"
 #include "Core/FPV/FPVDockWidget.h"
 #include "Core/Geolocation/GeolocationDockWidget.h"
 #include "Core/Geolocation/GoogleMapsView.h"
 #include "Core/Logs/LogsDockWidget.h"
 #include "Core/Logs/ConsoleLogsWidget.h"
+#include "Core/Steering/CocpitConsoleWidget.h"
 #include "Core/Steering/SteeringDockWidget.h"
 #include "Core/SystemInfo/SystemInfoDockWidget.h"
 #include "Core/Telemetry/TelemetryDockWidget.h"
@@ -83,9 +85,12 @@ private:
     FPVDockWidget* m_fpvDockWidget;
     SystemInfoDockWidget* m_systemInfoDockWidget;
     AlertsDockWidget* m_alertsDockWidget;
+
     SteeringDockWidget* m_steeringDockWidget;
+    CocpitConsoleWidget* m_cocpitConsoleWidget;
 
     EmulatorDockWidget* m_emulatorDockWidget;
+    EmulatorTabWidget* m_emulatorTabWidget;
 };
 
 #endif

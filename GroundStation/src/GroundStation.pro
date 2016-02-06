@@ -36,12 +36,14 @@ SOURCES         += main.cpp \
                 MainWindow.cpp \
                 Core/Alerts/AlertsDockWidget.cpp \
                 Core/Emulator/EmulatorDockWidget.cpp \
+                Core/Emulator/EmulatorTabWidget.cpp \
                 Core/FPV/FPVDockWidget.cpp \
                 Core/Geolocation/GeolocationDockWidget.cpp \
                 Core/Geolocation/GoogleMapsView.cpp \
                 Core/Logs/ConsoleLogsWidget.cpp \
                 Core/Logs/LogsDockWidget.cpp \
                 Core/Logs/LogsOptionsDialog.cpp \
+                Core/Steering/CocpitConsoleWidget.cpp \
                 Core/Steering/SteeringDockWidget.cpp \
                 Core/SystemInfo/SystemInfoDockWidget.cpp \
                 Core/Telemetry/TelemetryDockWidget.cpp \
@@ -60,12 +62,14 @@ SOURCES         += main.cpp \
 HEADERS         += MainWindow.h \
                 Core/Alerts/AlertsDockWidget.h \
                 Core/Emulator/EmulatorDockWidget.h \
+                Core/Emulator/EmulatorTabWidget.h \
                 Core/FPV/FPVDockWidget.h \
                 Core/Geolocation/GeolocationDockWidget.h \
                 Core/Geolocation/GoogleMapsView.h \
                 Core/Logs/ConsoleLogsWidget.h \
                 Core/Logs/LogsDockWidget.h \
                 Core/Logs/LogsOptionsDialog.h \
+                Core/Steering/CocpitConsoleWidget.h \
                 Core/Steering/SteeringDockWidget.h \
                 Core/SystemInfo/SystemInfoDockWidget.h \
                 Core/Telemetry/TelemetryDockWidget.h \
@@ -85,12 +89,14 @@ HEADERS         += MainWindow.h \
 FORMS           += MainWindow.ui \
                 Core/Alerts/AlertsDockWidget.ui \
                 Core/Emulator/EmulatorDockWidget.ui \
+                Core/Emulator/EmulatorTabWidget.ui \
                 Core/FPV/FPVDockWidget.ui \
                 Core/Geolocation/GeolocationDockWidget.ui \
                 Core/Geolocation/GoogleMapsView.ui \
                 Core/Logs/LogsDockWidget.ui \
                 Core/Logs/LogsOptionsDialog.ui \
                 Core/Logs/ConsoleLogsWidget.ui \
+                Core/Steering/CocpitConsoleWidget.ui \
                 Core/Steering/SteeringDockWidget.ui \
                 Core/SystemInfo/SystemInfoDockWidget.ui \
                 Core/Telemetry/TelemetryDockWidget.ui \
