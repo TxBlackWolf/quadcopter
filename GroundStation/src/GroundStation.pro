@@ -77,7 +77,7 @@ HEADERS         += MainWindow.h \
                 Core/Telemetry/TelemetryDockWidget.h \
                 Core/Telemetry/TelemetryTabWidget.h \
                 Misc/AboutDialog.h \
-                Misc/SubsystemsStatus.h
+                Misc/SubsystemsStatus.h \
                 Misc/Version.h \
                 Tools/Options/LogsOptions.h \
                 Tools/Options/NetworkServerOptions.h \
