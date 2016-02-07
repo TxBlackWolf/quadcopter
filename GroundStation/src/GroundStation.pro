@@ -86,7 +86,8 @@ HEADERS         += MainWindow.h \
                 ../../common/commands/debug_info.h \
                 ../../common/commands/emulator.h \
                 ../../common/commands/system_status.h \
-                ../../common/commands/telemetry.h
+                ../../common/commands/telemetry.h \
+    Misc/SubsystemsStatus.h
 
 FORMS           += MainWindow.ui \
                 Core/Alerts/AlertsDockWidget.ui \

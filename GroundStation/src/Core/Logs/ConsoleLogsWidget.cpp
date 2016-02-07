@@ -49,6 +49,8 @@ void ConsoleLogsWidget::startNetworkServer()
     connect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(stopNetworkServer()));
     m_ui->buttonStart->setText("Stop");
     m_ui->labelType->setText("network");
+
+    emit logsStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
 }
 
 void ConsoleLogsWidget::stopNetworkServer()
@@ -64,12 +66,12 @@ void ConsoleLogsWidget::stopNetworkServer()
         m_socket->close();
         m_socket = nullptr;
         m_logFile.close();
-
-        emit logsEnabled(false);
     }
 
     if(m_tcpServer.isListening())
         m_tcpServer.close();
+
+    emit logsStatus(SubsystemStatus::SUBSYSTEM_DISABLED);
 }
 
 void ConsoleLogsWidget::accept()
@@ -84,7 +86,7 @@ void ConsoleLogsWidget::accept()
     // We accept only one client.
     m_tcpServer.close();
 
-    emit logsEnabled(true);
+    emit logsStatus(SubsystemStatus::SUBSYSTEM_CONNECTED);
 
     LogsOptions options;
     options.load();
@@ -114,7 +116,7 @@ void ConsoleLogsWidget::clientDisconnected()
     disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
     m_socket = nullptr;
 
-    emit logsEnabled(false);
+    emit logsStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
 
     LogsOptions options;
     options.load();

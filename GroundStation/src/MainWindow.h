@@ -25,6 +25,7 @@
 #include "Core/SystemInfo/SystemInfoWidget.h"
 #include "Core/Telemetry/TelemetryDockWidget.h"
 #include "Core/Telemetry/TelemetryTabWidget.h"
+#include "Misc/SubsystemsStatus.h"
 
 #include <QActionGroup>
 #include <QMainWindow>
@@ -61,11 +62,12 @@ public slots:
     void toolbarAlertsClicked();
     void toolbarSteeringClicked();
     void toolbarEmulatorClicked();
-    void logsEnabled(bool state);
-    void geolocationEnabled(bool state);
-    void telemetryEnabled(bool state);
-    void fpvEnabled(bool state);
-    void steeringEnabled(bool state);
+    void logsStatus(SubsystemStatus status);
+    void geolocationStatus(SubsystemStatus status);
+    void telemetryStatus(SubsystemStatus status);
+    void fpvStatus(SubsystemStatus status);
+    void steeringStatus(SubsystemStatus status);
+    void emulatorStatus(SubsystemStatus status);
 
 private:
     void init();

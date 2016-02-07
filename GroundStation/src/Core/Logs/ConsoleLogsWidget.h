@@ -11,6 +11,8 @@
 #ifndef CONSOLELOGSWIDGET_H
 #define CONSOLELOGSWIDGET_H
 
+#include "Misc/SubsystemsStatus.h"
+
 #include <QFile>
 #include <QMutex>
 #include <QTcpServer>
@@ -30,7 +32,7 @@ public:
     virtual ~ConsoleLogsWidget();
 
 signals:
-    void logsEnabled(bool);
+    void logsStatus(SubsystemStatus);
 
 public slots:
     void startNetworkServer();

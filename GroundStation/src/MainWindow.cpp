@@ -93,44 +93,76 @@ void MainWindow::toolbarEmulatorClicked()
     setCentralView(CENTRAL_VIEW_EMULATOR);
 }
 
-void MainWindow::logsEnabled(bool state)
+void MainWindow::logsStatus(SubsystemStatus status)
 {
-    if(state)
-        m_ui->labelLogsLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
-    else
-        m_ui->labelLogsLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+    QString imageResource;
+    switch(status) {
+    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
+    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
+    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
+    }
+
+    m_ui->labelLogsLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::geolocationEnabled(bool state)
+void MainWindow::geolocationStatus(SubsystemStatus status)
 {
-    if(state)
-        m_ui->labelGeolocationLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
-    else
-        m_ui->labelGeolocationLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+    QString imageResource;
+    switch(status) {
+    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
+    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
+    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
+    }
+
+    m_ui->labelGeolocationLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::telemetryEnabled(bool state)
+void MainWindow::telemetryStatus(SubsystemStatus status)
 {
-    if(state)
-        m_ui->labelTelemetryLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
-    else
-        m_ui->labelTelemetryLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+    QString imageResource;
+    switch(status) {
+    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
+    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
+    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
+    }
+
+    m_ui->labelTelemetryLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::fpvEnabled(bool state)
+void MainWindow::fpvStatus(SubsystemStatus status)
 {
-    if(state)
-        m_ui->labelFPVLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
-    else
-        m_ui->labelFPVLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+    QString imageResource;
+    switch(status) {
+    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
+    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
+    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
+    }
+
+    m_ui->labelFPVLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::steeringEnabled(bool state)
+void MainWindow::steeringStatus(SubsystemStatus status)
 {
-    if(state)
-        m_ui->labelSteeringLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
-    else
-        m_ui->labelSteeringLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+    QString imageResource;
+    switch(status) {
+    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
+    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
+    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
+    }
+
+    m_ui->labelSteeringLED->setPixmap(QPixmap(imageResource));
+}
+
+void MainWindow::emulatorStatus(SubsystemStatus status)
+{
+    QString imageResource;
+    switch(status) {
+    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
+    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
+    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
+    }
+
+    m_ui->labelEmulatorLED->setPixmap(QPixmap(imageResource));
 }
 
 void MainWindow::init()
@@ -206,7 +238,7 @@ void MainWindow::initCentralWidgets()
     m_cocpitConsoleWidget = new CocpitConsoleWidget();
     m_emulatorTabWidget = new EmulatorTabWidget();
 
-    connect(m_consoleLogsWidget, SIGNAL(logsEnabled(bool)), this, SLOT(logsEnabled(bool)));
+    connect(m_consoleLogsWidget, SIGNAL(logsStatus(SubsystemStatus)), this, SLOT(logsStatus(SubsystemStatus)));
 
     setCentralView(CENTRAL_VIEW_LOGS);
     m_ui->toolbarLogs->setChecked(true);
