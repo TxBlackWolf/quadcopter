@@ -17,6 +17,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QMutexLocker>
+#include <QPixmap>
 
 ConsoleLogsWidget::ConsoleLogsWidget(QWidget* parent)
     : QWidget(parent)
@@ -48,6 +49,7 @@ void ConsoleLogsWidget::startNetworkServer()
     disconnect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(startNetworkServer()));
     connect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(stopNetworkServer()));
     m_ui->buttonStart->setText("Stop");
+    m_ui->labelType->setText("network");
 }
 
 void ConsoleLogsWidget::stopNetworkServer()
@@ -55,6 +57,7 @@ void ConsoleLogsWidget::stopNetworkServer()
     disconnect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(stopNetworkServer()));
     connect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(startNetworkServer()));
     m_ui->buttonStart->setText("Start");
+    m_ui->labelType->setText("none");
 
     if(m_socket) {
         disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readSocket()));
@@ -62,6 +65,7 @@ void ConsoleLogsWidget::stopNetworkServer()
         m_socket->close();
         m_socket = nullptr;
         m_logFile.close();
+        m_ui->labelLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
     }
 
     if(m_tcpServer.isListening())
@@ -79,6 +83,8 @@ void ConsoleLogsWidget::accept()
 
     // We accept only one client.
     m_tcpServer.close();
+
+    m_ui->labelLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
 
     LogsOptions options;
     options.load();
@@ -107,6 +113,8 @@ void ConsoleLogsWidget::clientDisconnected()
     disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readSocket()));
     disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
     m_socket = nullptr;
+
+    m_ui->labelLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
 
     LogsOptions options;
     options.load();
