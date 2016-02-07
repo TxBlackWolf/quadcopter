@@ -15,6 +15,7 @@
 
 #include <QActionGroup>
 #include <QMessageBox>
+#include <QPixmap>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -92,6 +93,46 @@ void MainWindow::toolbarEmulatorClicked()
     setCentralView(CENTRAL_VIEW_EMULATOR);
 }
 
+void MainWindow::logsEnabled(bool state)
+{
+    if(state)
+        m_ui->labelLogsLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
+    else
+        m_ui->labelLogsLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+}
+
+void MainWindow::geolocationEnabled(bool state)
+{
+    if(state)
+        m_ui->labelGeolocationLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
+    else
+        m_ui->labelGeolocationLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+}
+
+void MainWindow::telemetryEnabled(bool state)
+{
+    if(state)
+        m_ui->labelTelemetryLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
+    else
+        m_ui->labelTelemetryLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+}
+
+void MainWindow::fpvEnabled(bool state)
+{
+    if(state)
+        m_ui->labelFPVLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
+    else
+        m_ui->labelFPVLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+}
+
+void MainWindow::steeringEnabled(bool state)
+{
+    if(state)
+        m_ui->labelSteeringLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
+    else
+        m_ui->labelSteeringLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+}
+
 void MainWindow::init()
 {
     m_actionGroup = new QActionGroup(this);
@@ -107,6 +148,7 @@ void MainWindow::init()
 
     initTopDockWidgets();
     initCentralWidgets();
+    m_ui->connectionDockWidget->setTitleBarWidget(new QWidget());
 
     connect(m_ui->toolbarLogs, SIGNAL(triggered()), this, SLOT(toolbarLogsClicked()));
     connect(m_ui->toolbarGeolocation, SIGNAL(triggered()), this, SLOT(toolbarGeolocationClicked()));
@@ -163,6 +205,8 @@ void MainWindow::initCentralWidgets()
     m_systemInfoWidget = new SystemInfoWidget();
     m_cocpitConsoleWidget = new CocpitConsoleWidget();
     m_emulatorTabWidget = new EmulatorTabWidget();
+
+    connect(m_consoleLogsWidget, SIGNAL(logsEnabled(bool)), this, SLOT(logsEnabled(bool)));
 
     setCentralView(CENTRAL_VIEW_LOGS);
     m_ui->toolbarLogs->setChecked(true);

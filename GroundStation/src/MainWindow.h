@@ -61,6 +61,11 @@ public slots:
     void toolbarAlertsClicked();
     void toolbarSteeringClicked();
     void toolbarEmulatorClicked();
+    void logsEnabled(bool state);
+    void geolocationEnabled(bool state);
+    void telemetryEnabled(bool state);
+    void fpvEnabled(bool state);
+    void steeringEnabled(bool state);
 
 private:
     void init();

@@ -29,6 +29,9 @@ public:
     explicit ConsoleLogsWidget(QWidget* parent = 0);
     virtual ~ConsoleLogsWidget();
 
+signals:
+    void logsEnabled(bool);
+
 public slots:
     void startNetworkServer();
     void stopNetworkServer();

@@ -17,7 +17,6 @@
 #include <QDebug>
 #include <QDir>
 #include <QMutexLocker>
-#include <QPixmap>
 
 ConsoleLogsWidget::ConsoleLogsWidget(QWidget* parent)
     : QWidget(parent)
@@ -65,7 +64,8 @@ void ConsoleLogsWidget::stopNetworkServer()
         m_socket->close();
         m_socket = nullptr;
         m_logFile.close();
-        m_ui->labelLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+
+        emit logsEnabled(false);
     }
 
     if(m_tcpServer.isListening())
@@ -84,7 +84,7 @@ void ConsoleLogsWidget::accept()
     // We accept only one client.
     m_tcpServer.close();
 
-    m_ui->labelLED->setPixmap(QPixmap(":/Icons/Icons/led-green.png"));
+    emit logsEnabled(true);
 
     LogsOptions options;
     options.load();
@@ -114,7 +114,7 @@ void ConsoleLogsWidget::clientDisconnected()
     disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
     m_socket = nullptr;
 
-    m_ui->labelLED->setPixmap(QPixmap(":/Icons/Icons/led-red.png"));
+    emit logsEnabled(false);
 
     LogsOptions options;
     options.load();
