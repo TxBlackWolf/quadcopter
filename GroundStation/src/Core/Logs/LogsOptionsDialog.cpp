@@ -11,8 +11,6 @@
 #include "LogsOptionsDialog.h"
 #include "ui_LogsOptionsDialog.h"
 
-#include "Tools/Options/LogsOptions.h"
-
 #include <QFileDialog>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>

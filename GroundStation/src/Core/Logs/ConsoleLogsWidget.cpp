@@ -25,10 +25,7 @@ ConsoleLogsWidget::ConsoleLogsWidget(QWidget* parent)
     , m_logStream(&m_logFile)
 {
     m_ui->setupUi(this);
-
-    connect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(startNetworkServer()));
-    connect(m_ui->buttonClear, SIGNAL(clicked()), m_ui->textEditLogs, SLOT(clear()));
-    connect(&m_tcpServer, SIGNAL(newConnection()), this, SLOT(accept()));
+    init();
 }
 
 ConsoleLogsWidget::~ConsoleLogsWidget()
@@ -50,7 +47,7 @@ void ConsoleLogsWidget::startNetworkServer()
     m_ui->buttonStart->setText("Stop");
     m_ui->labelType->setText("network");
 
-    emit logsStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
+    emit logsStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
 }
 
 void ConsoleLogsWidget::stopNetworkServer()
@@ -71,7 +68,7 @@ void ConsoleLogsWidget::stopNetworkServer()
     if(m_tcpServer.isListening())
         m_tcpServer.close();
 
-    emit logsStatus(SubsystemStatus::SUBSYSTEM_DISABLED);
+    emit logsStatus(SubsystemStatus_t::SUBSYSTEM_DISABLED);
 }
 
 void ConsoleLogsWidget::accept()
@@ -86,7 +83,7 @@ void ConsoleLogsWidget::accept()
     // We accept only one client.
     m_tcpServer.close();
 
-    emit logsStatus(SubsystemStatus::SUBSYSTEM_CONNECTED);
+    emit logsStatus(SubsystemStatus_t::SUBSYSTEM_CONNECTED);
 
     LogsOptions options;
     options.load();
@@ -116,11 +113,18 @@ void ConsoleLogsWidget::clientDisconnected()
     disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
     m_socket = nullptr;
 
-    emit logsStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
+    emit logsStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
 
     LogsOptions options;
     options.load();
     m_tcpServer.listen(QHostAddress::Any, options.networkLogs.port);
 
     m_logFile.close();
+}
+
+void ConsoleLogsWidget::init()
+{
+    connect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(startNetworkServer()));
+    connect(m_ui->buttonClear, SIGNAL(clicked()), m_ui->textEditLogs, SLOT(clear()));
+    connect(&m_tcpServer, SIGNAL(newConnection()), this, SLOT(accept()));
 }

@@ -11,7 +11,7 @@
 #ifndef SUBSYSTEMSTATUS_H
 #define SUBSYSTEMSTATUS_H
 
-enum SubsystemStatus {
+enum SubsystemStatus_t {
     SUBSYSTEM_DISABLED,
     SUBSYSTEM_ENABLED,
     SUBSYSTEM_CONNECTED

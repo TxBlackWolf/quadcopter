@@ -11,6 +11,10 @@
 #ifndef EMULATOR_H
 #define EMULATOR_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "commands.h"
 
 #include <stdbool.h>
@@ -58,5 +62,9 @@ bool command_unregisterEmulatorCallback(EmulatedDevice_t device);
 /// @param [in] size                Payload buffer size.
 /// @return True on success, false otherwise.
 bool command_parseEmulator(uint8_t *payload, uint32_t size);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

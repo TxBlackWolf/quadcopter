@@ -11,6 +11,10 @@
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -78,5 +82,9 @@ bool command_checkCRC(uint8_t *buffer, uint32_t size, uint32_t crc);
 /// @param [in] buffer              Buffer with command data.
 /// @return Parsing error code.
 CommandParsingError_t command_parse(uint8_t *buffer);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

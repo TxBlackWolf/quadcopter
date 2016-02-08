@@ -13,7 +13,7 @@
 
 #include "Core/Alerts/AlertsDockWidget.h"
 #include "Core/Emulator/EmulatorDockWidget.h"
-#include "Core/Emulator/EmulatorTabWidget.h"
+#include "Core/Emulator/EmulatorWidget.h"
 #include "Core/FPV/FPVDockWidget.h"
 #include "Core/Geolocation/GeolocationDockWidget.h"
 #include "Core/Geolocation/GoogleMapsView.h"
@@ -62,12 +62,12 @@ public slots:
     void toolbarAlertsClicked();
     void toolbarSteeringClicked();
     void toolbarEmulatorClicked();
-    void logsStatus(SubsystemStatus status);
-    void geolocationStatus(SubsystemStatus status);
-    void telemetryStatus(SubsystemStatus status);
-    void fpvStatus(SubsystemStatus status);
-    void steeringStatus(SubsystemStatus status);
-    void emulatorStatus(SubsystemStatus status);
+    void logsStatus(SubsystemStatus_t status);
+    void geolocationStatus(SubsystemStatus_t status);
+    void telemetryStatus(SubsystemStatus_t status);
+    void fpvStatus(SubsystemStatus_t status);
+    void steeringStatus(SubsystemStatus_t status);
+    void emulatorStatus(SubsystemStatus_t status);
 
 private:
     void init();
@@ -101,7 +101,7 @@ private:
     CocpitConsoleWidget* m_cocpitConsoleWidget;
 
     EmulatorDockWidget* m_emulatorDockWidget;
-    EmulatorTabWidget* m_emulatorTabWidget;
+    EmulatorWidget* m_emulatorWidget;
 };
 
 #endif

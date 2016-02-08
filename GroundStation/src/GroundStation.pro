@@ -36,7 +36,8 @@ SOURCES         += main.cpp \
                 MainWindow.cpp \
                 Core/Alerts/AlertsDockWidget.cpp \
                 Core/Emulator/EmulatorDockWidget.cpp \
-                Core/Emulator/EmulatorTabWidget.cpp \
+                Core/Emulator/EmulatorOptionsDialog.cpp \
+                Core/Emulator/EmulatorWidget.cpp \
                 Core/FPV/FPVDockWidget.cpp \
                 Core/Geolocation/GeolocationDockWidget.cpp \
                 Core/Geolocation/GoogleMapsView.cpp \
@@ -50,6 +51,7 @@ SOURCES         += main.cpp \
                 Core/Telemetry/TelemetryDockWidget.cpp \
                 Core/Telemetry/TelemetryTabWidget.cpp \
                 Misc/AboutDialog.cpp \
+                Tools/Options/EmulatorOptions.cpp \
                 Tools/Options/LogsOptions.cpp \
                 Tools/Options/NetworkServerOptions.cpp \
                 Tools/Options/SerialPortOptions.cpp \
@@ -63,7 +65,8 @@ SOURCES         += main.cpp \
 HEADERS         += MainWindow.h \
                 Core/Alerts/AlertsDockWidget.h \
                 Core/Emulator/EmulatorDockWidget.h \
-                Core/Emulator/EmulatorTabWidget.h \
+                Core/Emulator/EmulatorOptionsDialog.h \
+                Core/Emulator/EmulatorWidget.h \
                 Core/FPV/FPVDockWidget.h \
                 Core/Geolocation/GeolocationDockWidget.h \
                 Core/Geolocation/GoogleMapsView.h \
@@ -79,6 +82,7 @@ HEADERS         += MainWindow.h \
                 Misc/AboutDialog.h \
                 Misc/SubsystemsStatus.h \
                 Misc/Version.h \
+                Tools/Options/EmulatorOptions.h \
                 Tools/Options/LogsOptions.h \
                 Tools/Options/NetworkServerOptions.h \
                 Tools/Options/SerialPortOptions.h \
@@ -92,7 +96,8 @@ HEADERS         += MainWindow.h \
 FORMS           += MainWindow.ui \
                 Core/Alerts/AlertsDockWidget.ui \
                 Core/Emulator/EmulatorDockWidget.ui \
-                Core/Emulator/EmulatorTabWidget.ui \
+                Core/Emulator/EmulatorOptionsDialog.ui \
+                Core/Emulator/EmulatorWidget.ui \
                 Core/FPV/FPVDockWidget.ui \
                 Core/Geolocation/GeolocationDockWidget.ui \
                 Core/Geolocation/GoogleMapsView.ui \

@@ -50,7 +50,7 @@ MainWindow::~MainWindow()
     delete m_steeringDockWidget;
     delete m_cocpitConsoleWidget;
     delete m_emulatorDockWidget;
-    delete m_emulatorTabWidget;
+    delete m_emulatorWidget;
 }
 
 void MainWindow::toolbarLogsClicked()
@@ -93,7 +93,7 @@ void MainWindow::toolbarEmulatorClicked()
     setCentralView(CENTRAL_VIEW_EMULATOR);
 }
 
-void MainWindow::logsStatus(SubsystemStatus status)
+void MainWindow::logsStatus(SubsystemStatus_t status)
 {
     QString imageResource;
     switch(status) {
@@ -105,7 +105,7 @@ void MainWindow::logsStatus(SubsystemStatus status)
     m_ui->labelLogsLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::geolocationStatus(SubsystemStatus status)
+void MainWindow::geolocationStatus(SubsystemStatus_t status)
 {
     QString imageResource;
     switch(status) {
@@ -117,7 +117,7 @@ void MainWindow::geolocationStatus(SubsystemStatus status)
     m_ui->labelGeolocationLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::telemetryStatus(SubsystemStatus status)
+void MainWindow::telemetryStatus(SubsystemStatus_t status)
 {
     QString imageResource;
     switch(status) {
@@ -129,7 +129,7 @@ void MainWindow::telemetryStatus(SubsystemStatus status)
     m_ui->labelTelemetryLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::fpvStatus(SubsystemStatus status)
+void MainWindow::fpvStatus(SubsystemStatus_t status)
 {
     QString imageResource;
     switch(status) {
@@ -141,7 +141,7 @@ void MainWindow::fpvStatus(SubsystemStatus status)
     m_ui->labelFPVLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::steeringStatus(SubsystemStatus status)
+void MainWindow::steeringStatus(SubsystemStatus_t status)
 {
     QString imageResource;
     switch(status) {
@@ -153,7 +153,7 @@ void MainWindow::steeringStatus(SubsystemStatus status)
     m_ui->labelSteeringLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::emulatorStatus(SubsystemStatus status)
+void MainWindow::emulatorStatus(SubsystemStatus_t status)
 {
     QString imageResource;
     switch(status) {
@@ -236,9 +236,10 @@ void MainWindow::initCentralWidgets()
     m_telemetryTabWidget = new TelemetryTabWidget();
     m_systemInfoWidget = new SystemInfoWidget();
     m_cocpitConsoleWidget = new CocpitConsoleWidget();
-    m_emulatorTabWidget = new EmulatorTabWidget();
+    m_emulatorWidget = new EmulatorWidget();
 
-    connect(m_consoleLogsWidget, SIGNAL(logsStatus(SubsystemStatus)), this, SLOT(logsStatus(SubsystemStatus)));
+    connect(m_consoleLogsWidget, SIGNAL(logsStatus(SubsystemStatus_t)), this, SLOT(logsStatus(SubsystemStatus_t)));
+    connect(m_emulatorWidget, SIGNAL(emulatorStatus(SubsystemStatus_t)), this, SLOT(emulatorStatus(SubsystemStatus_t)));
 
     setCentralView(CENTRAL_VIEW_LOGS);
     m_ui->toolbarLogs->setChecked(true);
@@ -283,7 +284,7 @@ void MainWindow::setCentralView(CentralView centralView)
         break;
     case CENTRAL_VIEW_EMULATOR:
         m_currentTopDockWidget = m_emulatorDockWidget;
-        setCentralWidget(m_emulatorTabWidget);
+        setCentralWidget(m_emulatorWidget);
         break;
     default:
         break;

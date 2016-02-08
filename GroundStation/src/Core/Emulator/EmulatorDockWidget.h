@@ -24,6 +24,12 @@ public:
     explicit EmulatorDockWidget(QWidget* parent = 0);
     virtual ~EmulatorDockWidget();
 
+public slots:
+    void showEmulatorOptions();
+
+private:
+    void init();
+
 private:
     Ui::EmulatorDockWidget* m_ui;
 };

@@ -2,23 +2,26 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       06.02.2016
+/// @date       08.02.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "EmulatorTabWidget.h"
-#include "ui_EmulatorTabWidget.h"
+#ifndef EMULATOROPTIONS_H
+#define EMULATOROPTIONS_H
 
-EmulatorTabWidget::EmulatorTabWidget(QWidget *parent)
-    : QTabWidget(parent)
-    , m_ui(new Ui::EmulatorTabWidget())
-{
-    m_ui->setupUi(this);
-}
+#include "NetworkServerOptions.h"
 
-EmulatorTabWidget::~EmulatorTabWidget()
-{
-    delete m_ui;
-}
+#include <QString>
+
+class EmulatorOptions {
+public:
+    void save();
+    void load();
+
+public:
+    NetworkServerOptions emulatorServer;
+};
+
+#endif

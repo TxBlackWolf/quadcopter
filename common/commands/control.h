@@ -11,6 +11,14 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "commands.h"
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
