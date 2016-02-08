@@ -25,7 +25,6 @@ MainWindow::MainWindow(QWidget* parent)
     m_ui->setupUi(this);
 
     init();
-    showMaximized();
 }
 
 MainWindow::~MainWindow()
