@@ -121,5 +121,5 @@ void EmulatorWidget::initCommandsFramework()
 
 void EmulatorWidget::gpioCallback(uint8_t* buffer, uint32_t size)
 {
-
+    /// @todo: Implement.
 }

@@ -2,23 +2,23 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       11.02.2015
+/// @date       21.02.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "AlertsDockWidget.h"
-#include "ui_AlertsDockWidget.h"
+#include "FPVView.h"
+#include "ui_FPVView.h"
 
-AlertsDockWidget::AlertsDockWidget(QWidget* parent)
-    : QDockWidget(parent)
-    , m_ui(new Ui::AlertsDockWidget())
+FPVView::FPVView(QWidget* parent)
+    : QWidget(parent)
+    , m_ui(new Ui::FPVView())
 {
     m_ui->setupUi(this);
 }
 
-AlertsDockWidget::~AlertsDockWidget()
+FPVView::~FPVView()
 {
     delete m_ui;
 }

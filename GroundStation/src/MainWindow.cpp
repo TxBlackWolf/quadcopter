@@ -17,10 +17,11 @@
 #include <QMessageBox>
 #include <QPixmap>
 
+#include <memory>
+
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , m_ui(new Ui::MainWindow())
-    , m_currentTopDockWidget(nullptr)
 {
     m_ui->setupUi(this);
 
@@ -36,19 +37,14 @@ MainWindow::~MainWindow()
 
     delete m_ui;
     delete m_actionGroup;
-    delete m_logsDockWidget;
+    delete m_settingsWidget;
     delete m_consoleLogsWidget;
-    delete m_geolocationDockWidget;
     delete m_googleMapsView;
-    delete m_telemetryDockWidget;
     delete m_telemetryTabWidget;
-    delete m_fpvDockWidget;
-    delete m_systemInfoDockWidget;
+    delete m_fpvView;
     delete m_systemInfoWidget;
-    delete m_alertsDockWidget;
-    delete m_steeringDockWidget;
+    delete m_alertsWidget;
     delete m_cocpitConsoleWidget;
-    delete m_emulatorDockWidget;
     delete m_emulatorWidget;
 }
 
@@ -94,73 +90,37 @@ void MainWindow::toolbarEmulatorClicked()
 
 void MainWindow::logsStatus(SubsystemStatus_t status)
 {
-    QString imageResource;
-    switch(status) {
-    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
-    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
-    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
-    }
-
+    QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelLogsLED->setPixmap(QPixmap(imageResource));
 }
 
 void MainWindow::geolocationStatus(SubsystemStatus_t status)
 {
-    QString imageResource;
-    switch(status) {
-    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
-    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
-    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
-    }
-
+    QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelGeolocationLED->setPixmap(QPixmap(imageResource));
 }
 
 void MainWindow::telemetryStatus(SubsystemStatus_t status)
 {
-    QString imageResource;
-    switch(status) {
-    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
-    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
-    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
-    }
-
+    QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelTelemetryLED->setPixmap(QPixmap(imageResource));
 }
 
 void MainWindow::fpvStatus(SubsystemStatus_t status)
 {
-    QString imageResource;
-    switch(status) {
-    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
-    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
-    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
-    }
-
+    QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelFPVLED->setPixmap(QPixmap(imageResource));
 }
 
 void MainWindow::steeringStatus(SubsystemStatus_t status)
 {
-    QString imageResource;
-    switch(status) {
-    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
-    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
-    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
-    }
-
+    QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelSteeringLED->setPixmap(QPixmap(imageResource));
 }
 
 void MainWindow::emulatorStatus(SubsystemStatus_t status)
 {
-    QString imageResource;
-    switch(status) {
-    case SUBSYSTEM_DISABLED:    imageResource = ":/Icons/Icons/led-off.png"; break;
-    case SUBSYSTEM_ENABLED:     imageResource = ":/Icons/Icons/led-red.png"; break;
-    case SUBSYSTEM_CONNECTED:   imageResource = ":/Icons/Icons/led-green.png"; break;
-    }
-
+    QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelEmulatorLED->setPixmap(QPixmap(imageResource));
 }
 
@@ -177,7 +137,6 @@ void MainWindow::init()
     m_actionGroup->addAction(m_ui->toolbarSteering);
     m_actionGroup->addAction(m_ui->toolbarEmulator);
 
-    initTopDockWidgets();
     initCentralWidgets();
     m_ui->connectionDockWidget->setTitleBarWidget(new QWidget());
 
@@ -189,54 +148,28 @@ void MainWindow::init()
     connect(m_ui->toolbarAlerts, SIGNAL(triggered()), this, SLOT(toolbarAlertsClicked()));
     connect(m_ui->toolbarSteering, SIGNAL(triggered()), this, SLOT(toolbarSteeringClicked()));
     connect(m_ui->toolbarEmulator, SIGNAL(triggered()), this, SLOT(toolbarEmulatorClicked()));
-}
+    connect(m_ui->toolbarSettings, SIGNAL(triggered()), m_settingsWidget, SLOT(exec()));
 
-void MainWindow::initTopDockWidgets()
-{
-    m_logsDockWidget = new LogsDockWidget();
-    m_logsDockWidget->hide();
-    addDockWidget(Qt::TopDockWidgetArea, m_logsDockWidget);
-
-    m_geolocationDockWidget = new GeolocationDockWidget();
-    m_geolocationDockWidget->hide();
-    addDockWidget(Qt::TopDockWidgetArea, m_geolocationDockWidget);
-
-    m_telemetryDockWidget = new TelemetryDockWidget();
-    m_telemetryDockWidget->hide();
-    addDockWidget(Qt::TopDockWidgetArea, m_telemetryDockWidget);
-
-    m_fpvDockWidget = new FPVDockWidget();
-    m_fpvDockWidget->hide();
-    addDockWidget(Qt::TopDockWidgetArea, m_fpvDockWidget);
-
-    m_systemInfoDockWidget = new SystemInfoDockWidget();
-    m_systemInfoDockWidget->hide();
-    addDockWidget(Qt::TopDockWidgetArea, m_systemInfoDockWidget);
-
-    m_alertsDockWidget = new AlertsDockWidget();
-    m_alertsDockWidget->hide();
-    addDockWidget(Qt::TopDockWidgetArea, m_alertsDockWidget);
-
-    m_steeringDockWidget = new SteeringDockWidget();
-    m_steeringDockWidget->hide();
-    addDockWidget(Qt::TopDockWidgetArea, m_steeringDockWidget);
-
-    m_emulatorDockWidget = new EmulatorDockWidget();
-    m_emulatorDockWidget->hide();
-    addDockWidget(Qt::TopDockWidgetArea, m_emulatorDockWidget);
-
-    setDockNestingEnabled(true);
+    // This trick will place settings toolbar action at the bottom.
+    QWidget* spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_ui->toolBarMain->addWidget(spacer);
+    m_ui->toolBarMain->addAction(m_ui->toolbarSettings);
 }
 
 void MainWindow::initCentralWidgets()
 {
+    m_settingsWidget = new SettingsDialog(this);
     m_consoleLogsWidget = new ConsoleLogsWidget();
     m_googleMapsView = new GoogleMapsView();
     m_telemetryTabWidget = new TelemetryTabWidget();
+    m_fpvView = new FPVView();
     m_systemInfoWidget = new SystemInfoWidget();
+    m_alertsWidget = new AlertsWidget();
     m_cocpitConsoleWidget = new CocpitConsoleWidget();
     m_emulatorWidget = new EmulatorWidget();
 
+    connect(m_settingsWidget, SIGNAL(logsStarted(bool)), m_consoleLogsWidget, SLOT(setOperating(bool)));
     connect(m_consoleLogsWidget, SIGNAL(logsStatus(SubsystemStatus_t)), this, SLOT(logsStatus(SubsystemStatus_t)));
     connect(m_emulatorWidget, SIGNAL(emulatorStatus(SubsystemStatus_t)), this, SLOT(emulatorStatus(SubsystemStatus_t)));
 
@@ -246,9 +179,6 @@ void MainWindow::initCentralWidgets()
 
 void MainWindow::setCentralView(CentralView centralView)
 {
-    if(m_currentTopDockWidget)
-        m_currentTopDockWidget->hide();
-
     if(centralWidget()) {
         // This prevents QMainWindow from deleting central widget (because it takes ownership of it).
         centralWidget()->setParent(nullptr);
@@ -256,38 +186,49 @@ void MainWindow::setCentralView(CentralView centralView)
 
     switch(centralView) {
     case CENTRAL_VIEW_LOGS:
-        m_currentTopDockWidget = m_logsDockWidget;
+        m_ui->lineEdit->setText("Logs");
         setCentralWidget(m_consoleLogsWidget);
         break;
     case CENTRAL_VIEW_GEOLOCATION:
-        m_currentTopDockWidget = m_geolocationDockWidget;
+        m_ui->lineEdit->setText("Geolocation");
         setCentralWidget(m_googleMapsView);
         break;
 	case CENTRAL_VIEW_TELEMETRY:
-        m_currentTopDockWidget = m_telemetryDockWidget;
+        m_ui->lineEdit->setText("Telemetry");
         setCentralWidget(m_telemetryTabWidget);
         break;
     case CENTRAL_VIEW_FPV:
-        m_currentTopDockWidget = m_fpvDockWidget;
+        m_ui->lineEdit->setText("FPV");
+        setCentralWidget(m_fpvView);
         break;
     case CENTRAL_VIEW_SYSTEM_INFO:
-        m_currentTopDockWidget = m_systemInfoDockWidget;
+        m_ui->lineEdit->setText("System Info");
         setCentralWidget(m_systemInfoWidget);
         break;
     case CENTRAL_VIEW_ALERTS:
-        m_currentTopDockWidget = m_alertsDockWidget;
+        m_ui->lineEdit->setText("Alerts");
+        setCentralWidget(m_alertsWidget);
         break;
     case CENTRAL_VIEW_STEERING:
-        m_currentTopDockWidget = m_steeringDockWidget;
+        m_ui->lineEdit->setText("Steering");
         setCentralWidget(m_cocpitConsoleWidget);
         break;
     case CENTRAL_VIEW_EMULATOR:
-        m_currentTopDockWidget = m_emulatorDockWidget;
+        m_ui->lineEdit->setText("Emulator");
         setCentralWidget(m_emulatorWidget);
         break;
     default:
         break;
     }
+}
 
-    m_currentTopDockWidget->show();
+QString MainWindow::getSubsystemStatusImage(SubsystemStatus_t status)
+{
+    switch(status) {
+    case SUBSYSTEM_DISABLED:    return ":/Icons/Icons/led-off.png";
+    case SUBSYSTEM_ENABLED:     return ":/Icons/Icons/led-red.png";
+    case SUBSYSTEM_CONNECTED:   return ":/Icons/Icons/led-green.png";
+    }
+
+    return "";
 }

@@ -2,30 +2,30 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       09.02.2015
+/// @date       21.01.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GEOLOCATIONDOCKWIDGET_H
-#define GEOLOCATIONDOCKWIDGET_H
+#ifndef GOOGLEMAPSVIEW_H
+#define GOOGLEMAPSVIEW_H
 
-#include <QDockWidget>
+#include <QWidget>
 
 namespace Ui {
-    class GeolocationDockWidget;
+    class GoogleMapsView;
 }
 
-class GeolocationDockWidget : public QDockWidget {
+class GoogleMapsView : public QWidget {
     Q_OBJECT
 
 public:
-    explicit GeolocationDockWidget(QWidget* parent = 0);
-    virtual ~GeolocationDockWidget();
+    explicit GoogleMapsView(QWidget* parent = nullptr);
+    virtual ~GoogleMapsView();
 
 private:
-    Ui::GeolocationDockWidget* m_ui;
+    Ui::GoogleMapsView* m_ui;
 };
 
 #endif

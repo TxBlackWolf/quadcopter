@@ -34,22 +34,15 @@ INCLUDEPATH     += $$PWD/../.. $$PWD/.
 
 SOURCES         += main.cpp \
                 MainWindow.cpp \
-                Core/Alerts/AlertsDockWidget.cpp \
-                Core/Emulator/EmulatorDockWidget.cpp \
-                Core/Emulator/EmulatorOptionsDialog.cpp \
-                Core/Emulator/EmulatorWidget.cpp \
-                Core/FPV/FPVDockWidget.cpp \
-                Core/Geolocation/GeolocationDockWidget.cpp \
-                Core/Geolocation/GoogleMapsView.cpp \
-                Core/Logs/ConsoleLogsWidget.cpp \
-                Core/Logs/LogsDockWidget.cpp \
-                Core/Logs/LogsOptionsDialog.cpp \
-                Core/Steering/CocpitConsoleWidget.cpp \
-                Core/Steering/SteeringDockWidget.cpp \
-                Core/SystemInfo/SystemInfoDockWidget.cpp \
-                Core/SystemInfo/SystemInfoWidget.cpp \
-                Core/Telemetry/TelemetryDockWidget.cpp \
-                Core/Telemetry/TelemetryTabWidget.cpp \
+                Core/AlertsWidget.cpp \
+                Core/CocpitConsoleWidget.cpp \
+                Core/ConsoleLogsWidget.cpp \
+                Core/EmulatorWidget.cpp \
+                Core/FPVView.cpp \
+                Core/GoogleMapsView.cpp \
+                Core/SettingsDialog.cpp \
+                Core/SystemInfoWidget.cpp \
+                Core/TelemetryTabWidget.cpp \
                 Misc/AboutDialog.cpp \
                 Tools/Options/EmulatorOptions.cpp \
                 Tools/Options/LogsOptions.cpp \
@@ -63,22 +56,15 @@ SOURCES         += main.cpp \
                 ../../common/commands/telemetry.c
 
 HEADERS         += MainWindow.h \
-                Core/Alerts/AlertsDockWidget.h \
-                Core/Emulator/EmulatorDockWidget.h \
-                Core/Emulator/EmulatorOptionsDialog.h \
-                Core/Emulator/EmulatorWidget.h \
-                Core/FPV/FPVDockWidget.h \
-                Core/Geolocation/GeolocationDockWidget.h \
-                Core/Geolocation/GoogleMapsView.h \
-                Core/Logs/ConsoleLogsWidget.h \
-                Core/Logs/LogsDockWidget.h \
-                Core/Logs/LogsOptionsDialog.h \
-                Core/Steering/CocpitConsoleWidget.h \
-                Core/Steering/SteeringDockWidget.h \
-                Core/SystemInfo/SystemInfoDockWidget.h \
-                Core/SystemInfo/SystemInfoWidget.h \
-                Core/Telemetry/TelemetryDockWidget.h \
-                Core/Telemetry/TelemetryTabWidget.h \
+                Core/AlertsWidget.h \
+                Core/CocpitConsoleWidget.h \
+                Core/ConsoleLogsWidget.h \
+                Core/EmulatorWidget.h \
+                Core/FPVView.h \
+                Core/GoogleMapsView.h \
+                Core/SettingsDialog.h \
+                Core/SystemInfoWidget.h \
+                Core/TelemetryTabWidget.h \
                 Misc/AboutDialog.h \
                 Misc/SubsystemsStatus.h \
                 Misc/Version.h \
@@ -94,22 +80,15 @@ HEADERS         += MainWindow.h \
                 ../../common/commands/telemetry.h
 
 FORMS           += MainWindow.ui \
-                Core/Alerts/AlertsDockWidget.ui \
-                Core/Emulator/EmulatorDockWidget.ui \
-                Core/Emulator/EmulatorOptionsDialog.ui \
-                Core/Emulator/EmulatorWidget.ui \
-                Core/FPV/FPVDockWidget.ui \
-                Core/Geolocation/GeolocationDockWidget.ui \
-                Core/Geolocation/GoogleMapsView.ui \
-                Core/Logs/LogsDockWidget.ui \
-                Core/Logs/LogsOptionsDialog.ui \
-                Core/Logs/ConsoleLogsWidget.ui \
-                Core/Steering/CocpitConsoleWidget.ui \
-                Core/Steering/SteeringDockWidget.ui \
-                Core/SystemInfo/SystemInfoDockWidget.ui \
-                Core/SystemInfo/SystemInfoWidget.ui \
-                Core/Telemetry/TelemetryDockWidget.ui \
-                Core/Telemetry/TelemetryTabWidget.ui \
+                Core/AlertsWidget.ui \
+                Core/CocpitConsoleWidget.ui \
+                Core/ConsoleLogsWidget.ui \
+                Core/EmulatorWidget.ui \
+                Core/FPVView.ui \
+                Core/GoogleMapsView.ui \
+                Core/SettingsDialog.ui \
+                Core/SystemInfoWidget.ui \
+                Core/TelemetryTabWidget.ui \
                 Misc/AboutDialog.ui
 
 RESOURCES       += resources.qrc

@@ -2,23 +2,30 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       11.02.2015
+/// @date       21.02.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "TelemetryDockWidget.h"
-#include "ui_TelemetryDockWidget.h"
+#ifndef ALERTSWIDGET_H
+#define ALERTSWIDGET_H
 
-TelemetryDockWidget::TelemetryDockWidget(QWidget* parent)
-    : QDockWidget(parent)
-    , m_ui(new Ui::TelemetryDockWidget())
-{
-    m_ui->setupUi(this);
+#include <QWidget>
+
+namespace Ui {
+    class AlertsWidget;
 }
 
-TelemetryDockWidget::~TelemetryDockWidget()
-{
-    delete m_ui;
-}
+class AlertsWidget : public QWidget {
+    Q_OBJECT
+
+public:
+    explicit AlertsWidget(QWidget* parent = nullptr);
+    virtual ~AlertsWidget();
+
+private:
+    Ui::AlertsWidget* m_ui;
+};
+
+#endif

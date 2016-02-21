@@ -2,54 +2,57 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       08.02.2016
+/// @date       14.01.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef EMULATORWIDGET_H
-#define EMULATORWIDGET_H
+#ifndef CONSOLELOGSWIDGET_H
+#define CONSOLELOGSWIDGET_H
 
 #include "Misc/SubsystemsStatus.h"
 
+#include <QFile>
+#include <QMutex>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QTextStream>
 #include <QWidget>
 
-#include <cstdint>
-
 namespace Ui {
-    class EmulatorWidget;
+    class ConsoleLogsWidget;
 }
 
-class EmulatorWidget : public QWidget {
+class ConsoleLogsWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit EmulatorWidget(QWidget* parent = 0);
-    virtual ~EmulatorWidget();
+    explicit ConsoleLogsWidget(QWidget* parent = nullptr);
+    virtual ~ConsoleLogsWidget();
 
 signals:
-    void emulatorStatus(SubsystemStatus_t);
+    void logsStatus(SubsystemStatus_t);
 
 public slots:
-    void startEmulatorServer();
-    void stopEmulatorServer();
-    void accept();
+    void setOperating(bool active);
+    void startNetworkServer();
+    void stopNetworkServer();
+    void acceptConnection();
     void readSocket();
     void clientDisconnected();
 
 private:
     void init();
-    void initCommandsFramework();
-    static void gpioCallback(uint8_t* buffer, uint32_t size);
 
 private:
-    Ui::EmulatorWidget* m_ui;
+    Ui::ConsoleLogsWidget* m_ui;
 
     QTcpServer m_tcpServer;
     QTcpSocket* m_socket;
+    QMutex m_mutex;
+    QFile m_logFile;
+    QTextStream m_logStream;
 };
 
 #endif

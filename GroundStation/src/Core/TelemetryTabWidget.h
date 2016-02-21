@@ -22,7 +22,7 @@ class TelemetryTabWidget : public QTabWidget {
     Q_OBJECT
 
 public:
-    explicit TelemetryTabWidget(QWidget* parent = 0);
+    explicit TelemetryTabWidget(QWidget* parent = nullptr);
     virtual ~TelemetryTabWidget();
 
 private:

@@ -11,6 +11,6 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-static const char* GROUNDSTATION_VERSION = "0.010";
+static const char* GROUNDSTATION_VERSION = "0.011";
 
 #endif

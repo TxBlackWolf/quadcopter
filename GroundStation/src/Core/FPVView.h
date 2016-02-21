@@ -2,36 +2,30 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       08.02.2015
+/// @date       21.02.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef LOGSDOCKWIDGET_H
-#define LOGSDOCKWIDGET_H
+#ifndef FPVVIEW_H
+#define FPVVIEW_H
 
-#include <QDockWidget>
+#include <QWidget>
 
 namespace Ui {
-    class LogsDockWidget;
+    class FPVView;
 }
 
-class LogsDockWidget : public QDockWidget {
+class FPVView : public QWidget {
     Q_OBJECT
 
 public:
-    explicit LogsDockWidget(QWidget* parent = 0);
-    virtual ~LogsDockWidget();
-
-public slots:
-    void showLoggingOptions();
+    explicit FPVView(QWidget* parent = nullptr);
+    virtual ~FPVView();
 
 private:
-    void init();
-
-private:
-    Ui::LogsDockWidget* m_ui;
+    Ui::FPVView* m_ui;
 };
 
 #endif

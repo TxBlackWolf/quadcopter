@@ -11,20 +11,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "Core/Alerts/AlertsDockWidget.h"
-#include "Core/Emulator/EmulatorDockWidget.h"
-#include "Core/Emulator/EmulatorWidget.h"
-#include "Core/FPV/FPVDockWidget.h"
-#include "Core/Geolocation/GeolocationDockWidget.h"
-#include "Core/Geolocation/GoogleMapsView.h"
-#include "Core/Logs/LogsDockWidget.h"
-#include "Core/Logs/ConsoleLogsWidget.h"
-#include "Core/Steering/CocpitConsoleWidget.h"
-#include "Core/Steering/SteeringDockWidget.h"
-#include "Core/SystemInfo/SystemInfoDockWidget.h"
-#include "Core/SystemInfo/SystemInfoWidget.h"
-#include "Core/Telemetry/TelemetryDockWidget.h"
-#include "Core/Telemetry/TelemetryTabWidget.h"
+#include "Core/AlertsWidget.h"
+#include "Core/CocpitConsoleWidget.h"
+#include "Core/ConsoleLogsWidget.h"
+#include "Core/EmulatorWidget.h"
+#include "Core/FPVView.h"
+#include "Core/GoogleMapsView.h"
+#include "Core/SettingsDialog.h"
+#include "Core/SystemInfoWidget.h"
+#include "Core/TelemetryTabWidget.h"
 #include "Misc/SubsystemsStatus.h"
 
 #include <QActionGroup>
@@ -50,7 +45,7 @@ class MainWindow : public QMainWindow {
     };
 
 public:
-    explicit MainWindow(QWidget* parent = 0);
+    explicit MainWindow(QWidget* parent = nullptr);
     virtual ~MainWindow();
 
 public slots:
@@ -71,36 +66,23 @@ public slots:
 
 private:
     void init();
-    void initTopDockWidgets();
     void initCentralWidgets();
 
     void setCentralView(CentralView centralView);
+    QString getSubsystemStatusImage(SubsystemStatus_t status);
 
 private:
     Ui::MainWindow* m_ui;
     QActionGroup* m_actionGroup;
-    QDockWidget* m_currentTopDockWidget;
+    SettingsDialog* m_settingsWidget;
 
-    LogsDockWidget* m_logsDockWidget;
     ConsoleLogsWidget* m_consoleLogsWidget;
-
-    GeolocationDockWidget* m_geolocationDockWidget;
-    GoogleMapsView *m_googleMapsView;
-
-    TelemetryDockWidget* m_telemetryDockWidget;
+    GoogleMapsView* m_googleMapsView;
     TelemetryTabWidget* m_telemetryTabWidget;
-
-    FPVDockWidget* m_fpvDockWidget;
-
-    SystemInfoDockWidget* m_systemInfoDockWidget;
+    FPVView* m_fpvView;
     SystemInfoWidget* m_systemInfoWidget;
-
-    AlertsDockWidget* m_alertsDockWidget;
-
-    SteeringDockWidget* m_steeringDockWidget;
+    AlertsWidget* m_alertsWidget;
     CocpitConsoleWidget* m_cocpitConsoleWidget;
-
-    EmulatorDockWidget* m_emulatorDockWidget;
     EmulatorWidget* m_emulatorWidget;
 };
 

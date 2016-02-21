@@ -2,30 +2,30 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       11.02.2015
+/// @date       07.02.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef TELEMETRYDOCKWIDGET_H
-#define TELEMETRYDOCKWIDGET_H
+#ifndef SYSTEMINFOWIDGET_H
+#define SYSTEMINFOWIDGET_H
 
-#include <QDockWidget>
+#include <QWidget>
 
 namespace Ui {
-    class TelemetryDockWidget;
+    class SystemInfoWidget;
 }
 
-class TelemetryDockWidget : public QDockWidget {
+class SystemInfoWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit TelemetryDockWidget(QWidget* parent = 0);
-    virtual ~TelemetryDockWidget();
+    explicit SystemInfoWidget(QWidget* parent = nullptr);
+    virtual ~SystemInfoWidget();
 
 private:
-    Ui::TelemetryDockWidget* m_ui;
+    Ui::SystemInfoWidget* m_ui;
 };
 
 #endif

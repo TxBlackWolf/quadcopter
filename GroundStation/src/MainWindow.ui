@@ -448,6 +448,36 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QDockWidget" name="dockWidget">
+   <property name="features">
+    <set>QDockWidget::NoDockWidgetFeatures</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::TopDockWidgetArea</set>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>4</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Logs</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="menuFileClose">
    <property name="icon">
     <iconset resource="resources.qrc">
@@ -457,11 +487,6 @@
     <string>Close</string>
    </property>
   </action>
-  <action name="menuOptionsCommunication">
-   <property name="text">
-    <string>Communication</string>
-   </property>
-  </action>
   <action name="menuHelpQt">
    <property name="text">
     <string>About Qt</string>
@@ -469,7 +494,7 @@
   </action>
   <action name="menuHelpGroundStation">
    <property name="text">
-    <string>About ARMCopter GroundStation</string>
+    <string>About SkyViper GroundStation</string>
    </property>
   </action>
   <action name="toolbarLogs">
@@ -626,6 +651,21 @@
    </property>
    <property name="shortcut">
     <string>F8</string>
+   </property>
+  </action>
+  <action name="toolbarSettings">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/Icons/Icons/configuration21.png</normaloff>:/Icons/Icons/configuration21.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
+   </property>
+   <property name="toolTip">
+    <string>Settings</string>
+   </property>
+   <property name="shortcut">
+    <string>F12</string>
    </property>
   </action>
  </widget>

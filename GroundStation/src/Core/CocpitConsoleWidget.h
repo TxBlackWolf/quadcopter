@@ -2,30 +2,30 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       11.02.2015
+/// @date       06.02.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef STEERINGWIDGET_H
-#define STEERINGWIDGET_H
+#ifndef COCPITCONSOLEWIDGET_H
+#define COCPITCONSOLEWIDGET_H
 
-#include <QDockWidget>
+#include <QWidget>
 
 namespace Ui {
-    class SteeringDockWidget;
+    class CocpitConsoleWidget;
 }
 
-class SteeringDockWidget : public QDockWidget {
+class CocpitConsoleWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit SteeringDockWidget(QWidget* parent = 0);
-    virtual ~SteeringDockWidget();
+    explicit CocpitConsoleWidget(QWidget* parent = nullptr);
+    virtual ~CocpitConsoleWidget();
 
 private:
-    Ui::SteeringDockWidget* m_ui;
+    Ui::CocpitConsoleWidget* m_ui;
 };
 
 #endif

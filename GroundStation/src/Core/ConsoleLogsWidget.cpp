@@ -14,7 +14,6 @@
 #include "Tools/Options/LogsOptions.h"
 
 #include <QDateTime>
-#include <QDebug>
 #include <QDir>
 #include <QMutexLocker>
 
@@ -33,6 +32,22 @@ ConsoleLogsWidget::~ConsoleLogsWidget()
     delete m_ui;
 }
 
+void ConsoleLogsWidget::setOperating(bool active)
+{
+    LogsOptions options;
+    options.load();
+
+    if(options.serialLogsEnabled) {
+        /// @todo: Implement.
+    }
+    else {
+        if(active)
+            startNetworkServer();
+        else
+            stopNetworkServer();
+    }
+}
+
 void ConsoleLogsWidget::startNetworkServer()
 {
     LogsOptions options;
@@ -42,9 +57,6 @@ void ConsoleLogsWidget::startNetworkServer()
     if(!m_tcpServer.listen(QHostAddress::Any, options.networkLogs.port))
         return;
 
-    disconnect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(startNetworkServer()));
-    connect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(stopNetworkServer()));
-    m_ui->buttonStart->setText("Stop");
     m_ui->labelType->setText("network");
 
     emit logsStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
@@ -52,9 +64,6 @@ void ConsoleLogsWidget::startNetworkServer()
 
 void ConsoleLogsWidget::stopNetworkServer()
 {
-    disconnect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(stopNetworkServer()));
-    connect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(startNetworkServer()));
-    m_ui->buttonStart->setText("Start");
     m_ui->labelType->setText("none");
 
     if(m_socket) {
@@ -71,7 +80,7 @@ void ConsoleLogsWidget::stopNetworkServer()
     emit logsStatus(SubsystemStatus_t::SUBSYSTEM_DISABLED);
 }
 
-void ConsoleLogsWidget::accept()
+void ConsoleLogsWidget::acceptConnection()
 {
     m_socket = m_tcpServer.nextPendingConnection();
     if(!m_socket)
@@ -124,7 +133,6 @@ void ConsoleLogsWidget::clientDisconnected()
 
 void ConsoleLogsWidget::init()
 {
-    connect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(startNetworkServer()));
     connect(m_ui->buttonClear, SIGNAL(clicked()), m_ui->textEditLogs, SLOT(clear()));
-    connect(&m_tcpServer, SIGNAL(newConnection()), this, SLOT(accept()));
+    connect(&m_tcpServer, SIGNAL(newConnection()), this, SLOT(acceptConnection()));
 }
