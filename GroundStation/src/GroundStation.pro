@@ -32,22 +32,23 @@ Release:DESTDIR = $$PWD/../bin/Release
 
 INCLUDEPATH     += $$PWD/../.. $$PWD/.
 
-SOURCES         += main.cpp \
-                MainWindow.cpp \
-                Core/AlertsWidget.cpp \
-                Core/CocpitConsoleWidget.cpp \
-                Core/ConsoleLogsWidget.cpp \
-                Core/EmulatorWidget.cpp \
-                Core/FPVView.cpp \
-                Core/GoogleMapsView.cpp \
-                Core/SettingsDialog.cpp \
-                Core/SystemInfoWidget.cpp \
-                Core/TelemetryTabWidget.cpp \
-                Misc/AboutDialog.cpp \
+SOURCES         += \
+                main.cpp \
                 Tools/Options/EmulatorOptions.cpp \
                 Tools/Options/LogsOptions.cpp \
                 Tools/Options/NetworkServerOptions.cpp \
                 Tools/Options/SerialPortOptions.cpp \
+                Windows/AboutDialog.cpp \
+                Windows/AlertsWidget.cpp \
+                Windows/CocpitConsoleWidget.cpp \
+                Windows/ConsoleLogsWidget.cpp \
+                Windows/EmulatorWidget.cpp \
+                Windows/FPVView.cpp \
+                Windows/GoogleMapsView.cpp \
+                Windows/MainWindow.cpp \
+                Windows/SettingsDialog.cpp \
+                Windows/SystemInfoWidget.cpp \
+                Windows/TelemetryTabWidget.cpp \
                 ../../common/commands/commands.c \
                 ../../common/commands/control.c \
                 ../../common/commands/debug_info.c \
@@ -55,23 +56,24 @@ SOURCES         += main.cpp \
                 ../../common/commands/system_status.c \
                 ../../common/commands/telemetry.c
 
-HEADERS         += MainWindow.h \
-                Core/AlertsWidget.h \
-                Core/CocpitConsoleWidget.h \
-                Core/ConsoleLogsWidget.h \
-                Core/EmulatorWidget.h \
-                Core/FPVView.h \
-                Core/GoogleMapsView.h \
-                Core/SettingsDialog.h \
-                Core/SystemInfoWidget.h \
-                Core/TelemetryTabWidget.h \
-                Misc/AboutDialog.h \
+HEADERS         += \
                 Misc/SubsystemsStatus.h \
                 Misc/Version.h \
                 Tools/Options/EmulatorOptions.h \
                 Tools/Options/LogsOptions.h \
                 Tools/Options/NetworkServerOptions.h \
                 Tools/Options/SerialPortOptions.h \
+                Windows/AboutDialog.h \
+                Windows/AlertsWidget.h \
+                Windows/CocpitConsoleWidget.h \
+                Windows/ConsoleLogsWidget.h \
+                Windows/EmulatorWidget.h \
+                Windows/FPVView.h \
+                Windows/GoogleMapsView.h \
+                Windows/MainWindow.h \
+                Windows/SettingsDialog.h \
+                Windows/SystemInfoWidget.h \
+                Windows/TelemetryTabWidget.h \
                 ../../common/commands/commands.h \
                 ../../common/commands/control.h \
                 ../../common/commands/debug_info.h \
@@ -79,16 +81,17 @@ HEADERS         += MainWindow.h \
                 ../../common/commands/system_status.h \
                 ../../common/commands/telemetry.h
 
-FORMS           += MainWindow.ui \
-                Core/AlertsWidget.ui \
-                Core/CocpitConsoleWidget.ui \
-                Core/ConsoleLogsWidget.ui \
-                Core/EmulatorWidget.ui \
-                Core/FPVView.ui \
-                Core/GoogleMapsView.ui \
-                Core/SettingsDialog.ui \
-                Core/SystemInfoWidget.ui \
-                Core/TelemetryTabWidget.ui \
-                Misc/AboutDialog.ui
+FORMS           += \
+                Windows/AboutDialog.ui \
+                Windows/AlertsWidget.ui \
+                Windows/CocpitConsoleWidget.ui \
+                Windows/ConsoleLogsWidget.ui \
+                Windows/EmulatorWidget.ui \
+                Windows/FPVView.ui \
+                Windows/GoogleMapsView.ui \
+                Windows/MainWindow.ui \
+                Windows/SettingsDialog.ui \
+                Windows/SystemInfoWidget.ui \
+                Windows/TelemetryTabWidget.ui
 
 RESOURCES       += resources.qrc

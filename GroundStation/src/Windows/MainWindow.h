@@ -11,15 +11,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "Core/AlertsWidget.h"
-#include "Core/CocpitConsoleWidget.h"
-#include "Core/ConsoleLogsWidget.h"
-#include "Core/EmulatorWidget.h"
-#include "Core/FPVView.h"
-#include "Core/GoogleMapsView.h"
-#include "Core/SettingsDialog.h"
-#include "Core/SystemInfoWidget.h"
-#include "Core/TelemetryTabWidget.h"
+#include "AlertsWidget.h"
+#include "CocpitConsoleWidget.h"
+#include "ConsoleLogsWidget.h"
+#include "EmulatorWidget.h"
+#include "FPVView.h"
+#include "GoogleMapsView.h"
+#include "SettingsDialog.h"
+#include "SystemInfoWidget.h"
+#include "TelemetryTabWidget.h"
 #include "Misc/SubsystemsStatus.h"
 
 #include <QActionGroup>
