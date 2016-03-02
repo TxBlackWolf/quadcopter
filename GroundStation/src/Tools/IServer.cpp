@@ -11,18 +11,36 @@
 #include "IServer.h"
 #include "TCPServer.h"
 
-std::unique_ptr<IServer> IServer::create()
+std::unique_ptr<IServer> IServer::create(ServerOptions::ServerType type)
 {
-    return std::unique_ptr<IServer>(new TCPServer());
+	switch(type) {
+	case ServerOptions::SERVER_TCP		: return std::unique_ptr<IServer>(new TCPServer());
+	case ServerOptions::SERVER_SERIAL	: return nullptr;
+	}
+
+	return nullptr;
 }
 
-void IServer::setMessageCallback(std::function<void(const QByteArray&)> onMessageCallback)
+void IServer::setOnClientConnectedCallback(std::function<void(const QString&)> onClientConnectedCallback)
 {
-    m_onMessageCallback = onMessageCallback;
+	m_onClientConnectedCallback = onClientConnectedCallback;
+}
+
+void IServer::setOnMessageCallback(std::function<void(const QByteArray&)> onMessageCallback)
+{
+	m_onMessageCallback = onMessageCallback;
+}
+
+void IServer::setOnClientDisconnectedCallback(std::function<void(const QString&)> onClientDisonnectedCallback)
+{
+	m_onClientDisconnectedCallback = onClientDisonnectedCallback;
 }
 
 void IServer::receiveData()
 {
-    if(receiveSpecificData())
-        m_onMessageCallback(m_data);
+	if(!receiveSpecificData())
+		return;
+
+	if(m_onMessageCallback)
+		m_onMessageCallback(m_data);
 }

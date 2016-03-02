@@ -8,22 +8,23 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef NETWORKSERVEROPTIONS_H
-#define NETWORKSERVEROPTIONS_H
+#ifndef TCPOPTIONS_H
+#define TCPOPTIONS_H
 
 #include <QSettings>
 #include <QString>
 
 #include <stdint.h>
 
-class NetworkServerOptions {
+class TCPOptions {
 public:
-    void save(QSettings& settings);
-    void load(QSettings& settings, QString defaultAddress, uint16_t defaultPort);
+	void save(QSettings& settings);
+	void load(QSettings& settings);
 
 public:
-    QString address;
-    unsigned int port;
+	QString address;
+	uint16_t port;
+	bool singleClient;
 };
 
 #endif

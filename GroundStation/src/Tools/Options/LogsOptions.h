@@ -11,22 +11,20 @@
 #ifndef LOGSOPTIONS_H
 #define LOGSOPTIONS_H
 
-#include "NetworkServerOptions.h"
-#include "SerialPortOptions.h"
+#include "ServerOptions.h"
 
 #include <QString>
 
 class LogsOptions {
 public:
-    void save();
-    void load();
+	void save();
+	void load();
 
 public:
-    bool serialLogsEnabled;
-    QString logsPath;
+	bool serialLogsEnabled;
+	QString logsPath;
 
-    SerialPortOptions serialLogs;
-    NetworkServerOptions networkLogs;
+	ServerOptions serverOptions;
 };
 
 #endif

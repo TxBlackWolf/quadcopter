@@ -15,32 +15,22 @@
 
 void LogsOptions::save()
 {
-    QSettings settings;
+	QSettings settings;
 
-    settings.beginGroup("LogsOptions");
-    settings.setValue("serialLogsEnabled", serialLogsEnabled);
-    settings.setValue("logsPath", logsPath);
-    settings.beginGroup("SerialLogs");
-    serialLogs.save(settings);
-    settings.endGroup();
-    settings.beginGroup("NetworkLogs");
-    networkLogs.save(settings);
-    settings.endGroup();
-    settings.endGroup();
+	settings.beginGroup("LogsOptions");
+	settings.setValue("serialLogsEnabled", serialLogsEnabled);
+	settings.setValue("logsPath", logsPath);
+	serverOptions.save(settings);
+	settings.endGroup();
 }
 
 void LogsOptions::load()
 {
-    QSettings settings;
+	QSettings settings;
 
-    settings.beginGroup("LogsOptions");
-    serialLogsEnabled = settings.value("serialLogsEnabled", true).toBool();
-    logsPath = settings.value("logsPath", QDir::currentPath()).toString();
-    settings.beginGroup("SerialLogs");
-    serialLogs.load(settings);
-    settings.endGroup();
-    settings.beginGroup("NetworkLogs");
-    networkLogs.load(settings);
-    settings.endGroup();
-    settings.endGroup();
+	settings.beginGroup("LogsOptions");
+	serialLogsEnabled = settings.value("serialLogsEnabled", true).toBool();
+	logsPath = settings.value("logsPath", QDir::currentPath()).toString();
+	serverOptions.load(settings);
+	settings.endGroup();
 }

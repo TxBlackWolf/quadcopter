@@ -12,26 +12,29 @@
 #define TCPSERVER_H
 
 #include "IServer.h"
+#include "Options/TCPOptions.h"
 
 #include <QTcpServer>
 #include <QTcpSocket>
 
 class TCPServer : public IServer {
 public:
-    TCPServer();
+	TCPServer();
 
-    virtual bool start();
-    virtual void stop();
-
-private:
-    virtual bool receiveSpecificData();
-    void init();
-    void acceptConnection();
-    void clientDisconnected();
+	virtual bool start(ServerOptions options);
+	virtual void stop();
 
 private:
-    QTcpServer m_tcpServer;
-    QTcpSocket* m_socket;
+	virtual bool receiveSpecificData();
+	void init();
+	void acceptConnection();
+	void clientDisconnected();
+
+private:
+	QTcpServer m_tcpServer;
+	QTcpSocket* m_socket;
+
+	TCPOptions m_options;
 };
 
 #endif

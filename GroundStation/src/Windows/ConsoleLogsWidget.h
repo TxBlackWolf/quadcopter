@@ -12,47 +12,43 @@
 #define CONSOLELOGSWIDGET_H
 
 #include "Misc/SubsystemsStatus.h"
+#include "Tools/IServer.h"
 
 #include <QFile>
 #include <QMutex>
-#include <QTcpServer>
-#include <QTcpSocket>
 #include <QTextStream>
 #include <QWidget>
 
+#include <memory>
+
 namespace Ui {
-    class ConsoleLogsWidget;
+	class ConsoleLogsWidget;
 }
 
 class ConsoleLogsWidget : public QWidget {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit ConsoleLogsWidget(QWidget* parent = nullptr);
-    virtual ~ConsoleLogsWidget();
+	explicit ConsoleLogsWidget(QWidget* parent = nullptr);
+	virtual ~ConsoleLogsWidget();
 
 signals:
-    void logsStatus(SubsystemStatus_t);
+	void logsStatus(SubsystemStatus_t);
 
 public slots:
-    void setOperating(bool active);
-    void startNetworkServer();
-    void stopNetworkServer();
-    void acceptConnection();
-    void readSocket();
-    void clientDisconnected();
+	void setOperating(bool active);
 
 private:
-    void init();
+	void init();
 
 private:
-    Ui::ConsoleLogsWidget* m_ui;
+	Ui::ConsoleLogsWidget* m_ui;
 
-    QTcpServer m_tcpServer;
-    QTcpSocket* m_socket;
-    QMutex m_mutex;
-    QFile m_logFile;
-    QTextStream m_logStream;
+	QMutex m_mutex;
+	QFile m_logFile;
+	QTextStream m_logStream;
+
+	std::unique_ptr<IServer> m_server;
 };
 
 #endif

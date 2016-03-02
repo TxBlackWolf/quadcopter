@@ -104,7 +104,7 @@ void SettingsDialog::initLogsSettings()
     initPartityCombo(m_ui->comboPartityLogs, serialOptions.partity);
     initFlowControlCombo(m_ui->comboFlowLogs, serialOptions.flowControl);
 
-    NetworkServerOptions& networkOptions = m_optionsLogs.networkLogs;
+    TCPOptions& networkOptions = m_optionsLogs.networkLogs;
     m_ui->editAddressLogs->setText(networkOptions.address);
     m_ui->editPortLogs->setText(QString::number(networkOptions.port));
 

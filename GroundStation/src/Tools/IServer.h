@@ -11,6 +11,8 @@
 #ifndef ISERVER_H
 #define ISERVER_H
 
+#include "Options/ServerOptions.h"
+
 #include <QByteArray>
 #include <QObject>
 
@@ -18,27 +20,29 @@
 #include <memory>
 
 class IServer : public QObject {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    static std::unique_ptr<IServer> create();
+	static std::unique_ptr<IServer> create(ServerOptions::ServerType type);
 
-    virtual bool start() = 0;
-    virtual void stop() = 0;
-    void setMessageCallback(std::function<void(const QByteArray&)> onMessageCallback);
+	virtual bool start(ServerOptions options) = 0;
+	virtual void stop() = 0;
+	void setOnClientConnectedCallback(std::function<void(const QString&)> onClientConnectedCallback);
+	void setOnMessageCallback(std::function<void(const QByteArray&)> onMessageCallback);
+	void setOnClientDisconnectedCallback(std::function<void(const QString&)> onClientDisconnectedCallback);
 
 public slots:
-    void receiveData();
+	void receiveData();
 
 protected:
-    IServer() {}
-    virtual bool receiveSpecificData() = 0;
+	IServer() {}
+	virtual bool receiveSpecificData() = 0;
 
 protected:
-    QByteArray m_data;
-
-private:
-    std::function<void(const QByteArray&)> m_onMessageCallback;
+	QByteArray m_data;
+	std::function<void(const QString&)> m_onClientConnectedCallback;
+	std::function<void(const QByteArray&)> m_onMessageCallback;
+	std::function<void(const QString&)> m_onClientDisconnectedCallback;
 };
 
 #endif
