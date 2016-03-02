@@ -1,0 +1,37 @@
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       26.02.2016
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef TCPSERVER_H
+#define TCPSERVER_H
+
+#include "IServer.h"
+
+#include <QTcpServer>
+#include <QTcpSocket>
+
+class TCPServer : public IServer {
+public:
+    TCPServer();
+
+    virtual bool start();
+    virtual void stop();
+
+private:
+    virtual bool receiveSpecificData();
+    void init();
+    void acceptConnection();
+    void clientDisconnected();
+
+private:
+    QTcpServer m_tcpServer;
+    QTcpSocket* m_socket;
+};
+
+#endif

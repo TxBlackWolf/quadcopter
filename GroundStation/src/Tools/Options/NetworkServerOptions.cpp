@@ -18,10 +18,10 @@ void NetworkServerOptions::save(QSettings& settings)
     settings.endGroup();
 }
 
-void NetworkServerOptions::load(QSettings& settings)
+void NetworkServerOptions::load(QSettings& settings, QString defaultAddress, uint16_t defaultPort)
 {
     settings.beginGroup("NetworkServerOptions");
-    address = settings.value("address", "127.0.0.1").toString();
-    port = settings.value("port", 12555).toUInt();
+    address = settings.value("address", defaultAddress).toString();
+    port = settings.value("port", defaultPort).toUInt();
     settings.endGroup();
 }

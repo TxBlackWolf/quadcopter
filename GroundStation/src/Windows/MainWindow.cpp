@@ -11,7 +11,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-#include "Misc/AboutDialog.h"
+#include "AboutDialog.h"
 
 #include <QActionGroup>
 #include <QMessageBox>

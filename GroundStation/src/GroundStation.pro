@@ -34,6 +34,8 @@ INCLUDEPATH     += $$PWD/../.. $$PWD/.
 
 SOURCES         += \
                 main.cpp \
+                Tools/IServer.cpp \
+                Tools/TCPServer.cpp \
                 Tools/Options/EmulatorOptions.cpp \
                 Tools/Options/LogsOptions.cpp \
                 Tools/Options/NetworkServerOptions.cpp \
@@ -59,6 +61,8 @@ SOURCES         += \
 HEADERS         += \
                 Misc/SubsystemsStatus.h \
                 Misc/Version.h \
+                Tools/IServer.h \
+                Tools/TCPServer.h \
                 Tools/Options/EmulatorOptions.h \
                 Tools/Options/LogsOptions.h \
                 Tools/Options/NetworkServerOptions.h \

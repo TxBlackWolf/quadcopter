@@ -14,10 +14,12 @@
 #include <QSettings>
 #include <QString>
 
+#include <stdint.h>
+
 class NetworkServerOptions {
 public:
     void save(QSettings& settings);
-    void load(QSettings& settings);
+    void load(QSettings& settings, QString defaultAddress, uint16_t defaultPort);
 
 public:
     QString address;
