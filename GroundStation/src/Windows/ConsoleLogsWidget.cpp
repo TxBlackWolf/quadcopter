@@ -15,7 +15,10 @@
 
 #include <QDateTime>
 #include <QDir>
+#include <QMessageBox>
 #include <QMutexLocker>
+
+using namespace std::placeholders;
 
 ConsoleLogsWidget::ConsoleLogsWidget(QWidget* parent)
 	: QWidget(parent)
@@ -31,106 +34,63 @@ ConsoleLogsWidget::~ConsoleLogsWidget()
 	delete m_ui;
 }
 
-void ConsoleLogsWidget::setOperating(bool active)
+void ConsoleLogsWidget::setOperating(bool activate)
 {
-	LogsOptions options;
-	options.load();
+    if(!activate) {
+        m_server->stop();
+        m_server.release();
+        //m_logFile.close();
+        emit logsStatus(SubsystemStatus_t::SUBSYSTEM_DISABLED);
+        return;
+    }
 
-	if(options.serialLogsEnabled) {
-		/// @todo: Implement.
-	}
-	else {
-		if(active)
-			startNetworkServer();
-		else
-			stopNetworkServer();
-	}
-}
+    LogsOptions options;
+    options.load();
+    m_server.reset(IServer::create(options.serverOptions.serverType));
+    m_server->setOnClientConnectedCallback(std::bind(&ConsoleLogsWidget::startLogSession, this, _1));
+    m_server->setOnMessageCallback(std::bind(&ConsoleLogsWidget::appendLogs, this, _1));
+    m_server->setOnClientDisconnectedCallback(std::bind(&ConsoleLogsWidget::endLogSession, this, _1));
 
-void ConsoleLogsWidget::startNetworkServer()
-{
-	LogsOptions options;
-	options.load();
+    if(!m_server->start(options.serverOptions)) {
+        QMessageBox::critical(this, "Error", "Couldn't start logs server!");
+        return;
+    }
 
-	// This is non-blocking call.
-	if(!m_tcpServer.listen(QHostAddress::Any, options.networkLogs.port))
-		return;
-
-	m_ui->labelType->setText("network");
-
-	emit logsStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
-}
-
-void ConsoleLogsWidget::stopNetworkServer()
-{
-	m_ui->labelType->setText("none");
-
-	if(m_socket) {
-		disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readSocket()));
-		disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
-		m_socket->close();
-		m_socket = nullptr;
-		m_logFile.close();
-	}
-
-	if(m_tcpServer.isListening())
-		m_tcpServer.close();
-
-	emit logsStatus(SubsystemStatus_t::SUBSYSTEM_DISABLED);
-}
-
-void ConsoleLogsWidget::acceptConnection()
-{
-	m_socket = m_tcpServer.nextPendingConnection();
-	if(!m_socket)
-		return;
-
-	connect(m_socket, SIGNAL(readyRead()), this, SLOT(readSocket()));
-	connect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
-
-	// We accept only one client.
-	m_tcpServer.close();
-
-	emit logsStatus(SubsystemStatus_t::SUBSYSTEM_CONNECTED);
-
-	LogsOptions options;
-	options.load();
-
-	QDir().mkpath(options.logsPath);
-	QString logFileName = QString("%1/GroundStation_%2.log").arg(options.logsPath).arg(QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss"));
-	m_logFile.setFileName(logFileName);
-	m_logFile.open(QFile::Append | QFile::Text);
-}
-
-void ConsoleLogsWidget::readSocket()
-{
-	QTcpSocket* socket = dynamic_cast<QTcpSocket*>(sender());
-	QString message = socket->readAll();
-	QString currentTimestamp = QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm");
-	message = "[" + currentTimestamp + "] " + message;
-
-	QMutexLocker locker(&m_mutex);
-	m_ui->textEditLogs->insertPlainText(message);
-	m_logStream << message;
-	m_logStream.flush();
-}
-
-void ConsoleLogsWidget::clientDisconnected()
-{
-	disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readSocket()));
-	disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
-	m_socket = nullptr;
-
-	emit logsStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
-
-	LogsOptions options;
-	options.load();
-	m_tcpServer.listen(QHostAddress::Any, options.networkLogs.port);
-
-	m_logFile.close();
+    emit logsStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
 }
 
 void ConsoleLogsWidget::init()
 {
 	connect(m_ui->buttonClear, SIGNAL(clicked()), m_ui->textEditLogs, SLOT(clear()));
+}
+
+void ConsoleLogsWidget::startLogSession(const QString&)
+{
+    LogsOptions options;
+    options.load();
+
+    QDir().mkpath(options.logsPath);
+    QString logFileName = QString("%1/GroundStation_%2.log").arg(options.logsPath).arg(QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss"));
+    m_logFile.setFileName(logFileName);
+    m_logFile.open(QFile::Append | QFile::Text);
+
+    emit logsStatus(SubsystemStatus_t::SUBSYSTEM_CONNECTED);
+}
+
+void ConsoleLogsWidget::appendLogs(const QByteArray& data)
+{
+    QString message = data;
+    QString currentTimestamp = QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm");
+    message = "[" + currentTimestamp + "] " + message;
+
+    QMutexLocker locker(&m_mutex);
+    m_ui->textEditLogs->insertPlainText(message);
+    m_logStream << message;
+    m_logStream.flush();
+}
+
+void ConsoleLogsWidget::endLogSession(const QString&)
+{
+    m_logFile.close();
+    emit logsStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
 }

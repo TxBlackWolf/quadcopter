@@ -25,10 +25,10 @@ public:
 	virtual void stop();
 
 private:
-	virtual bool receiveSpecificData();
+    virtual void acceptConnection();
+    virtual bool receiveDataPriv();
+    virtual void clientDisconnected();
 	void init();
-	void acceptConnection();
-	void clientDisconnected();
 
 private:
 	QTcpServer m_tcpServer;

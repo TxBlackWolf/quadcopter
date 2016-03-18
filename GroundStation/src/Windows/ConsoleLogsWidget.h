@@ -36,10 +36,13 @@ signals:
 	void logsStatus(SubsystemStatus_t);
 
 public slots:
-	void setOperating(bool active);
+    void setOperating(bool activate);
 
 private:
 	void init();
+    void startLogSession(const QString&);
+    void appendLogs(const QByteArray& data);
+    void endLogSession(const QString&);
 
 private:
 	Ui::ConsoleLogsWidget* m_ui;

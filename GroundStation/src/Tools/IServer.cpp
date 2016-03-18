@@ -11,10 +11,10 @@
 #include "IServer.h"
 #include "TCPServer.h"
 
-std::unique_ptr<IServer> IServer::create(ServerOptions::ServerType type)
+IServer* IServer::create(ServerOptions::ServerType type)
 {
 	switch(type) {
-	case ServerOptions::SERVER_TCP		: return std::unique_ptr<IServer>(new TCPServer());
+    case ServerOptions::SERVER_TCP		: return new TCPServer();
 	case ServerOptions::SERVER_SERIAL	: return nullptr;
 	}
 
@@ -38,7 +38,7 @@ void IServer::setOnClientDisconnectedCallback(std::function<void(const QString&)
 
 void IServer::receiveData()
 {
-	if(!receiveSpecificData())
+    if(!receiveDataPriv())
 		return;
 
 	if(m_onMessageCallback)

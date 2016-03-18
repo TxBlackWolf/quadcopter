@@ -31,18 +31,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="labelType">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>none</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -73,7 +61,7 @@
         <string>Clear</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources.qrc">
+        <iconset resource="../resources.qrc">
          <normaloff>:/Icons/Icons/delete81.png</normaloff>:/Icons/Icons/delete81.png</iconset>
        </property>
       </widget>
@@ -165,7 +153,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -17,13 +17,12 @@
 #include <QObject>
 
 #include <functional>
-#include <memory>
 
 class IServer : public QObject {
 	Q_OBJECT
 
 public:
-	static std::unique_ptr<IServer> create(ServerOptions::ServerType type);
+    static IServer* create(ServerOptions::ServerType type);
 
 	virtual bool start(ServerOptions options) = 0;
 	virtual void stop() = 0;
@@ -32,11 +31,13 @@ public:
 	void setOnClientDisconnectedCallback(std::function<void(const QString&)> onClientDisconnectedCallback);
 
 public slots:
+    virtual void acceptConnection() = 0;
 	void receiveData();
+    virtual void clientDisconnected() = 0;
 
 protected:
 	IServer() {}
-	virtual bool receiveSpecificData() = 0;
+    virtual bool receiveDataPriv() = 0;
 
 protected:
 	QByteArray m_data;

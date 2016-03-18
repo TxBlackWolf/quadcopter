@@ -28,7 +28,7 @@ bool TCPServer::start(ServerOptions options)
 void TCPServer::stop()
 {
 	if(m_socket) {
-		disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(receiveSpecificData()));
+        disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(receiveData()));
 		disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
 		m_socket->close();
 		m_socket = nullptr;
@@ -38,7 +38,7 @@ void TCPServer::stop()
 		m_tcpServer.close();
 }
 
-bool TCPServer::receiveSpecificData()
+bool TCPServer::receiveDataPriv()
 {
 	QTcpSocket* socket = dynamic_cast<QTcpSocket*>(sender());
 	m_data = socket->readAll();
@@ -53,32 +53,34 @@ void TCPServer::init()
 
 void TCPServer::acceptConnection()
 {
+    /// @todo Add support for list of sockets.
 	m_socket = m_tcpServer.nextPendingConnection();
 	if(!m_socket)
 		return;
 
-	connect(m_socket, SIGNAL(readyRead()), this, SLOT(readSocket()));
+    connect(m_socket, SIGNAL(readyRead()), this, SLOT(receiveData()));
 	connect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
 
 	if(m_options.singleClient)
 		m_tcpServer.close();
 
 	if(m_onClientConnectedCallback) {
-		/// @todo Add string with client ip:port.
-		m_onClientDisconnectedCallback("<unknown>");
+        QString clientName = QString("%1:%2").arg(m_socket->peerAddress().toString()).arg(m_socket->peerPort());
+        m_onClientConnectedCallback(clientName);
 	}
 }
 
 void TCPServer::clientDisconnected()
 {
-	disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readSocket()));
+    disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(receiveData()));
 	disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
-	m_socket = nullptr;
 
 	m_tcpServer.listen(QHostAddress::Any, m_options.port);
 
 	if(m_onClientDisconnectedCallback) {
-		/// @todo Add string with client ip:port.
-		m_onClientDisconnectedCallback("<unknown>");
+        QString clientName = QString("%1:%2").arg(m_socket->peerAddress().toString()).arg(m_socket->peerPort());
+        m_onClientDisconnectedCallback(clientName);
 	}
+
+    m_socket = nullptr;
 }

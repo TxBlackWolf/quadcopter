@@ -42,7 +42,7 @@ void show_welcome_message()
 }
 
 /// @brief Main program function.
-/// @return 0 on success, 1 otherwise.
+/// @return Should never return.
 int main()
 {
     /// @todo Check if this is reboot in emergency mode.

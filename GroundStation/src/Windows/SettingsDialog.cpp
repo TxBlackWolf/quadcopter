@@ -96,7 +96,7 @@ void SettingsDialog::initLogsSettings()
 
     m_optionsLogs.load();
 
-    SerialPortOptions& serialOptions = m_optionsLogs.serialLogs;
+    SerialPortOptions& serialOptions = m_optionsLogs.serverOptions.serialServer;
     initSerialPortsCombo(m_ui->comboSerialPortLogs, serialOptions.portName);
     initSpeedCombo(m_ui->comboSpeedLogs, serialOptions.baudRate);
     initDataBitsCombo(m_ui->comboDataBitsLogs, serialOptions.dataBits);
@@ -104,7 +104,7 @@ void SettingsDialog::initLogsSettings()
     initPartityCombo(m_ui->comboPartityLogs, serialOptions.partity);
     initFlowControlCombo(m_ui->comboFlowLogs, serialOptions.flowControl);
 
-    TCPOptions& networkOptions = m_optionsLogs.networkLogs;
+    TCPOptions& networkOptions = m_optionsLogs.serverOptions.tcpServer;
     m_ui->editAddressLogs->setText(networkOptions.address);
     m_ui->editPortLogs->setText(QString::number(networkOptions.port));
 
@@ -195,15 +195,17 @@ void SettingsDialog::saveLogsSettings()
     m_optionsLogs.serialLogsEnabled = m_ui->radioSerialLogs->isChecked();
     m_optionsLogs.logsPath = m_ui->editLogsDir->text();
 
-    m_optionsLogs.serialLogs.portName = m_ui->comboSerialPortLogs->currentText();
-    m_optionsLogs.serialLogs.baudRate = m_ui->comboSpeedLogs->currentData().toInt();
-    m_optionsLogs.serialLogs.dataBits = (QSerialPort::DataBits) m_ui->comboDataBitsLogs->currentData().toInt();
-    m_optionsLogs.serialLogs.stopBits = (QSerialPort::StopBits) m_ui->comboStopBitsLogs->currentData().toInt();
-    m_optionsLogs.serialLogs.partity = (QSerialPort::Parity) m_ui->comboPartityLogs->currentData().toInt();
-    m_optionsLogs.serialLogs.flowControl = (QSerialPort::FlowControl) m_ui->comboFlowLogs->currentData().toInt();
+    SerialPortOptions& serialOptions = m_optionsLogs.serverOptions.serialServer;
+    serialOptions.portName = m_ui->comboSerialPortLogs->currentText();
+    serialOptions.baudRate = m_ui->comboSpeedLogs->currentData().toInt();
+    serialOptions.dataBits = (QSerialPort::DataBits) m_ui->comboDataBitsLogs->currentData().toInt();
+    serialOptions.stopBits = (QSerialPort::StopBits) m_ui->comboStopBitsLogs->currentData().toInt();
+    serialOptions.partity = (QSerialPort::Parity) m_ui->comboPartityLogs->currentData().toInt();
+    serialOptions.flowControl = (QSerialPort::FlowControl) m_ui->comboFlowLogs->currentData().toInt();
 
-    m_optionsLogs.networkLogs.address = m_ui->editAddressLogs->text();
-    m_optionsLogs.networkLogs.port = m_ui->editPortLogs->text().toUInt();
+    TCPOptions& networkOptions = m_optionsLogs.serverOptions.tcpServer;
+    networkOptions.address = m_ui->editAddressLogs->text();
+    networkOptions.port = m_ui->editPortLogs->text().toUInt();
 
     m_optionsLogs.save();
 }
