@@ -18,18 +18,18 @@
 
 class ServerOptions {
 public:
-	typedef enum {
-		SERVER_TCP,
-		SERVER_SERIAL
-	} ServerType;
+    typedef enum {
+        SERVER_TCP,
+        SERVER_SERIAL
+    } ServerType;
 
-	void save(QSettings& settings);
-	void load(QSettings& settings);
+    void save(QSettings& settings);
+    void load(QSettings& settings);
 
 public:
-	ServerType serverType;
-	SerialPortOptions serialServer;
-	TCPOptions tcpServer;
+    ServerType serverType;
+    SerialPortOptions serialServer;
+    TCPOptions tcpServer;
 };
 
 #endif

@@ -12,18 +12,18 @@
 
 void ServerOptions::save(QSettings& settings)
 {
-	settings.beginGroup("ServerOptions");
-	settings.setValue("serverType", serverType);
-	serialServer.save(settings);
-	tcpServer.save(settings);
-	settings.endGroup();
+    settings.beginGroup("ServerOptions");
+    settings.setValue("serverType", serverType);
+    serialServer.save(settings);
+    tcpServer.save(settings);
+    settings.endGroup();
 }
 
 void ServerOptions::load(QSettings& settings)
 {
-	settings.beginGroup("ServerOptions");
-	serverType = static_cast<ServerType>(settings.value("serverType", SERVER_TCP).toInt());
-	serialServer.load(settings);
-	tcpServer.load(settings);
-	settings.endGroup();
+    settings.beginGroup("ServerOptions");
+    serverType = static_cast<ServerType>(settings.value("serverType", SERVER_TCP).toInt());
+    serialServer.load(settings);
+    tcpServer.load(settings);
+    settings.endGroup();
 }

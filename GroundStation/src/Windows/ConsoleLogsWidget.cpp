@@ -21,12 +21,12 @@
 using namespace std::placeholders;
 
 ConsoleLogsWidget::ConsoleLogsWidget(QWidget* parent)
-	: QWidget(parent)
-	, m_ui(new Ui::ConsoleLogsWidget())
-	, m_logStream(&m_logFile)
+    : QWidget(parent)
+    , m_ui(new Ui::ConsoleLogsWidget())
+    , m_logStream(&m_logFile)
 {
-	m_ui->setupUi(this);
-	init();
+    m_ui->setupUi(this);
+    init();
 }
 
 ConsoleLogsWidget::~ConsoleLogsWidget()

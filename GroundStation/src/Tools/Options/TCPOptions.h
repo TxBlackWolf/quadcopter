@@ -18,13 +18,13 @@
 
 class TCPOptions {
 public:
-	void save(QSettings& settings);
-	void load(QSettings& settings);
+    void save(QSettings& settings);
+    void load(QSettings& settings);
 
 public:
-	QString address;
-	uint16_t port;
-	bool singleClient;
+    QString address;
+    uint16_t port;
+    bool singleClient;
 };
 
 #endif

@@ -22,36 +22,36 @@
 #include <memory>
 
 namespace Ui {
-	class ConsoleLogsWidget;
+    class ConsoleLogsWidget;
 }
 
 class ConsoleLogsWidget : public QWidget {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit ConsoleLogsWidget(QWidget* parent = nullptr);
-	virtual ~ConsoleLogsWidget();
+    explicit ConsoleLogsWidget(QWidget* parent = nullptr);
+    virtual ~ConsoleLogsWidget();
 
 signals:
-	void logsStatus(SubsystemStatus_t);
+    void logsStatus(SubsystemStatus_t);
 
 public slots:
     void setOperating(bool activate);
 
 private:
-	void init();
+    void init();
     void startLogSession(const QString&);
     void appendLogs(const QByteArray& data);
     void endLogSession(const QString&);
 
 private:
-	Ui::ConsoleLogsWidget* m_ui;
+    Ui::ConsoleLogsWidget* m_ui;
 
-	QMutex m_mutex;
-	QFile m_logFile;
-	QTextStream m_logStream;
+    QMutex m_mutex;
+    QFile m_logFile;
+    QTextStream m_logStream;
 
-	std::unique_ptr<IServer> m_server;
+    std::unique_ptr<IServer> m_server;
 };
 
 #endif

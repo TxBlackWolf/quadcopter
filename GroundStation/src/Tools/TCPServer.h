@@ -19,22 +19,22 @@
 
 class TCPServer : public IServer {
 public:
-	TCPServer();
+    TCPServer();
 
-	virtual bool start(ServerOptions options);
-	virtual void stop();
+    virtual bool start(ServerOptions options);
+    virtual void stop();
 
 private:
     virtual void acceptConnection();
     virtual bool receiveDataPriv();
     virtual void clientDisconnected();
-	void init();
+    void init();
 
 private:
-	QTcpServer m_tcpServer;
-	QTcpSocket* m_socket;
+    QTcpServer m_tcpServer;
+    QTcpSocket* m_socket;
 
-	TCPOptions m_options;
+    TCPOptions m_options;
 };
 
 #endif

@@ -17,14 +17,14 @@
 
 class LogsOptions {
 public:
-	void save();
-	void load();
+    void save();
+    void load();
 
 public:
-	bool serialLogsEnabled;
-	QString logsPath;
+    bool serialLogsEnabled;
+    QString logsPath;
 
-	ServerOptions serverOptions;
+    ServerOptions serverOptions;
 };
 
 #endif

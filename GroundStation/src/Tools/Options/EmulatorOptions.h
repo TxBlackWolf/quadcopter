@@ -17,11 +17,11 @@
 
 class EmulatorOptions {
 public:
-	void save();
-	void load();
+    void save();
+    void load();
 
 public:
-	TCPOptions emulatorServer;
+    TCPOptions emulatorServer;
 };
 
 #endif
