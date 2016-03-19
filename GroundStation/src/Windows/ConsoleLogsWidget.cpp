@@ -39,7 +39,7 @@ void ConsoleLogsWidget::setOperating(bool activate)
     if(!activate) {
         m_server->stop();
         m_server.release();
-        //m_logFile.close();
+        endLogSession();
         emit logsStatus(SubsystemStatus_t::SUBSYSTEM_DISABLED);
         return;
     }
@@ -91,6 +91,8 @@ void ConsoleLogsWidget::appendLogs(const QByteArray& data)
 
 void ConsoleLogsWidget::endLogSession(const QString&)
 {
-    m_logFile.close();
+    if(m_logFile.isOpen())
+        m_logFile.close();
+
     emit logsStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
 }

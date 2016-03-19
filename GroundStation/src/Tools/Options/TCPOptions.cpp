@@ -15,7 +15,6 @@ void TCPOptions::save(QSettings& settings)
     settings.beginGroup("TCPOptions");
     settings.setValue("address", address);
     settings.setValue("port", port);
-    settings.setValue("singleClient", singleClient);
     settings.endGroup();
 }
 
@@ -24,6 +23,5 @@ void TCPOptions::load(QSettings& settings)
     settings.beginGroup("TCPOptions");
     address = settings.value("address", "127.0.0.1").toString();
     port = settings.value("port", 12555).toUInt();
-    singleClient = settings.value("singleClient", true).toBool();
     settings.endGroup();
 }

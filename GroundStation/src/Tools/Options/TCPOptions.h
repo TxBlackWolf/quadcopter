@@ -24,7 +24,6 @@ public:
 public:
     QString address;
     uint16_t port;
-    bool singleClient;
 };
 
 #endif

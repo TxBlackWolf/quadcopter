@@ -40,9 +40,9 @@ public slots:
 
 private:
     void init();
-    void startLogSession(const QString&);
+    void startLogSession(const QString& clientName = "");
     void appendLogs(const QByteArray& data);
-    void endLogSession(const QString&);
+    void endLogSession(const QString& clientName = "");
 
 private:
     Ui::ConsoleLogsWidget* m_ui;

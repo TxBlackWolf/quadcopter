@@ -25,10 +25,11 @@ public:
     virtual void stop();
 
 private:
+    void init();
     virtual void acceptConnection();
     virtual bool receiveDataPriv();
     virtual void clientDisconnected();
-    void init();
+    QString getClientName();
 
 private:
     QTcpServer m_tcpServer;

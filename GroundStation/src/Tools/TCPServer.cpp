@@ -53,7 +53,6 @@ void TCPServer::init()
 
 void TCPServer::acceptConnection()
 {
-    /// @todo Add support for list of sockets.
     m_socket = m_tcpServer.nextPendingConnection();
     if(!m_socket)
         return;
@@ -61,13 +60,10 @@ void TCPServer::acceptConnection()
     connect(m_socket, SIGNAL(readyRead()), this, SLOT(receiveData()));
     connect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
 
-    if(m_options.singleClient)
-        m_tcpServer.close();
+    m_tcpServer.close();
 
-    if(m_onClientConnectedCallback) {
-        QString clientName = QString("%1:%2").arg(m_socket->peerAddress().toString()).arg(m_socket->peerPort());
-        m_onClientConnectedCallback(clientName);
-    }
+    if(m_onClientConnectedCallback)
+        m_onClientConnectedCallback(getClientName());
 }
 
 void TCPServer::clientDisconnected()
@@ -77,10 +73,13 @@ void TCPServer::clientDisconnected()
 
     m_tcpServer.listen(QHostAddress::Any, m_options.port);
 
-    if(m_onClientDisconnectedCallback) {
-        QString clientName = QString("%1:%2").arg(m_socket->peerAddress().toString()).arg(m_socket->peerPort());
-        m_onClientDisconnectedCallback(clientName);
-    }
+    if(m_onClientDisconnectedCallback)
+        m_onClientDisconnectedCallback(getClientName());
 
     m_socket = nullptr;
+}
+
+QString TCPServer::getClientName()
+{
+    return QString("%1:%2").arg(m_socket->peerAddress().toString()).arg(m_socket->peerPort());
 }
