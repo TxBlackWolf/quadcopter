@@ -9,13 +9,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "IServer.h"
+#include "SerialPortServer.h"
 #include "TCPServer.h"
 
 IServer* IServer::create(ServerOptions::ServerType type)
 {
     switch(type) {
     case ServerOptions::SERVER_TCP      : return new TCPServer();
-    case ServerOptions::SERVER_SERIAL   : return nullptr;
+    case ServerOptions::SERVER_SERIAL   : return new SerialPortServer();
     }
 
     return nullptr;

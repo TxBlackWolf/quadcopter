@@ -40,7 +40,7 @@ void ConsoleLogsWidget::setOperating(bool activate)
         m_server->stop();
         m_server.release();
         endLogSession();
-        emit logsStatus(SubsystemStatus_t::SUBSYSTEM_DISABLED);
+        emit logsStatus(SubsystemStatus::SUBSYSTEM_DISABLED);
         return;
     }
 
@@ -56,7 +56,7 @@ void ConsoleLogsWidget::setOperating(bool activate)
         return;
     }
 
-    emit logsStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
+    emit logsStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
 }
 
 void ConsoleLogsWidget::init()
@@ -74,19 +74,34 @@ void ConsoleLogsWidget::startLogSession(const QString&)
     m_logFile.setFileName(logFileName);
     m_logFile.open(QFile::Append | QFile::Text);
 
-    emit logsStatus(SubsystemStatus_t::SUBSYSTEM_CONNECTED);
+    emit logsStatus(SubsystemStatus::SUBSYSTEM_CONNECTED);
 }
 
 void ConsoleLogsWidget::appendLogs(const QByteArray& data)
 {
-    QString message = data;
-    QString currentTimestamp = QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm");
-    message = "[" + currentTimestamp + "] " + message;
-
     QMutexLocker locker(&m_mutex);
-    m_ui->textEditLogs->insertPlainText(message);
-    m_logStream << message;
-    m_logStream.flush();
+
+    QString message = data;
+    QString currentTimestamp = QDateTime::currentDateTime().toString("[dd.MM.yyyy HH:mm] ");
+
+    do {
+        if(m_messageBuffer.isEmpty())
+            m_messageBuffer = currentTimestamp;
+
+        int n = message.indexOf("\n");
+        m_messageBuffer += message.left(n);
+        if(n == -1)
+            break;
+
+        m_messageBuffer += "\n";
+        m_ui->textEditLogs->insertPlainText(m_messageBuffer);
+        m_logStream << m_messageBuffer;
+        m_logStream.flush();
+
+        m_messageBuffer.clear();
+        message = message.right(message.size() - n - 1);
+    }
+    while(true);
 }
 
 void ConsoleLogsWidget::endLogSession(const QString&)
@@ -94,5 +109,5 @@ void ConsoleLogsWidget::endLogSession(const QString&)
     if(m_logFile.isOpen())
         m_logFile.close();
 
-    emit logsStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
+    emit logsStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
 }

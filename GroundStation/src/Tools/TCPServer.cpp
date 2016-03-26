@@ -9,7 +9,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "TCPServer.h"
-#include "Options/TCPOptions.h"
 
 TCPServer::TCPServer()
     : m_socket(nullptr)
@@ -42,8 +41,7 @@ bool TCPServer::receiveDataPriv()
 {
     QTcpSocket* socket = dynamic_cast<QTcpSocket*>(sender());
     m_data = socket->readAll();
-
-    return true;
+    return (m_data.size() > 0);
 }
 
 void TCPServer::init()

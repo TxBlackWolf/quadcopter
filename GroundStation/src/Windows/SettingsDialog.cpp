@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "SettingsDialog.h"
+#include "Tools/Options/ServerOptions.h"
 #include "ui_SettingsDialog.h"
 
 #include <QFileDialog>
@@ -70,6 +71,8 @@ void SettingsDialog::buttonSelectLogsDirClicked()
 
 void SettingsDialog::buttonStartLogsClicked()
 {
+    saveSettings();
+
     m_logsStarted = !m_logsStarted;
     emit logsStarted(m_logsStarted);
 
@@ -110,8 +113,9 @@ void SettingsDialog::initLogsSettings()
 
     m_ui->editLogsDir->setText(m_optionsLogs.logsPath);
 
-    radioSerialLogsToggled(m_optionsLogs.serialLogsEnabled);
-    radioNetworkLogsToggled(!m_optionsLogs.serialLogsEnabled);
+    bool selectSerialLogs = m_optionsLogs.serverOptions.serverType == ServerOptions::SERVER_SERIAL;
+    radioSerialLogsToggled(selectSerialLogs);
+    radioNetworkLogsToggled(!selectSerialLogs);
 }
 
 void SettingsDialog::initSerialPortsCombo(QComboBox* comboBox, QString defaultPort)
@@ -192,7 +196,7 @@ void SettingsDialog::saveLogsSettings()
 {
     m_optionsLogs.load();
 
-    m_optionsLogs.serialLogsEnabled = m_ui->radioSerialLogs->isChecked();
+    m_optionsLogs.serverOptions.serverType = m_ui->radioSerialLogs->isChecked() ? ServerOptions::SERVER_SERIAL : ServerOptions::SERVER_TCP;
     m_optionsLogs.logsPath = m_ui->editLogsDir->text();
 
     SerialPortOptions& serialOptions = m_optionsLogs.serverOptions.serialServer;

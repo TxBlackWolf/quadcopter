@@ -88,37 +88,37 @@ void MainWindow::toolbarEmulatorClicked()
     setCentralView(CENTRAL_VIEW_EMULATOR);
 }
 
-void MainWindow::logsStatus(SubsystemStatus_t status)
+void MainWindow::logsStatus(SubsystemStatus status)
 {
     QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelLogsLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::geolocationStatus(SubsystemStatus_t status)
+void MainWindow::geolocationStatus(SubsystemStatus status)
 {
     QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelGeolocationLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::telemetryStatus(SubsystemStatus_t status)
+void MainWindow::telemetryStatus(SubsystemStatus status)
 {
     QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelTelemetryLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::fpvStatus(SubsystemStatus_t status)
+void MainWindow::fpvStatus(SubsystemStatus status)
 {
     QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelFPVLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::steeringStatus(SubsystemStatus_t status)
+void MainWindow::steeringStatus(SubsystemStatus status)
 {
     QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelSteeringLED->setPixmap(QPixmap(imageResource));
 }
 
-void MainWindow::emulatorStatus(SubsystemStatus_t status)
+void MainWindow::emulatorStatus(SubsystemStatus status)
 {
     QString imageResource = getSubsystemStatusImage(status);
     m_ui->labelEmulatorLED->setPixmap(QPixmap(imageResource));
@@ -170,8 +170,8 @@ void MainWindow::initCentralWidgets()
     m_emulatorWidget = new EmulatorWidget();
 
     connect(m_settingsWidget, SIGNAL(logsStarted(bool)), m_consoleLogsWidget, SLOT(setOperating(bool)));
-    connect(m_consoleLogsWidget, SIGNAL(logsStatus(SubsystemStatus_t)), this, SLOT(logsStatus(SubsystemStatus_t)));
-    connect(m_emulatorWidget, SIGNAL(emulatorStatus(SubsystemStatus_t)), this, SLOT(emulatorStatus(SubsystemStatus_t)));
+    connect(m_consoleLogsWidget, SIGNAL(logsStatus(SubsystemStatus)), this, SLOT(logsStatus(SubsystemStatus)));
+    connect(m_emulatorWidget, SIGNAL(emulatorStatus(SubsystemStatus)), this, SLOT(emulatorStatus(SubsystemStatus)));
 
     setCentralView(CENTRAL_VIEW_LOGS);
     m_ui->toolbarLogs->setChecked(true);
@@ -222,7 +222,7 @@ void MainWindow::setCentralView(CentralView centralView)
     }
 }
 
-QString MainWindow::getSubsystemStatusImage(SubsystemStatus_t status)
+QString MainWindow::getSubsystemStatusImage(SubsystemStatus status)
 {
     switch(status) {
     case SUBSYSTEM_DISABLED:    return ":/Icons/Icons/led-off.png";

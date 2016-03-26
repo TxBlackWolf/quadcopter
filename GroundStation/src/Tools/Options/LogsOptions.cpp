@@ -18,7 +18,6 @@ void LogsOptions::save()
     QSettings settings;
 
     settings.beginGroup("LogsOptions");
-    settings.setValue("serialLogsEnabled", serialLogsEnabled);
     settings.setValue("logsPath", logsPath);
     serverOptions.save(settings);
     settings.endGroup();
@@ -29,7 +28,6 @@ void LogsOptions::load()
     QSettings settings;
 
     settings.beginGroup("LogsOptions");
-    serialLogsEnabled = settings.value("serialLogsEnabled", true).toBool();
     logsPath = settings.value("logsPath", QDir::currentPath()).toString();
     serverOptions.load(settings);
     settings.endGroup();

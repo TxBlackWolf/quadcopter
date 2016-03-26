@@ -48,7 +48,7 @@ void EmulatorWidget::startEmulatorServer()
     connect(m_ui->buttonStart, SIGNAL(clicked()), this, SLOT(stopEmulatorServer()));
     m_ui->buttonStart->setText("Stop");
 
-    emit emulatorStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
+    emit emulatorStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
 }
 
 void EmulatorWidget::stopEmulatorServer()
@@ -67,7 +67,7 @@ void EmulatorWidget::stopEmulatorServer()
     if(m_tcpServer.isListening())
         m_tcpServer.close();
 
-    emit emulatorStatus(SubsystemStatus_t::SUBSYSTEM_DISABLED);
+    emit emulatorStatus(SubsystemStatus::SUBSYSTEM_DISABLED);
 }
 
 void EmulatorWidget::accept()
@@ -82,7 +82,7 @@ void EmulatorWidget::accept()
     // We accept only one client.
     m_tcpServer.close();
 
-    emit emulatorStatus(SubsystemStatus_t::SUBSYSTEM_CONNECTED);
+    emit emulatorStatus(SubsystemStatus::SUBSYSTEM_CONNECTED);
 }
 
 void EmulatorWidget::readSocket()
@@ -100,7 +100,7 @@ void EmulatorWidget::clientDisconnected()
     disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
     m_socket = nullptr;
 
-    emit emulatorStatus(SubsystemStatus_t::SUBSYSTEM_ENABLED);
+    emit emulatorStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
 
     EmulatorOptions options;
     options.load();

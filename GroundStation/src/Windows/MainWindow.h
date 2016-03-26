@@ -57,19 +57,19 @@ public slots:
     void toolbarAlertsClicked();
     void toolbarSteeringClicked();
     void toolbarEmulatorClicked();
-    void logsStatus(SubsystemStatus_t status);
-    void geolocationStatus(SubsystemStatus_t status);
-    void telemetryStatus(SubsystemStatus_t status);
-    void fpvStatus(SubsystemStatus_t status);
-    void steeringStatus(SubsystemStatus_t status);
-    void emulatorStatus(SubsystemStatus_t status);
+    void logsStatus(SubsystemStatus status);
+    void geolocationStatus(SubsystemStatus status);
+    void telemetryStatus(SubsystemStatus status);
+    void fpvStatus(SubsystemStatus status);
+    void steeringStatus(SubsystemStatus status);
+    void emulatorStatus(SubsystemStatus status);
 
 private:
     void init();
     void initCentralWidgets();
 
     void setCentralView(CentralView centralView);
-    QString getSubsystemStatusImage(SubsystemStatus_t status);
+    QString getSubsystemStatusImage(SubsystemStatus status);
 
 private:
     Ui::MainWindow* m_ui;

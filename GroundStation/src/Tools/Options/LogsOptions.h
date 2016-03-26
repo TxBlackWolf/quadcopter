@@ -21,9 +21,7 @@ public:
     void load();
 
 public:
-    bool serialLogsEnabled;
     QString logsPath;
-
     ServerOptions serverOptions;
 };
 

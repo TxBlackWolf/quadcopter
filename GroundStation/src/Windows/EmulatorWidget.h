@@ -31,7 +31,7 @@ public:
     virtual ~EmulatorWidget();
 
 signals:
-    void emulatorStatus(SubsystemStatus_t);
+    void emulatorStatus(SubsystemStatus);
 
 public slots:
     void startEmulatorServer();

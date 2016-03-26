@@ -33,7 +33,7 @@ public:
     virtual ~ConsoleLogsWidget();
 
 signals:
-    void logsStatus(SubsystemStatus_t);
+    void logsStatus(SubsystemStatus);
 
 public slots:
     void setOperating(bool activate);
@@ -50,8 +50,9 @@ private:
     QMutex m_mutex;
     QFile m_logFile;
     QTextStream m_logStream;
-
     std::unique_ptr<IServer> m_server;
+
+    QString m_messageBuffer;
 };
 
 #endif
