@@ -102,6 +102,8 @@ void ConsoleLogsWidget::appendLogs(const QByteArray& data)
         message = message.right(message.size() - n - 1);
     }
     while(true);
+
+    m_ui->textEditLogs->ensureCursorVisible();
 }
 
 void ConsoleLogsWidget::endLogSession(const QString&)
