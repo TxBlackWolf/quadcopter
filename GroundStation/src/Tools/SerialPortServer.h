@@ -12,7 +12,7 @@
 #define SERIALPORTSERVER_H
 
 #include "IServer.h"
-#include "Options/SerialPortOptions.h"
+#include "Options/Common/SerialPortOptions.h"
 
 #include <QSerialPort>
 

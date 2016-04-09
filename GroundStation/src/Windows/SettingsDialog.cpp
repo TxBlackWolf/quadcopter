@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "SettingsDialog.h"
-#include "Tools/Options/ServerOptions.h"
+#include "Tools/Options/Common/ServerOptions.h"
 #include "ui_SettingsDialog.h"
 
 #include <QFileDialog>
@@ -20,6 +20,8 @@ SettingsDialog::SettingsDialog(QWidget* parent)
     : QDialog(parent)
     , m_ui(new Ui::SettingsDialog)
     , m_logsStarted(false)
+    , m_commandsStarted(false)
+    , m_allToBeStarted(true)
 {
     m_ui->setupUi(this);
 
@@ -35,14 +37,22 @@ void SettingsDialog::init()
 {
     connect(m_ui->buttonBox, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(m_ui->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(m_ui->buttonStartAll, SIGNAL(clicked()), this, SLOT(buttonStartAllClicked()));
 
     initLogsSettings();
+    initCommandsSettings();
 }
 
 void SettingsDialog::changeSerialLogsPortInfo(int currentPortIndex)
 {
     QString portDescription = m_ui->comboSerialPortLogs->itemData(currentPortIndex).toString();
     m_ui->labelPortDescLogs->setText(portDescription);
+}
+
+void SettingsDialog::changeSerialCommandsPortInfo(int currentPortIndex)
+{
+    QString portDescription = m_ui->comboSerialPortCommands->itemData(currentPortIndex).toString();
+    m_ui->labelPortDescCommands->setText(portDescription);
 }
 
 void SettingsDialog::radioSerialLogsToggled(bool state)
@@ -56,11 +66,29 @@ void SettingsDialog::radioSerialLogsToggled(bool state)
     m_ui->comboFlowLogs->setEnabled(state);
 }
 
+void SettingsDialog::radioSerialCommandsToggled(bool state)
+{
+    m_ui->radioSerialCommands->setChecked(state);
+    m_ui->comboSerialPortCommands->setEnabled(state);
+    m_ui->comboSpeedCommands->setEnabled(state);
+    m_ui->comboDataBitsCommands->setEnabled(state);
+    m_ui->comboStopBitsCommands->setEnabled(state);
+    m_ui->comboPartityCommands->setEnabled(state);
+    m_ui->comboFlowCommands->setEnabled(state);
+}
+
 void SettingsDialog::radioNetworkLogsToggled(bool state)
 {
     m_ui->radioNetworkLogs->setChecked(state);
     m_ui->editAddressLogs->setEnabled(state);
     m_ui->editPortLogs->setEnabled(state);
+}
+
+void SettingsDialog::radioNetworkCommandsToggled(bool state)
+{
+    m_ui->radioNetworkCommands->setChecked(state);
+    m_ui->editAddressCommands->setEnabled(state);
+    m_ui->editPortCommands->setEnabled(state);
 }
 
 void SettingsDialog::buttonSelectLogsDirClicked()
@@ -83,9 +111,55 @@ void SettingsDialog::buttonStartLogsClicked()
     m_ui->buttonStartLogs->setText(buttonText);
 }
 
+void SettingsDialog::buttonStartCommandsClicked()
+{
+    saveSettings();
+
+    m_commandsStarted = !m_commandsStarted;
+    emit commandsStarted(m_commandsStarted);
+
+    QString imageResource = m_commandsStarted ? ":/Icons/Icons/power-button-red.png" : ":/Icons/Icons/power-button-green.png";
+    m_ui->buttonStartCommands->setIcon(QIcon(QPixmap(imageResource)));
+
+    QString buttonText = m_commandsStarted ? "Stop" : "Start";
+    m_ui->buttonStartCommands->setText(buttonText);
+}
+
+void SettingsDialog::setButtonAll()
+{
+    if(m_allToBeStarted && !(m_logsStarted && m_commandsStarted))
+        return;
+
+    if(!m_allToBeStarted && (m_logsStarted || m_commandsStarted))
+        return;
+
+    if(m_allToBeStarted && m_logsStarted && m_commandsStarted)
+        m_allToBeStarted = false;
+    else if(!m_allToBeStarted && !m_logsStarted && !m_commandsStarted)
+        m_allToBeStarted = true;
+
+    QString imageResourceAll = m_allToBeStarted ? ":/Icons/Icons/power-button-green.png" : ":/Icons/Icons/power-button-red.png";
+    m_ui->buttonStartAll->setIcon(QIcon(QPixmap(imageResourceAll)));
+
+    QString buttonTextAll = m_allToBeStarted ? "Start All" : "Stop All";
+    m_ui->buttonStartAll->setText(buttonTextAll);
+}
+
+void SettingsDialog::buttonStartAllClicked()
+{
+    if(m_allToBeStarted != m_logsStarted)
+        buttonStartLogsClicked();
+
+    if(m_allToBeStarted != m_commandsStarted)
+        buttonStartCommandsClicked();
+
+    setButtonAll();
+}
+
 void SettingsDialog::saveSettings()
 {
     saveLogsSettings();
+    saveCommandsSettings();
     accept();
 }
 
@@ -96,6 +170,7 @@ void SettingsDialog::initLogsSettings()
     connect(m_ui->radioNetworkLogs, SIGNAL(toggled(bool)), this, SLOT(radioNetworkLogsToggled(bool)));
     connect(m_ui->pushButtonLogsDir, SIGNAL(clicked()), this, SLOT(buttonSelectLogsDirClicked()));
     connect(m_ui->buttonStartLogs, SIGNAL(clicked()), this, SLOT(buttonStartLogsClicked()));
+    connect(m_ui->buttonStartLogs, SIGNAL(clicked()), this, SLOT(setButtonAll()));
 
     m_optionsLogs.load();
 
@@ -116,6 +191,33 @@ void SettingsDialog::initLogsSettings()
     bool selectSerialLogs = m_optionsLogs.serverOptions.serverType == ServerOptions::SERVER_SERIAL;
     radioSerialLogsToggled(selectSerialLogs);
     radioNetworkLogsToggled(!selectSerialLogs);
+}
+
+void SettingsDialog::initCommandsSettings()
+{
+    connect(m_ui->comboSerialPortCommands, SIGNAL(currentIndexChanged(int)), this, SLOT(changeSerialCommandsPortInfo(int)));
+    connect(m_ui->radioSerialCommands, SIGNAL(toggled(bool)), this, SLOT(radioSerialCommandsToggled(bool)));
+    connect(m_ui->radioNetworkCommands, SIGNAL(toggled(bool)), this, SLOT(radioNetworkCommandsToggled(bool)));
+    connect(m_ui->buttonStartCommands, SIGNAL(clicked()), this, SLOT(buttonStartCommandsClicked()));
+    connect(m_ui->buttonStartCommands, SIGNAL(clicked()), this, SLOT(setButtonAll()));
+
+    m_optionsCommands.load();
+
+    SerialPortOptions& serialOptions = m_optionsCommands.serverOptions.serialServer;
+    initSerialPortsCombo(m_ui->comboSerialPortCommands, serialOptions.portName);
+    initSpeedCombo(m_ui->comboSpeedCommands, serialOptions.baudRate);
+    initDataBitsCombo(m_ui->comboDataBitsCommands, serialOptions.dataBits);
+    initStopBitsCombo(m_ui->comboStopBitsCommands, serialOptions.stopBits);
+    initPartityCombo(m_ui->comboPartityCommands, serialOptions.partity);
+    initFlowControlCombo(m_ui->comboFlowCommands, serialOptions.flowControl);
+
+    TCPOptions& networkOptions = m_optionsCommands.serverOptions.tcpServer;
+    m_ui->editAddressCommands->setText(networkOptions.address);
+    m_ui->editPortCommands->setText(QString::number(networkOptions.port));
+
+    bool selectSerialCommands = m_optionsCommands.serverOptions.serverType == ServerOptions::SERVER_SERIAL;
+    radioSerialCommandsToggled(selectSerialCommands);
+    radioNetworkCommandsToggled(!selectSerialCommands);
 }
 
 void SettingsDialog::initSerialPortsCombo(QComboBox* comboBox, QString defaultPort)
@@ -212,4 +314,25 @@ void SettingsDialog::saveLogsSettings()
     networkOptions.port = m_ui->editPortLogs->text().toUInt();
 
     m_optionsLogs.save();
+}
+
+void SettingsDialog::saveCommandsSettings()
+{
+    m_optionsCommands.load();
+
+    m_optionsCommands.serverOptions.serverType = m_ui->radioSerialCommands->isChecked() ? ServerOptions::SERVER_SERIAL : ServerOptions::SERVER_TCP;
+
+    SerialPortOptions& serialOptions = m_optionsCommands.serverOptions.serialServer;
+    serialOptions.portName = m_ui->comboSerialPortCommands->currentText();
+    serialOptions.baudRate = m_ui->comboSpeedCommands->currentData().toInt();
+    serialOptions.dataBits = (QSerialPort::DataBits) m_ui->comboDataBitsCommands->currentData().toInt();
+    serialOptions.stopBits = (QSerialPort::StopBits) m_ui->comboStopBitsCommands->currentData().toInt();
+    serialOptions.partity = (QSerialPort::Parity) m_ui->comboPartityCommands->currentData().toInt();
+    serialOptions.flowControl = (QSerialPort::FlowControl) m_ui->comboFlowCommands->currentData().toInt();
+
+    TCPOptions& networkOptions = m_optionsCommands.serverOptions.tcpServer;
+    networkOptions.address = m_ui->editAddressCommands->text();
+    networkOptions.port = m_ui->editPortCommands->text().toUInt();
+
+    m_optionsCommands.save();
 }

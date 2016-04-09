@@ -12,7 +12,7 @@
 #define TCPSERVER_H
 
 #include "IServer.h"
-#include "Options/TCPOptions.h"
+#include "Options/Common/TCPOptions.h"
 
 #include <QTcpServer>
 #include <QTcpSocket>

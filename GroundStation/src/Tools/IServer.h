@@ -11,7 +11,7 @@
 #ifndef ISERVER_H
 #define ISERVER_H
 
-#include "Options/ServerOptions.h"
+#include "Options/Common/ServerOptions.h"
 
 #include <QByteArray>
 #include <QObject>

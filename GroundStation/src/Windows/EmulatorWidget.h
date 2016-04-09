@@ -33,6 +33,7 @@ public:
 signals:
     void emulatorStatus(SubsystemStatus);
 
+/*
 public slots:
     void startEmulatorServer();
     void stopEmulatorServer();
@@ -44,12 +45,13 @@ private:
     void init();
     void initCommandsFramework();
     static void gpioCallback(uint8_t* buffer, uint32_t size);
+*/
 
 private:
     Ui::EmulatorWidget* m_ui;
 
-    QTcpServer m_tcpServer;
-    QTcpSocket* m_socket;
+    //QTcpServer m_tcpServer;
+    //QTcpSocket* m_socket;
 };
 
 #endif

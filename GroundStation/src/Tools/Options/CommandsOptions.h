@@ -8,20 +8,20 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef EMULATOROPTIONS_H
-#define EMULATOROPTIONS_H
+#ifndef COMMANDSOPTIONS_H
+#define COMMANDSOPTIONS_H
 
-#include "TCPOptions.h"
+#include "Common/ServerOptions.h"
 
 #include <QString>
 
-class EmulatorOptions {
+class CommandsOptions {
 public:
     void save();
     void load();
 
 public:
-    TCPOptions emulatorServer;
+    ServerOptions serverOptions;
 };
 
 #endif

@@ -11,6 +11,7 @@
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
+#include "Tools/Options/CommandsOptions.h"
 #include "Tools/Options/LogsOptions.h"
 
 #include <QComboBox>
@@ -29,19 +30,27 @@ public:
 
 signals:
     void logsStarted(bool state);
+    void commandsStarted(bool state);
 
 public slots:
     void changeSerialLogsPortInfo(int currentPortIndex);
+    void changeSerialCommandsPortInfo(int currentPortIndex);
     void radioSerialLogsToggled(bool state);
+    void radioSerialCommandsToggled(bool state);
     void radioNetworkLogsToggled(bool state);
+    void radioNetworkCommandsToggled(bool state);
     void buttonSelectLogsDirClicked();
     void buttonStartLogsClicked();
+    void buttonStartCommandsClicked();
+    void buttonStartAllClicked();
+    void setButtonAll();
 
     void saveSettings();
 
 private:
     void init();
     void initLogsSettings();
+    void initCommandsSettings();
 
     void initSerialPortsCombo(QComboBox* comboBox, QString defaultPort);
     void initSpeedCombo(QComboBox* comboBox, unsigned int defaultSpeed);
@@ -51,13 +60,17 @@ private:
     void initFlowControlCombo(QComboBox* comboBox, unsigned int defaultFlowControl);
 
     void saveLogsSettings();
+    void saveCommandsSettings();
 
 private:
     Ui::SettingsDialog* m_ui;
 
     LogsOptions m_optionsLogs;
+    CommandsOptions m_optionsCommands;
 
     bool m_logsStarted;
+    bool m_commandsStarted;
+    bool m_allToBeStarted;
 };
 
 #endif

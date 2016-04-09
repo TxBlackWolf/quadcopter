@@ -37,11 +37,11 @@ SOURCES         += \
                 Tools/IServer.cpp \
                 Tools/SerialPortServer.cpp \
                 Tools/TCPServer.cpp \
-                Tools/Options/EmulatorOptions.cpp \
+                Tools/Options/CommandsOptions.cpp \
                 Tools/Options/LogsOptions.cpp \
-                Tools/Options/SerialPortOptions.cpp \
-                Tools/Options/ServerOptions.cpp \
-                Tools/Options/TCPOptions.cpp \
+                Tools/Options/Common/SerialPortOptions.cpp \
+                Tools/Options/Common/ServerOptions.cpp \
+                Tools/Options/Common/TCPOptions.cpp \
                 Windows/AboutDialog.cpp \
                 Windows/AlertsWidget.cpp \
                 Windows/CocpitConsoleWidget.cpp \
@@ -66,11 +66,11 @@ HEADERS         += \
                 Tools/IServer.h \
                 Tools/SerialPortServer.h \
                 Tools/TCPServer.h \
-                Tools/Options/EmulatorOptions.h \
+                Tools/Options/CommandsOptions.h \
                 Tools/Options/LogsOptions.h \
-                Tools/Options/SerialPortOptions.h \
-                Tools/Options/ServerOptions.h \
-                Tools/Options/TCPOptions.h \
+                Tools/Options/Common/SerialPortOptions.h \
+                Tools/Options/Common/ServerOptions.h \
+                Tools/Options/Common/TCPOptions.h \
                 Windows/AboutDialog.h \
                 Windows/AlertsWidget.h \
                 Windows/CocpitConsoleWidget.h \

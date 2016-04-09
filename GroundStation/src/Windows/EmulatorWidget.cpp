@@ -13,21 +13,21 @@
 
 #include "common/commands/commands.h"
 #include "common/commands/emulator.h"
-#include "Tools/Options/EmulatorOptions.h"
+#include "Tools/Options/CommandsOptions.h"
 
 #include <string>
 
-static EmulatorWidget* globalEmulatorWidget = nullptr;
+//static EmulatorWidget* globalEmulatorWidget = nullptr;
 
 EmulatorWidget::EmulatorWidget(QWidget* parent)
     : QWidget(parent)
     , m_ui(new Ui::EmulatorWidget())
-    , m_socket(nullptr)
+    //, m_socket(nullptr)
 {
     m_ui->setupUi(this);
-    init();
+    //init();
 
-    globalEmulatorWidget = this;
+    //globalEmulatorWidget = this;
 }
 
 EmulatorWidget::~EmulatorWidget()
@@ -35,9 +35,10 @@ EmulatorWidget::~EmulatorWidget()
     delete m_ui;
 }
 
+/*
 void EmulatorWidget::startEmulatorServer()
 {
-    EmulatorOptions options;
+    CommandsOptions options;
     options.load();
 
     // This is non-blocking call.
@@ -123,3 +124,5 @@ void EmulatorWidget::gpioCallback(uint8_t* buffer, uint32_t size)
 {
     /// @todo: Implement.
 }
+
+*/

@@ -8,28 +8,24 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "EmulatorOptions.h"
+#include "CommandsOptions.h"
 
 #include <QSettings>
 
-void EmulatorOptions::save()
+void CommandsOptions::save()
 {
     QSettings settings;
 
-    settings.beginGroup("EmulatorOptions");
-    settings.beginGroup("NetworkLogs");
-    emulatorServer.save(settings);
-    settings.endGroup();
+    settings.beginGroup("CommandsOptions");
+    serverOptions.save(settings);
     settings.endGroup();
 }
 
-void EmulatorOptions::load()
+void CommandsOptions::load()
 {
     QSettings settings;
 
-    settings.beginGroup("EmulatorOptions");
-    settings.beginGroup("NetworkLogs");
-    emulatorServer.load(settings);
-    settings.endGroup();
+    settings.beginGroup("CommandsOptions");
+    serverOptions.load(settings);
     settings.endGroup();
 }

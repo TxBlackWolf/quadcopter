@@ -11,7 +11,7 @@
 #ifndef LOGSOPTIONS_H
 #define LOGSOPTIONS_H
 
-#include "ServerOptions.h"
+#include "Common/ServerOptions.h"
 
 #include <QString>
 
