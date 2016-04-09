@@ -31,12 +31,17 @@ ConsoleLogsWidget::ConsoleLogsWidget(QWidget* parent)
 
 ConsoleLogsWidget::~ConsoleLogsWidget()
 {
+    try {
+        setOperating(false);
+    }
+    catch(...) {}
+
 	delete m_ui;
 }
 
 void ConsoleLogsWidget::setOperating(bool activate)
 {
-    if(!activate) {
+    if(!activate && m_server) {
         m_server->stop();
         m_server.release();
         endLogSession();

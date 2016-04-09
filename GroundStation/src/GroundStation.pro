@@ -34,6 +34,7 @@ INCLUDEPATH     += $$PWD/../.. $$PWD/.
 
 SOURCES         += \
                 main.cpp \
+                Core/CommandsManager.cpp \
                 Tools/IServer.cpp \
                 Tools/SerialPortServer.cpp \
                 Tools/TCPServer.cpp \
@@ -61,6 +62,7 @@ SOURCES         += \
                 ../../common/commands/telemetry.c
 
 HEADERS         += \
+                Core/CommandsManager.h \
                 Misc/SubsystemsStatus.h \
                 Misc/Version.h \
                 Tools/IServer.h \

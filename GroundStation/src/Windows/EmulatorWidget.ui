@@ -15,46 +15,6 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>860</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="buttonStart">
-       <property name="minimumSize">
-        <size>
-         <width>130</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>130</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Start</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources.qrc">
-         <normaloff>:/Icons/Icons/play48.png</normaloff>:/Icons/Icons/play48.png</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
     <widget class="QTabWidget" name="tabWidgetEmulator">
      <property name="font">
       <font>
@@ -114,7 +74,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="../../resources.qrc">:/Icons/Icons/led-off.png</pixmap>
+            <pixmap resource="../resources.qrc">:/Icons/Icons/led-off.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -143,7 +103,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

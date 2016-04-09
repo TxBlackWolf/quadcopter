@@ -30,10 +30,13 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow()
 {
-    if(centralWidget()) {
-        // This prevents QMainWindow from deleting central widget (because it takes ownership of it).
-        centralWidget()->setParent(nullptr);
+    try {
+        if(centralWidget()) {
+            // This prevents QMainWindow from deleting central widget (because it takes ownership of it).
+            centralWidget()->setParent(nullptr);
+        }
     }
+    catch(...) {}
 
     delete m_ui;
     delete m_actionGroup;
@@ -170,7 +173,7 @@ void MainWindow::initCentralWidgets()
     m_emulatorWidget = new EmulatorWidget();
 
     connect(m_settingsWidget, SIGNAL(logsStarted(bool)), m_consoleLogsWidget, SLOT(setOperating(bool)));
-    //connect(m_settingsWidget, SIGNAL(commandsStarted(bool)), m_commandsManager, SLOT(setOperating(bool)));
+    connect(m_settingsWidget, SIGNAL(commandsStarted(bool)), &m_commandsManager, SLOT(setOperating(bool)));
     connect(m_consoleLogsWidget, SIGNAL(logsStatus(SubsystemStatus)), this, SLOT(logsStatus(SubsystemStatus)));
     connect(m_emulatorWidget, SIGNAL(emulatorStatus(SubsystemStatus)), this, SLOT(emulatorStatus(SubsystemStatus)));
 

@@ -13,8 +13,6 @@
 
 #include "Misc/SubsystemsStatus.h"
 
-#include <QTcpServer>
-#include <QTcpSocket>
 #include <QWidget>
 
 #include <cstdint>
@@ -33,25 +31,13 @@ public:
 signals:
     void emulatorStatus(SubsystemStatus);
 
-/*
-public slots:
-    void startEmulatorServer();
-    void stopEmulatorServer();
-    void accept();
-    void readSocket();
-    void clientDisconnected();
-
 private:
     void init();
     void initCommandsFramework();
     static void gpioCallback(uint8_t* buffer, uint32_t size);
-*/
 
 private:
     Ui::EmulatorWidget* m_ui;
-
-    //QTcpServer m_tcpServer;
-    //QTcpSocket* m_socket;
 };
 
 #endif

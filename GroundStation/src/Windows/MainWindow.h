@@ -20,6 +20,7 @@
 #include "SettingsDialog.h"
 #include "SystemInfoWidget.h"
 #include "TelemetryTabWidget.h"
+#include "Core/CommandsManager.h"
 #include "Misc/SubsystemsStatus.h"
 
 #include <QActionGroup>
@@ -75,6 +76,7 @@ private:
     Ui::MainWindow* m_ui;
     QActionGroup* m_actionGroup;
     SettingsDialog* m_settingsWidget;
+    CommandsManager m_commandsManager;
 
     ConsoleLogsWidget* m_consoleLogsWidget;
     GoogleMapsView* m_googleMapsView;
