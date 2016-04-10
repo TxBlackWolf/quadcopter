@@ -1,6 +1,7 @@
 set(COMPONENTS
     app
     board
+    core
     drivers
     hal
     utils

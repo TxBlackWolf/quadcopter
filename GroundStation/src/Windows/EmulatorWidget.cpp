@@ -15,6 +15,9 @@
 #include "common/commands/emulator.h"
 #include "Tools/Options/CommandsOptions.h"
 
+#include <QDebug>
+
+#include <cstring>
 #include <string>
 
 static EmulatorWidget* globalEmulatorWidget = nullptr;
@@ -46,5 +49,17 @@ void EmulatorWidget::initCommandsFramework()
 
 void EmulatorWidget::gpioCallback(uint8_t* buffer, uint32_t size)
 {
-    /// @todo Implement.
+    EmulatorCommandGPIO_t* gpioCommand = reinterpret_cast<EmulatorCommandGPIO_t*>(buffer);
+
+    // Simple sanity check.
+    if(sizeof(EmulatorCommandGPIO_t) + gpioCommand->name_size != size)
+        return;
+
+    char* pinName = new char[gpioCommand->name_size + 1];
+    std::memcpy(buffer + sizeof(EmulatorCommandGPIO_t), pinName, gpioCommand->name_size);
+    pinName[gpioCommand->name_size] = 0;
+
+    qDebug() << "GPIO: P" << gpioCommand->port << "." << gpioCommand->pin << " (" << pinName << ") = " << gpioCommand->value;
+
+    delete [] pinName;
 }

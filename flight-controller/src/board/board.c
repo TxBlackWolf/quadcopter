@@ -22,10 +22,13 @@ void panic(const char *format, ...)
     // 2) when in release mode - red user led ON (permanent) + console write + CPU restart
 }
 
-bool board_isEmergencyBoot()
+bool board_isDebug()
 {
-    /// @todo Implement.
+#ifdef NDEBUG
     return false;
+#else
+    return true;
+#endif
 }
 
 bool board_init()

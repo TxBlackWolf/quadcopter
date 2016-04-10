@@ -36,7 +36,8 @@ typedef enum {
     COMMAND_CONTROL,                ///< Commands sent by GroundStation or RC system to control flight (speed, pitch, yaw, etc...).
     COMMAND_TELEMETRY,              ///< All messages, that hold some telemetry data.
     COMMAND_SYS_STATUS,             ///< System status messages.
-    COMMAND_DEBUG                   ///< Debug messages. Should be disabled in release firmware.
+    COMMAND_DEBUG,                  ///< Debug messages. Should be disabled in release firmware.
+    COMMAND_TYPE_COUNT              ///< Number of values is this enum. SHOULD BE LAST.
 } CommandType_t;
 
 /// @brief Command header.

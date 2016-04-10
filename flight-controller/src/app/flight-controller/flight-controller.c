@@ -10,6 +10,7 @@
 
 #include "board/board.h"
 #include "board/console.h"
+#include "core/controller/controller.h"
 #include "utils/version.h"
 
 #include <stdbool.h>
@@ -45,14 +46,14 @@ void show_welcome_message()
 /// @return Should never return.
 int main()
 {
-    /// @todo Check if this is reboot in emergency mode.
+    if(board_isEmergencyBoot()) {
+        /// @todo React in a proper way.
+    }
 
     if(!board_init())
         panic("Failed to initialize board.");
 
     show_welcome_message();
 
-    while(true);
-
-    return 0;
+    return controller_run();
 }

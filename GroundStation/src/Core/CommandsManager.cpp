@@ -9,7 +9,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "CommandsManager.h"
+#include "common/commands/commands.h"
 #include "Tools/Options/CommandsOptions.h"
+
+#include <functional>
+
+using namespace std::placeholders;
 
 CommandsManager::CommandsManager()
 {
@@ -35,13 +40,17 @@ void CommandsManager::setOperating(bool activate)
     CommandsOptions options;
     options.load();
     m_server.reset(IServer::create(options.serverOptions.serverType));
-    //m_server->setOnClientConnectedCallback(std::bind(&ConsoleLogsWidget::startLogSession, this, _1));
-    //m_server->setOnMessageCallback(std::bind(&ConsoleLogsWidget::appendLogs, this, _1));
-    //m_server->setOnClientDisconnectedCallback(std::bind(&ConsoleLogsWidget::endLogSession, this, _1));
+    m_server->setOnMessageCallback(std::bind(&CommandsManager::parseCommand, this, _1));
 
     m_server->start(options.serverOptions);
 }
 
 void CommandsManager::init()
 {
+}
+
+void CommandsManager::parseCommand(const QByteArray& command)
+{
+    uint8_t* data = reinterpret_cast<uint8_t *>(const_cast<char *>(command.toStdString().data()));
+    command_parse(data);
 }

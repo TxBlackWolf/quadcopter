@@ -14,9 +14,23 @@
 #include "signal_handlers.h"
 #include "board/clock.h"
 #include "board/console.h"
+#include "board/board_pinout.h"
 #include "hal/emulator_hal/linux_timer.h"
+#include "hal/emulator_hal/network_uart.h"
 
 #include <signal.h>
+#include <string.h>
+
+bool board_isEmergencyBoot()
+{
+    /// @todo Implement.
+    return false;
+}
+
+bool board_isEmulator()
+{
+    return true;
+}
 
 void board_showSystemClocks()
 {
@@ -40,6 +54,20 @@ bool board_periodicTimerInit(TimerHandle_t *timer_handle)
 
     timer_activate(timer_handle);
     return true;
+}
+
+bool board_commandsInit(UARTHandle_t *uart_handle)
+{
+    Emulator_UARTConfig_t uart_config;
+    strcpy((char *) uart_config.ip, NETWORK_COMMANDS_IP);
+    uart_config.port = NETWORK_COMMANDS_PORT;
+    uart_config.protocol = NETWORK_COMMANDS_PROTOCOL;
+
+    bool status = emulator_uartInit(uart_handle, &uart_config);
+    if(status)
+        uart_activate(uart_handle);
+
+    return status;
 }
 
 bool board_strobeInit(GPIOHandle_t *gpio_handle __attribute__((unused)), GPIOConfig_t *gpio_general_config __attribute__((unused)))

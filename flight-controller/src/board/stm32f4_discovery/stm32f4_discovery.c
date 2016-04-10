@@ -23,6 +23,17 @@
 #include "hal/stm32f4/stm32f4_timer.h"
 #include "hal/timer.h"
 
+bool board_isEmergencyBoot()
+{
+    /// @todo Implement.
+    return false;
+}
+
+bool board_isEmulator()
+{
+    return false;
+}
+
 void board_showSystemClocks()
 {
     STM32F4_ClockFrequencies_t clocks;

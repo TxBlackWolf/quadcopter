@@ -14,6 +14,7 @@
 #include "hal/gpio.h"
 #include "hal/pwm.h"
 #include "hal/timer.h"
+#include "hal/uart.h"
 
 #include <stdbool.h>
 
@@ -21,6 +22,14 @@
 /// @param [in]                         Panic message.
 /// @return None.
 void panic(const char *format, ...);
+
+/// @brief Checks if this build is in debug mode.
+/// @return True if yes, false otherwise.
+bool board_isDebug();
+
+/// @brief Checks if this build is in emulator mode.
+/// @return True if yes, false otherwise.
+bool board_isEmulator();
 
 /// @brief Checks, if currently running system is in emergency mode.
 /// @return True if yes, false otherwise.
@@ -38,6 +47,11 @@ bool board_init();
 /// @param [in/out] timer_handle        Handle to timer, that should be used.
 /// @return True on success, false otherwise.
 bool board_periodicTimerInit(TimerHandle_t *timer_handle);
+
+/// @brief Initializes communication link used in commands subsystem.
+/// @param [in/out] uard_handle         Handle to uart, that should be used.
+/// @return True on success, false otherwise.
+bool board_commandsInit(UARTHandle_t *uart_handle);
 
 /// @brief Initializes strobe light.
 /// @param [in/out] gpio_handle	        Handle to GPIO, that should be used.

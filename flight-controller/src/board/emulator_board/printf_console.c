@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : printf_console.c
-// Author     : Kuba Sejdak
-// Created on : 04.01.2016
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       04.01.2016
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "printf_console.h"
 #include "emulator_board_pinout.h"
