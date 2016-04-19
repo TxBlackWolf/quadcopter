@@ -16,10 +16,9 @@ set(FLIGHTCONTROLLER_HAL_PATH ${FLIGHTCONTROLLER_SRC_PATH}/hal)
 set(FLIGHTCONTROLLER_UTILS_PATH ${FLIGHTCONTROLLER_SRC_PATH}/utils)
 
 # Additional user defined macros.
-include(${FLIGHTCONTROLLER_PATH}/cmake/drivers.cmake)
-include(${FLIGHTCONTROLLER_PATH}/cmake/environment.cmake)
-include(${FLIGHTCONTROLLER_PATH}/cmake/external_libs.cmake)
+include(${FLIGHTCONTROLLER_PATH}/cmake/toolchain.cmake)
 include(${FLIGHTCONTROLLER_PATH}/cmake/macros.cmake)
+include(${FLIGHTCONTROLLER_PATH}/cmake/drivers.cmake)
 
 #################################################################################################################
 # PROJECT SETTINGS

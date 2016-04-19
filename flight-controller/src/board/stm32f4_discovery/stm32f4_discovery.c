@@ -79,6 +79,12 @@ bool board_periodicTimerInit(TimerHandle_t *timer_handle)
     return stm32f4_registerEventCallback(timer_handle, TIMER_IRQ_UPDATE, clock_processPeriodicEvents);
 }
 
+bool board_commandsInit(UARTHandle_t *uart_handle)
+{
+    /// @todo Implement.
+    return false;
+}
+
 bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t *gpio_general_config)
 {
     // Configure GPIO.
