@@ -11,8 +11,10 @@
 //=============================================================================================
 
 #include "emulator_gpio.h"
+#include "board/console.h"
 #include "common/commands/commands.h"
 #include "common/commands/emulator.h"
+#include "core/controller/commands_manager.h"
 
 #include <errno.h>
 #include <malloc.h>
@@ -64,42 +66,25 @@ uint16_t gpio_readPort(GPIOHandle_t *handle)
 
 bool gpio_writePin(GPIOHandle_t *handle, bool value)
 {
-    /// @todo Implement most of this as a part of commands framework.
+    uint8_t command[COMMANDS_MAX_SIZE_BYTES];
+    int command_size = 0;
+    EmulatorCommandGPIO_t *gpio_command = command_create(command, &command_size, COMMAND_EMULATOR, EMULATED_DEVICE_GPIO);
 
-    int commandSize = sizeof(CommandHeader_t) + sizeof(EmulatorCommand_t) + sizeof(EmulatorCommandGPIO_t);
-    uint8_t *buffer = (uint8_t *) malloc(commandSize);
-    if(buffer == NULL)
-        return false;
+    gpio_command->port = handle->port;
+    gpio_command->pin = handle->pin;
+    gpio_command->value = value;
+    gpio_command->name_size = strlen(handle->name) + 1;
+    command_size += sizeof(EmulatorCommandGPIO_t);
+    strcpy((char *) command + command_size, handle->name);
+    command_size += gpio_command->name_size;
 
-    int idx = 0;
-    CommandHeader_t *header = &buffer[idx];
-    header->version_major = 0;
-    header->version_minor = 0;
-    header->version_patch = 1;
-    header->command_id = 0;
-    header->type = COMMAND_EMULATOR;
-    header->payload_size = 15;
-    header->payload_crc = 0;
-    idx += sizeof(CommandHeader_t);
-
-    EmulatorCommand_t *emulatorCommand = &buffer[idx];
-    emulatorCommand->device = EMULATED_DEVICE_GPIO;
-    idx += sizeof(EmulatorCommand_t);
-
-    EmulatorCommandGPIO_t *gpioCommand = &buffer[idx];
-    gpioCommand->port = handle->port;
-    gpioCommand->pin = handle->pin;
-    gpioCommand->value = 1;
-    gpioCommand->name_size = 0;
-
-
-
-    free(buffer);
+    command_finish(command, command_size);
+    return commandsManager_send(command);
 }
 
 bool gpio_writePort(GPIOHandle_t *handle, uint16_t value)
 {
-
+    return false;
 }
 
 void gpio_pinConfigLock(GPIOHandle_t *handle __attribute__((unused)))

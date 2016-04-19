@@ -38,6 +38,22 @@ bool commandsManager_init()
     return true;
 }
 
+bool commandsManager_send(uint8_t *command)
+{
+    for(unsigned int i = 0; i < sizeof(CommandHeader_t); ++i) {
+        if(!uart_send(&uart_handle, command[i]))
+            return false;
+    }
+
+    int payload_size = ((CommandHeader_t *) command)->payload_size;
+    for(int i = 0; i < payload_size; ++i) {
+        if(!uart_send(&uart_handle, (command + sizeof(CommandHeader_t))[i]))
+            return false;
+    }
+
+    return true;
+}
+
 void commandsManager_enableEmulator(bool enabled)
 {
     manager_settings.supported_commands[COMMAND_EMULATOR] = enabled;

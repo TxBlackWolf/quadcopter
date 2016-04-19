@@ -40,6 +40,46 @@ bool command_checkCRC(uint8_t *buffer, uint32_t size, uint32_t crc)
     return true;
 }
 
+void *command_create(uint8_t *buffer, int *size, CommandType_t type, int subtype)
+{
+    int idx = 0;
+
+    /// @todo Add automatic version deserialization from string.
+    CommandHeader_t *header = (CommandHeader_t *) &buffer[idx];
+    header->version_major = 0;
+    header->version_minor = 0;
+    header->version_patch = 1;
+    header->command_id = command_nextId++;
+    header->type = type;
+    header->payload_size = 0;
+    header->payload_crc = 0;
+    idx += sizeof(CommandHeader_t);
+
+    switch(type) {
+    case COMMAND_EMULATOR: {
+            EmulatorCommand_t *emulatorCommand = (EmulatorCommand_t *) &buffer[idx];
+            emulatorCommand->device = subtype;
+            idx += sizeof(EmulatorCommand_t);
+        }
+        break;
+    default:
+        break;
+    }
+
+    *size = idx;
+    return buffer + idx;
+}
+
+void command_finish(uint8_t *buffer, int size)
+{
+    CommandHeader_t *header = (CommandHeader_t *) buffer;
+    header->payload_size = size - sizeof(CommandHeader_t);
+    header->payload_crc = 0;
+
+    if(crc_functor)
+        header->payload_crc = crc_functor(buffer + sizeof(CommandHeader_t), header->payload_size);
+}
+
 CommandParsingError_t command_parse(uint8_t *buffer)
 {
     CommandHeader_t *header = (CommandHeader_t *) buffer;

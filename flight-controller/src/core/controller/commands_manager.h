@@ -20,6 +20,7 @@ typedef struct {
 } CommandsManagerSettings_t;
 
 bool commandsManager_init();
+bool commandsManager_send(uint8_t *command);
 
 void commandsManager_enableEmulator(bool enabled);
 void commandsManager_enableControl(bool enabled);

@@ -19,7 +19,7 @@ extern "C" {
 #include <stdint.h>
 
 #define COMMANDS_VERSION                    "0.0.1"     ///< Commands protocol version. Used to recognize mismatches.
-#define COMMANDS_PAYLOAD_MAX_SIZE_BYTES     1024        ///< Maximal size of command payload.
+#define COMMANDS_MAX_SIZE_BYTES             1024        ///< Maximal size of command in total.
 
 /// @brief Possible errors, that can occure during command parsing.
 typedef enum {
@@ -78,6 +78,19 @@ bool command_checkId(CommandHeader_t *header);
 /// @param [in] crc                 Expected CRC.
 /// @return True if CRC is correct, false otherwise.
 bool command_checkCRC(uint8_t *buffer, uint32_t size, uint32_t crc);
+
+/// @brief Creates and initializes command template basing on input type and subtype.
+/// @param [in] buffer              Buffer with command.
+/// @param [out] size               Size of already created command.
+/// @param [in] type                Top level type of command.
+/// @param [in] subtype             Underlying type of command.
+/// @return Pointer to underlying command structure, to be filled by caller.
+void *command_create(uint8_t *buffer, int *size, CommandType_t type, int subtype);
+
+/// @brief Writes command size back into buffer and calculates CRC.
+/// @param [in] buffer              Buffer with command.
+/// @param [in] size                Size of already created command.
+void command_finish(uint8_t *buffer, int size);
 
 /// @brief Parses command header to recognize concrete command and call appropriate handler.
 /// @param [in] buffer              Buffer with command data.
