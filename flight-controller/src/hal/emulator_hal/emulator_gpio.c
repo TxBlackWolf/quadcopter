@@ -26,7 +26,7 @@
 bool emulator_gpioInit(GPIOHandle_t *handle)
 {
     // Allocate and init private data.
-    EmulatorGPIOPrivateData_t *private_data = (EmulatorGPIOPrivateData_t *) malloc(sizeof(LinuxTimerPrivateData_t));
+    EmulatorGPIOPrivateData_t *private_data = (EmulatorGPIOPrivateData_t *) malloc(sizeof(EmulatorGPIOPrivateData_t));
     if(!private_data) {
         console_write("emulator_gpio: Failed to alloc emulator GPIO private data: %s.\n", strerror(errno));
         return false;
