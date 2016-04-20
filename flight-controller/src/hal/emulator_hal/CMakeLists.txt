@@ -7,4 +7,5 @@ set(SOURCES
 
 register_module()
 
-target_link_libraries(${MODULE} rt)
+link_target(rt)
+link_target(${SKYVIPER_COMMON_PATH}/commands)

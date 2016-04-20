@@ -19,7 +19,11 @@ set(MODULES
 
 register_component()
 
-link_target(${FLIGHTCONTROLLER_DRIVERS_PATH}/engines)
-link_target(${FLIGHTCONTROLLER_DRIVERS_PATH}/lights)
+if(${FLIGHTCONTROLLER_USE_ENGINES})
+    link_target(${FLIGHTCONTROLLER_DRIVERS_PATH}/engines)
+endif()
+if(${FLIGHTCONTROLLER_USE_LIGHTS})
+    link_target(${FLIGHTCONTROLLER_DRIVERS_PATH}/lights)
+endif()
 link_target(${FLIGHTCONTROLLER_HAL_PATH})
 link_target(${FLIGHTCONTROLLER_UTILS_PATH})

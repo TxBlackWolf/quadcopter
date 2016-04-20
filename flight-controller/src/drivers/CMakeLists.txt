@@ -1,12 +1,35 @@
-set(COMPONENTS
-    accelerometer
-    barometer
-    buzzer
-    camera
-    engines
-    gyroscope
-    lights
-    magnetometer
-)
+set(COMPONENTS "")
+
+if(${FLIGHTCONTROLLER_USE_ACCELEROMETER})
+    list(APPEND COMPONENTS accelerometer)
+endif()
+
+if(${FLIGHTCONTROLLER_USE_BAROMETER})
+    list(APPEND COMPONENTS barometer)
+endif()
+
+if(${FLIGHTCONTROLLER_USE_BUZZER})
+    list(APPEND COMPONENTS buzzer)
+endif()
+
+if(${FLIGHTCONTROLLER_USE_CAMERA})
+    list(APPEND COMPONENTS camera)
+endif()
+
+if(${FLIGHTCONTROLLER_USE_ENGINES})
+    list(APPEND COMPONENTS engines)
+endif()
+
+if(${FLIGHTCONTROLLER_USE_GYROSCOPE})
+    list(APPEND COMPONENTS gyroscope)
+endif()
+
+if(${FLIGHTCONTROLLER_USE_LIGHTS})
+    list(APPEND COMPONENTS lights)
+endif()
+
+if(${FLIGHTCONTROLLER_USE_MAGNETOMETER})
+    list(APPEND COMPONENTS magnetometer)
+endif()
 
 register_packet()
