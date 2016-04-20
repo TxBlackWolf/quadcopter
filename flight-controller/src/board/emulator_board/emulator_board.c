@@ -15,6 +15,7 @@
 #include "board/clock.h"
 #include "board/console.h"
 #include "board/board_pinout.h"
+#include "hal/emulator_hal/emulator_gpio.h"
 #include "hal/emulator_hal/linux_timer.h"
 #include "hal/emulator_hal/network_uart.h"
 
@@ -70,10 +71,9 @@ bool board_commandsInit(UARTHandle_t *uart_handle)
     return status;
 }
 
-bool board_strobeInit(GPIOHandle_t *gpio_handle __attribute__((unused)), GPIOConfig_t *gpio_general_config __attribute__((unused)))
+bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t *gpio_general_config __attribute__((unused)))
 {
-    /// @todo Implement.
-    return true;
+    return emulator_gpioInit(gpio_handle);
 }
 
 bool board_engineInit(PWMHandle_t *pwm_handle __attribute__((unused)), PWMConfig_t *pwm_config __attribute__((unused)), GPIOConfig_t *gpio_general_config __attribute__((unused)))
