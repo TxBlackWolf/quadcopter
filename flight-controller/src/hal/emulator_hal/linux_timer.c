@@ -11,6 +11,7 @@
 #include "linux_timer.h"
 #include "board/console.h"
 
+#include <assert.h>
 #include <errno.h>
 #include <malloc.h>
 #include <signal.h>
@@ -77,12 +78,14 @@ bool emulator_timerInit(TimerHandle_t *handle, Emulator_TimerConfig_t *config)
 void timer_activate(TimerHandle_t *handle)
 {
     LinuxTimerPrivateData_t *private_data = (LinuxTimerPrivateData_t *) handle->private_data;
+    assert(private_data);
     private_data->enabled = true;
 }
 
 void timer_deactivate(TimerHandle_t *handle)
 {
     LinuxTimerPrivateData_t *private_data = (LinuxTimerPrivateData_t *) handle->private_data;
+    assert(private_data);
     private_data->enabled = false;
 }
 

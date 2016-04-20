@@ -16,6 +16,7 @@
 #include "common/commands/emulator.h"
 #include "core/controller/commands_manager.h"
 
+#include <assert.h>
 #include <errno.h>
 #include <malloc.h>
 #include <stdint.h>
@@ -43,12 +44,14 @@ bool emulator_gpioInit(GPIOHandle_t *handle)
 void gpio_activate(GPIOHandle_t *handle)
 {
     EmulatorGPIOPrivateData_t *private_data = (EmulatorGPIOPrivateData_t *) handle->private_data;
+    assert(private_data);
     private_data->enabled = true;
 }
 
 void gpio_deactivate(GPIOHandle_t *handle)
 {
     EmulatorGPIOPrivateData_t *private_data = (EmulatorGPIOPrivateData_t *) handle->private_data;
+    assert(private_data);
     private_data->enabled = false;
 }
 

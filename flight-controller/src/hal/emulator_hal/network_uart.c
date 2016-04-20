@@ -14,6 +14,7 @@
 #include "board/console.h"
 
 #include <arpa/inet.h>
+#include <assert.h>
 #include <errno.h>
 #include <malloc.h>
 #include <netinet/in.h>
@@ -70,18 +71,21 @@ bool emulator_uartInit(UARTHandle_t *handle, Emulator_UARTConfig_t *config)
 void uart_activate(UARTHandle_t *handle)
 {
     NetworkUARTPrivateData_t *private_data = (NetworkUARTPrivateData_t *) handle->private_data;
+    assert(private_data);
     private_data->enabled = true;
 }
 
 void uart_deactivate(UARTHandle_t *handle)
 {
     NetworkUARTPrivateData_t *private_data = (NetworkUARTPrivateData_t *) handle->private_data;
+    assert(private_data);
     private_data->enabled = false;
 }
 
 bool uart_send(UARTHandle_t *handle, uint16_t data)
 {
     NetworkUARTPrivateData_t *private_data = (NetworkUARTPrivateData_t *) handle->private_data;
+    assert(private_data);
     if(!private_data->enabled)
         return false;
 
@@ -94,6 +98,7 @@ bool uart_send(UARTHandle_t *handle, uint16_t data)
 bool uart_receive(UARTHandle_t *handle, uint16_t *data)
 {
     NetworkUARTPrivateData_t *private_data = (NetworkUARTPrivateData_t *) handle->private_data;
+    assert(private_data);
     if(!private_data->enabled)
         return false;
 
