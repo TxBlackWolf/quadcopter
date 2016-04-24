@@ -81,16 +81,17 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
     decoder.data_size += size;
 
     int start = 0;
-    bool done = false;
 
-    while(!done) {
+    while((uint32_t) decoder.offset < decoder.data_size) {
         switch(decoder.state) {
         case DECODER_NO_COMMAND:
+            printf("DECODER_NO_COMMAND\n");
+            fflush(stdout);
             decoder.offset = commandDecoder_findSync(decoder.offset, COMMAND_SYNC_BYTE_1);
             if(decoder.offset < 0) {
                 decoder.data_size = 0;
                 decoder.offset = 0;
-                done = true;
+                goto feed_finish;
             }
             
             start = decoder.offset;
@@ -98,6 +99,8 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
             break;
 
         case DECODER_SYNC1:
+            printf("DECODER_SYNC1\n");
+            fflush(stdout);
             decoder.offset = commandDecoder_findSync(decoder.offset, COMMAND_SYNC_BYTE_2);
             if(decoder.offset < 0) {
                 decoder.state = DECODER_NO_COMMAND;
@@ -108,6 +111,8 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
             break;
 
         case DECODER_SYNC2:
+            printf("DECODER_SYNC2\n");
+            fflush(stdout);
             decoder.offset = commandDecoder_findSync(decoder.offset, COMMAND_SYNC_BYTE_3);
             if(decoder.offset < 0) {
                 decoder.state = DECODER_NO_COMMAND;
@@ -118,24 +123,36 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
             break;
 
         case DECODER_SYNC3:
+            printf("DECODER_SYNC3\n");
+            fflush(stdout);
             if(decoder.data_size >= sizeof(CommandHeader_t)) {
                 uint8_t *buffer = decoder.buffer + decoder.offset;
                 CommandHeader_t *header = (CommandHeader_t *) buffer;
                 decoder.expected_size = sizeof(CommandHeader_t) + MIN(header->payload_size, COMMAND_PAYLOAD_MAX_SIZE_BYTES);
                 decoder.state = DECODER_COMMAND_INCOMPLETE;
             }
+            else
+                goto feed_finish;
             break;
 
         case DECODER_COMMAND_INCOMPLETE:
-            if(decoder.data_size >= decoder.expected_size)
-                done = true;
+            printf("DECODER_COMMAND_INCOMPLETE\n");
+            fflush(stdout);
+            if(decoder.data_size >= decoder.expected_size) {
+                decoder.state = DECODER_COMMAND_COMPLETE;
+                goto feed_finish;
+            }
             break;
 
         case DECODER_COMMAND_COMPLETE:
+            printf("DECODER_COMMAND_COMPLETE\n");
+            fflush(stdout);
+            goto feed_finish;
             break;
         }
     }
 
+feed_finish:
     if(start > 1) {
         // If possible command starts in the middle of bufer, then shift buffer to fit it.
         command_shiftBuffer(decoder.buffer, decoder.data_size, size - 1);
