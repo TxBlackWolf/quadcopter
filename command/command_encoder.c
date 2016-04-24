@@ -13,7 +13,7 @@
 
 static uint32_t commandEncoder_nextId = 0;
 
-/// @brief Initialized common command header in given buffer.
+/// @brief Initializes common command header in given buffer.
 /// @param [in/out] buffer          Buffer for command.
 /// @return Size of created data.
 static int commandEncoder_initHeader(uint8_t *buffer)
@@ -34,24 +34,36 @@ static int commandEncoder_initHeader(uint8_t *buffer)
     return sizeof(CommandHeader_t);
 }
 
+/// @brief Fills size of payload and computer CRC.
+/// @param [in/out] buffer          Buffer for command.
+/// @return Size of created data.
+static void commandEncoder_finish(uint8_t *buffer, int size)
+{
+    CommandHeader_t *header = (CommandHeader_t *) buffer;
+    header->payload_size = size - sizeof(CommandHeader_t);
+    header->payload_crc = command_computeCRC(buffer + sizeof(CommandHeader_t), header->payload_size);
+}
+
 int commandEncoder_createEmulatorCommand(uint8_t *buffer, EmulatedDevice_t device, void *command)
 {
     int idx = commandEncoder_initHeader(buffer);
     
-    EmulatorHeader_t *emulatorHeader = &buffer[idx];
-    emulatorHeader->device = device;
-    
+    EmulatorHeader_t *emulator_header = &buffer[idx];
+    emulator_header->device = device;
     idx += sizeof(EmulatorHeader_t);
-    
+
+    switch(device) {
+    case EMULATED_DEVICE_GPIO: {
+            EmulatorCommandGPIO_t *gpio_command = &buffer[idx];
+            *gpio_command = *((EmulatorCommandGPIO_t *) command)
+            idx += sizeof(EmulatorCommandGPIO_t);
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    commandEncoder_finish(buffer, idx);
     return idx;
-}
-
-void commandEncoder_finish(uint8_t *buffer, int size)
-{
-    CommandHeader_t *header = (CommandHeader_t *) buffer;
-    header->payload_size = size - sizeof(CommandHeader_t);
-    header->payload_crc = 0;
-
-    if(crc_functor)
-        header->payload_crc = crc_functor(buffer + sizeof(CommandHeader_t), header->payload_size);
 }

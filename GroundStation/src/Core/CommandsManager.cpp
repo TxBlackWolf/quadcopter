@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "CommandsManager.h"
-#include "common/command/command_decoder.h"
+#include "command/command_decoder.h"
 #include "Tools/Options/CommandsOptions.h"
 
 #include <functional>
@@ -24,6 +24,7 @@ CommandsManager::CommandsManager()
 CommandsManager::~CommandsManager()
 {
     try {
+        delete [] m_buffer;
         setOperating(false);
     }
     catch(...) {}
@@ -47,14 +48,15 @@ void CommandsManager::setOperating(bool activate)
 
 void CommandsManager::init()
 {
+    m_buffer = new uint8_t[2 * COMMANDS_MAX_SIZE_BYTES];
+    commandDecoder_init(m_buffer);
 }
 
 void CommandsManager::parseCommand(const QByteArray& command)
 {
-    m_buffer.append(command);
+    const uint8_t* data = reinterpret_cast<const uint8_t *>(command.toStdString().data());
+    if(commandDecoder_feed(data, command.size()) != DECODER_COMMAND_COMPLETE)
+        return;
 
-    const uint8_t* data = reinterpret_cast<const uint8_t *>(m_buffer.toStdString().data());
-    commandDecoder_parse(data);
-
-    m_buffer.clear();
+    commandDecoder_parse();
 }

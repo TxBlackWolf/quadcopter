@@ -12,8 +12,8 @@
 
 #include "emulator_gpio.h"
 #include "board/console.h"
-#include "common/commands/commands.h"
-#include "common/commands/emulator.h"
+#include "command/command_emulator.h"
+#include "command/command_encoder.h"
 #include "core/controller/commands_manager.h"
 
 #include <arpa/inet.h>
@@ -70,20 +70,16 @@ uint16_t gpio_readPort(GPIOHandle_t *handle)
 
 bool gpio_writePin(GPIOHandle_t *handle, bool value)
 {
+    EmulatorCommandGPIO_t gpio_command;
+    gpio_command.port = handle->port;
+    gpio_command.pin = handle->pin;
+    gpio_command.value = value;
+    strncpy(gpio_command.name, handle->name, PIN_NAME_MAX_SIZE);
+    gpio_command.name[PIN_NAME_MAX_SIZE - 1] = '\0';
+
     uint8_t command[COMMANDS_MAX_SIZE_BYTES];
-    memset(command, 0, COMMANDS_MAX_SIZE_BYTES);
-    int command_size = 0;
-    EmulatorCommandGPIO_t *gpio_command = command_create(command, &command_size, COMMAND_EMULATOR, EMULATED_DEVICE_GPIO);
+    commandEncoder_createEmulatorCommand(command, EMULATED_DEVICE_GPIO, &gpio_command);
 
-    gpio_command->port = handle->port;
-    gpio_command->pin = handle->pin;
-    gpio_command->value = value;
-    gpio_command->name_size = strlen(handle->name) + 1;
-    command_size += sizeof(EmulatorCommandGPIO_t);
-    strcpy((char *) command + command_size, handle->name);
-    command_size += gpio_command->name_size;
-
-    command_finish(command, command_size);
     return commandsManager_send(command);
 }
 

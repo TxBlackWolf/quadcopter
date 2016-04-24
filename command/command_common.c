@@ -10,6 +10,8 @@
 
 #include "command_common.h"
 
+#include <stdio.h>
+
 SynchronizationFunctor critical_section = NULL;
 CRCFunctor crc_functor = NULL;
 
@@ -36,5 +38,16 @@ void command_leaveCriticalSection()
 uint32_t command_computeCRC(const uint8_t *buffer, uint32_t size)
 {
     /// @todo Implement.
-    return true;
+    return 0;
+}
+
+void command_copyBuffer(uint8_t *to, const uint8_t *from, int size)
+{
+    for(int i = 0; i < size; ++i)
+        to[i] = from[i];
+}
+
+void command_shiftBuffer(uint8_t *buffer, int size, int positions)
+{
+    command_copyBuffer(buffer, buffer + positions, size - positions);
 }

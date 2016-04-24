@@ -13,20 +13,66 @@
 
 #include <stdio.h>
 
-bool commandDecoder_checkVersion(CommandHeader_t *header)
+static uint8_t *internal_buffer = NULL;
+static bool commandDecoder_nextIdFound = false;
+static uint32_t commandDecoder_nextId = 0;
+static CommandDecoderState_t decoder_state = DECODER_NO_COMMAND;
+
+/// @brief Checks, if this message is compatible with this framework.
+/// @param [in] header              Command header.
+/// @return True if command is compatible, false otherwise.
+static bool commandDecoder_checkVersion(CommandHeader_t *header)
 {
     /// @todo Implement.
     return true;
 }
 
-bool commandDecoder_checkId(CommandHeader_t *header)
+/// @brief Checks, if this message is next in sequence order,
+/// @param [in] header              Command header.
+/// @return True if command has expected sequence id, false otherwise.
+static bool commandDecoder_checkId(CommandHeader_t *header)
 {
-    uint32_t expectedId = command_nextId;
-    command_nextId = header->command_id + 1;
+    if(!commandDecoder_nextIdFound) {
+        commandDecoder_nextId = header->command_id + 1;
+        commandDecoder_nextIdFound = true;
+        return true; 
+    }
 
-    return (header->command_id == expectedId);
+    return (header->command_id == commandDecoder_nextId++);
 }
 
+void commandDecoder_init(uint8_t *buffer)
+{
+    internal_buffer = buffer;
+}
+
+CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
+{
+    command_copyBuffer(internal_buffer, buffer, size);
+    
+    switch(decoder_state) {
+    case DECODER_NO_COMMAND:
+        break;
+    case DECODER_SYNC1:
+        break;
+    case DECODER_SYNC2:
+        break;
+    case DECODER_SYNC3:
+        break;
+    case DECODER_COMMAND_INCOMPLETE:
+        break;
+    case DECODER_COMMAND_COMPLETE:
+        break;
+    }
+}
+
+CommandDecoderError_t commandDecoder_parse()
+{
+    decoder_state = DECODER_NO_COMMAND;
+    return PARSING_OK;
+}
+
+/*
 CommandParsingStatus_t commandDecoder_parse(const uint8_t *buffer)
 {
     CommandHeader_t *header = (CommandHeader_t *) buffer;
@@ -74,3 +120,4 @@ CommandParsingStatus_t commandDecoder_parse(const uint8_t *buffer)
 
     return PARSING_OK;
 }
+*/

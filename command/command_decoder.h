@@ -15,43 +15,41 @@
 extern "C" {
 #endif
 
-#include "command_common.h"
-
 #include <stdbool.h>
 #include <stdint.h>
 
-/// @brief Possible errors and states, that can occure during command parsing.
+/// @brief Possible decode states.
+typedef enum {
+    DECODER_NO_COMMAND,             ///< No start of command is found inside buffer.
+    DECODER_SYNC1,                  ///< Sync1 value is recognized.
+    DECODER_SYNC2,                  ///< Sync2 value is recognized.
+    DECODER_SYNC3,                  ///< Sync3 value is recognized.
+    DECODER_COMMAND_INCOMPLETE,     ///< Command header is recognized, but there is less data, than declared payload size.
+    DECODER_COMMAND_COMPLETE        ///< Command is complete and can be parsed.
+} CommandDecoderState_t;
+
+/// @brief Possible parsing errors.
 typedef enum {
     PARSING_OK,                     ///< No error.
-    PARSING_BUFFERED,               ///< Command is not complete.
     PARSING_BAD_VERSION,            ///< Mismatch in protocol version.
-    PARSING_PACKET_LOST,            ///< Expected id does not match actual one. Possible packet lost.
     PARSING_BAD_CRC,                ///< Invalid CRC.
     PARSING_UNSUPPORTED_TYPE,       ///< Command type not supported. Should not happen, if protocol version matches.
     PARSING_INVALID_DATA            ///< Generic payload error. Something went wrong, when parsing specific command data.
-} CommandParsingStatus_t;
+} CommandDecoderError_t;
 
-/// @brief Checks, if this message is next in sequence order,
-/// @param [in] header              Command header.
-/// @return True if command has expected sequence id, false otherwise.
-bool commandDecoder_checkId(CommandHeader_t *header);
+/// @brief Initializes internal framework buffer for keeping incoming data until it is parsed.
+/// @param [in] buffer              Buffer for incoming data.
+void commandDecoder_init(uint8_t *buffer);
 
-/// @brief Checks, if this command payload has correct CRC.
-/// @param [in] buffer              Command payload buffer.
-/// @param [in] size                Payload size.
-/// @param [in] crc                 Expected CRC.
-/// @return True if CRC is correct, false otherwise.
-bool commandDecoder_checkCRC(const uint8_t *buffer, uint32_t size, uint32_t crc);
-
-/// @brief Checks, if this message is compatible with this framework.
-/// @param [in] header              Command header.
-/// @return True if command is compatible, false otherwise.
-bool command_checkVersion(CommandHeader_t *header);
+/// @brief Copies data into internal buffer.
+/// @param [in] buffer              Data buffer.
+/// @param [in] size                Data size.
+/// @return Decoder state.
+CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size);
 
 /// @brief Parses command header to recognize concrete command and call appropriate handler.
-/// @param [in] buffer              Buffer with command data.
 /// @return Parsing error code.
-CommandParsingStatus_t commandDecoder_parse(const uint8_t *buffer);
+CommandDecoderError_t commandDecoder_parse();
 
 #ifdef __cplusplus
 }

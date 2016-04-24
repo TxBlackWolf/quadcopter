@@ -13,10 +13,10 @@
 
 #include "Tools/IServer.h"
 
-#include <QByteArray>
 #include <QObject>
 
 #include <memory>
+#include <cstdint>
 
 class CommandsManager : public QObject {
     Q_OBJECT
@@ -34,7 +34,7 @@ private:
 
 private:
     std::unique_ptr<IServer> m_server;
-    QByteArray m_buffer;
+    uint8_t* m_buffer;
 };
 
 #endif

@@ -73,7 +73,23 @@ void command_enterCriticalSection();
 /// @brief Leaves critical section by calling synchronization primitive.
 void command_leaveCriticalSection();
 
+/// @Brief Computes CRC for given buffer and size.
+/// @param [in] buffer              Buffer with data, for which CRC should be calculated.
+/// @param [in] size                Size of data buffer.
+/// @return Calculated CRC.
 uint32_t command_computeCRC(const uint8_t *buffer, uint32_t size);
+
+/// @brief Copies data from one buffer to another,
+/// @param [in] to                  Destination buffer.
+/// @param [in] from                Source buffer.
+/// @param [in] size                Size of data to be copied.
+void command_copyBuffer(uint8_t *to, const uint8_t *from, int size);
+
+/// @brief Shifts left given buffer. 
+/// @param [in] buffer              Buffer to be shifter
+/// @param [in] size                Buffer size.
+/// @param [in] positions           Shift size.
+void command_shiftBuffer(uint8_t *buffer, int size, int positions);
 
 #ifdef __cplusplus
 }

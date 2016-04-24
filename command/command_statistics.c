@@ -10,7 +10,6 @@
 
 #include "command_statistics.h"
 
-static uint32_t command_nextId = 0;
 static uint32_t command_receivedCount = 0;
 static uint32_t command_lostCount = 0;
 static uint32_t command_brokenCount = 0;
