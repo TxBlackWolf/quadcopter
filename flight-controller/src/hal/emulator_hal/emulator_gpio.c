@@ -74,10 +74,10 @@ bool gpio_writePin(GPIOHandle_t *handle, bool value)
     gpio_command.port = handle->port;
     gpio_command.pin = handle->pin;
     gpio_command.value = value;
-    strncpy(gpio_command.name, handle->name, PIN_NAME_MAX_SIZE);
+    strncpy((char *) gpio_command.name, handle->name, PIN_NAME_MAX_SIZE);
     gpio_command.name[PIN_NAME_MAX_SIZE - 1] = '\0';
 
-    uint8_t command[COMMANDS_MAX_SIZE_BYTES];
+    uint8_t command[COMMAND_MAX_SIZE_BYTES];
     commandEncoder_createEmulatorCommand(command, EMULATED_DEVICE_GPIO, &gpio_command);
 
     return commandsManager_send(command);

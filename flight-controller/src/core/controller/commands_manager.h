@@ -11,7 +11,7 @@
 #ifndef COMMANDS_MANGER_H
 #define COMMANDS_MANGER_H
 
-#include "common/commands/commands.h"
+#include "command/command_common.h"
 
 #include <stdbool.h>
 

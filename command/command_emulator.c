@@ -34,7 +34,7 @@ bool command_unregisterEmulatorCallback(EmulatedDevice_t device)
 
 bool command_parseEmulator(uint8_t *payload, uint32_t size)
 {
-    EmulatorCommand_t *command = (EmulatorCommand_t *) payload;
+    EmulatorHeader_t *command = (EmulatorHeader_t *) payload;
     if(!command_callbacks[command->device])
         return false;
 

@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "CommandsManager.h"
+#include "command/command_common.h"
 #include "command/command_decoder.h"
 #include "Tools/Options/CommandsOptions.h"
 
@@ -48,7 +49,7 @@ void CommandsManager::setOperating(bool activate)
 
 void CommandsManager::init()
 {
-    m_buffer = new uint8_t[2 * COMMANDS_MAX_SIZE_BYTES];
+    m_buffer = new uint8_t[2 * COMMAND_MAX_SIZE_BYTES];
     commandDecoder_init(m_buffer);
 }
 

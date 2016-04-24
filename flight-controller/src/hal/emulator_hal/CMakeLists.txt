@@ -8,4 +8,4 @@ set(SOURCES
 register_module()
 
 link_target(rt)
-link_target(${SKYVIPER_COMMON_PATH}/commands)
+link_target(${SKYVIPER_COMMAND_PATH})

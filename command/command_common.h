@@ -18,12 +18,13 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 
-#define COMMANDS_VERSION                    "0.0.1"         ///< Commands protocol version. Used to recognize mismatches.
-#define COMMANDS_MAX_SIZE_BYTES             1024            ///< Maximal size of command in total.
+#define COMMAND_VERSION                     "0.0.1"   ///< Commands protocol version. Used to recognize mismatches.
+#define COMMAND_MAX_SIZE_BYTES              1024      ///< Maximal size of command in total.
+#define COMMAND_PAYLOAD_MAX_SIZE_BYTES      (COMMAND_MAX_SIZE_BYTES - sizeof(CommandHeader_t))
 
-#define COMMANDS_SYNC_WORD_1                0x12345678      ///< First synchonizing word.
-#define COMMANDS_SYNC_WORD_3                0x12345678      ///< Second synchonizing word.
-#define COMMANDS_SYNC_WORD_2                0x12345678      ///< Third synchonizing word.
+#define COMMAND_SYNC_BYTE_1                 0x48      ///< First synchonizing byte.
+#define COMMAND_SYNC_BYTE_2                 0x69      ///< Second synchonizing byte.
+#define COMMAND_SYNC_BYTE_3                 0xa5      ///< Third synchonizing byte.
 
 /// @brief Type of commands.
 typedef enum {
@@ -37,15 +38,15 @@ typedef enum {
 
 /// @brief Command header.
 typedef struct {
-    uint32_t sync1;                 ///< First synchonizing word.
-    uint32_t sync2;                 ///< Second synchonizing word.
-    uint32_t sync3;                 ///< Third synchonizing word.
+    uint8_t sync1;                  ///< First synchonizing byte.
+    uint8_t sync2;                  ///< Second synchonizing byte.
+    uint8_t sync3;                  ///< Third synchonizing byte.
     uint16_t version_major;         ///< Major number of version.
     uint16_t version_minor;         ///< Minor number of version.
     uint16_t version_patch;         ///< Patch number of version.
     uint32_t command_id;            ///< Id number in sequence of commands. Each command should have id bigger than the last one by 1.
     CommandType_t type;             ///< Command type.
-    uint8_t payload_size;           ///< Size of command payload.
+    uint32_t payload_size;           ///< Size of command payload.
     uint32_t payload_crc;           ///< CRC of payload.
 } __attribute__((packed)) CommandHeader_t;
 

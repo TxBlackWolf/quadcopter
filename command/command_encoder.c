@@ -16,13 +16,13 @@ static uint32_t commandEncoder_nextId = 0;
 /// @brief Initializes common command header in given buffer.
 /// @param [in/out] buffer          Buffer for command.
 /// @return Size of created data.
-static int commandEncoder_initHeader(uint8_t *buffer)
+static int commandEncoder_initHeader(uint8_t *buffer, CommandType_t type)
 {
     /// @todo Add automatic version deserialization from string.
     CommandHeader_t *header = (CommandHeader_t *) buffer;
-    header->sync1 = COMMANDS_SYNC_WORD_1;
-    header->sync2 = COMMANDS_SYNC_WORD_2;
-    header->sync3 = COMMANDS_SYNC_WORD_3;
+    header->sync1 = COMMAND_SYNC_BYTE_1;
+    header->sync2 = COMMAND_SYNC_BYTE_2;
+    header->sync3 = COMMAND_SYNC_BYTE_3;
     header->version_major = 0;
     header->version_minor = 0;
     header->version_patch = 1;
@@ -46,16 +46,16 @@ static void commandEncoder_finish(uint8_t *buffer, int size)
 
 int commandEncoder_createEmulatorCommand(uint8_t *buffer, EmulatedDevice_t device, void *command)
 {
-    int idx = commandEncoder_initHeader(buffer);
+    int idx = commandEncoder_initHeader(buffer, COMMAND_EMULATOR);
     
-    EmulatorHeader_t *emulator_header = &buffer[idx];
+    EmulatorHeader_t *emulator_header = (EmulatorHeader_t *) &buffer[idx];
     emulator_header->device = device;
     idx += sizeof(EmulatorHeader_t);
 
     switch(device) {
     case EMULATED_DEVICE_GPIO: {
-            EmulatorCommandGPIO_t *gpio_command = &buffer[idx];
-            *gpio_command = *((EmulatorCommandGPIO_t *) command)
+            EmulatorCommandGPIO_t *gpio_command = (EmulatorCommandGPIO_t *) &buffer[idx];
+            *gpio_command = *((EmulatorCommandGPIO_t *) command);
             idx += sizeof(EmulatorCommandGPIO_t);
         }
         break;
