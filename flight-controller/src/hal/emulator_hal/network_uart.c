@@ -28,6 +28,15 @@
 
 bool emulator_uartInit(UARTHandle_t *handle, Emulator_UARTConfig_t *config)
 {
+    // Allocate and init private data.
+    NetworkUARTPrivateData_t *private_data = (NetworkUARTPrivateData_t *) malloc(sizeof(NetworkUARTPrivateData_t));
+    if(!private_data) {
+        console_write("network_uart: Failed to alloc network UART private data: %s", strerror(errno));
+        return false;
+    }
+
+    private_data->enabled = false;
+
     // Create socket.
     int sock = socket(AF_INET, (config->protocol == UART_CONNECTION_TCP) ? SOCK_STREAM : SOCK_DGRAM, 0);
     if(sock == -1) {
@@ -53,14 +62,6 @@ bool emulator_uartInit(UARTHandle_t *handle, Emulator_UARTConfig_t *config)
         }
     }
 
-    // Allocate and init private data.
-    NetworkUARTPrivateData_t *private_data = (NetworkUARTPrivateData_t *) malloc(sizeof(NetworkUARTPrivateData_t));
-    if(!private_data) {
-        console_write("network_uart: Failed to alloc network UART private data: %s", strerror(errno));
-        return false;
-    }
-
-    private_data->enabled = false;
     memcpy(&private_data->server_addr, &server_addr, sizeof(server_addr));
 
     handle->device = sock;
@@ -89,7 +90,7 @@ bool uart_send(UARTHandle_t *handle, uint16_t data)
     if(!private_data->enabled)
         return false;
 
-    if(sendto(handle->device, &data, sizeof(uint16_t), 0, (struct sockaddr *) &private_data->server_addr, sizeof(private_data->server_addr)) == -1)
+    if(sendto(handle->device, &data, sizeof(uint8_t), 0, (struct sockaddr *) &private_data->server_addr, sizeof(private_data->server_addr)) == -1)
         return false;
 
     return true;
@@ -103,7 +104,7 @@ bool uart_receive(UARTHandle_t *handle, uint16_t *data)
         return false;
 
     socklen_t sock_len = sizeof(private_data->server_addr);
-    if(recvfrom(handle->device, data, sizeof(uint16_t), 0, (struct sockaddr *) &private_data->server_addr, &sock_len) == -1)
+    if(recvfrom(handle->device, data, sizeof(uint8_t), 0, (struct sockaddr *) &private_data->server_addr, &sock_len) == -1)
         return false;
 
     return true;

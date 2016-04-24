@@ -8,4 +8,15 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "debug_info.h"
+#ifndef COMMAND_TELEMETRY_H
+#define COMMAND_TELEMETRY_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

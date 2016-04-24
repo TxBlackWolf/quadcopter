@@ -8,17 +8,4 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef SYSTEM_STATUS_H
-#define SYSTEM_STATUS_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "commands.h"
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+#include "command_systemStatus.h"

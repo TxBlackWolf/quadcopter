@@ -8,4 +8,15 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "system_status.h"
+#ifndef COMMAND_CONTROL_H
+#define COMMAND_CONTROL_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

@@ -8,14 +8,12 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CONTROL_H
-#define CONTROL_H
+#ifndef COMMAND_SYSTEMSTATUS_H
+#define COMMAND_SYSTEMSTATUS_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "commands.h"
 
 #ifdef __cplusplus
 }

@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "CommandsManager.h"
-#include "common/commands/commands.h"
+#include "common/command/command_decoder.h"
 #include "Tools/Options/CommandsOptions.h"
 
 #include <functional>
@@ -51,6 +51,10 @@ void CommandsManager::init()
 
 void CommandsManager::parseCommand(const QByteArray& command)
 {
-    uint8_t* data = reinterpret_cast<uint8_t *>(const_cast<char *>(command.toStdString().data()));
-    command_parse(data);
+    m_buffer.append(command);
+
+    const uint8_t* data = reinterpret_cast<const uint8_t *>(m_buffer.toStdString().data());
+    commandDecoder_parse(data);
+
+    m_buffer.clear();
 }

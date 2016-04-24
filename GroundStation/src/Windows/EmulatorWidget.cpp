@@ -11,8 +11,8 @@
 #include "EmulatorWidget.h"
 #include "ui_EmulatorWidget.h"
 
-#include "common/commands/commands.h"
-#include "common/commands/emulator.h"
+#include "common/command/command_common.h"
+#include "common/command/emulator.h"
 #include "Tools/Options/CommandsOptions.h"
 
 #include <QDebug>
@@ -52,6 +52,8 @@ void EmulatorWidget::gpioCallback(uint8_t* buffer, uint32_t size)
     EmulatorCommandGPIO_t* gpioCommand = reinterpret_cast<EmulatorCommandGPIO_t*>(buffer);
 
     // Simple sanity check.
+    int i = sizeof(EmulatorCommandGPIO_t) + gpioCommand->name_size;
+    qDebug() << "size = " << size << ", actual = " << i;
     if(sizeof(EmulatorCommandGPIO_t) + gpioCommand->name_size != size)
         return;
 

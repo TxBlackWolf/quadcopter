@@ -54,12 +54,13 @@ SOURCES         += \
                 Windows/SettingsDialog.cpp \
                 Windows/SystemInfoWidget.cpp \
                 Windows/TelemetryTabWidget.cpp \
-                ../../common/commands/commands.c \
-                ../../common/commands/control.c \
-                ../../common/commands/debug_info.c \
-                ../../common/commands/emulator.c \
-                ../../common/commands/system_status.c \
-                ../../common/commands/telemetry.c
+                ../../command/command_common.c \
+                ../../command/command_control.c \
+                ../../command/command_debugInfo.c \
+                ../../command/command_decoder.c \
+                ../../command/command_emulator.c \
+                ../../command/command_systemStatus.c \
+                ../../command/command_telemetry.c
 
 HEADERS         += \
                 Core/CommandsManager.h \
@@ -84,12 +85,13 @@ HEADERS         += \
                 Windows/SettingsDialog.h \
                 Windows/SystemInfoWidget.h \
                 Windows/TelemetryTabWidget.h \
-                ../../common/commands/commands.h \
-                ../../common/commands/control.h \
-                ../../common/commands/debug_info.h \
-                ../../common/commands/emulator.h \
-                ../../common/commands/system_status.h \
-                ../../common/commands/telemetry.h
+                ../../command/command_common.h \
+                ../../command/command_control.h \
+                ../../command/command_debugInfo.h \
+                ../../command/command_decoder.h \
+                ../../command/command_emulator.h \
+                ../../command/command_systemStatus.h \
+                ../../command/command_telemetry.h
 
 FORMS           += \
                 Windows/AboutDialog.ui \

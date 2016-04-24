@@ -8,14 +8,14 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef EMULATOR_H
-#define EMULATOR_H
+#ifndef COMMAND_EMULATOR_H
+#define COMMAND_EMULATOR_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "commands.h"
+#include "command_common.h"
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -36,7 +36,7 @@ typedef enum {
 /// @brief Header of emulator command.
 typedef struct {
     EmulatedDevice_t device;        ///< Type of emulator subcommand. Describes, which emulated device does it describe.
-} __attribute__((packed)) EmulatorCommand_t;
+} __attribute__((packed)) EmulatorHeader_t;
 
 /// @brief Emulator command, that describe particular GPIO state.
 typedef struct {

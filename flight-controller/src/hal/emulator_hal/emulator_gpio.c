@@ -16,6 +16,7 @@
 #include "common/commands/emulator.h"
 #include "core/controller/commands_manager.h"
 
+#include <arpa/inet.h>
 #include <assert.h>
 #include <errno.h>
 #include <malloc.h>
@@ -70,6 +71,7 @@ uint16_t gpio_readPort(GPIOHandle_t *handle)
 bool gpio_writePin(GPIOHandle_t *handle, bool value)
 {
     uint8_t command[COMMANDS_MAX_SIZE_BYTES];
+    memset(command, 0, COMMANDS_MAX_SIZE_BYTES);
     int command_size = 0;
     EmulatorCommandGPIO_t *gpio_command = command_create(command, &command_size, COMMAND_EMULATOR, EMULATED_DEVICE_GPIO);
 

@@ -6,7 +6,7 @@
 cmake_minimum_required(VERSION 2.8.12)
 
 # Project paths.
-set(SKYVIPER_COMMON_PATH ${CMAKE_SOURCE_DIR}/common)
+set(SKYVIPER_COMMAND_PATH ${CMAKE_SOURCE_DIR}/command)
 set(FLIGHTCONTROLLER_PATH ${CMAKE_SOURCE_DIR}/flight-controller)
 set(FLIGHTCONTROLLER_SRC_PATH ${APP_PATH}/src)
 set(FLIGHTCONTROLLER_BOARD_PATH ${FLIGHTCONTROLLER_SRC_PATH}/board)
@@ -71,5 +71,5 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 configure_drivers()
 
 include_directories(.)
-add_subdirectory(common)
+add_subdirectory(command)
 add_subdirectory(${APP_NAME})

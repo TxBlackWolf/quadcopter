@@ -2,23 +2,13 @@
 ///
 /// @file
 /// @author     Kuba Sejdak
-/// @date       18.01.2016
+/// @date       24.04.2016
 ///
 /// @copyright  This file is a part of SkyViper project. All rights reserved.
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef TELEMETRY_H
-#define TELEMETRY_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "commands.h"
-
-#ifdef __cplusplus
-}
-#endif
+#ifndef COMMAND_STATISTICS_H
+#define COMMAND_STATISTICS_H
 
 #endif

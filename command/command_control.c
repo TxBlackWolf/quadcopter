@@ -8,17 +8,4 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef DEBUGINFO_H
-#define DEBUGINFO_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "commands.h"
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+#include "command_control.h"

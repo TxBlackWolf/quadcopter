@@ -13,6 +13,7 @@
 
 #include "Tools/IServer.h"
 
+#include <QByteArray>
 #include <QObject>
 
 #include <memory>
@@ -33,6 +34,7 @@ private:
 
 private:
     std::unique_ptr<IServer> m_server;
+    QByteArray m_buffer;
 };
 
 #endif
