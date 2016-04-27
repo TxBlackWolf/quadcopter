@@ -154,7 +154,7 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
 
 feed_finish:
     if(start > 1) {
-        // If possible command starts in the middle of bufer, then shift buffer to fit it.
+        // If possible command starts in the middle of buffer, then shift buffer to fit it.
         command_shiftBuffer(decoder.buffer, decoder.data_size, size - 1);
     }
 
