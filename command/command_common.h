@@ -46,7 +46,7 @@ typedef struct {
     uint16_t version_patch;         ///< Patch number of version.
     uint32_t command_id;            ///< Id number in sequence of commands. Each command should have id bigger than the last one by 1.
     CommandType_t type;             ///< Command type.
-    uint32_t payload_size;           ///< Size of command payload.
+    uint32_t payload_size;          ///< Size of command payload.
     uint32_t payload_crc;           ///< CRC of payload.
 } __attribute__((packed)) CommandHeader_t;
 

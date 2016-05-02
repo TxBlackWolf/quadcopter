@@ -16,14 +16,15 @@
 
 #define MIN(x,y)        (((x) < (y)) ? (x) : (y))
 
+/// @brief Command decoder meta data.
 typedef struct {
-    uint8_t *buffer;
-    int offset;
-    uint32_t data_size;
-    uint32_t expected_size;
-    bool id_initialized;
-    uint32_t expected_id;
-    CommandDecoderState_t state;
+    uint8_t *buffer;                ///< Internal decoder buffer. 
+    int offset;                     ///< Current parsing offset.
+    uint32_t data_size;             ///< Current size of data in buffer.
+    uint32_t expected_size;         ///< Expected size of complete command (based on command header).
+    bool id_initialized;            ///< If true, then field 'expected_id' is valid. Otherwise any id is considered as 'expected'.
+    uint32_t expected_id;           ///< Next expected id of incoming command. Used to find packets losses.
+    CommandDecoderState_t state;    ///< Current state of decoder. Represents what we've ALREADY parsed in this command.
 } CommandDecoder_t;
 
 static CommandDecoder_t decoder;
@@ -58,7 +59,7 @@ static int commandDecoder_findSync(int offset, uint8_t sync_byte)
     uint8_t *buffer = decoder.buffer + offset; 
     for(unsigned int i = 0; i < decoder.data_size; ++i) {
         if(buffer[i] == sync_byte)
-            return i + 1;
+            return i;
     }
 
     return -1;
@@ -67,7 +68,6 @@ static int commandDecoder_findSync(int offset, uint8_t sync_byte)
 void commandDecoder_init(uint8_t *buffer)
 {
     decoder.buffer = buffer;
-    decoder.offset = 0;
     decoder.data_size = 0;
     decoder.expected_size = 0;
     decoder.id_initialized = false;
@@ -80,82 +80,82 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
     command_copyBuffer(decoder.buffer + decoder.data_size, buffer, size);
     decoder.data_size += size;
 
-    int start = 0;
-
-    while((uint32_t) decoder.offset < decoder.data_size) {
+    int command_offset = 0;
+    int current_offset = 0;
+    while((uint32_t) current_offset < decoder.data_size) {
         switch(decoder.state) {
         case DECODER_NO_COMMAND:
             printf("DECODER_NO_COMMAND\n");
             fflush(stdout);
-            decoder.offset = commandDecoder_findSync(decoder.offset, COMMAND_SYNC_BYTE_1);
-            if(decoder.offset < 0) {
+            current_offset = commandDecoder_findSync(current_offset, COMMAND_SYNC_BYTE_1); 
+            if(current_offset < 0) {
+                // No SYNC1 byte found, so all data in buffer is invalid.
                 decoder.data_size = 0;
-                decoder.offset = 0;
-                goto feed_finish;
+                return decoder.state;
             }
-            
-            start = decoder.offset;
+
+            command_offset = current_offset;
+            ++current_offset;
             decoder.state = DECODER_SYNC1;
             break;
 
         case DECODER_SYNC1:
             printf("DECODER_SYNC1\n");
             fflush(stdout);
-            decoder.offset = commandDecoder_findSync(decoder.offset, COMMAND_SYNC_BYTE_2);
-            if(decoder.offset < 0) {
+            if(decoder.buffer[current_offset] != COMMAND_SYNC_BYTE_2) {
                 decoder.state = DECODER_NO_COMMAND;
-                decoder.offset = start;
+                break;
             }
-            else
-                decoder.state = DECODER_SYNC2;
+
+            ++current_offset;
+            decoder.state = DECODER_SYNC2;
             break;
 
         case DECODER_SYNC2:
             printf("DECODER_SYNC2\n");
             fflush(stdout);
-            decoder.offset = commandDecoder_findSync(decoder.offset, COMMAND_SYNC_BYTE_3);
-            if(decoder.offset < 0) {
+            if(decoder.buffer[current_offset] != COMMAND_SYNC_BYTE_3) {
                 decoder.state = DECODER_NO_COMMAND;
-                decoder.offset = start;
+                break;
             }
-            else
-                decoder.state = DECODER_SYNC3;
+
+            ++current_offset;
+            decoder.state = DECODER_SYNC3;
             break;
 
-        case DECODER_SYNC3:
+        case DECODER_SYNC3: {
             printf("DECODER_SYNC3\n");
             fflush(stdout);
-            if(decoder.data_size >= sizeof(CommandHeader_t)) {
-                uint8_t *buffer = decoder.buffer + decoder.offset;
-                CommandHeader_t *header = (CommandHeader_t *) buffer;
-                decoder.expected_size = sizeof(CommandHeader_t) + MIN(header->payload_size, COMMAND_PAYLOAD_MAX_SIZE_BYTES);
-                decoder.state = DECODER_COMMAND_INCOMPLETE;
-            }
-            else
-                goto feed_finish;
+            if((decoder.data_size - command_offset) < sizeof(CommandHeader_t))
+                goto feed_exit;
+
+            CommandHeader_t *header = (CommandHeader_t *) (decoder.buffer + command_offset);
+            decoder.expected_size = sizeof(CommandHeader_t) + MIN(header->payload_size, COMMAND_PAYLOAD_MAX_SIZE_BYTES);
+            decoder.state = DECODER_COMMAND_INCOMPLETE;
             break;
+        }
 
         case DECODER_COMMAND_INCOMPLETE:
             printf("DECODER_COMMAND_INCOMPLETE\n");
             fflush(stdout);
-            if(decoder.data_size >= decoder.expected_size) {
-                decoder.state = DECODER_COMMAND_COMPLETE;
-                goto feed_finish;
-            }
+            if((decoder.data_size - command_offset) < decoder.expected_size)
+                goto feed_exit;
+
+            decoder.state = DECODER_COMMAND_COMPLETE;
             break;
 
         case DECODER_COMMAND_COMPLETE:
             printf("DECODER_COMMAND_COMPLETE\n");
             fflush(stdout);
-            goto feed_finish;
-            break;
+            goto feed_exit;
         }
     }
 
-feed_finish:
-    if(start > 1) {
-        // If possible command starts in the middle of buffer, then shift buffer to fit it.
-        command_shiftBuffer(decoder.buffer, decoder.data_size, size - 1);
+feed_exit:
+    if (command_offset > 0) {
+        // Command starts in the middle of the buffer. Align it to the beginning of the buffer.
+        command_shiftBuffer(decoder.buffer, decoder.data_size, command_offset);
+        decoder.data_size -= command_offset;
     }
 
     return decoder.state;
@@ -164,6 +164,8 @@ feed_finish:
 CommandDecoderError_t commandDecoder_parse()
 {
     decoder.state = DECODER_NO_COMMAND;
+    command_shiftBuffer(decoder.buffer, decoder.data_size, decoder.expected_size);
+    decoder.data_size -= decoder.expected_size;
     return PARSING_OK;
 }
 

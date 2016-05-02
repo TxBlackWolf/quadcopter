@@ -90,7 +90,7 @@ bool uart_send(UARTHandle_t *handle, uint16_t data)
     if(!private_data->enabled)
         return false;
 
-    if(sendto(handle->device, &data, sizeof(uint8_t), 0, (struct sockaddr *) &private_data->server_addr, sizeof(private_data->server_addr)) == -1)
+    if(sendto(handle->device, &data, sizeof(uint8_t), MSG_NOSIGNAL, (struct sockaddr *) &private_data->server_addr, sizeof(private_data->server_addr)) == -1)
         return false;
 
     return true;

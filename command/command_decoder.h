@@ -42,6 +42,7 @@ typedef enum {
 void commandDecoder_init(uint8_t *buffer);
 
 /// @brief Copies data into internal buffer.
+/// @note This function should always leave buffer aligned to first SYNC byte or to the beginning. Parser state allow to distinguish those situations.. 
 /// @param [in] buffer              Data buffer.
 /// @param [in] size                Data size.
 /// @return Decoder state.
