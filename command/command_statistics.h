@@ -11,4 +11,8 @@
 #ifndef COMMAND_STATISTICS_H
 #define COMMAND_STATISTICS_H
 
+void commandStatistics_markReceived();
+void commandStatistics_markBroken();
+void commandStatistics_markLost(int n);
+
 #endif
