@@ -59,6 +59,8 @@ SOURCES         += \
                 ../../command/command_debugInfo.c \
                 ../../command/command_decoder.c \
                 ../../command/command_emulator.c \
+                ../../command/command_encoder.c \
+                ../../command/command_statistics.c \
                 ../../command/command_systemStatus.c \
                 ../../command/command_telemetry.c
 
@@ -90,6 +92,8 @@ HEADERS         += \
                 ../../command/command_debugInfo.h \
                 ../../command/command_decoder.h \
                 ../../command/command_emulator.h \
+                ../../command/command_encoder.h \
+                ../../command/command_statistics.h \
                 ../../command/command_systemStatus.h \
                 ../../command/command_telemetry.h
 
