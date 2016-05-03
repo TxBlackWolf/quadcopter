@@ -32,12 +32,15 @@ bool command_unregisterEmulatorCallback(EmulatedDevice_t device)
     return true;
 }
 
-bool command_parseEmulator(uint8_t *payload, uint32_t size)
+CommandDecoderError_t command_parseEmulator(uint8_t *payload, uint32_t size)
 {
-    EmulatorHeader_t *command = (EmulatorHeader_t *) payload;
-    if(!command_callbacks[command->device])
-        return false;
+    EmulatorHeader_t *header = (EmulatorHeader_t *) payload;
+    if(!command_callbacks[header->device])
+        return PARSING_INVALID_DATA;
 
-    command_callbacks[command->device](payload, size);
-    return true;
+    uint8_t *command = payload + sizeof(EmulatorHeader_t);
+    uint32_t command_size = size - sizeof(EmulatorHeader_t);
+    command_callbacks[header->device](command, command_size);
+
+    return PARSING_OK;
 }

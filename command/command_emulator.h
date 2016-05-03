@@ -16,6 +16,7 @@ extern "C" {
 #endif
 
 #include "command_common.h"
+#include "command_decoder.h"
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -63,7 +64,7 @@ bool command_unregisterEmulatorCallback(EmulatedDevice_t device);
 /// @param [in] payload                 Buffer with command payload.
 /// @param [in] size                    Payload buffer size.
 /// @return True on success, false otherwise.
-bool command_parseEmulator(uint8_t *payload, uint32_t size);
+CommandDecoderError_t command_parseEmulator(uint8_t *payload, uint32_t size);
 
 #ifdef __cplusplus
 }
