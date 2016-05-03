@@ -15,9 +15,8 @@
 #include "command/command_emulator.h"
 #include "Tools/Options/CommandsOptions.h"
 
-#include <QDebug>
-
 #include <cstring>
+#include <cstdio>
 #include <string>
 
 static EmulatorWidget* globalEmulatorWidget = nullptr;
@@ -50,5 +49,6 @@ void EmulatorWidget::initCommandsFramework()
 void EmulatorWidget::gpioCallback(uint8_t* buffer, uint32_t size)
 {
     EmulatorCommandGPIO_t* gpioCommand = reinterpret_cast<EmulatorCommandGPIO_t*>(buffer);
-    qDebug() << "GPIO: P" << gpioCommand->port << "." << gpioCommand->pin << " (" << gpioCommand->name << ") = " << gpioCommand->value;
+    printf("GPIO: P%d.%d (%s) = %d\n", gpioCommand->port, gpioCommand->pin, gpioCommand->name, gpioCommand->value);
+    fflush(stdout);
 }
