@@ -15,7 +15,6 @@
 #include "Tools/Options/CommandsOptions.h"
 
 #include <cstring>
-#include <cstdio>
 #include <string>
 
 static EmulatorWidget* globalEmulatorWidget = nullptr;
