@@ -13,8 +13,6 @@
 #include "command_emulator.h"
 #include "command_statistics.h"
 
-#include <stdio.h>
-
 #define MIN(x,y)        (((x) < (y)) ? (x) : (y))
 
 /// @brief Command decoder meta data.
@@ -94,19 +92,12 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
 {
     command_copyBuffer(decoder.buffer + decoder.data_size, buffer, size);
     decoder.data_size += size;
-    for(int i = 0; i < decoder.data_size; ++i)
-        printf("%02x ", decoder.buffer[i]);
-
-    printf("\n");
-    fflush(stdout);
 
     int command_offset = 0;
     int current_offset = 0;
     while((uint32_t) current_offset < decoder.data_size) {
         switch(decoder.state) {
         case DECODER_NO_COMMAND:
-            printf("DECODER_NO_COMMAND\n");
-            fflush(stdout);
             current_offset = commandDecoder_findSync(current_offset, COMMAND_SYNC_BYTE_1); 
             if(current_offset < 0) {
                 // No SYNC1 byte found, so all data in buffer is invalid.
@@ -120,8 +111,6 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
             break;
 
         case DECODER_SYNC1:
-            printf("DECODER_SYNC1\n");
-            fflush(stdout);
             if(decoder.buffer[current_offset] != COMMAND_SYNC_BYTE_2) {
                 decoder.state = DECODER_NO_COMMAND;
                 break;
@@ -132,8 +121,6 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
             break;
 
         case DECODER_SYNC2:
-            printf("DECODER_SYNC2\n");
-            fflush(stdout);
             if(decoder.buffer[current_offset] != COMMAND_SYNC_BYTE_3) {
                 decoder.state = DECODER_NO_COMMAND;
                 break;
@@ -144,22 +131,16 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
             break;
 
         case DECODER_SYNC3: {
-            printf("DECODER_SYNC3\n");
-            fflush(stdout);
             if((decoder.data_size - command_offset) < sizeof(CommandHeader_t))
                 goto feed_exit;
 
             CommandHeader_t *header = (CommandHeader_t *) (decoder.buffer + command_offset);
             decoder.expected_size = MIN(sizeof(CommandHeader_t) + header->payload_size, COMMAND_PAYLOAD_MAX_SIZE_BYTES);
-            printf("expected_size: %u, payload_size: %u\n", decoder.expected_size, header->payload_size);
-            fflush(stdout);
             decoder.state = DECODER_COMMAND_INCOMPLETE;
             break;
         }
 
         case DECODER_COMMAND_INCOMPLETE:
-            printf("DECODER_COMMAND_INCOMPLETE\n");
-            fflush(stdout);
             if((decoder.data_size - command_offset) < decoder.expected_size)
                 goto feed_exit;
 
@@ -167,8 +148,6 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
             break;
 
         case DECODER_COMMAND_COMPLETE:
-            printf("DECODER_COMMAND_COMPLETE\n");
-            fflush(stdout);
             goto feed_exit;
         }
     }
@@ -195,9 +174,9 @@ CommandDecoderError_t commandDecoder_parse()
         goto parse_exit;
     }
     
-    //int diff = commandDecoder_checkId(header);
-    //if(diff > 0)
-    //    commandStatistics_markLost(diff);
+    int diff = commandDecoder_checkId(header);
+    if(diff > 0)
+        commandStatistics_markLost(diff);
 
     //if(!commandDecoder_checkCRC(decoder.buffer)) {
     //    commandStatistics_markBroken();

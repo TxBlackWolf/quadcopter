@@ -55,7 +55,16 @@ void CommandsManager::init()
 
 void CommandsManager::parseCommand(const QByteArray& command)
 {
-    const uint8_t* data = reinterpret_cast<const uint8_t *>(command.toStdString().data());
+    /*
+    printf("before feed: ");
+    for(int i = 0; i < command.size(); ++i)
+        printf("%02x ", command[i]);
+
+    printf("\n");
+    fflush(stdout);
+    */
+
+    const uint8_t* data = reinterpret_cast<const uint8_t *>(command.data());
     if(commandDecoder_feed(data, command.size()) != DECODER_COMMAND_COMPLETE)
         return;
 
