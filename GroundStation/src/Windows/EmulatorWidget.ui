@@ -57,7 +57,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="labelStrobeLight">
            <property name="minimumSize">
             <size>
              <width>50</width>

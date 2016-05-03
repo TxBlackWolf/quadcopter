@@ -11,6 +11,7 @@
 #ifndef EMULATORWIDGET_H
 #define EMULATORWIDGET_H
 
+#include "command/command_emulator.h"
 #include "Misc/SubsystemsStatus.h"
 
 #include <QWidget>
@@ -35,6 +36,9 @@ private:
     void init();
     void initCommandsFramework();
     static void gpioCallback(uint8_t* buffer, uint32_t size);
+
+    void gpioPort4Handler(EmulatorCommandGPIO_t *gpioCommand);
+    void setStrobeLight(bool enabled);
 
 private:
     Ui::EmulatorWidget* m_ui;

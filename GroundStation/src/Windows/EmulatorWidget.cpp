@@ -12,7 +12,6 @@
 #include "ui_EmulatorWidget.h"
 
 #include "command/command_common.h"
-#include "command/command_emulator.h"
 #include "Tools/Options/CommandsOptions.h"
 
 #include <cstring>
@@ -46,9 +45,27 @@ void EmulatorWidget::initCommandsFramework()
     command_registerEmulatorCallback(EMULATED_DEVICE_GPIO, &EmulatorWidget::gpioCallback);
 }
 
-void EmulatorWidget::gpioCallback(uint8_t* buffer, uint32_t size)
+void EmulatorWidget::gpioCallback(uint8_t* buffer, uint32_t size __attribute__((unused)))
 {
     EmulatorCommandGPIO_t* gpioCommand = reinterpret_cast<EmulatorCommandGPIO_t*>(buffer);
-    printf("GPIO: P%d.%d (%s) = %d\n", gpioCommand->port, gpioCommand->pin, gpioCommand->name, gpioCommand->value);
-    fflush(stdout);
+    switch(gpioCommand->port) {
+    case 4:
+        globalEmulatorWidget->gpioPort4Handler(gpioCommand);
+        break;
+    }
+}
+
+void EmulatorWidget::gpioPort4Handler(EmulatorCommandGPIO_t *gpioCommand)
+{
+    switch(gpioCommand->pin) {
+    case 15:
+        setStrobeLight(gpioCommand->value);
+        break;
+    }
+}
+
+void EmulatorWidget::setStrobeLight(bool enabled)
+{
+    QString imageResource = enabled ? ":/Icons/Icons/led-green.png" : ":/Icons/Icons/led-off.png";
+    m_ui->labelStrobeLight->setPixmap(QPixmap(imageResource));
 }
