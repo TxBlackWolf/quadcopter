@@ -11,6 +11,7 @@
 #include "command_decoder.h"
 #include "command_common.h"
 #include "command_emulator.h"
+#include "command_statistics.h"
 
 #include <stdio.h>
 
@@ -40,20 +41,34 @@ static bool commandDecoder_checkVersion(CommandHeader_t *header)
 
 /// @brief Checks, if this message is next in sequence order,
 /// @param [in] header              Command header.
-/// @return True if command has expected sequence id, false otherwise.
-static bool commandDecoder_checkId(CommandHeader_t *header)
+/// @return Difference between expected id and actual id. 
+static int commandDecoder_checkId(CommandHeader_t *header)
 {
     if(!decoder.id_initialized) {
         decoder.expected_id = header->command_id + 1;
         decoder.id_initialized = true;
-        return true; 
+        return 0; 
     }
 
-    return (header->command_id == decoder.expected_id++);
+    int diff = header->command_id - decoder.expected_id;
+    decoder.expected_id = header->command_id + 1;
+    return diff;
+}
+
+/// @brief Checks, if this message has correct CRC.
+/// @param [in] buffer              Buffer with command (including header).
+/// @return True if computed CRC matches one from header, false otherwise.
+static bool commandDecoder_checkCRC(const uint8_t *buffer)
+{
+    CommandHeader_t *header = (CommandHeader_t *) buffer;
+    const uint8_t *payload = buffer + sizeof(CommandHeader_t);
+    uint32_t actual_crc = command_computeCRC(payload, header->payload_size);
+
+    return (actual_crc == header->payload_crc);
 }
 
 /// @brief Looks for synchronization byte in internal buffer.
-/// @return One position after synchronization word.
+/// @return Position with synchronization byte.
 static int commandDecoder_findSync(int offset, uint8_t sync_byte)
 {
     uint8_t *buffer = decoder.buffer + offset; 
@@ -79,6 +94,11 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
 {
     command_copyBuffer(decoder.buffer + decoder.data_size, buffer, size);
     decoder.data_size += size;
+    for(int i = 0; i < decoder.data_size; ++i)
+        printf("%02x ", decoder.buffer[i]);
+
+    printf("\n");
+    fflush(stdout);
 
     int command_offset = 0;
     int current_offset = 0;
@@ -130,7 +150,9 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
                 goto feed_exit;
 
             CommandHeader_t *header = (CommandHeader_t *) (decoder.buffer + command_offset);
-            decoder.expected_size = sizeof(CommandHeader_t) + MIN(header->payload_size, COMMAND_PAYLOAD_MAX_SIZE_BYTES);
+            decoder.expected_size = MIN(sizeof(CommandHeader_t) + header->payload_size, COMMAND_PAYLOAD_MAX_SIZE_BYTES);
+            printf("expected_size: %u, payload_size: %u\n", decoder.expected_size, header->payload_size);
+            fflush(stdout);
             decoder.state = DECODER_COMMAND_INCOMPLETE;
             break;
         }
@@ -163,58 +185,45 @@ feed_exit:
 
 CommandDecoderError_t commandDecoder_parse()
 {
+    CommandHeader_t *header = (CommandHeader_t *) decoder.buffer;
+    commandStatistics_markReceived();
+
+    CommandDecoderError_t result = PARSING_OK;
+    if(!commandDecoder_checkVersion(header)) {
+        commandStatistics_markBroken();
+        result = PARSING_BAD_VERSION;
+        goto parse_exit;
+    }
+    
+    //int diff = commandDecoder_checkId(header);
+    //if(diff > 0)
+    //    commandStatistics_markLost(diff);
+
+    //if(!commandDecoder_checkCRC(decoder.buffer)) {
+    //    commandStatistics_markBroken();
+    //    return PARSING_BAD_CRC;
+    //}
+
+    switch(header->type) {
+    case COMMAND_EMULATOR:
+        result = command_parseEmulator(decoder.buffer + sizeof(CommandHeader_t), header->payload_size);
+        break;
+    case COMMAND_CONTROL:
+    case COMMAND_TELEMETRY:
+    case COMMAND_SYS_STATUS:
+    case COMMAND_DEBUG:
+    default:
+        result = PARSING_UNSUPPORTED_TYPE;
+        break;
+    }
+
+    if(result != PARSING_OK)
+        commandStatistics_markBroken();
+
+parse_exit:
     decoder.state = DECODER_NO_COMMAND;
     command_shiftBuffer(decoder.buffer, decoder.data_size, decoder.expected_size);
     decoder.data_size -= decoder.expected_size;
-    return PARSING_OK;
+
+    return result;
 }
-
-/*
-CommandParsingStatus_t commandDecoder_parse(const uint8_t *buffer)
-{
-    CommandHeader_t *header = (CommandHeader_t *) buffer;
-    ++command_receivedCount;
-
-    if(!command_checkVersion(header)) {
-        ++command_brokenCount;
-        return PARSING_BAD_VERSION;
-    }
-
-    if(!command_checkId(header))
-        ++command_lostCount;
-
-    if(!command_checkCRC(buffer + sizeof(CommandHeader_t), header->payload_size, header->payload_crc)) {
-        ++command_brokenCount;
-        return PARSING_BAD_CRC;
-    }
-
-    bool parsing_stat = false;
-    switch(header->type) {
-    case COMMAND_EMULATOR:
-        parsing_stat = command_parseEmulator(buffer + sizeof(CommandHeader_t), header->payload_size);
-        break;
-    case COMMAND_CONTROL:
-        ++command_brokenCount;
-        return PARSING_UNSUPPORTED_TYPE;
-    case COMMAND_TELEMETRY:
-        ++command_brokenCount;
-        return PARSING_UNSUPPORTED_TYPE;
-    case COMMAND_SYS_STATUS:
-        ++command_brokenCount;
-        return PARSING_UNSUPPORTED_TYPE;
-    case COMMAND_DEBUG:
-        ++command_brokenCount;
-        return PARSING_UNSUPPORTED_TYPE;
-    default:
-        ++command_brokenCount;
-        return PARSING_UNSUPPORTED_TYPE;
-    }
-
-    if(!parsing_stat) {
-        ++command_brokenCount;
-        return PARSING_INVALID_DATA;
-    }
-
-    return PARSING_OK;
-}
-*/
