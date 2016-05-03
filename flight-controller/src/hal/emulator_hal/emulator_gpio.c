@@ -78,9 +78,9 @@ bool gpio_writePin(GPIOHandle_t *handle, bool value)
     gpio_command.name[PIN_NAME_MAX_SIZE - 1] = '\0';
 
     uint8_t command[COMMAND_MAX_SIZE_BYTES];
-    commandEncoder_createEmulatorCommand(command, EMULATED_DEVICE_GPIO, &gpio_command);
+    int command_size = commandEncoder_createEmulatorCommand(command, EMULATED_DEVICE_GPIO, &gpio_command);
 
-    return commandsManager_send(command);
+    return commandsManager_send(command, command_size);
 }
 
 bool gpio_writePort(GPIOHandle_t *handle, uint16_t value)
