@@ -21,6 +21,27 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <unistd.h>
+
+//=============================================================================================
+// HELPER FUNCTIONS
+//=============================================================================================
+
+static bool emulator_connect(UARTHandle_t *handle)
+{
+    NetworkUARTPrivateData_t *private_data = (NetworkUARTPrivateData_t *) handle->private_data;
+    private_data->connected = true;
+
+    if(connect(handle->device, (struct sockaddr *) &private_data->server_addr, sizeof(private_data->server_addr)) != 0) {
+        struct sockaddr_in *server_addr = &private_data->server_addr;
+        char server_ip[INET_ADDRSTRLEN];
+        inet_ntop(server_addr->sin_family, &server_addr->sin_addr, server_ip, sizeof(server_ip));
+        console_write("network_uart: Failed to connect to server [%s:%d]: %s\n", server_ip, ntohs(server_addr->sin_port), strerror(errno));
+        private_data->connected = false;
+    }
+
+    return private_data->connected;
+}
 
 //=============================================================================================
 // INTERFACE FUNCTIONS
@@ -35,12 +56,14 @@ bool emulator_uartInit(UARTHandle_t *handle, Emulator_UARTConfig_t *config)
         return false;
     }
 
+    private_data->connected = false;
     private_data->enabled = false;
 
     // Create socket.
     int sock = socket(AF_INET, (config->protocol == UART_CONNECTION_TCP) ? SOCK_STREAM : SOCK_DGRAM, 0);
     if(sock == -1) {
         console_write("network_uart: Failed to create socket for UART: %s.", strerror(errno));
+        free(private_data);
         return false;
     }
 
@@ -51,22 +74,16 @@ bool emulator_uartInit(UARTHandle_t *handle, Emulator_UARTConfig_t *config)
     server_addr.sin_port = htons(config->port);
     if(inet_pton(AF_INET, (char *) config->ip, &server_addr.sin_addr) != 1) {
         console_write("network_uart: Failed to convert IP string to binary form: %s.", strerror(errno));
+        close(sock);
+        free(private_data);
         return false;
     }
 
-    if(config->protocol == UART_CONNECTION_TCP) {
-        // Connect to server.
-        if(connect(sock, (struct sockaddr *) &server_addr, sizeof(server_addr)) != 0) {
-            console_write("network_uart: Failed to connect to server [%s:%d]: %s\n", config->ip, config->port, strerror(errno));
-            return false;
-        }
-    }
-
+    handle->private_data = private_data;
+    handle->device = sock;
     memcpy(&private_data->server_addr, &server_addr, sizeof(server_addr));
 
-    handle->device = sock;
-    handle->private_data = private_data;
-    return true;
+    return emulator_connect(handle);
 }
 
 void uart_activate(UARTHandle_t *handle)
@@ -87,6 +104,11 @@ bool uart_send(UARTHandle_t *handle, uint16_t data)
 {
     NetworkUARTPrivateData_t *private_data = (NetworkUARTPrivateData_t *) handle->private_data;
     assert(private_data);
+    if(!private_data->connected) {
+        if(!emulator_connect(handle))
+            return false;
+    }
+
     if(!private_data->enabled)
         return false;
 
@@ -100,6 +122,11 @@ bool uart_receive(UARTHandle_t *handle, uint16_t *data)
 {
     NetworkUARTPrivateData_t *private_data = (NetworkUARTPrivateData_t *) handle->private_data;
     assert(private_data);
+    if(!private_data->connected) {
+        if(!emulator_connect(handle))
+            return false;
+    }
+
     if(!private_data->enabled)
         return false;
 

@@ -33,6 +33,7 @@ typedef struct {
 } Emulator_UARTConfig_t;
 
 typedef struct {
+    bool connected;
     bool enabled;
     struct sockaddr_in server_addr;
 } NetworkUARTPrivateData_t;

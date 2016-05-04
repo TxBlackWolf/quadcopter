@@ -65,9 +65,7 @@ bool board_commandsInit(UARTHandle_t *uart_handle)
     uart_config.protocol = NETWORK_COMMANDS_PROTOCOL;
 
     bool status = emulator_uartInit(uart_handle, &uart_config);
-    if(status)
-        uart_activate(uart_handle);
-
+    uart_activate(uart_handle);
     return status;
 }
 
