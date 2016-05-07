@@ -35,6 +35,52 @@ void command_leaveCriticalSection()
     critical_section(false);
 }
 
+uint16_t command_getVersionMajor()
+{
+    for(int i = 0; ; ++i) {
+        if(COMMAND_VERSION[i] == '.')
+            return command_atoi(COMMAND_VERSION, i);
+    }
+}
+
+uint16_t command_getVersionMinor()
+{
+    int dot_num = 0;
+    int idx = 0;
+
+    for(int i = 0; ; ++i) {
+        if(COMMAND_VERSION[i] == '.') {
+            if(++dot_num < 2) {
+                idx = i + 1;
+                continue;
+            }
+
+            return command_atoi(&COMMAND_VERSION[idx], i - idx);
+        }
+    }
+
+    return 0;
+}
+
+uint16_t command_getVersionPatch()
+{
+    int idx = 0;
+
+    for(int i = 0; ; ++i) {
+        if(COMMAND_VERSION[i] == '.') {
+            idx = i + 1;
+            continue;
+        }
+
+        if(COMMAND_VERSION[i] != '\0')
+            continue;
+
+        return command_atoi(&COMMAND_VERSION[idx], i - idx);
+    }
+
+    return 0;
+}
+
 uint32_t command_computeCRC(const uint8_t *buffer, uint32_t size)
 {
     /// @todo Implement.

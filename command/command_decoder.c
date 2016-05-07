@@ -16,7 +16,7 @@
 #define MIN(x,y)        (((x) < (y)) ? (x) : (y))
 
 /// @brief Command decoder meta data.
-typedef struct {
+static struct {
     uint8_t *buffer;                ///< Internal decoder buffer. 
     int offset;                     ///< Current parsing offset.
     uint32_t data_size;             ///< Current size of data in buffer.
@@ -24,16 +24,22 @@ typedef struct {
     bool id_initialized;            ///< If true, then field 'expected_id' is valid. Otherwise any id is considered as 'expected'.
     uint32_t expected_id;           ///< Next expected id of incoming command. Used to find packets losses.
     CommandDecoderState_t state;    ///< Current state of decoder. Represents what we've ALREADY parsed in this command.
-} CommandDecoder_t;
-
-static CommandDecoder_t decoder;
+} decoder;
 
 /// @brief Checks, if this message is compatible with this framework.
 /// @param [in] header              Command header.
 /// @return True if command is compatible, false otherwise.
 static bool commandDecoder_checkVersion(CommandHeader_t *header)
 {
-    /// @todo Implement.
+    if(header->version_major != command_getVersionMajor())
+        return false;
+
+    if(header->version_minor != command_getVersionMinor())
+        return false;
+
+    if(header->version_patch != command_getVersionPatch())
+        return false;
+
     return true;
 }
 

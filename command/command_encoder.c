@@ -13,58 +13,6 @@
 
 static uint32_t commandEncoder_nextId = 0;
 
-/// @brief Get version major from version string.
-/// @return Version major.
-static uint16_t commandEncoder_getVersionMajor()
-{
-    for(int i = 0; ; ++i) {
-        if(COMMAND_VERSION[i] == '.')
-            return command_atoi(COMMAND_VERSION, i);
-    }
-}
-
-/// @brief Get version minor from version string.
-/// @return Version minor.
-static uint16_t commandEncoder_getVersionMinor()
-{
-    int dot_num = 0;
-    int idx = 0;
-
-    for(int i = 0; ; ++i) {
-        if(COMMAND_VERSION[i] == '.') {
-            if(++dot_num < 2) {
-                idx = i + 1;
-                continue;
-            }
-
-            return command_atoi(&COMMAND_VERSION[idx], i - idx);
-        }
-    }
-
-    return 0;
-}
-
-/// @brief Get version patch from version string.
-/// @return Version patch.
-static uint16_t commandEncoder_getVersionPatch()
-{
-    int idx = 0;
-
-    for(int i = 0; ; ++i) {
-        if(COMMAND_VERSION[i] == '.') {
-            idx = i + 1;
-            continue;
-        }
-
-        if(COMMAND_VERSION[i] != '\0')
-            continue;
-
-        return command_atoi(&COMMAND_VERSION[idx], i - idx);
-    }
-
-    return 0;
-}
-
 /// @brief Initializes common command header in given buffer.
 /// @param [in/out] buffer          Buffer for command.
 /// @return Size of created data.
@@ -75,9 +23,9 @@ static int commandEncoder_initHeader(uint8_t *buffer, CommandType_t type)
     header->sync1 = COMMAND_SYNC_BYTE_1;
     header->sync2 = COMMAND_SYNC_BYTE_2;
     header->sync3 = COMMAND_SYNC_BYTE_3;
-    header->version_major = commandEncoder_getVersionMajor();
-    header->version_minor = commandEncoder_getVersionMinor();
-    header->version_patch = commandEncoder_getVersionPatch();
+    header->version_major = command_getVersionMajor();
+    header->version_minor = command_getVersionMinor();
+    header->version_patch = command_getVersionPatch();
     header->command_id = commandEncoder_nextId++;
     header->type = type;
     header->payload_size = 0;

@@ -74,6 +74,18 @@ void command_enterCriticalSection();
 /// @brief Leaves critical section by calling synchronization primitive.
 void command_leaveCriticalSection();
 
+/// @brief Get version major from version string.
+/// @return Version major.
+uint16_t command_getVersionMajor();
+
+/// @brief Get version minor from version string.
+/// @return Version minor.
+uint16_t command_getVersionMinor();
+
+/// @brief Get version patch from version string.
+/// @return Version patch.
+uint16_t command_getVersionPatch();
+
 /// @Brief Computes CRC for given buffer and size.
 /// @param [in] buffer              Buffer with data, for which CRC should be calculated.
 /// @param [in] size                Size of data buffer.
