@@ -16,7 +16,7 @@
 // HELPER FUNCTIONS
 //=============================================================================================
 
-Timer_t *stm32f4_timerGetRegisters(TimerDevice_t device)
+static Timer_t *stm32f4_timerGetRegisters(TimerDevice_t device)
 {
     switch(device) {
     case STM32F4_TIMER_1:   return TIM1;
@@ -38,7 +38,7 @@ Timer_t *stm32f4_timerGetRegisters(TimerDevice_t device)
     return 0;
 }
 
-void stm32f4_timerEnableClock(TimerDevice_t device, bool value)
+static void stm32f4_timerEnableClock(TimerDevice_t device, bool value)
 {
     switch(device) {
     case STM32F4_TIMER_1:   stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM1, value);  break;

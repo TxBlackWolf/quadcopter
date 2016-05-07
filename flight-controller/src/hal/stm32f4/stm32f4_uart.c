@@ -19,7 +19,7 @@ typedef USART_TypeDef UART_t;
 // HELPER FUNCTIONS
 //=============================================================================================
 
-UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
+static UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
 {
     switch(device) {
     case STM32F4_USART_1:   return USART1;
@@ -33,7 +33,7 @@ UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
     return 0;
 }
 
-void stm32f4_uartClockInit(UARTHandle_t *handle, STM32F4_UARTClockConfig_t *clock_config)
+static void stm32f4_uartClockInit(UARTHandle_t *handle, STM32F4_UARTClockConfig_t *clock_config)
 {
     UART_t *uart = stm32f4_uartGetRegisters(handle->device);
 
@@ -43,7 +43,7 @@ void stm32f4_uartClockInit(UARTHandle_t *handle, STM32F4_UARTClockConfig_t *cloc
     uart->CR2 |= clock_config->last_bit;
 }
 
-uint32_t stm32f4_uartGetDataBitsValue(UARTDataBits_t data_bits)
+static uint32_t stm32f4_uartGetDataBitsValue(UARTDataBits_t data_bits)
 {
     switch(data_bits) {
     case UART_DATA_BITS_8:  return 0x00000000;
@@ -54,7 +54,7 @@ uint32_t stm32f4_uartGetDataBitsValue(UARTDataBits_t data_bits)
     return 0;
 }
 
-uint32_t stm32f4_uartGetStopBitsValue(UARTStopBits_t stop_bits)
+static uint32_t stm32f4_uartGetStopBitsValue(UARTStopBits_t stop_bits)
 {
     switch(stop_bits) {
     case UART_STOP_BITS_0_5:    return 0x00001000;
@@ -66,7 +66,7 @@ uint32_t stm32f4_uartGetStopBitsValue(UARTStopBits_t stop_bits)
     return 0;
 }
 
-uint32_t stm32f4_uartGetPartityValue(UARTPartity_t partity)
+static uint32_t stm32f4_uartGetPartityValue(UARTPartity_t partity)
 {
     switch(partity) {
     case UART_PARTITY_NONE:     return 0x00000000;
@@ -77,7 +77,7 @@ uint32_t stm32f4_uartGetPartityValue(UARTPartity_t partity)
     return 0;
 }
 
-uint32_t stm32f4_uartGetFlowControlValue(UARTFlowControl_t flow_control)
+static uint32_t stm32f4_uartGetFlowControlValue(UARTFlowControl_t flow_control)
 {
     switch(flow_control) {
     case UART_FLOW_CONTROL_NONE:        return 0x00000000;
@@ -88,7 +88,7 @@ uint32_t stm32f4_uartGetFlowControlValue(UARTFlowControl_t flow_control)
     return 0;
 }
 
-uint32_t stm32f4_uartGetDirectionValue(UARTDirection_t direction)
+static uint32_t stm32f4_uartGetDirectionValue(UARTDirection_t direction)
 {
     switch(direction) {
     case UART_DIRECTION_READ:           return 0x00000004;
@@ -99,7 +99,7 @@ uint32_t stm32f4_uartGetDirectionValue(UARTDirection_t direction)
     return 0;
 }
 
-void stm32f4_uartEnableClock(UARTDevice_t device, bool value)
+static void stm32f4_uartEnableClock(UARTDevice_t device, bool value)
 {
     switch(device) {
     case STM32F4_USART_1:   stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_USART1, value); break;

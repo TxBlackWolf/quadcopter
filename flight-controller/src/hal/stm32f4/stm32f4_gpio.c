@@ -20,7 +20,7 @@ typedef GPIO_TypeDef GPIO_t;
 // HELPER FUNCTIONS
 //=============================================================================================
 
-GPIO_t *stm32f4_gpioGetRegisters(GPIOPort_t port)
+static GPIO_t *stm32f4_gpioGetRegisters(GPIOPort_t port)
 {
     switch(port) {
     case STM32F4_GPIO_PORT_A:   return GPIOA;
@@ -37,12 +37,12 @@ GPIO_t *stm32f4_gpioGetRegisters(GPIOPort_t port)
     return 0;
 }
 
-uint32_t stm32f4_gpioGetPinMask(GPIOPin_t pin)
+static uint32_t stm32f4_gpioGetPinMask(GPIOPin_t pin)
 {
     return (1 << pin);
 }
 
-void stm32f4_gpioSetPinFunction(GPIOHandle_t *handle, uint8_t function)
+static void stm32f4_gpioSetPinFunction(GPIOHandle_t *handle, uint8_t function)
 {
     GPIO_t *gpio = stm32f4_gpioGetRegisters(handle->port);
     uint32_t value = (function << (handle->pin & 0x7) * 4);
@@ -50,7 +50,7 @@ void stm32f4_gpioSetPinFunction(GPIOHandle_t *handle, uint8_t function)
     gpio->AFR[afr_half] |= value;
 }
 
-void stm32f4_gpioEnableClock(GPIOPort_t port, bool value)
+static void stm32f4_gpioEnableClock(GPIOPort_t port, bool value)
 {
     uint32_t ahb1_peripheral = 0;
     switch(port) {
