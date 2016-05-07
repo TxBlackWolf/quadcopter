@@ -25,7 +25,7 @@ bool commandsManager_init()
     commandsManager_enableDebug(board_isDebug());
 
     if(!board_commandsInit(&uart_handle)) {
-        console_write("Failed to initialize commands communication link. Disabling all command types.\n");
+        console_write("Failed to initialize commands communication link. Disabling all command types\n");
         commandsManager_enableEmulator(false);
         commandsManager_enableControl(false);
         commandsManager_enableTelemetry(false);
@@ -51,31 +51,31 @@ bool commandsManager_send(uint8_t *command, int size)
 void commandsManager_enableEmulator(bool enabled)
 {
     manager_settings.supported_commands[COMMAND_EMULATOR] = enabled;
-    console_write("%s support for emulator commands.\n", enabled ? "Enabled" : "Disabled");
+    console_write("%s support for emulator commands\n", enabled ? "Enabled" : "Disabled");
 }
 
 void commandsManager_enableControl(bool enabled)
 {
     manager_settings.supported_commands[COMMAND_CONTROL] = enabled;
-    console_write("%s support for control commands.\n", enabled ? "Enabled" : "Disabled");
+    console_write("%s support for control commands\n", enabled ? "Enabled" : "Disabled");
 }
 
 void commandsManager_enableTelemetry(bool enabled)
 {
     manager_settings.supported_commands[COMMAND_TELEMETRY] = enabled;
-    console_write("%s support for telemetry commands.\n", enabled ? "Enabled" : "Disabled");
+    console_write("%s support for telemetry commands\n", enabled ? "Enabled" : "Disabled");
 }
 
 void commandsManager_enableSystemStatus(bool enabled)
 {
     manager_settings.supported_commands[COMMAND_SYS_STATUS] = enabled;
-    console_write("%s support for system status commands.\n", enabled ? "Enabled" : "Disabled");
+    console_write("%s support for system status commands\n", enabled ? "Enabled" : "Disabled");
 }
 
 void commandsManager_enableDebug(bool enabled)
 {
     manager_settings.supported_commands[COMMAND_DEBUG] = enabled;
-    console_write("%s support for debug commands.\n", enabled ? "Enabled" : "Disabled");
+    console_write("%s support for debug commands\n", enabled ? "Enabled" : "Disabled");
 }
 
 bool commandsManager_isEmulatorEnabled()
