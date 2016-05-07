@@ -51,3 +51,17 @@ void command_shiftBuffer(uint8_t *buffer, int size, int positions)
 {
     command_copyBuffer(buffer, buffer + positions, size - positions);
 }
+
+int command_atoi(char *str, int size)
+{
+    int k = 0;
+    int n = size;
+    char *p = str;
+
+    while (n--) {
+        k = (k << 3) + (k << 1) + (*p) - '0';
+        ++p;
+    }
+
+    return k;
+}
