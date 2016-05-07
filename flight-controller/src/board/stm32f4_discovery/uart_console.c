@@ -1,15 +1,12 @@
-//=============================================================================================
-//
-// Filename   : uart_console.c
-// Author     : Kuba Sejdak
-// Created on : 22.07.2015
-//
-// This file is a part of SkyViper project.
-// Based on ee_printf: https://github.com/jpbonn/coremark_lm32
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       22.07.2015
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "uart_console.h"
 #include "stm32f4_discovery_pinout.h"

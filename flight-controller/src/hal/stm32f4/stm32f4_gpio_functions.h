@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : stm32f4_gpio_functions.h
-// Author     : Kuba Sejdak
-// Created on : 23.08.2015
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       23.08.2015
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef STM32F4_GPIO_FUNCTIONS_H
 #define STM32F4_GPIO_FUNCTIONS_H

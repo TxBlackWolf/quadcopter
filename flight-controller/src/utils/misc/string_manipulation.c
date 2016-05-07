@@ -1,15 +1,13 @@
-//=============================================================================================
-//
-// Filename   : string_manipulation.c
-// Author     : Kuba Sejdak
-// Created on : 05.09.2015
-//
-// This file is a part of SkyViper project.
-// Based on ee_printf: https://github.com/jpbonn/coremark_lm32
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       05.09.2015
+/// @brief      Based on ee_printf: https://github.com/jpbonn/coremark_lm32
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "string_manipulation.h"
 

@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : stm32f4_discovery_pinout.h
-// Author     : Kuba Sejdak
-// Created on : 21.08.2015
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       21.08.2015
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef STM32F4_DISCOVERY_PINOUT_H
 #define STM32F4_DISCOVERY_PINOUT_H

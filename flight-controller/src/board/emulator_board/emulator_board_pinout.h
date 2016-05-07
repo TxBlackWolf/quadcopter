@@ -1,14 +1,12 @@
-//=============================================================================================
-//
-// Filename   : emulator_board_pinout.c
-// Author     : Kuba Sejdak
-// Created on : 04.01.2016
-//
-// This file is a part of SkyViper project.
-//
-// %LICENSE%
-//
-//=============================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// @file
+/// @author     Kuba Sejdak
+/// @date       04.01.2016
+///
+/// @copyright  This file is a part of SkyViper project. All rights reserved.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef EMULATOR_BOARD_PINOUT_H
 #define EMULATOR_BOARD_PINOUT_H
