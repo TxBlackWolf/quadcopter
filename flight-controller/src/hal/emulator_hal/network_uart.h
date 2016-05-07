@@ -19,15 +19,9 @@
 
 #define IP_MAX_SIZE     16
 
-typedef enum {
-    UART_CONNECTION_TCP,
-    UART_CONNECTION_UDP
-} Emulator_UARTConnectionProtocol_t;
-
 typedef struct {
     uint8_t ip[IP_MAX_SIZE];
     uint16_t port;
-    Emulator_UARTConnectionProtocol_t protocol;
 } Emulator_UARTConfig_t;
 
 typedef struct {

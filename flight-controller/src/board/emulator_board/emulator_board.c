@@ -60,7 +60,6 @@ bool board_commandsInit(UARTHandle_t *uart_handle)
     Emulator_UARTConfig_t uart_config;
     strcpy((char *) uart_config.ip, NETWORK_COMMANDS_IP);
     uart_config.port = NETWORK_COMMANDS_PORT;
-    uart_config.protocol = NETWORK_COMMANDS_PROTOCOL;
 
     bool status = emulator_uartInit(uart_handle, &uart_config);
     uart_activate(uart_handle);

@@ -28,14 +28,13 @@ bool console_init()
     Emulator_UARTConfig_t uart_config;
     strcpy((char *) uart_config.ip, NETWORK_CONSOLE_IP);
     uart_config.port = NETWORK_CONSOLE_PORT;
-    uart_config.protocol = NETWORK_CONSOLE_PROTOCOL;
 
     network_console = emulator_uartInit(&uart_handle, &uart_config);
     console_initialized = true;
 
     console_write("\n");
     if(!network_console) {
-        console_write("console: Failed to init network console [%s %s:%d]. ", (NETWORK_CONSOLE_PROTOCOL == UART_CONNECTION_TCP) ? "tcp" : "udp", NETWORK_CONSOLE_IP, NETWORK_CONSOLE_PORT);
+        console_write("console: Failed to init network console [%s:%d]. ", NETWORK_CONSOLE_IP, NETWORK_CONSOLE_PORT);
         console_write("Using local stdout\n");
     }
     else
