@@ -18,7 +18,7 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 
-#define COMMAND_VERSION                     "0.0.1"   ///< Commands protocol version. Used to recognize mismatches.
+#define COMMAND_VERSION                     "0.0.2"   ///< Commands protocol version. Used to recognize mismatches.
 #define COMMAND_MAX_SIZE_BYTES              1024      ///< Maximal size of command in total.
 #define COMMAND_PAYLOAD_MAX_SIZE_BYTES      (COMMAND_MAX_SIZE_BYTES - sizeof(CommandHeader_t))
 
@@ -91,6 +91,12 @@ void command_copyBuffer(uint8_t *to, const uint8_t *from, int size);
 /// @param [in] size                Buffer size.
 /// @param [in] positions           Shift size.
 void command_shiftBuffer(uint8_t *buffer, int size, int positions);
+
+/// @brief Converts string to integer.
+/// @param [in] str                 String to be converted.
+/// @param [in] size                Size of string.
+/// @return Integer representation of given string.
+int command_atoi(char *str, int size);
 
 #ifdef __cplusplus
 }
