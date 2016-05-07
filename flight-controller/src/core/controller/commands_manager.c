@@ -78,8 +78,27 @@ void commandsManager_enableDebug(bool enabled)
     console_write("%s support for debug commands.\n", enabled ? "Enabled" : "Disabled");
 }
 
-bool commandsManager_isEmulatorEnabled();
-bool commandsManager_isControlEnabled();
-bool commandsManager_isTelemetryEnabled();
-bool commandsManager_isSystemStatusEnabled();
-bool commandsManager_isDebugEnabled();
+bool commandsManager_isEmulatorEnabled()
+{
+    return manager_settings.supported_commands[COMMAND_EMULATOR];
+}
+
+bool commandsManager_isControlEnabled()
+{
+    return manager_settings.supported_commands[COMMAND_CONTROL];
+}
+
+bool commandsManager_isTelemetryEnabled()
+{
+    return manager_settings.supported_commands[COMMAND_TELEMETRY];
+}
+
+bool commandsManager_isSystemStatusEnabled()
+{
+    return manager_settings.supported_commands[COMMAND_SYS_STATUS];
+}
+
+bool commandsManager_isDebugEnabled()
+{
+    return manager_settings.supported_commands[COMMAND_DEBUG];
+}
