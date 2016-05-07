@@ -173,14 +173,15 @@ CommandDecoderError_t commandDecoder_parse()
         result = PARSING_BAD_VERSION;
         goto parse_exit;
     }
-    
+
     int diff = commandDecoder_checkId(header);
     if(diff > 0)
         commandStatistics_markLost(diff);
 
     //if(!commandDecoder_checkCRC(decoder.buffer)) {
     //    commandStatistics_markBroken();
-    //    return PARSING_BAD_CRC;
+    //    result =  PARSING_BAD_CRC;
+    //    goto parse_exit;
     //}
 
     switch(header->type) {
