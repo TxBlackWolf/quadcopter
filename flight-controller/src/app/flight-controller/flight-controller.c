@@ -20,16 +20,16 @@
 void show_welcome_message()
 {
     console_write("\n");
-    console_write("                   Welcome to                \n");
-    console_write("   _____ _       __      ___                 \n");
-    console_write("  / ____| |      \\ \\    / (_)                \n");
-    console_write(" | (___ | | ___   \\ \\  / / _ _ __   ___ _ __ \n");
-    console_write("  \\___ \\| |/ / | | \\ \\/ / | | '_ \\ / _ \\ '__|\n");
-    console_write("  ____) |   <| |_| |\\  /  | | |_) |  __/ |   \n");
-    console_write(" |_____/|_|\\_\\\\__, | \\/   |_| .__/ \\___|_|   \n");
-    console_write("               __/ |        | |              \n");
-    console_write("              |___/         |_|              \n");
-    console_write("                     drone                   \n");
+    console_write("                   Launching                        \n");
+    console_write("   _____ _       __      ___                        \n");
+    console_write("  / ____| |      \\ \\    / (_)                     \n");
+    console_write(" | (___ | | ___   \\ \\  / / _ _ __   ___ _ __      \n");
+    console_write("  \\___ \\| |/ / | | \\ \\/ / | | '_ \\ / _ \\ '__| \n");
+    console_write("  ____) |   <| |_| |\\  /  | | |_) |  __/ |         \n");
+    console_write(" |_____/|_|\\_\\\\__, | \\/   |_| .__/ \\___|_|     \n");
+    console_write("               __/ |        | |                     \n");
+    console_write("              |___/         |_|                     \n");
+    console_write("                   quadcopter                       \n");
     console_write("\n");
 
     console_write("System info:\n");
