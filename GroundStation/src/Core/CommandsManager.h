@@ -39,6 +39,7 @@ public slots:
 private:
     void init();
     void parseCommand(const QByteArray& command);
+    void commandSessionClosed(const QString&);
 
 private:
     std::unique_ptr<IServer> m_server;

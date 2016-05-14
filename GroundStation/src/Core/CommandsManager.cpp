@@ -48,6 +48,7 @@ void CommandsManager::setOperating(bool activate)
     options.load();
     m_server.reset(IServer::create(options.serverOptions.serverType));
     m_server->setOnMessageCallback(std::bind(&CommandsManager::parseCommand, this, _1));
+    m_server->setOnClientDisconnectedCallback(std::bind(&CommandsManager::commandSessionClosed, this, _1));
 
     if(!m_server->start(options.serverOptions))
         return;
@@ -87,4 +88,13 @@ void CommandsManager::parseCommand(const QByteArray& command)
     default:
         break;
     }
+}
+
+void CommandsManager::commandSessionClosed(const QString&)
+{
+    emit geolocationStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
+    emit telemetryStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
+    emit fpvStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
+    emit steeringStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
+    emit emulatorStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
 }
