@@ -99,6 +99,7 @@ void ConsoleLogsWidget::appendLogs(const QByteArray& data)
             break;
 
         m_messageBuffer += "\n";
+        m_ui->textEditLogs->moveCursor(QTextCursor::End);
         m_ui->textEditLogs->insertPlainText(m_messageBuffer);
         m_logStream << m_messageBuffer;
         m_logStream.flush();
