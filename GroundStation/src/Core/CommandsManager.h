@@ -11,6 +11,7 @@
 #ifndef COMMANDSMANAGER_H
 #define COMMANDSMANAGER_H
 
+#include "Misc/SubsystemsStatus.h"
 #include "Tools/IServer.h"
 
 #include <QObject>
@@ -24,6 +25,13 @@ class CommandsManager : public QObject {
 public:
     CommandsManager();
     virtual ~CommandsManager();
+
+signals:
+    void geolocationStatus(SubsystemStatus);
+    void telemetryStatus(SubsystemStatus);
+    void fpvStatus(SubsystemStatus);
+    void steeringStatus(SubsystemStatus);
+    void emulatorStatus(SubsystemStatus);
 
 public slots:
     void setOperating(bool activate);

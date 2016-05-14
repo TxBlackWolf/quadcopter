@@ -175,7 +175,11 @@ void MainWindow::initCentralWidgets()
     connect(m_settingsWidget, SIGNAL(logsStarted(bool)), m_consoleLogsWidget, SLOT(setOperating(bool)));
     connect(m_settingsWidget, SIGNAL(commandsStarted(bool)), &m_commandsManager, SLOT(setOperating(bool)));
     connect(m_consoleLogsWidget, SIGNAL(logsStatus(SubsystemStatus)), this, SLOT(logsStatus(SubsystemStatus)));
-    connect(m_emulatorWidget, SIGNAL(emulatorStatus(SubsystemStatus)), this, SLOT(emulatorStatus(SubsystemStatus)));
+    connect(&m_commandsManager, SIGNAL(geolocationStatus(SubsystemStatus)), this, SLOT(geolocationStatus(SubsystemStatus)));
+    connect(&m_commandsManager, SIGNAL(telemetryStatus(SubsystemStatus)), this, SLOT(telemetryStatus(SubsystemStatus)));
+    connect(&m_commandsManager, SIGNAL(fpvStatus(SubsystemStatus)), this, SLOT(fpvStatus(SubsystemStatus)));
+    connect(&m_commandsManager, SIGNAL(steeringStatus(SubsystemStatus)), this, SLOT(steeringStatus(SubsystemStatus)));
+    connect(&m_commandsManager, SIGNAL(emulatorStatus(SubsystemStatus)), this, SLOT(emulatorStatus(SubsystemStatus)));
 
     setCentralView(CENTRAL_VIEW_LOGS);
     m_ui->toolbarLogs->setChecked(true);

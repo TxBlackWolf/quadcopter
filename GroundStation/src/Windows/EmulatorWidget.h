@@ -29,9 +29,6 @@ public:
     explicit EmulatorWidget(QWidget* parent = nullptr);
     virtual ~EmulatorWidget();
 
-signals:
-    void emulatorStatus(SubsystemStatus);
-
 private:
     void init();
     void initCommandsFramework();

@@ -36,6 +36,11 @@ void CommandsManager::setOperating(bool activate)
     if(!activate && m_server) {
         m_server->stop();
         m_server.release();
+        emit geolocationStatus(SubsystemStatus::SUBSYSTEM_DISABLED);
+        emit telemetryStatus(SubsystemStatus::SUBSYSTEM_DISABLED);
+        emit fpvStatus(SubsystemStatus::SUBSYSTEM_DISABLED);
+        emit steeringStatus(SubsystemStatus::SUBSYSTEM_DISABLED);
+        emit emulatorStatus(SubsystemStatus::SUBSYSTEM_DISABLED);
         return;
     }
 
@@ -44,7 +49,14 @@ void CommandsManager::setOperating(bool activate)
     m_server.reset(IServer::create(options.serverOptions.serverType));
     m_server->setOnMessageCallback(std::bind(&CommandsManager::parseCommand, this, _1));
 
-    m_server->start(options.serverOptions);
+    if(!m_server->start(options.serverOptions))
+        return;
+
+    emit geolocationStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
+    emit telemetryStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
+    emit fpvStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
+    emit steeringStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
+    emit emulatorStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
 }
 
 void CommandsManager::init()
@@ -59,5 +71,20 @@ void CommandsManager::parseCommand(const QByteArray& command)
     if(commandDecoder_feed(data, command.size()) != DECODER_COMMAND_COMPLETE)
         return;
 
-    commandDecoder_parse();
+    CommandType_t commandType;
+    commandDecoder_parse(&commandType);
+
+    switch(commandType) {
+    case COMMAND_EMULATOR:
+        emit emulatorStatus(SubsystemStatus::SUBSYSTEM_CONNECTED);
+        break;
+    case COMMAND_CONTROL:
+        emit steeringStatus(SubsystemStatus::SUBSYSTEM_CONNECTED);
+        break;
+    case COMMAND_TELEMETRY:
+        emit telemetryStatus(SubsystemStatus::SUBSYSTEM_CONNECTED);
+        break;
+    default:
+        break;
+    }
 }

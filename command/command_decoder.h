@@ -15,6 +15,8 @@
 extern "C" {
 #endif
 
+#include "command_common.h"
+
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -49,8 +51,9 @@ void commandDecoder_init(uint8_t *buffer);
 CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size);
 
 /// @brief Parses command header to recognize concrete command and call appropriate handler.
+/// @param [out] command_type       Type of parsed command.
 /// @return Parsing error code.
-CommandDecoderError_t commandDecoder_parse();
+CommandDecoderError_t commandDecoder_parse(CommandType_t *command_type);
 
 #ifdef __cplusplus
 }

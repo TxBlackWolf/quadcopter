@@ -19,7 +19,7 @@
    <string>SkyViper GroundStation</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="../resources.qrc">
     <normaloff>:/Icons/Icons/dish8.png</normaloff>:/Icons/Icons/dish8.png</iconset>
   </property>
   <property name="iconSize">
@@ -74,7 +74,7 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>684</width>
+     <width>904</width>
      <height>50</height>
     </size>
    </property>
@@ -106,6 +106,18 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -113,6 +125,9 @@
        </property>
        <property name="text">
         <string>Logs:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -140,7 +155,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="resources.qrc">:/Icons/Icons/led-off.png</pixmap>
+        <pixmap resource="../resources.qrc">:/Icons/Icons/led-off.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -168,6 +183,18 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -175,6 +202,9 @@
        </property>
        <property name="text">
         <string>Geolocation:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -202,7 +232,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="resources.qrc">:/Icons/Icons/led-off.png</pixmap>
+        <pixmap resource="../resources.qrc">:/Icons/Icons/led-off.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -230,6 +260,18 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -237,6 +279,9 @@
        </property>
        <property name="text">
         <string>Telemetry:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -264,7 +309,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="resources.qrc">:/Icons/Icons/led-off.png</pixmap>
+        <pixmap resource="../resources.qrc">:/Icons/Icons/led-off.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -292,6 +337,18 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -299,6 +356,9 @@
        </property>
        <property name="text">
         <string>FPV:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -326,7 +386,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="resources.qrc">:/Icons/Icons/led-off.png</pixmap>
+        <pixmap resource="../resources.qrc">:/Icons/Icons/led-off.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -354,6 +414,18 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -361,6 +433,9 @@
        </property>
        <property name="text">
         <string>Steering:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -388,7 +463,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="resources.qrc">:/Icons/Icons/led-off.png</pixmap>
+        <pixmap resource="../resources.qrc">:/Icons/Icons/led-off.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -410,6 +485,18 @@
      </item>
      <item>
       <widget class="QLabel" name="labelEmulator">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>28</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -417,6 +504,9 @@
        </property>
        <property name="text">
         <string>Emulator:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -438,7 +528,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="resources.qrc">:/Icons/Icons/led-off.png</pixmap>
+        <pixmap resource="../resources.qrc">:/Icons/Icons/led-off.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -480,7 +570,7 @@
   </widget>
   <action name="menuFileClose">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/Icons/Icons/power27.png</normaloff>:/Icons/Icons/power27.png</iconset>
    </property>
    <property name="text">
@@ -502,7 +592,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/Icons/Icons/files12.png</normaloff>:/Icons/Icons/files12.png</iconset>
    </property>
    <property name="text">
@@ -529,7 +619,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/Icons/Icons/map30.png</normaloff>:/Icons/Icons/map30.png</iconset>
    </property>
    <property name="text">
@@ -547,7 +637,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/Icons/Icons/chart47.png</normaloff>:/Icons/Icons/chart47.png</iconset>
    </property>
    <property name="text">
@@ -568,7 +658,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/Icons/Icons/video71.png</normaloff>:/Icons/Icons/video71.png</iconset>
    </property>
    <property name="text">
@@ -586,7 +676,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/Icons/Icons/computer32.png</normaloff>:/Icons/Icons/computer32.png</iconset>
    </property>
    <property name="text">
@@ -604,7 +694,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/Icons/Icons/alarm57.png</normaloff>:/Icons/Icons/alarm57.png</iconset>
    </property>
    <property name="text">
@@ -625,7 +715,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/Icons/Icons/videogame10.png</normaloff>:/Icons/Icons/videogame10.png</iconset>
    </property>
    <property name="text">
@@ -640,7 +730,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/Icons/Icons/screen213.png</normaloff>:/Icons/Icons/screen213.png</iconset>
    </property>
    <property name="text">
@@ -655,7 +745,7 @@
   </action>
   <action name="toolbarSettings">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="../resources.qrc">
      <normaloff>:/Icons/Icons/configuration21.png</normaloff>:/Icons/Icons/configuration21.png</iconset>
    </property>
    <property name="text">
@@ -671,7 +761,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>
