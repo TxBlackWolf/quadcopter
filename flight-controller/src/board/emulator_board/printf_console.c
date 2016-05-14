@@ -19,7 +19,6 @@
 #define CONSOLE_BUFFER_SIZE     1024
 
 static UARTHandle_t uart_handle;
-static bool network_console = false;
 static bool console_initialized = false;
 
 bool console_init()
@@ -29,41 +28,31 @@ bool console_init()
     strcpy((char *) uart_config.ip, NETWORK_CONSOLE_IP);
     uart_config.port = NETWORK_CONSOLE_PORT;
 
-    network_console = emulator_uartInit(&uart_handle, &uart_config);
+    emulator_uartInit(&uart_handle, &uart_config);
+    uart_activate(&uart_handle);
     console_initialized = true;
 
     console_write("\n");
-    if(!network_console) {
-        console_write("console: Failed to init network console [%s:%d]. ", NETWORK_CONSOLE_IP, NETWORK_CONSOLE_PORT);
-        console_write("Using local stdout\n");
-    }
-    else
-        uart_activate(&uart_handle);
-
     return console_initialized;
 }
 
-int console_write(const char *format, ...)
+void console_write(const char *format, ...)
 {
     if(!console_initialized)
-        return -1;
+        return;
 
-    int i = 0;
+    char buffer[CONSOLE_BUFFER_SIZE];
+
     va_list args;
     va_start(args, format);
-
-    if(network_console) {
-        char buffer[CONSOLE_BUFFER_SIZE];
-        vsprintf(buffer, format, args);
-
-        for(i = 0; buffer[i]; ++i)
-            uart_send(&uart_handle, buffer[i]);
-    }
-    else {
-        i = vprintf(format, args);
-        fflush(stdout);
-    }
-
+    vsprintf(buffer, format, args);
     va_end(args);
-    return i;
+
+    for(int i = 0; buffer[i]; ++i) {
+        if(!uart_send(&uart_handle, buffer[i])) {
+            printf("%s", buffer);
+            fflush(stdout);
+            break;
+        }
+    }
 }

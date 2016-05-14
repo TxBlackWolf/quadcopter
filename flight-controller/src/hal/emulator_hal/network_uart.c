@@ -39,26 +39,21 @@ static bool emulator_connect(UARTHandle_t *handle)
 {
     // Create socket.
     int sock = socket(AF_INET, SOCK_STREAM, 0);
-    if(sock == -1) {
-        console_write("network_uart: Failed to create socket for UART: %s", strerror(errno));
+    if(sock == -1)
         return false;
-    }
+
     handle->device = sock;
 
     NetworkUARTPrivateData_t *private_data = (NetworkUARTPrivateData_t *) handle->private_data;
-    static bool first = true;
+    //static bool first = true;
 
     if(connect(handle->device, (struct sockaddr *) &private_data->server_addr, sizeof(private_data->server_addr)) != 0) {
         private_data->connected = false;
-        if(first) {
-            console_write("network_uart: Failed to connect to server [%s]: %s\n", emulator_addressToString(&private_data->server_addr), strerror(errno));
-            first = false;
-            close(sock);
-        }
+        close(sock);
     }
     else {
         private_data->connected = true;
-        console_write("network_uart: Connect to server [%s]\n", emulator_addressToString(&private_data->server_addr));
+        console_write("network_uart: Connected to server [%s]\n", emulator_addressToString(&private_data->server_addr));
     }
 
     return private_data->connected;
@@ -125,7 +120,6 @@ bool uart_send(UARTHandle_t *handle, uint16_t data)
 
     if(sendto(handle->device, &data, sizeof(uint8_t), MSG_NOSIGNAL, (struct sockaddr *) &private_data->server_addr, sizeof(private_data->server_addr)) == -1) {
         if(errno == EPIPE) {
-            console_write("network_uart: Connection lost to server [%s]: %s\n", emulator_addressToString(&private_data->server_addr), strerror(errno));
             private_data->connected = false;
             close(handle->device);
         }

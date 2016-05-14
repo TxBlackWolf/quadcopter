@@ -19,7 +19,6 @@ bool console_init();
 
 /// @brief Writes formatted string to console.
 /// @param [in] format              Formatted string. May include printf-like modifiers.
-/// @return Number of transmitted characters.
-int console_write(const char *format, ...);
+void console_write(const char *format, ...);
 
 #endif

@@ -62,10 +62,10 @@ bool console_init()
     return console_initialized;
 }
 
-int console_write(const char *format, ...)
+void console_write(const char *format, ...)
 {
     if(!console_initialized)
-        return -1;
+        return;
 
     char buffer[CONSOLE_BUFFER_SIZE];
 
@@ -74,9 +74,6 @@ int console_write(const char *format, ...)
     vsprintf(buffer, format, args);
     va_end(args);
 
-    int i;
-    for(i = 0; buffer[i]; ++i)
+    for(int i = 0; buffer[i]; ++i)
         uart_send(&uart_handle, buffer[i]);
-
-    return i;
 }

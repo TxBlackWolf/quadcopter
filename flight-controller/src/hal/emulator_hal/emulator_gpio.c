@@ -35,8 +35,8 @@ bool emulator_gpioInit(GPIOHandle_t *handle)
     }
 
     private_data->enabled = false;
-
     handle->private_data = private_data;
+
     return true;
 }
 
