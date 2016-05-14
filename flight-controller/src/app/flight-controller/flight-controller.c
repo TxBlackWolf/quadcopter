@@ -29,6 +29,7 @@ void show_welcome_message()
     console_write(" |_____/|_|\\_\\\\__, | \\/   |_| .__/ \\___|_|     \n");
     console_write("               __/ |        | |                     \n");
     console_write("              |___/         |_|                     \n");
+    console_write("                                                    \n");
     console_write("                   quadcopter                       \n");
     console_write("\n");
 
