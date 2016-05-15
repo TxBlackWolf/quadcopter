@@ -77,7 +77,7 @@ bool board_periodicTimerInit(TimerHandle_t *timer_handle)
     return stm32f4_registerEventCallback(timer_handle, TIMER_IRQ_UPDATE, clock_processPeriodicEvents);
 }
 
-bool board_commandsInit(UARTHandle_t *uart_handle)
+bool board_commandsInit(UARTHandle_t *uart_handle __attribute__((unused)))
 {
     /// @todo Implement.
     return false;
