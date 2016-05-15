@@ -1,6 +1,7 @@
 set(SOURCES
     emulator_gpio.c
     emulator_hal.c
+    emulator_pwm.c
     linux_timer.c
     network_uart.c
 )

@@ -54,13 +54,13 @@ void gpio_deactivate(GPIOHandle_t *handle)
     private_data->enabled = false;
 }
 
-bool gpio_readPin(GPIOHandle_t *handle)
+bool gpio_readPin(GPIOHandle_t *handle __attribute__((unused)))
 {
     /// @todo Implement.
     return false;
 }
 
-uint16_t gpio_readPort(GPIOHandle_t *handle)
+uint16_t gpio_readPort(GPIOHandle_t *handle __attribute__((unused)))
 {
     /// @todo Implement.
     return 0;
@@ -81,7 +81,7 @@ bool gpio_writePin(GPIOHandle_t *handle, bool value)
     return commandsManager_send(command, command_size);
 }
 
-bool gpio_writePort(GPIOHandle_t *handle, uint16_t value)
+bool gpio_writePort(GPIOHandle_t *handle __attribute__((unused)), uint16_t value __attribute__((unused)))
 {
     return false;
 }

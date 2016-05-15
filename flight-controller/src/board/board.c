@@ -15,7 +15,7 @@
 #include "drivers/engines/engine.h"
 #include "drivers/lights/lights.h"
 
-void panic(const char *format, ...)
+void panic(const char *format __attribute__((unused)), ...)
 {
     /// @todo Implement.
     // 1) when in debug moge - red user led ON + console write + CPU halt

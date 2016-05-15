@@ -81,7 +81,7 @@ uint16_t command_getVersionPatch()
     return 0;
 }
 
-uint32_t command_computeCRC(const uint8_t *buffer, uint32_t size)
+uint32_t command_computeCRC(const uint8_t *buffer __attribute__((unused)), uint32_t size __attribute__((unused)))
 {
     /// @todo Implement.
     return 0;

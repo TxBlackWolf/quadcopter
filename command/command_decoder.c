@@ -61,7 +61,7 @@ static int commandDecoder_checkId(CommandHeader_t *header)
 /// @brief Checks, if this message has correct CRC.
 /// @param [in] buffer              Buffer with command (including header).
 /// @return True if computed CRC matches one from header, false otherwise.
-static bool commandDecoder_checkCRC(const uint8_t *buffer)
+static __attribute__((unused)) bool commandDecoder_checkCRC(const uint8_t *buffer)
 {
     CommandHeader_t *header = (CommandHeader_t *) buffer;
     const uint8_t *payload = buffer + sizeof(CommandHeader_t);
