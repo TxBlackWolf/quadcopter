@@ -38,7 +38,7 @@ macro(configure_camera)
 endmacro()
 
 macro(configure_engine)
-    set(FLIGHTCONTROLLER_USE_ENGINES 0)
+    set(FLIGHTCONTROLLER_USE_ENGINES 1)
 
     set(FLIGHTCONTROLLER_ENGINES_DEVICE "afro_esc")
     #set(FLIGHTCONTROLLER_ENGINES_DEVICE "emulator")

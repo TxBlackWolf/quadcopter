@@ -42,18 +42,26 @@
     // Front left.
     #define ENGINE_FRONT_LEFT_PORT              2
     #define ENGINE_FRONT_LEFT_PIN               4
+    #define ENGINE_FRONT_LEFT_TIMER             0
+    #define ENGINE_FRONT_LEFT_TIMER_CHANNEL     0
 
     // Front right.
     #define ENGINE_FRONT_RIGHT_PORT             2
     #define ENGINE_FRONT_RIGHT_PIN              5
+    #define ENGINE_FRONT_RIGHT_TIMER            0
+    #define ENGINE_FRONT_RIGHT_TIMER_CHANNEL    0
 
     // Rear left.
     #define ENGINE_REAR_LEFT_PORT               2
     #define ENGINE_REAR_LEFT_PIN                2
+    #define ENGINE_REAR_LEFT_TIMER              0
+    #define ENGINE_REAR_LEFT_TIMER_CHANNEL      0
 
     // Rear right.
     #define ENGINE_REAR_RIGHT_PORT              2
     #define ENGINE_REAR_RIGHT_PIN               1
+    #define ENGINE_REAR_RIGHT_TIMER             0
+    #define ENGINE_REAR_RIGHT_TIMER_CHANNEL     0
 #endif
 
 #if GYROSCOPE_ENABLED
