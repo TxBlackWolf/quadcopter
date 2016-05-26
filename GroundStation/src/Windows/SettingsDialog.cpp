@@ -12,6 +12,7 @@
 #include "Tools/Options/Common/ServerOptions.h"
 #include "ui_SettingsDialog.h"
 
+#include <QDirIterator>
 #include <QFileDialog>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
@@ -21,6 +22,7 @@ SettingsDialog::SettingsDialog(QWidget* parent)
     , m_ui(new Ui::SettingsDialog)
     , m_logsStarted(false)
     , m_commandsStarted(false)
+    , m_padControllerConnected(false)
     , m_allToBeStarted(true)
 {
     m_ui->setupUi(this);
@@ -41,6 +43,7 @@ void SettingsDialog::init()
 
     initLogsSettings();
     initCommandsSettings();
+    initPadControllerSettings();
 }
 
 void SettingsDialog::changeSerialLogsPortInfo(int currentPortIndex)
@@ -125,6 +128,31 @@ void SettingsDialog::buttonStartCommandsClicked()
     m_ui->buttonStartCommands->setText(buttonText);
 }
 
+void SettingsDialog::buttonStartAllClicked()
+{
+    if(m_allToBeStarted != m_logsStarted)
+        buttonStartLogsClicked();
+
+    if(m_allToBeStarted != m_commandsStarted)
+        buttonStartCommandsClicked();
+
+    setButtonAll();
+}
+
+void SettingsDialog::buttonConnectPadControllerClicked()
+{
+    saveSettings();
+
+    m_padControllerConnected = !m_padControllerConnected;
+    emit connectPadController(m_ui->comboPadDevice->currentText());
+
+    QString imageResource = m_padControllerConnected ? ":/Icons/Icons/power-button-red.png" : ":/Icons/Icons/power-button-green.png";
+    m_ui->buttonConnectPad->setIcon(QIcon(QPixmap(imageResource)));
+
+    QString buttonText = m_padControllerConnected ? "Stop" : "Start";
+    m_ui->buttonConnectPad->setText(buttonText);
+}
+
 void SettingsDialog::setButtonAll()
 {
     if(m_allToBeStarted && !(m_logsStarted && m_commandsStarted))
@@ -145,15 +173,9 @@ void SettingsDialog::setButtonAll()
     m_ui->buttonStartAll->setText(buttonTextAll);
 }
 
-void SettingsDialog::buttonStartAllClicked()
+void SettingsDialog::setPadControllerName(QString name)
 {
-    if(m_allToBeStarted != m_logsStarted)
-        buttonStartLogsClicked();
-
-    if(m_allToBeStarted != m_commandsStarted)
-        buttonStartCommandsClicked();
-
-    setButtonAll();
+    m_ui->labelPadName->setText(name);
 }
 
 void SettingsDialog::saveSettings()
@@ -218,6 +240,13 @@ void SettingsDialog::initCommandsSettings()
     bool selectSerialCommands = m_optionsCommands.serverOptions.serverType == ServerOptions::SERVER_SERIAL;
     radioSerialCommandsToggled(selectSerialCommands);
     radioNetworkCommandsToggled(!selectSerialCommands);
+}
+
+void SettingsDialog::initPadControllerSettings()
+{
+    connect(m_ui->buttonConnectPad, SIGNAL(clicked()), this, SLOT(buttonConnectPadControllerClicked()));
+
+    initInputDeviceCombo(m_ui->comboPadDevice);
 }
 
 void SettingsDialog::initSerialPortsCombo(QComboBox* comboBox, QString defaultPort)
@@ -292,6 +321,13 @@ void SettingsDialog::initFlowControlCombo(QComboBox* comboBox, unsigned int defa
     int defaultIndex = comboBox->findData(defaultFlow);
     if(defaultIndex != -1)
         comboBox->setCurrentIndex(defaultIndex);
+}
+
+void SettingsDialog::initInputDeviceCombo(QComboBox* comboBox)
+{
+    QDirIterator it("/dev/input",  QStringList() << "js*", QDir::System);
+    while(it.hasNext())
+        comboBox->addItem(it.next());
 }
 
 void SettingsDialog::saveLogsSettings()

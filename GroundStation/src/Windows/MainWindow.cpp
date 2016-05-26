@@ -153,6 +153,9 @@ void MainWindow::init()
     connect(m_ui->toolbarEmulator, SIGNAL(triggered()), this, SLOT(toolbarEmulatorClicked()));
     connect(m_ui->toolbarSettings, SIGNAL(triggered()), m_settingsWidget, SLOT(exec()));
 
+    connect(&m_padController, SIGNAL(detectedPadController(QString)), m_settingsWidget, SLOT(setPadControllerName(QString)));
+    connect(m_settingsWidget, SIGNAL(connectPadController(QString)), &m_padController, SLOT(connect(QString)));
+
     // This trick will place settings toolbar action at the bottom.
     QWidget* spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

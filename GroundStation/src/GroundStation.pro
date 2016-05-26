@@ -35,6 +35,7 @@ INCLUDEPATH     += $$PWD/../.. $$PWD/.
 SOURCES         += \
                 main.cpp \
                 Core/CommandsManager.cpp \
+                Core/PadController.cpp \
                 Tools/IServer.cpp \
                 Tools/SerialPortServer.cpp \
                 Tools/TCPServer.cpp \
@@ -66,6 +67,7 @@ SOURCES         += \
 
 HEADERS         += \
                 Core/CommandsManager.h \
+                Core/PadController.h \
                 Misc/SubsystemsStatus.h \
                 Misc/Version.h \
                 Tools/IServer.h \

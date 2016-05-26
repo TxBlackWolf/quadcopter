@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>544</width>
-    <height>519</height>
+    <height>528</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,11 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -177,18 +182,18 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>120</width>
-                      <height>16777215</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>13</pointsize>
+                      <pointsize>10</pointsize>
                      </font>
                     </property>
                    </widget>
@@ -198,13 +203,13 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>120</width>
-                      <height>16777215</height>
+                      <height>30</height>
                      </size>
                     </property>
                    </widget>
@@ -214,13 +219,13 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>120</width>
-                      <height>16777215</height>
+                      <height>30</height>
                      </size>
                     </property>
                    </widget>
@@ -230,13 +235,13 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>120</width>
-                      <height>16777215</height>
+                      <height>30</height>
                      </size>
                     </property>
                    </widget>
@@ -246,12 +251,12 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>120</width>
+                      <width>30</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -262,13 +267,13 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>120</width>
-                      <height>16777215</height>
+                      <height>30</height>
                      </size>
                     </property>
                    </widget>
@@ -706,18 +711,18 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>120</width>
-                      <height>16777215</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>13</pointsize>
+                      <pointsize>10</pointsize>
                      </font>
                     </property>
                    </widget>
@@ -727,13 +732,13 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>120</width>
-                      <height>16777215</height>
+                      <height>30</height>
                      </size>
                     </property>
                    </widget>
@@ -743,13 +748,13 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>120</width>
-                      <height>16777215</height>
+                      <height>30</height>
                      </size>
                     </property>
                    </widget>
@@ -759,13 +764,13 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>120</width>
-                      <height>16777215</height>
+                      <height>30</height>
                      </size>
                     </property>
                    </widget>
@@ -775,13 +780,13 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>120</width>
-                      <height>16777215</height>
+                      <height>30</height>
                      </size>
                     </property>
                    </widget>
@@ -791,13 +796,13 @@
                     <property name="minimumSize">
                      <size>
                       <width>120</width>
-                      <height>0</height>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>120</width>
-                      <height>16777215</height>
+                      <height>30</height>
                      </size>
                     </property>
                    </widget>
@@ -1042,6 +1047,440 @@
           </widget>
          </item>
         </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="padTab">
+      <attribute name="title">
+       <string>Pad Controller</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <item>
+        <widget class="QGroupBox" name="groupDevice">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>115</height>
+          </size>
+         </property>
+         <property name="title">
+          <string>Device</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QLabel" name="labelPadDevice">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Pad Controller device:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboPadDevice">
+              <property name="minimumSize">
+               <size>
+                <width>200</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_16">
+            <item>
+             <widget class="QLabel" name="labelName">
+              <property name="text">
+               <string>Name:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelPadName">
+              <property name="text">
+               <string>Unknown</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonConnectPad">
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>120</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Connect</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../resources.qrc">
+                <normaloff>:/Icons/Icons/power-button-green.png</normaloff>:/Icons/Icons/power-button-green.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupKeyMapping">
+         <property name="title">
+          <string>Key mapping</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_18">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_11">
+              <item>
+               <widget class="QLabel" name="labelThrottle">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Throttle:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelYaw">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Yaw:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelPitch">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Pitch:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelRoll">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Roll:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelLandingGear">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Landing gear:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFunc6">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Function 6:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFunc7">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Function 7:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFunc8">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Function 8:</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_12">
+              <item>
+               <widget class="QKeySequenceEdit" name="keyThrottle">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyYaw"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyPitch"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyRoll"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyLandingGear"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyFunc6"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyFunc7"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyFunc8"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_17">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_19">
+              <item>
+               <widget class="QLabel" name="labelFunc9">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Function 9:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFunc10">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Function 10:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFunc11">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Function 11:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFunc12">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Function 12:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFunc13">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Function 13:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFunc14">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Function 14:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFunc15">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Function 15:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFunc16">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Function 16:</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_20">
+              <item>
+               <widget class="QKeySequenceEdit" name="keyFunc9">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyFunc10"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyFunc11"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyFunc12"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyFunc13"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyFunc14"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyFunc15"/>
+              </item>
+              <item>
+               <widget class="QKeySequenceEdit" name="keyFunc16"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>

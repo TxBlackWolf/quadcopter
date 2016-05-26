@@ -16,6 +16,7 @@
 
 #include <QComboBox>
 #include <QDialog>
+#include <QString>
 
 namespace Ui {
     class SettingsDialog;
@@ -31,6 +32,7 @@ public:
 signals:
     void logsStarted(bool state);
     void commandsStarted(bool state);
+    void connectPadController(QString device);
 
 public slots:
     void changeSerialLogsPortInfo(int currentPortIndex);
@@ -43,7 +45,9 @@ public slots:
     void buttonStartLogsClicked();
     void buttonStartCommandsClicked();
     void buttonStartAllClicked();
+    void buttonConnectPadControllerClicked();
     void setButtonAll();
+    void setPadControllerName(QString name);
 
     void saveSettings();
 
@@ -51,6 +55,7 @@ private:
     void init();
     void initLogsSettings();
     void initCommandsSettings();
+    void initPadControllerSettings();
 
     void initSerialPortsCombo(QComboBox* comboBox, QString defaultPort);
     void initSpeedCombo(QComboBox* comboBox, unsigned int defaultSpeed);
@@ -58,6 +63,7 @@ private:
     void initStopBitsCombo(QComboBox* comboBox, unsigned int defaultStopBits);
     void initPartityCombo(QComboBox* comboBox, unsigned int defaultPartity);
     void initFlowControlCombo(QComboBox* comboBox, unsigned int defaultFlowControl);
+    void initInputDeviceCombo(QComboBox* comboBox);
 
     void saveLogsSettings();
     void saveCommandsSettings();
@@ -70,6 +76,7 @@ private:
 
     bool m_logsStarted;
     bool m_commandsStarted;
+    bool m_padControllerConnected;
     bool m_allToBeStarted;
 };
 
