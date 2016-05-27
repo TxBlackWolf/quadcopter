@@ -8,8 +8,8 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef PADCONTROLLER_H
-#define PADCONTROLLER_H
+#ifndef PADDRIVER_H
+#define PADDRIVER_H
 
 #include <QObject>
 #include <QString>
@@ -24,12 +24,12 @@
 #define KEY_MAX_LARGE       0x2FF
 #define BUTTON_MAP_SIZE     (KEY_MAX_LARGE - BTN_MISC + 1)
 
-class PadController : public QThread {
+class PadDriver : public QThread {
     Q_OBJECT
 
 public:
-    PadController();
-    virtual ~PadController();
+    PadDriver();
+    virtual ~PadDriver();
 
     void run();
 

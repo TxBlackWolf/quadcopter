@@ -21,7 +21,7 @@
 #include "SystemInfoWidget.h"
 #include "TelemetryTabWidget.h"
 #include "Core/CommandsManager.h"
-#include "Core/PadController.h"
+#include "Core/PadDriver.h"
 #include "Misc/SubsystemsStatus.h"
 
 #include <QActionGroup>
@@ -78,7 +78,7 @@ private:
     QActionGroup* m_actionGroup;
     SettingsDialog* m_settingsWidget;
     CommandsManager m_commandsManager;
-    PadController m_padController;
+    PadDriver m_padDriver;
 
     ConsoleLogsWidget* m_consoleLogsWidget;
     GoogleMapsView* m_googleMapsView;

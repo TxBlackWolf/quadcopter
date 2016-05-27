@@ -8,7 +8,8 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PadController.h"
+#include "PadDriver.h"
+#include "PadCalibrator.h"
 
 #include <QTime>
 
@@ -19,7 +20,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-#define PAD_NAME_SIZE                           128
+#define PAD_NAME_SIZE                           32
 #define PAD_CONTROLLER_CONNECT_DELAY_MS         500
 
 // The following values come from include/joystick.h in the kernel source.
@@ -28,28 +29,14 @@
 #define JSIOCGBTNMAP_LARGE                      _IOR('j', 0x34, __u16[KEY_MAX_LARGE - BTN_MISC + 1])
 #define JSIOCGBTNMAP_SMALL                      _IOR('j', 0x34, __u16[KEY_MAX_SMALL - BTN_MISC + 1])
 
-static const char *AXIS_NAMES[ABS_MAX + 1] = {
-    "X", "Y", "Z", "Rx", "Ry", "Rz", "Throttle", "Rudder", "Wheel", "Gas", "Brake", "?", "?", "?", "?", "?",
-    "Hat0X", "Hat0Y", "Hat1X", "Hat1Y", "Hat2X", "Hat2Y", "Hat3X", "Hat3Y", "?", "?", "?", "?", "?", "?", "?",
-};
-
-static const char *BUTTON_NAMES[KEY_MAX - BTN_MISC + 1] = {
-    "Btn0", "Btn1", "Btn2", "Btn3", "Btn4", "Btn5", "Btn6", "Btn7", "Btn8", "Btn9", "?", "?", "?", "?", "?", "?",
-    "LeftBtn", "RightBtn", "MiddleBtn", "SideBtn", "ExtraBtn", "ForwardBtn", "BackBtn", "TaskBtn", "?", "?", "?",
-    "?", "?", "?", "?", "?", "Trigger", "ThumbBtn", "ThumbBtn2", "TopBtn", "TopBtn2", "PinkieBtn", "BaseBtn", "BaseBtn2",
-    "BaseBtn3", "BaseBtn4", "BaseBtn5", "BaseBtn6", "BtnDead", "BtnA", "BtnB", "BtnC", "BtnX", "BtnY", "BtnZ", "BtnTL",
-    "BtnTR", "BtnTL2", "BtnTR2", "BtnSelect", "BtnStart", "BtnMode", "BtnThumbL", "BtnThumbR", "?", "?", "?", "?", "?",
-    "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "WheelBtn", "Gear up"
-};
-
-PadController::PadController()
+PadDriver::PadDriver()
     : m_connected(false)
     , m_controllerFd(-1)
 {
     m_name.resize(PAD_NAME_SIZE);
 }
 
-PadController::~PadController()
+PadDriver::~PadDriver()
 {
     try {
         disconnect();
@@ -57,7 +44,7 @@ PadController::~PadController()
     catch(...) {}
 }
 
-void PadController::connect(QString device)
+void PadDriver::connect(QString device)
 {
     if (m_connected) {
         disconnect();
@@ -90,7 +77,7 @@ void PadController::connect(QString device)
     start();
 }
 
-void PadController::disconnect()
+void PadDriver::disconnect()
 {
     if(!m_connected)
         return;
@@ -104,7 +91,7 @@ void PadController::disconnect()
     m_controllerFd = -1;
 }
 
-void PadController::getButtonsMap()
+void PadDriver::getButtonsMap()
 {
     long ioctls[] = { JSIOCGBTNMAP, JSIOCGBTNMAP_LARGE, JSIOCGBTNMAP_SMALL, 0 };
 
@@ -121,10 +108,12 @@ void PadController::getButtonsMap()
 }
 
 #include <QDebug>
-void PadController::run()
+void PadDriver::run()
 {
     QTime timer;
     timer.start();
+
+    std::unique_ptr<IPadCalibrator> padCalibrator = IPadCalibrator::create(m_name);
 
     while(m_connected) {
         struct js_event js;
@@ -136,14 +125,13 @@ void PadController::run()
 
         switch(js.type & ~JS_EVENT_INIT) {
         case JS_EVENT_AXIS:
-            emit padControllerAxisPressed(AXIS_NAMES[js.number], js.value);
-            qDebug() << "Axis: [" << AXIS_NAMES[js.number] << "] = " << js.value;
-
+            emit padControllerAxisPressed(padCalibrator->getAxisName(js.number), js.value);
+            qDebug() << "Axis: [" << padCalibrator->getAxisName(js.number) << "] = " << js.value;
             break;
 
         case JS_EVENT_BUTTON:
-            emit padControllerButtonPressed(BUTTON_NAMES[js.number], js.value);
-            qDebug() << "Button: [" << BUTTON_NAMES[js.number] << "] = " << js.value;
+            emit padControllerButtonPressed(padCalibrator->getButtonName(js.number), js.value);
+            qDebug() << "Button: [" << padCalibrator->getButtonName(js.number) << "] = " << js.value;
             break;
         }
     }
