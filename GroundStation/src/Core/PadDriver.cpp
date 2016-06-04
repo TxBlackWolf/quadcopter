@@ -113,7 +113,7 @@ void PadDriver::run()
     QTime timer;
     timer.start();
 
-    std::unique_ptr<IPadCalibrator> padCalibrator = IPadCalibrator::create(m_name);
+    std::unique_ptr<IPadCalibrator> calibrator = IPadCalibrator::create(m_name);
 
     while(m_connected) {
         struct js_event js;
@@ -125,13 +125,13 @@ void PadDriver::run()
 
         switch(js.type & ~JS_EVENT_INIT) {
         case JS_EVENT_AXIS:
-            emit padControllerAxisPressed(padCalibrator->getAxisName(js.number), js.value);
-            qDebug() << "Axis: [" << padCalibrator->getAxisName(js.number) << "] = " << js.value;
+            emit padControllerAxisPressed(calibrator->getAxisName(js.number), js.value);
+            qDebug() << "Axis: [" << calibrator->getAxisName(js.number) << "] = " << calibrator->normalizeAxisAngle(js.value) << " %";
             break;
 
         case JS_EVENT_BUTTON:
-            emit padControllerButtonPressed(padCalibrator->getButtonName(js.number), js.value);
-            qDebug() << "Button: [" << padCalibrator->getButtonName(js.number) << "] = " << js.value;
+            emit padControllerButtonPressed(calibrator->getButtonName(js.number), js.value);
+            qDebug() << "Button: [" << calibrator->getButtonName(js.number) << "] = " << calibrator->normalizeButtonState(js.value);
             break;
         }
     }

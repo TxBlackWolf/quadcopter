@@ -21,18 +21,24 @@ public:
 
     virtual const char *getAxisName(int id) = 0;
     virtual const char *getButtonName(int id) = 0;
+    virtual int normalizeAxisAngle(int originalAngle) = 0;
+    virtual bool normalizeButtonState(int originalState) = 0;
 };
 
 class GenericPadCalibrator : public IPadCalibrator {
 public:
     virtual const char *getAxisName(int id);
     virtual const char *getButtonName(int id);
+    virtual int normalizeAxisAngle(int originalAngle);
+    virtual bool normalizeButtonState(int originalState);
 };
 
 class XBoxOnePadCalibrator : public IPadCalibrator {
 public:
     virtual const char *getAxisName(int id);
     virtual const char *getButtonName(int id);
+    virtual int normalizeAxisAngle(int originalAngle);
+    virtual bool normalizeButtonState(int originalState);
 };
 
 #endif
