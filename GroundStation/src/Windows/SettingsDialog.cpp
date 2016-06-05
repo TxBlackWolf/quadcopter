@@ -40,6 +40,7 @@ void SettingsDialog::init()
     connect(m_ui->buttonBox, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(m_ui->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(m_ui->buttonStartAll, SIGNAL(clicked()), this, SLOT(buttonStartAllClicked()));
+    connect(m_ui->sliderSensitivity, SIGNAL(valueChanged(int)), this, SLOT(setPadSensitivity(int)));
 
     initLogsSettings();
     initCommandsSettings();
@@ -176,6 +177,12 @@ void SettingsDialog::setButtonAll()
 void SettingsDialog::setPadControllerName(QString name)
 {
     m_ui->labelPadName->setText(name);
+}
+
+void SettingsDialog::setPadSensitivity(int value)
+{
+    m_ui->labelSensitivityPerc->setText(QString::number(value) + " %");
+    emit padSensitivityChanged(value);
 }
 
 void SettingsDialog::saveSettings()

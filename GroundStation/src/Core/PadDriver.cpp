@@ -46,12 +46,12 @@ PadDriver::~PadDriver()
 
 void PadDriver::connect(QString device)
 {
-    if (m_connected) {
+    if(m_connected) {
         disconnect();
         return;
     }
 
-    if ((m_controllerFd = open(device.toStdString().c_str(), O_RDONLY)) < 0)
+    if((m_controllerFd = open(device.toStdString().c_str(), O_RDONLY)) < 0)
         return;
 
     unsigned int axesCount = 0;
@@ -91,16 +91,22 @@ void PadDriver::disconnect()
     m_controllerFd = -1;
 }
 
+void PadDriver::setSensitivity(int sensitivity)
+{
+    if(m_calibrator)
+        m_calibrator->setSensitivity(sensitivity);
+}
+
 void PadDriver::getButtonsMap()
 {
     long ioctls[] = { JSIOCGBTNMAP, JSIOCGBTNMAP_LARGE, JSIOCGBTNMAP_SMALL, 0 };
 
     // Try each ioctl in turn.
-    for (int i = 0; ioctls[i]; ++i) {
-        if (ioctl(m_controllerFd, ioctls[i], m_buttonsMap) >= 0) {
+    for(int i = 0; ioctls[i]; ++i) {
+        if(ioctl(m_controllerFd, ioctls[i], m_buttonsMap) >= 0) {
             // The ioctl did something.
             break;
-        } else if (errno != -EINVAL) {
+        } else if(errno != -EINVAL) {
             // Some other error occurred.
             break;
         }
@@ -113,25 +119,40 @@ void PadDriver::run()
     QTime timer;
     timer.start();
 
-    std::unique_ptr<IPadCalibrator> calibrator = IPadCalibrator::create(m_name);
+    m_calibrator = IPadCalibrator::create(m_name);
+    int axesAngles[AXES_MAX_COUNT] = { 0 };
+    bool buttonsStates[BUTTONS_MAX_COUNT] = { false };
 
     while(m_connected) {
         struct js_event js;
-        if (read(m_controllerFd, &js, sizeof(struct js_event)) != sizeof(struct js_event))
+        if(read(m_controllerFd, &js, sizeof(struct js_event)) != sizeof(struct js_event))
             continue;
 
+        // This delay will prevent from initial axis movement readings.
         if(timer.elapsed() < PAD_CONTROLLER_CONNECT_DELAY_MS)
             continue;
 
         switch(js.type & ~JS_EVENT_INIT) {
-        case JS_EVENT_AXIS:
-            emit padControllerAxisPressed(calibrator->getAxisName(js.number), js.value);
-            qDebug() << "Axis: [" << calibrator->getAxisName(js.number) << "] = " << calibrator->normalizeAxisAngle(js.value) << " %";
+        case JS_EVENT_AXIS: {
+                int anglePerc = m_calibrator->normalizeAxisAngle(js.value);
+                if(axesAngles[js.number] == anglePerc)
+                    break;
+
+                axesAngles[js.number] = anglePerc;
+                emit padControllerAxisPressed(js.number, js.value);
+                qDebug() << "Axis: [" << IPadCalibrator::getAxisName(js.number) << "] = " << anglePerc << " %";
+            }
             break;
 
-        case JS_EVENT_BUTTON:
-            emit padControllerButtonPressed(calibrator->getButtonName(js.number), js.value);
-            qDebug() << "Button: [" << calibrator->getButtonName(js.number) << "] = " << calibrator->normalizeButtonState(js.value);
+        case JS_EVENT_BUTTON: {
+                bool buttonState = m_calibrator->normalizeButtonState(js.value);
+                if(buttonsStates[js.number] == buttonState)
+                    break;
+
+                buttonsStates[js.number] = buttonState;
+                emit padControllerButtonPressed(js.number, js.value);
+                qDebug() << "Button: [" << IPadCalibrator::getButtonName(js.number) << "] = " << buttonState;
+            }
             break;
         }
     }

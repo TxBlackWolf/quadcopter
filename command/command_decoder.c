@@ -158,7 +158,7 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
     }
 
 feed_exit:
-    if (command_offset > 0) {
+    if(command_offset > 0) {
         // Command starts in the middle of the buffer. Align it to the beginning of the buffer.
         command_shiftBuffer(decoder.buffer, decoder.data_size, command_offset);
         decoder.data_size -= command_offset;
@@ -189,7 +189,7 @@ CommandDecoderError_t commandDecoder_parse(CommandType_t *command_type)
     //    goto parse_exit;
     //}
 
-    if (command_type)
+    if(command_type)
         *command_type = header->type;
 
     switch(header->type) {

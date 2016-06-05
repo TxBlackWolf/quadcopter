@@ -104,7 +104,7 @@ int command_atoi(char *str, int size)
     int n = size;
     char *p = str;
 
-    while (n--) {
+    while(n--) {
         k = (k << 3) + (k << 1) + (*p) - '0';
         ++p;
     }

@@ -33,6 +33,7 @@ signals:
     void logsStarted(bool state);
     void commandsStarted(bool state);
     void connectPadController(QString device);
+    void padSensitivityChanged(int value);
 
 public slots:
     void changeSerialLogsPortInfo(int currentPortIndex);
@@ -48,6 +49,7 @@ public slots:
     void buttonConnectPadControllerClicked();
     void setButtonAll();
     void setPadControllerName(QString name);
+    void setPadSensitivity(int value);
 
     void saveSettings();
 

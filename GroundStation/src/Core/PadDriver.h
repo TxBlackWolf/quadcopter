@@ -11,12 +11,15 @@
 #ifndef PADDRIVER_H
 #define PADDRIVER_H
 
+#include "PadCalibrator.h"
+
 #include <QObject>
 #include <QString>
 #include <QThread>
 
 #include <cstdint>
 #include <linux/input.h>
+#include <memory>
 #include <string>
 
 #define AXIS_MAP_SIZE       (ABS_MAX + 1)
@@ -35,12 +38,13 @@ public:
 
 signals:
     void detectedPadController(QString name);
-    void padControllerAxisPressed(QString name, int value);
-    void padControllerButtonPressed(QString name, int value);
+    void padControllerAxisPressed(int id, int value);
+    void padControllerButtonPressed(int id, int value);
 
 public slots:
     void connect(QString device);
     void disconnect();
+    void setSensitivity(int sensitivity);
 
 private:
     void getButtonsMap();
@@ -52,6 +56,7 @@ private:
     std::string m_name;
     uint8_t m_axesMap[AXIS_MAP_SIZE];
     uint16_t m_buttonsMap[BUTTON_MAP_SIZE];
+    std::unique_ptr<IPadCalibrator> m_calibrator;
 };
 
 #endif

@@ -155,6 +155,7 @@ void MainWindow::init()
 
     connect(&m_padDriver, SIGNAL(detectedPadController(QString)), m_settingsWidget, SLOT(setPadControllerName(QString)));
     connect(m_settingsWidget, SIGNAL(connectPadController(QString)), &m_padDriver, SLOT(connect(QString)));
+    connect(m_settingsWidget, SIGNAL(padSensitivityChanged(int)), &m_padDriver, SLOT(setSensitivity(int)));
 
     // This trick will place settings toolbar action at the bottom.
     QWidget* spacer = new QWidget();

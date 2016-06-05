@@ -1196,7 +1196,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSlider" name="horizontalSlider">
+             <widget class="QSlider" name="sliderSensitivity">
               <property name="minimum">
                <number>1</number>
               </property>
@@ -1214,6 +1214,25 @@
               </property>
               <property name="tickPosition">
                <enum>QSlider::TicksAbove</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelSensitivityPerc">
+              <property name="minimumSize">
+               <size>
+                <width>37</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>37</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>100 %</string>
               </property>
              </widget>
             </item>
