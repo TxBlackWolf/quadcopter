@@ -19,10 +19,8 @@ SteeringController::SteeringController()
         m_buttonMapping[i] = BUTTON_STEERING_COUNT;
 }
 
-#include <QDebug>
 void SteeringController::registerAxisEvent(int id, AxisSteeringEvent type)
 {
-    qDebug() << "registerAxisEvent: id = " << id << "type = " << (int) type;
     m_axisMapping[id] = type;
 }
 
@@ -31,9 +29,9 @@ void SteeringController::registerButtonEvent(int id, ButtonSteeringEvent type)
     m_buttonMapping[id] = type;
 }
 
+#include <QDebug>
 void SteeringController::handleAxisEvent(int id, int value)
 {
-    qDebug() << "id = " << id;
     switch(m_axisMapping[id]) {
     case AXIS_STEERING_THROTTLE:
         sendThrottleCommand(value);
