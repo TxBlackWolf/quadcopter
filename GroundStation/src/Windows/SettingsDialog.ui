@@ -1322,7 +1322,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="labelYaw">
+                 <widget class="QLabel" name="labelRotate">
                   <property name="minimumSize">
                    <size>
                     <width>100</width>
@@ -1330,12 +1330,12 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Yaw:</string>
+                   <string>Rotate:</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="labelPitch">
+                 <widget class="QLabel" name="labelFrontBack">
                   <property name="minimumSize">
                    <size>
                     <width>100</width>
@@ -1343,12 +1343,12 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Pitch:</string>
+                   <string>Front/Back:</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="labelRoll">
+                 <widget class="QLabel" name="labelLeftRight">
                   <property name="minimumSize">
                    <size>
                     <width>100</width>
@@ -1356,7 +1356,7 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Roll:</string>
+                   <string>Left/Right:</string>
                   </property>
                  </widget>
                 </item>
@@ -1436,7 +1436,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="keyYaw">
+                 <widget class="QLineEdit" name="keyRotate">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1455,7 +1455,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="keyPitch">
+                 <widget class="QLineEdit" name="keyFrontBack">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1474,7 +1474,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="keyRoll">
+                 <widget class="QLineEdit" name="keyLeftRight">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>

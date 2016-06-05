@@ -19,17 +19,20 @@ class SteeringController : public QObject {
 public:
     typedef enum {
         STEERING_EVENT_THROTTLE,
-        STEERING_EVENT_YAW,
-        STEERING_EVENT_PITCH,
-        STEERING_EVENT_ROLL,
+        STEERING_EVENT_ROTATE,
+        STEERING_EVENT_FRONT_BACK,
+        STEERING_EVENT_LEFT_RIGHT,
         STEERING_EVENT_LANDING_GEAR,
         STEERING_EVENT_MAIN_LIGHTS,
         STEERING_EVENT_BOTTOM_LIGHTS,
         STEERING_EVENT_RETURN_BASE
     } SteeringEvents;
 
-    SteeringController();
-    virtual ~SteeringController();
+public slots:
+    void handleEvent(SteeringEvents type, int value);
+
+private:
+    void sendThrottleCommand(int value);
 };
 
 #endif

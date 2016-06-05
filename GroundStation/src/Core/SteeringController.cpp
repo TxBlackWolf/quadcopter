@@ -10,10 +10,39 @@
 
 #include "SteeringController.h"
 
-SteeringController::SteeringController()
+void SteeringController::handleEvent(SteeringEvents type, int value)
 {
+    switch(type) {
+    case STEERING_EVENT_THROTTLE:
+        sendThrottleCommand(value);
+        break;
+
+    case STEERING_EVENT_ROTATE:
+        break;
+
+    case STEERING_EVENT_FRONT_BACK:
+        break;
+
+    case STEERING_EVENT_LEFT_RIGHT:
+        break;
+
+    case STEERING_EVENT_LANDING_GEAR:
+        break;
+
+    case STEERING_EVENT_MAIN_LIGHTS:
+        break;
+
+    case STEERING_EVENT_BOTTOM_LIGHTS:
+        break;
+
+    case STEERING_EVENT_RETURN_BASE:
+        break;
+
+    default:
+        break;
+    }
 }
 
-SteeringController::~SteeringController()
+void SteeringController::sendThrottleCommand(int value)
 {
 }
