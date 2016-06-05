@@ -39,6 +39,24 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::init()
 {
+    // Create list of key mapping fields.
+    m_keyMappings.push_back(m_ui->keyThrottle);
+    m_keyMappings.push_back(m_ui->keyRotate);
+    m_keyMappings.push_back(m_ui->keyFrontBack);
+    m_keyMappings.push_back(m_ui->keyLeftRight);
+    m_keyMappings.push_back(m_ui->keyLandingGear);
+    m_keyMappings.push_back(m_ui->keyMainLights);
+    m_keyMappings.push_back(m_ui->keyBottomLights);
+    m_keyMappings.push_back(m_ui->keyReturnBase);
+    m_keyMappings.push_back(m_ui->keyStabilizeFlight);
+    m_keyMappings.push_back(m_ui->keyFPV);
+    m_keyMappings.push_back(m_ui->keyFunc11);
+    m_keyMappings.push_back(m_ui->keyFunc12);
+    m_keyMappings.push_back(m_ui->keyFunc13);
+    m_keyMappings.push_back(m_ui->keyFunc14);
+    m_keyMappings.push_back(m_ui->keyFunc15);
+    m_keyMappings.push_back(m_ui->keyFunc16);
+
     connect(m_ui->buttonBox, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(m_ui->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(m_ui->buttonStartAll, SIGNAL(clicked()), this, SLOT(buttonStartAllClicked()));
@@ -193,39 +211,10 @@ void SettingsDialog::buttonAssignClicked()
 {
     m_keyAssigning = !m_keyAssigning;
 
-    m_ui->keyThrottle->setEnabled(m_keyAssigning);
-    m_ui->keyRotate->setEnabled(m_keyAssigning);
-    m_ui->keyFrontBack->setEnabled(m_keyAssigning);
-    m_ui->keyLeftRight->setEnabled(m_keyAssigning);
-    m_ui->keyLandingGear->setEnabled(m_keyAssigning);
-    m_ui->keyMainLights->setEnabled(m_keyAssigning);
-    m_ui->keyBottomLights->setEnabled(m_keyAssigning);
-    m_ui->keyReturnBase->setEnabled(m_keyAssigning);
-    m_ui->keyStabilizeFlight->setEnabled(m_keyAssigning);
-    m_ui->keyFPV->setEnabled(m_keyAssigning);
-    m_ui->keyFunc11->setEnabled(m_keyAssigning);
-    m_ui->keyFunc12->setEnabled(m_keyAssigning);
-    m_ui->keyFunc13->setEnabled(m_keyAssigning);
-    m_ui->keyFunc14->setEnabled(m_keyAssigning);
-    m_ui->keyFunc15->setEnabled(m_keyAssigning);
-    m_ui->keyFunc16->setEnabled(m_keyAssigning);
-
-    m_ui->keyThrottle->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyRotate->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFrontBack->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyLeftRight->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyLandingGear->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyMainLights->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyBottomLights->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyReturnBase->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyStabilizeFlight->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFPV->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFunc11->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFunc12->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFunc13->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFunc14->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFunc15->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFunc16->setClearButtonEnabled(m_keyAssigning);
+    for(QLineEdit *lineEdit : m_keyMappings) {
+        lineEdit->setEnabled(m_keyAssigning);
+        lineEdit->setClearButtonEnabled(m_keyAssigning);
+    }
 
     m_ui->keyThrottle->setFocus();
 
@@ -239,22 +228,14 @@ void SettingsDialog::buttonAssignClicked()
 
 void SettingsDialog::buttonClearClicked()
 {
-    m_ui->keyThrottle->clear();
-    m_ui->keyRotate->clear();
-    m_ui->keyFrontBack->clear();
-    m_ui->keyLeftRight->clear();
-    m_ui->keyLandingGear->clear();
-    m_ui->keyMainLights->clear();
-    m_ui->keyBottomLights->clear();
-    m_ui->keyReturnBase->clear();
-    m_ui->keyStabilizeFlight->clear();
-    m_ui->keyFPV->clear();
-    m_ui->keyFunc11->clear();
-    m_ui->keyFunc12->clear();
-    m_ui->keyFunc13->clear();
-    m_ui->keyFunc14->clear();
-    m_ui->keyFunc15->clear();
-    m_ui->keyFunc16->clear();
+    for(QLineEdit *lineEdit : m_keyMappings)
+        lineEdit->clear();
+
+    for(int i = 0; i < SteeringController::AXIS_STEERING_COUNT; ++i)
+        emit registerAxisEvent(UNDEFINED_KEY_ID, static_cast<SteeringController::AxisSteeringEvent>(i));
+
+    for(int i = 0; i < SteeringController::BUTTON_STEERING_COUNT; ++i)
+        emit registerButtonEvent(UNDEFINED_KEY_ID, static_cast<SteeringController::ButtonSteeringEvent>(i));
 }
 
 void SettingsDialog::setPadAxisMapping(int id, int value)

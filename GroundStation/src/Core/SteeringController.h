@@ -11,9 +11,9 @@
 #ifndef STEERINGCONTROLLER_H
 #define STEERINGCONTROLLER_H
 
-#include "Core/PadDriver.h"
-
 #include <QObject>
+
+#define UNDEFINED_KEY_ID        -1
 
 class SteeringController : public QObject {
     Q_OBJECT
@@ -49,8 +49,8 @@ private:
     void sendThrottleCommand(int value);
 
 private:
-    AxisSteeringEvent m_axisMapping[AXIS_MAP_SIZE];
-    ButtonSteeringEvent m_buttonMapping[BUTTON_MAP_SIZE];
+    int m_axisMapping[AXIS_STEERING_COUNT];
+    int m_buttonMapping[BUTTON_STEERING_COUNT];
 };
 
 #endif

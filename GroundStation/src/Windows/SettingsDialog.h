@@ -17,6 +17,8 @@
 
 #include <QComboBox>
 #include <QDialog>
+#include <QLineEdit>
+#include <QList>
 #include <QString>
 
 namespace Ui {
@@ -80,6 +82,7 @@ private:
 
 private:
     Ui::SettingsDialog* m_ui;
+    QList<QLineEdit *> m_keyMappings;
 
     LogsOptions m_optionsLogs;
     CommandsOptions m_optionsCommands;
