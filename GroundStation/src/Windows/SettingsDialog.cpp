@@ -252,12 +252,16 @@ void SettingsDialog::buttonClearClicked()
     m_ui->keyFunc16->clear();
 }
 
-void SettingsDialog::setPadAxisMapping(int id, int)
+void SettingsDialog::setPadAxisMapping(int id, int value)
 {
     if(!isVisible())
         return;
 
     if(!focusWidget()->objectName().startsWith("key"))
+        return;
+
+    // This will prevent from accidental axis key overriding.
+    if(value != 100 && value != -100)
         return;
 
     QLineEdit *lineEdit = dynamic_cast<QLineEdit *>(focusWidget());
