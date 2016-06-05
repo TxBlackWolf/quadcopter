@@ -43,6 +43,7 @@ SOURCES         += \
                 Tools/TCPServer.cpp \
                 Tools/Options/CommandsOptions.cpp \
                 Tools/Options/LogsOptions.cpp \
+                Tools/Options/PadOptions.cpp \
                 Tools/Options/Common/SerialPortOptions.cpp \
                 Tools/Options/Common/ServerOptions.cpp \
                 Tools/Options/Common/TCPOptions.cpp \
@@ -79,6 +80,7 @@ HEADERS         += \
                 Tools/TCPServer.h \
                 Tools/Options/CommandsOptions.h \
                 Tools/Options/LogsOptions.h \
+                Tools/Options/PadOptions.h \
                 Tools/Options/Common/SerialPortOptions.h \
                 Tools/Options/Common/ServerOptions.h \
                 Tools/Options/Common/TCPOptions.h \
