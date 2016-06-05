@@ -57,7 +57,7 @@ public slots:
     void buttonAssignClicked();
     void buttonClearClicked();
     void setPadAxisMapping(int id, int value);
-    void setPadButtonMapping(int id, bool);
+    void setPadButtonMapping(int id, bool value);
 
     void saveSettings();
 

@@ -56,21 +56,25 @@ void SteeringController::handleAxisEvent(int id, int value)
 
 void SteeringController::handleButtonEvent(int id, bool value)
 {
+    // We want only pressing events, not releasing ones.
+    if(!value)
+        return;
+
     switch(m_buttonMapping[id]) {
     case BUTTON_STEERING_LANDING_GEAR:
-        qDebug() << "Sending landing gear: " << value;
+        qDebug() << "Sending landing gear";
         break;
 
     case BUTTON_STEERING_MAIN_LIGHTS:
-        qDebug() << "Sending main lights: " << value;
+        qDebug() << "Sending main lights";
         break;
 
     case BUTTON_STEERING_BOTTOM_LIGHTS:
-        qDebug() << "Sending bottom lights: " << value;
+        qDebug() << "Sending bottom lights";
         break;
 
     case BUTTON_STEERING_RETURN_BASE:
-        qDebug() << "Sending return to base: " << value;
+        qDebug() << "Sending return to base";
         break;
 
     default:
