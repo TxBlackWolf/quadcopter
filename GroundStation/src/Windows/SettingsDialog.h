@@ -76,7 +76,8 @@ private:
     void initPartityCombo(QComboBox* comboBox, unsigned int defaultPartity);
     void initFlowControlCombo(QComboBox* comboBox, unsigned int defaultFlowControl);
     void initInputDeviceCombo(QComboBox* comboBox);
-    void registerKeyIdForEvent(int keyId);
+    void registerAxisIdForEvent(int axisId);
+    void registerButtonIdForEvent(int buttonId);
 
     void saveLogsSettings();
     void saveCommandsSettings();

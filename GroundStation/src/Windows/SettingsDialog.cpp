@@ -268,7 +268,7 @@ void SettingsDialog::setPadAxisMapping(int id, int value)
         return;
 
     lineEdit->setText(IPadCalibrator::getAxisName(id));
-    registerKeyIdForEvent(id);
+    registerAxisIdForEvent(id);
 }
 
 void SettingsDialog::setPadButtonMapping(int id, bool value)
@@ -288,7 +288,7 @@ void SettingsDialog::setPadButtonMapping(int id, bool value)
         return;
 
     lineEdit->setText(IPadCalibrator::getButtonName(id));
-    registerKeyIdForEvent(id);
+    registerButtonIdForEvent(id);
 }
 
 void SettingsDialog::saveSettings()
@@ -448,46 +448,50 @@ void SettingsDialog::initInputDeviceCombo(QComboBox* comboBox)
         comboBox->addItem(it.next());
 }
 
-void SettingsDialog::registerKeyIdForEvent(int keyId)
+void SettingsDialog::registerAxisIdForEvent(int axisId)
 {
     if(focusWidget() == m_ui->keyThrottle) {
-        emit registerAxisEvent(keyId, SteeringController::AXIS_STEERING_THROTTLE);
+        emit registerAxisEvent(axisId, SteeringController::AXIS_STEERING_THROTTLE);
         m_ui->keyRotate->setFocus();
     }
     else if(focusWidget() == m_ui->keyRotate) {
-        emit registerAxisEvent(keyId, SteeringController::AXIS_STEERING_ROTATE);
+        emit registerAxisEvent(axisId, SteeringController::AXIS_STEERING_ROTATE);
         m_ui->keyFrontBack->setFocus();
     }
     else if(focusWidget() == m_ui->keyFrontBack) {
-        emit registerAxisEvent(keyId, SteeringController::AXIS_STEERING_FRONT_BACK);
+        emit registerAxisEvent(axisId, SteeringController::AXIS_STEERING_FRONT_BACK);
         m_ui->keyLeftRight->setFocus();
     }
     else if(focusWidget() == m_ui->keyLeftRight) {
-        emit registerAxisEvent(keyId, SteeringController::AXIS_STEERING_LEFT_RIGHT);
+        emit registerAxisEvent(axisId, SteeringController::AXIS_STEERING_LEFT_RIGHT);
         m_ui->keyLandingGear->setFocus();
     }
-    else if(focusWidget() == m_ui->keyLandingGear) {
-        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_LANDING_GEAR);
+}
+
+void SettingsDialog::registerButtonIdForEvent(int buttonId)
+{
+    if(focusWidget() == m_ui->keyLandingGear) {
+        emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_LANDING_GEAR);
         m_ui->keyMainLights->setFocus();
     }
     else if(focusWidget() == m_ui->keyMainLights) {
-        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_MAIN_LIGHTS);
+        emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_MAIN_LIGHTS);
         m_ui->keyBottomLights->setFocus();
     }
     else if(focusWidget() == m_ui->keyBottomLights) {
-        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_BOTTOM_LIGHTS);
+        emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_BOTTOM_LIGHTS);
         m_ui->keyReturnBase->setFocus();
     }
     else if(focusWidget() == m_ui->keyReturnBase) {
-        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_RETURN_BASE);
+        emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_RETURN_BASE);
         m_ui->keyStabilizeFlight->setFocus();
     }
     else if(focusWidget() == m_ui->keyStabilizeFlight) {
-        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_STABILIZE_FLIGHT);
+        emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_STABILIZE_FLIGHT);
         m_ui->keyFPV->setFocus();
     }
     else if(focusWidget() == m_ui->keyFPV) {
-        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_FPV);
+        emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_FPV);
         m_ui->keyFunc11->setFocus();
     }
     else if(focusWidget() == m_ui->keyFunc11) {
