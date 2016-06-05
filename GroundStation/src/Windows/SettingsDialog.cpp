@@ -466,29 +466,29 @@ void SettingsDialog::registerKeyForEvent(int keyId)
     else if(focusWidget() == m_ui->keyReturnBase)
         emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_RETURN_BASE);
 
-    else if(focusWidget() == m_ui->keyFunc9)
-        ;
+    else if(focusWidget() == m_ui->keyFunc9) {
+    }
 
-    else if(focusWidget() == m_ui->keyFunc10)
-        ;
+    else if(focusWidget() == m_ui->keyFunc10) {
+    }
 
-    else if(focusWidget() == m_ui->keyFunc11)
-        ;
+    else if(focusWidget() == m_ui->keyFunc11) {
+    }
 
-    else if(focusWidget() == m_ui->keyFunc12)
-        ;
+    else if(focusWidget() == m_ui->keyFunc12) {
+    }
 
-    else if(focusWidget() == m_ui->keyFunc13)
-        ;
+    else if(focusWidget() == m_ui->keyFunc13) {
+    }
 
-    else if(focusWidget() == m_ui->keyFunc14)
-        ;
+    else if(focusWidget() == m_ui->keyFunc14) {
+    }
 
-    else if(focusWidget() == m_ui->keyFunc15)
-        ;
+    else if(focusWidget() == m_ui->keyFunc15) {
+    }
 
-    else if(focusWidget() == m_ui->keyFunc16)
-        ;
+    else if(focusWidget() == m_ui->keyFunc16) {
+    }
 }
 
 void SettingsDialog::saveLogsSettings()
