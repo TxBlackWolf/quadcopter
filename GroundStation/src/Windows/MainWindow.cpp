@@ -130,12 +130,20 @@ void MainWindow::emulatorStatus(SubsystemStatus status)
 void MainWindow::keyAssigning(bool enabled)
 {
     if(enabled) {
+        // Disable passing key events to steering controller.
+        disconnect(&m_padDriver, SIGNAL(padControllerAxisPressed(int,int)), &m_steeringController, SLOT(handleAxisEvent(int,int)));
+        disconnect(&m_padDriver, SIGNAL(padControllerButtonPressed(int,bool)), &m_steeringController, SLOT(handleButtonEvent(int,bool)));
+
         connect(&m_padDriver, SIGNAL(padControllerAxisPressed(int,int)), m_settingsWidget, SLOT(setPadAxisMapping(int,int)));
-        connect(&m_padDriver, SIGNAL(padControllerButtonPressed(int,int)), m_settingsWidget, SLOT(setPadButtonMapping(int,int)));
+        connect(&m_padDriver, SIGNAL(padControllerButtonPressed(int,bool)), m_settingsWidget, SLOT(setPadButtonMapping(int,bool)));
     }
     else {
         disconnect(&m_padDriver, SIGNAL(padControllerAxisPressed(int,int)), m_settingsWidget, SLOT(setPadAxisMapping(int,int)));
-        disconnect(&m_padDriver, SIGNAL(padControllerButtonPressed(int,int)), m_settingsWidget, SLOT(setPadButtonMapping(int,int)));
+        disconnect(&m_padDriver, SIGNAL(padControllerButtonPressed(int,bool)), m_settingsWidget, SLOT(setPadButtonMapping(int,bool)));
+
+        // Enable passing key events to steering controller.
+        connect(&m_padDriver, SIGNAL(padControllerAxisPressed(int,int)), &m_steeringController, SLOT(handleAxisEvent(int,int)));
+        connect(&m_padDriver, SIGNAL(padControllerButtonPressed(int,bool)), &m_steeringController, SLOT(handleButtonEvent(int,bool)));
     }
 }
 
@@ -169,6 +177,10 @@ void MainWindow::init()
     connect(m_settingsWidget, SIGNAL(connectPadController(QString)), &m_padDriver, SLOT(connect(QString)));
     connect(m_settingsWidget, SIGNAL(padSensitivityChanged(int)), &m_padDriver, SLOT(setSensitivity(int)));
     connect(m_settingsWidget, SIGNAL(assignKeys(bool)), this, SLOT(keyAssigning(bool)));
+    connect(m_settingsWidget, SIGNAL(registerAxisEvent(int,SteeringController::AxisSteeringEvent)), &m_steeringController, SLOT(registerAxisEvent(int,SteeringController::AxisSteeringEvent)));
+    connect(m_settingsWidget, SIGNAL(registerButtonEvent(int,SteeringController::ButtonSteeringEvent)), &m_steeringController, SLOT(registerButtonEvent(int,SteeringController::ButtonSteeringEvent)));
+    connect(&m_padDriver, SIGNAL(padControllerAxisPressed(int,int)), &m_steeringController, SLOT(handleAxisEvent(int,int)));
+    connect(&m_padDriver, SIGNAL(padControllerButtonPressed(int,bool)), &m_steeringController, SLOT(handleButtonEvent(int,bool)));
 
     // This trick will place settings toolbar action at the bottom.
     QWidget* spacer = new QWidget();

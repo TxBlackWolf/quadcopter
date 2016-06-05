@@ -10,32 +10,69 @@
 
 #include "SteeringController.h"
 
-void SteeringController::handleEvent(SteeringEvents type, int value)
+SteeringController::SteeringController()
 {
-    switch(type) {
-    case STEERING_EVENT_THROTTLE:
+    for(int i = 0; i < AXIS_MAP_SIZE; ++i)
+        m_axisMapping[i] = AXIS_STEERING_COUNT;
+
+    for(int i = 0; i < BUTTON_MAP_SIZE; ++i)
+        m_buttonMapping[i] = BUTTON_STEERING_COUNT;
+}
+
+#include <QDebug>
+void SteeringController::registerAxisEvent(int id, AxisSteeringEvent type)
+{
+    qDebug() << "registerAxisEvent: id = " << id << "type = " << (int) type;
+    m_axisMapping[id] = type;
+}
+
+void SteeringController::registerButtonEvent(int id, ButtonSteeringEvent type)
+{
+    m_buttonMapping[id] = type;
+}
+
+void SteeringController::handleAxisEvent(int id, int value)
+{
+    qDebug() << "id = " << id;
+    switch(m_axisMapping[id]) {
+    case AXIS_STEERING_THROTTLE:
         sendThrottleCommand(value);
         break;
 
-    case STEERING_EVENT_ROTATE:
+    case AXIS_STEERING_ROTATE:
+        qDebug() << "Sending rotate: " << value << " %";
         break;
 
-    case STEERING_EVENT_FRONT_BACK:
+    case AXIS_STEERING_FRONT_BACK:
+        qDebug() << "Sending front/back: " << value << " %";
         break;
 
-    case STEERING_EVENT_LEFT_RIGHT:
+    case AXIS_STEERING_LEFT_RIGHT:
+        qDebug() << "Sending left/right: " << value << " %";
         break;
 
-    case STEERING_EVENT_LANDING_GEAR:
+    default:
+        break;
+    }
+}
+
+void SteeringController::handleButtonEvent(int id, bool value)
+{
+    switch(m_buttonMapping[id]) {
+    case BUTTON_STEERING_LANDING_GEAR:
+        qDebug() << "Sending landing gear: " << value;
         break;
 
-    case STEERING_EVENT_MAIN_LIGHTS:
+    case BUTTON_STEERING_MAIN_LIGHTS:
+        qDebug() << "Sending main lights: " << value;
         break;
 
-    case STEERING_EVENT_BOTTOM_LIGHTS:
+    case BUTTON_STEERING_BOTTOM_LIGHTS:
+        qDebug() << "Sending bottom lights: " << value;
         break;
 
-    case STEERING_EVENT_RETURN_BASE:
+    case BUTTON_STEERING_RETURN_BASE:
+        qDebug() << "Sending return to base: " << value;
         break;
 
     default:
@@ -45,4 +82,5 @@ void SteeringController::handleEvent(SteeringEvents type, int value)
 
 void SteeringController::sendThrottleCommand(int value)
 {
+    qDebug() << "Sending throttle: " << value << " %";
 }

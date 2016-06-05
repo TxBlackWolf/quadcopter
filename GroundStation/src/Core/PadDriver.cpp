@@ -113,7 +113,6 @@ void PadDriver::getButtonsMap()
     }
 }
 
-#include <QDebug>
 void PadDriver::run()
 {
     QTime timer;
@@ -139,8 +138,7 @@ void PadDriver::run()
                     break;
 
                 axesAngles[js.number] = anglePerc;
-                emit padControllerAxisPressed(js.number, js.value);
-                qDebug() << "Axis: [" << IPadCalibrator::getAxisName(js.number) << "] = " << anglePerc << " %";
+                emit padControllerAxisPressed(js.number, anglePerc);
             }
             break;
 
@@ -150,8 +148,7 @@ void PadDriver::run()
                     break;
 
                 buttonsStates[js.number] = buttonState;
-                emit padControllerButtonPressed(js.number, js.value);
-                qDebug() << "Button: [" << IPadCalibrator::getButtonName(js.number) << "] = " << buttonState;
+                emit padControllerButtonPressed(js.number, buttonState);
             }
             break;
         }

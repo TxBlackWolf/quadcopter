@@ -11,6 +11,8 @@
 #ifndef STEERINGCONTROLLER_H
 #define STEERINGCONTROLLER_H
 
+#include "Core/PadDriver.h"
+
 #include <QObject>
 
 class SteeringController : public QObject {
@@ -18,21 +20,35 @@ class SteeringController : public QObject {
 
 public:
     typedef enum {
-        STEERING_EVENT_THROTTLE,
-        STEERING_EVENT_ROTATE,
-        STEERING_EVENT_FRONT_BACK,
-        STEERING_EVENT_LEFT_RIGHT,
-        STEERING_EVENT_LANDING_GEAR,
-        STEERING_EVENT_MAIN_LIGHTS,
-        STEERING_EVENT_BOTTOM_LIGHTS,
-        STEERING_EVENT_RETURN_BASE
-    } SteeringEvents;
+        AXIS_STEERING_THROTTLE,
+        AXIS_STEERING_ROTATE,
+        AXIS_STEERING_FRONT_BACK,
+        AXIS_STEERING_LEFT_RIGHT,
+        AXIS_STEERING_COUNT
+    } AxisSteeringEvent;
+
+    typedef enum {
+        BUTTON_STEERING_LANDING_GEAR,
+        BUTTON_STEERING_MAIN_LIGHTS,
+        BUTTON_STEERING_BOTTOM_LIGHTS,
+        BUTTON_STEERING_RETURN_BASE,
+        BUTTON_STEERING_COUNT
+    } ButtonSteeringEvent;
+
+    SteeringController();
 
 public slots:
-    void handleEvent(SteeringEvents type, int value);
+    void registerAxisEvent(int id, SteeringController::AxisSteeringEvent type);
+    void registerButtonEvent(int id, SteeringController::ButtonSteeringEvent type);
+    void handleAxisEvent(int id, int value);
+    void handleButtonEvent(int id, bool value);
 
 private:
     void sendThrottleCommand(int value);
+
+private:
+    AxisSteeringEvent m_axisMapping[AXIS_MAP_SIZE];
+    ButtonSteeringEvent m_buttonMapping[BUTTON_MAP_SIZE];
 };
 
 #endif

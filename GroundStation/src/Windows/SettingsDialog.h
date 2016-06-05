@@ -11,6 +11,7 @@
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
+#include "Core/SteeringController.h"
 #include "Tools/Options/CommandsOptions.h"
 #include "Tools/Options/LogsOptions.h"
 
@@ -35,6 +36,8 @@ signals:
     void connectPadController(QString device);
     void padSensitivityChanged(int value);
     void assignKeys(bool enabled);
+    void registerAxisEvent(int id, SteeringController::AxisSteeringEvent type);
+    void registerButtonEvent(int id, SteeringController::ButtonSteeringEvent type);
 
 public slots:
     void changeSerialLogsPortInfo(int currentPortIndex);
@@ -54,7 +57,7 @@ public slots:
     void buttonAssignClicked();
     void buttonClearClicked();
     void setPadAxisMapping(int id, int);
-    void setPadButtonMapping(int id, int);
+    void setPadButtonMapping(int id, bool);
 
     void saveSettings();
 
@@ -71,6 +74,7 @@ private:
     void initPartityCombo(QComboBox* comboBox, unsigned int defaultPartity);
     void initFlowControlCombo(QComboBox* comboBox, unsigned int defaultFlowControl);
     void initInputDeviceCombo(QComboBox* comboBox);
+    void registerKeyForEvent(int keyId);
 
     void saveLogsSettings();
     void saveCommandsSettings();

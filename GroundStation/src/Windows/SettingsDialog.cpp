@@ -265,9 +265,10 @@ void SettingsDialog::setPadAxisMapping(int id, int)
         return;
 
     lineEdit->setText(IPadCalibrator::getAxisName(id));
+    registerKeyForEvent(id);
 }
 
-void SettingsDialog::setPadButtonMapping(int id, int)
+void SettingsDialog::setPadButtonMapping(int id, bool)
 {
     if(!isVisible())
         return;
@@ -280,6 +281,7 @@ void SettingsDialog::setPadButtonMapping(int id, int)
         return;
 
     lineEdit->setText(IPadCalibrator::getButtonName(id));
+    registerKeyForEvent(id);
 }
 
 void SettingsDialog::saveSettings()
@@ -432,6 +434,57 @@ void SettingsDialog::initInputDeviceCombo(QComboBox* comboBox)
     QDirIterator it("/dev/input",  QStringList() << "js*", QDir::System);
     while(it.hasNext())
         comboBox->addItem(it.next());
+}
+
+void SettingsDialog::registerKeyForEvent(int keyId)
+{
+    if(focusWidget() == m_ui->keyThrottle)
+        emit registerAxisEvent(keyId, SteeringController::AXIS_STEERING_THROTTLE);
+
+    else if(focusWidget() == m_ui->keyRotate)
+        emit registerAxisEvent(keyId, SteeringController::AXIS_STEERING_ROTATE);
+
+    else if(focusWidget() == m_ui->keyFrontBack)
+        emit registerAxisEvent(keyId, SteeringController::AXIS_STEERING_FRONT_BACK);
+
+    else if(focusWidget() == m_ui->keyLeftRight)
+        emit registerAxisEvent(keyId, SteeringController::AXIS_STEERING_LEFT_RIGHT);
+
+    else if(focusWidget() == m_ui->keyLandingGear)
+        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_LANDING_GEAR);
+
+    else if(focusWidget() == m_ui->keyMainLights)
+        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_MAIN_LIGHTS);
+
+    else if(focusWidget() == m_ui->keyBottomLights)
+        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_BOTTOM_LIGHTS);
+
+    else if(focusWidget() == m_ui->keyReturnBase)
+        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_RETURN_BASE);
+
+    else if(focusWidget() == m_ui->keyFunc9)
+        ;
+
+    else if(focusWidget() == m_ui->keyFunc10)
+        ;
+
+    else if(focusWidget() == m_ui->keyFunc11)
+        ;
+
+    else if(focusWidget() == m_ui->keyFunc12)
+        ;
+
+    else if(focusWidget() == m_ui->keyFunc13)
+        ;
+
+    else if(focusWidget() == m_ui->keyFunc14)
+        ;
+
+    else if(focusWidget() == m_ui->keyFunc15)
+        ;
+
+    else if(focusWidget() == m_ui->keyFunc16)
+        ;
 }
 
 void SettingsDialog::saveLogsSettings()

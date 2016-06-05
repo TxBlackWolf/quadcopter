@@ -39,7 +39,7 @@ public:
 signals:
     void detectedPadController(QString name);
     void padControllerAxisPressed(int id, int value);
-    void padControllerButtonPressed(int id, int value);
+    void padControllerButtonPressed(int id, bool value);
 
 public slots:
     void connect(QString device);
