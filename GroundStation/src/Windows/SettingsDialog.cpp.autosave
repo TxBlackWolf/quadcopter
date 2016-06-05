@@ -265,6 +265,7 @@ void SettingsDialog::setPadAxisMapping(int id, int)
         return;
 
     lineEdit->setText(IPadCalibrator::getAxisName(id));
+    if(this->setF)
 }
 
 void SettingsDialog::setPadButtonMapping(int id, int)

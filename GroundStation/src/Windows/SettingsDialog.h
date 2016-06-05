@@ -34,6 +34,7 @@ signals:
     void commandsStarted(bool state);
     void connectPadController(QString device);
     void padSensitivityChanged(int value);
+    void assignKeys(bool enabled);
 
 public slots:
     void changeSerialLogsPortInfo(int currentPortIndex);
@@ -50,6 +51,10 @@ public slots:
     void setButtonAll();
     void setPadControllerName(QString name);
     void setPadSensitivity(int value);
+    void buttonAssignClicked();
+    void buttonClearClicked();
+    void setPadAxisMapping(int id, int);
+    void setPadButtonMapping(int id, int);
 
     void saveSettings();
 
@@ -76,6 +81,7 @@ private:
     LogsOptions m_optionsLogs;
     CommandsOptions m_optionsCommands;
 
+    bool m_keyAssigning;
     bool m_logsStarted;
     bool m_commandsStarted;
     bool m_padControllerConnected;

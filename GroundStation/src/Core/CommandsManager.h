@@ -23,6 +23,10 @@ class CommandsManager : public QObject {
     Q_OBJECT
 
 public:
+    typedef enum {
+
+    } SteeringEvents;
+
     CommandsManager();
     virtual ~CommandsManager();
 

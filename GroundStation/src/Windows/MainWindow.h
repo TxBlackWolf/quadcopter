@@ -65,6 +65,7 @@ public slots:
     void fpvStatus(SubsystemStatus status);
     void steeringStatus(SubsystemStatus status);
     void emulatorStatus(SubsystemStatus status);
+    void keyAssigning(bool enabled);
 
 private:
     void init();

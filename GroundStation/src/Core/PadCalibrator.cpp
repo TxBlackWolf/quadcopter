@@ -70,7 +70,7 @@ bool GenericPadCalibrator::normalizeButtonState(int originalState)
 }
 
 const char *XBoxOnePadCalibrator::xboxAxes[AXES_MAX_COUNT] = {
-    "JoyLX", "JoyLY", "LT", "JoyRX", "JoyRY", "RT", "Left/Right Arrow", "Up/Down Arrow", "Wheel", "Gas", "Brake", "Ax1",
+    "JoyLX", "JoyLY", "LT", "JoyRX", "JoyRY", "RT", "LR Arrow", "UD Arrow", "Wheel", "Gas", "Brake", "Ax1",
     "Ax2", "Ax3", "Ax4", "Ax5", "Hat0X", "Hat0Y", "Hat1X", "Hat1Y", "Hat2X", "Hat2Y", "Hat3X", "Hat3Y", "Ax6", "Ax7",
     "Ax8", "Ax9", "Ax10", "Ax11", "Ax12"
 };

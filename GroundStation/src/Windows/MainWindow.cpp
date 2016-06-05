@@ -127,6 +127,18 @@ void MainWindow::emulatorStatus(SubsystemStatus status)
     m_ui->labelEmulatorLED->setPixmap(QPixmap(imageResource));
 }
 
+void MainWindow::keyAssigning(bool enabled)
+{
+    if(enabled) {
+        connect(&m_padDriver, SIGNAL(padControllerAxisPressed(int,int)), m_settingsWidget, SLOT(setPadAxisMapping(int,int)));
+        connect(&m_padDriver, SIGNAL(padControllerButtonPressed(int,int)), m_settingsWidget, SLOT(setPadButtonMapping(int,int)));
+    }
+    else {
+        disconnect(&m_padDriver, SIGNAL(padControllerAxisPressed(int,int)), m_settingsWidget, SLOT(setPadAxisMapping(int,int)));
+        disconnect(&m_padDriver, SIGNAL(padControllerButtonPressed(int,int)), m_settingsWidget, SLOT(setPadButtonMapping(int,int)));
+    }
+}
+
 void MainWindow::init()
 {
     m_actionGroup = new QActionGroup(this);
@@ -156,6 +168,7 @@ void MainWindow::init()
     connect(&m_padDriver, SIGNAL(detectedPadController(QString)), m_settingsWidget, SLOT(setPadControllerName(QString)));
     connect(m_settingsWidget, SIGNAL(connectPadController(QString)), &m_padDriver, SLOT(connect(QString)));
     connect(m_settingsWidget, SIGNAL(padSensitivityChanged(int)), &m_padDriver, SLOT(setSensitivity(int)));
+    connect(m_settingsWidget, SIGNAL(assignKeys(bool)), this, SLOT(keyAssigning(bool)));
 
     // This trick will place settings toolbar action at the bottom.
     QWidget* spacer = new QWidget();
