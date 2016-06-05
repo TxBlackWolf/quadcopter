@@ -198,9 +198,9 @@ void SettingsDialog::buttonAssignClicked()
     m_ui->keyPitch->setEnabled(m_keyAssigning);
     m_ui->keyRoll->setEnabled(m_keyAssigning);
     m_ui->keyLandingGear->setEnabled(m_keyAssigning);
-    m_ui->keyFunc6->setEnabled(m_keyAssigning);
-    m_ui->keyFunc7->setEnabled(m_keyAssigning);
-    m_ui->keyFunc8->setEnabled(m_keyAssigning);
+    m_ui->keyMainLights->setEnabled(m_keyAssigning);
+    m_ui->keyBottomLights->setEnabled(m_keyAssigning);
+    m_ui->keyReturnBase->setEnabled(m_keyAssigning);
     m_ui->keyFunc9->setEnabled(m_keyAssigning);
     m_ui->keyFunc10->setEnabled(m_keyAssigning);
     m_ui->keyFunc11->setEnabled(m_keyAssigning);
@@ -215,9 +215,9 @@ void SettingsDialog::buttonAssignClicked()
     m_ui->keyPitch->setClearButtonEnabled(m_keyAssigning);
     m_ui->keyRoll->setClearButtonEnabled(m_keyAssigning);
     m_ui->keyLandingGear->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFunc6->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFunc7->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFunc8->setClearButtonEnabled(m_keyAssigning);
+    m_ui->keyMainLights->setClearButtonEnabled(m_keyAssigning);
+    m_ui->keyBottomLights->setClearButtonEnabled(m_keyAssigning);
+    m_ui->keyReturnBase->setClearButtonEnabled(m_keyAssigning);
     m_ui->keyFunc9->setClearButtonEnabled(m_keyAssigning);
     m_ui->keyFunc10->setClearButtonEnabled(m_keyAssigning);
     m_ui->keyFunc11->setClearButtonEnabled(m_keyAssigning);
@@ -239,9 +239,9 @@ void SettingsDialog::buttonClearClicked()
     m_ui->keyPitch->clear();
     m_ui->keyRoll->clear();
     m_ui->keyLandingGear->clear();
-    m_ui->keyFunc6->clear();
-    m_ui->keyFunc7->clear();
-    m_ui->keyFunc8->clear();
+    m_ui->keyMainLights->clear();
+    m_ui->keyBottomLights->clear();
+    m_ui->keyReturnBase->clear();
     m_ui->keyFunc9->clear();
     m_ui->keyFunc10->clear();
     m_ui->keyFunc11->clear();

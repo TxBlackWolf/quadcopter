@@ -1374,7 +1374,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="labelFunc6">
+                 <widget class="QLabel" name="labelMainLights">
                   <property name="minimumSize">
                    <size>
                     <width>100</width>
@@ -1382,12 +1382,12 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Function 6:</string>
+                   <string>Main lights:</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="labelFunc7">
+                 <widget class="QLabel" name="labelBottomLights">
                   <property name="minimumSize">
                    <size>
                     <width>100</width>
@@ -1395,12 +1395,12 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Function 7:</string>
+                   <string>Bottom lights:</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="labelFunc8">
+                 <widget class="QLabel" name="labelReturnBase">
                   <property name="minimumSize">
                    <size>
                     <width>100</width>
@@ -1408,7 +1408,7 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Function 8:</string>
+                   <string>Return to base:</string>
                   </property>
                  </widget>
                 </item>
@@ -1512,7 +1512,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="keyFunc6">
+                 <widget class="QLineEdit" name="keyMainLights">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1531,7 +1531,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="keyFunc7">
+                 <widget class="QLineEdit" name="keyBottomLights">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1550,7 +1550,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="keyFunc8">
+                 <widget class="QLineEdit" name="keyReturnBase">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
