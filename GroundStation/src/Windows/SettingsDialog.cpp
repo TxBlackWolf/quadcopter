@@ -201,8 +201,8 @@ void SettingsDialog::buttonAssignClicked()
     m_ui->keyMainLights->setEnabled(m_keyAssigning);
     m_ui->keyBottomLights->setEnabled(m_keyAssigning);
     m_ui->keyReturnBase->setEnabled(m_keyAssigning);
-    m_ui->keyFunc9->setEnabled(m_keyAssigning);
-    m_ui->keyFunc10->setEnabled(m_keyAssigning);
+    m_ui->keyStabilizeFlight->setEnabled(m_keyAssigning);
+    m_ui->keyFPV->setEnabled(m_keyAssigning);
     m_ui->keyFunc11->setEnabled(m_keyAssigning);
     m_ui->keyFunc12->setEnabled(m_keyAssigning);
     m_ui->keyFunc13->setEnabled(m_keyAssigning);
@@ -218,8 +218,8 @@ void SettingsDialog::buttonAssignClicked()
     m_ui->keyMainLights->setClearButtonEnabled(m_keyAssigning);
     m_ui->keyBottomLights->setClearButtonEnabled(m_keyAssigning);
     m_ui->keyReturnBase->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFunc9->setClearButtonEnabled(m_keyAssigning);
-    m_ui->keyFunc10->setClearButtonEnabled(m_keyAssigning);
+    m_ui->keyStabilizeFlight->setClearButtonEnabled(m_keyAssigning);
+    m_ui->keyFPV->setClearButtonEnabled(m_keyAssigning);
     m_ui->keyFunc11->setClearButtonEnabled(m_keyAssigning);
     m_ui->keyFunc12->setClearButtonEnabled(m_keyAssigning);
     m_ui->keyFunc13->setClearButtonEnabled(m_keyAssigning);
@@ -247,8 +247,8 @@ void SettingsDialog::buttonClearClicked()
     m_ui->keyMainLights->clear();
     m_ui->keyBottomLights->clear();
     m_ui->keyReturnBase->clear();
-    m_ui->keyFunc9->clear();
-    m_ui->keyFunc10->clear();
+    m_ui->keyStabilizeFlight->clear();
+    m_ui->keyFPV->clear();
     m_ui->keyFunc11->clear();
     m_ui->keyFunc12->clear();
     m_ui->keyFunc13->clear();
@@ -301,7 +301,6 @@ void SettingsDialog::saveSettings()
 {
     saveLogsSettings();
     saveCommandsSettings();
-    accept();
 }
 
 void SettingsDialog::initLogsSettings()
@@ -481,36 +480,31 @@ void SettingsDialog::registerKeyForEvent(int keyId)
     }
     else if(focusWidget() == m_ui->keyReturnBase) {
         emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_RETURN_BASE);
-        m_ui->keyFunc9->setFocus();
+        m_ui->keyStabilizeFlight->setFocus();
     }
-    else if(focusWidget() == m_ui->keyFunc9) {
-        m_ui->keyFunc10->setFocus();
+    else if(focusWidget() == m_ui->keyStabilizeFlight) {
+        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_STABILIZE_FLIGHT);
+        m_ui->keyFPV->setFocus();
     }
-
-    else if(focusWidget() == m_ui->keyFunc10) {
+    else if(focusWidget() == m_ui->keyFPV) {
+        emit registerButtonEvent(keyId, SteeringController::BUTTON_STEERING_FPV);
         m_ui->keyFunc11->setFocus();
     }
-
     else if(focusWidget() == m_ui->keyFunc11) {
         m_ui->keyFunc12->setFocus();
     }
-
     else if(focusWidget() == m_ui->keyFunc12) {
         m_ui->keyFunc13->setFocus();
     }
-
     else if(focusWidget() == m_ui->keyFunc13) {
         m_ui->keyFunc14->setFocus();
     }
-
     else if(focusWidget() == m_ui->keyFunc14) {
         m_ui->keyFunc15->setFocus();
     }
-
     else if(focusWidget() == m_ui->keyFunc15) {
         m_ui->keyFunc16->setFocus();
     }
-
     else if(focusWidget() == m_ui->keyFunc16) {
         m_ui->buttonAssign->setFocus();
     }

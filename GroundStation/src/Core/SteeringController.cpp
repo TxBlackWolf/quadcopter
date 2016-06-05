@@ -56,7 +56,7 @@ void SteeringController::handleAxisEvent(int id, int value)
 
 void SteeringController::handleButtonEvent(int id, bool value)
 {
-    // We want only pressing events, not releasing ones.
+    // We want only "press" events, not "release" ones.
     if(!value)
         return;
 
@@ -75,6 +75,14 @@ void SteeringController::handleButtonEvent(int id, bool value)
 
     case BUTTON_STEERING_RETURN_BASE:
         qDebug() << "Sending return to base";
+        break;
+
+    case BUTTON_STEERING_STABILIZE_FLIGHT:
+        qDebug() << "Sending stabilize flight";
+        break;
+
+    case BUTTON_STEERING_FPV:
+        qDebug() << "Sending FPV";
         break;
 
     default:

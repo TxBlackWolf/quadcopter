@@ -1598,7 +1598,7 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Function 9:</string>
+                   <string>Stabilize flight:</string>
                   </property>
                  </widget>
                 </item>
@@ -1611,7 +1611,7 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Function 10:</string>
+                   <string>FPV:</string>
                   </property>
                  </widget>
                 </item>
@@ -1698,7 +1698,7 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_20">
                 <item>
-                 <widget class="QLineEdit" name="keyFunc9">
+                 <widget class="QLineEdit" name="keyStabilizeFlight">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1717,7 +1717,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="keyFunc10">
+                 <widget class="QLineEdit" name="keyFPV">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
