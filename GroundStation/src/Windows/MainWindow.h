@@ -22,6 +22,7 @@
 #include "TelemetryTabWidget.h"
 #include "Core/CommandsManager.h"
 #include "Core/PadDriver.h"
+#include "Core/SteeringController.h"
 #include "Misc/SubsystemsStatus.h"
 
 #include <QActionGroup>
@@ -80,6 +81,7 @@ private:
     SettingsDialog* m_settingsWidget;
     CommandsManager m_commandsManager;
     PadDriver m_padDriver;
+    SteeringController m_steeringController;
 
     ConsoleLogsWidget* m_consoleLogsWidget;
     GoogleMapsView* m_googleMapsView;

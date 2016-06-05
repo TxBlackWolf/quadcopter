@@ -37,6 +37,7 @@ SOURCES         += \
                 Core/CommandsManager.cpp \
                 Core/PadCalibrator.cpp \
                 Core/PadDriver.cpp \
+                Core/SteeringController.cpp \
                 Tools/IServer.cpp \
                 Tools/SerialPortServer.cpp \
                 Tools/TCPServer.cpp \
@@ -70,6 +71,7 @@ HEADERS         += \
                 Core/CommandsManager.h \
                 Core/PadCalibrator.h \
                 Core/PadDriver.h \
+                Core/SteeringController.h \
                 Misc/SubsystemsStatus.h \
                 Misc/Version.h \
                 Tools/IServer.h \
