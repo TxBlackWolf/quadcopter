@@ -14,6 +14,7 @@
 #include "Core/SteeringController.h"
 #include "Tools/Options/CommandsOptions.h"
 #include "Tools/Options/LogsOptions.h"
+#include "Tools/Options/PadOptions.h"
 
 #include <QComboBox>
 #include <QDialog>
@@ -75,10 +76,11 @@ private:
     void initPartityCombo(QComboBox* comboBox, unsigned int defaultPartity);
     void initFlowControlCombo(QComboBox* comboBox, unsigned int defaultFlowControl);
     void initInputDeviceCombo(QComboBox* comboBox);
-    void registerKeyForEvent(int keyId);
+    void registerKeyIdForEvent(int keyId);
 
     void saveLogsSettings();
     void saveCommandsSettings();
+    void savePadSettings();
 
 private:
     Ui::SettingsDialog* m_ui;
@@ -86,6 +88,7 @@ private:
 
     LogsOptions m_optionsLogs;
     CommandsOptions m_optionsCommands;
+    PadOptions m_optionsPad;
 
     bool m_keyAssigning;
     bool m_logsStarted;

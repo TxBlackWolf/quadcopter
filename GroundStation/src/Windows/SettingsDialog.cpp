@@ -125,8 +125,6 @@ void SettingsDialog::buttonSelectLogsDirClicked()
 
 void SettingsDialog::buttonStartLogsClicked()
 {
-    saveSettings();
-
     m_logsStarted = !m_logsStarted;
     emit logsStarted(m_logsStarted);
 
@@ -139,8 +137,6 @@ void SettingsDialog::buttonStartLogsClicked()
 
 void SettingsDialog::buttonStartCommandsClicked()
 {
-    saveSettings();
-
     m_commandsStarted = !m_commandsStarted;
     emit commandsStarted(m_commandsStarted);
 
@@ -164,8 +160,6 @@ void SettingsDialog::buttonStartAllClicked()
 
 void SettingsDialog::buttonConnectPadControllerClicked()
 {
-    saveSettings();
-
     m_padControllerConnected = !m_padControllerConnected;
     emit connectPadController(m_ui->comboPadDevice->currentText());
 
@@ -199,6 +193,25 @@ void SettingsDialog::setButtonAll()
 void SettingsDialog::setPadControllerName(QString name)
 {
     m_ui->labelPadName->setText(name);
+
+    m_optionsPad.loadKeyMappings(name);
+    m_ui->keyThrottle->setText(m_optionsPad.keyThrottle);
+    m_ui->keyRotate->setText(m_optionsPad.keyRotate);
+    m_ui->keyFrontBack->setText(m_optionsPad.keyFrontBack);
+    m_ui->keyLeftRight->setText(m_optionsPad.keyLeftRight);
+    m_ui->keyLandingGear->setText(m_optionsPad.keyLandingGear);
+    m_ui->keyMainLights->setText(m_optionsPad.keyMainLights);
+    m_ui->keyBottomLights->setText(m_optionsPad.keyBottomLights);
+    m_ui->keyReturnBase->setText(m_optionsPad.keyReturnBase);
+    m_ui->keyStabilizeFlight->setText(m_optionsPad.keyStabilizeFlight);
+    m_ui->keyFPV->setText(m_optionsPad.keyFPV);
+    m_ui->keyFunc11->setText(m_optionsPad.keyFunc11);
+    m_ui->keyFunc12->setText(m_optionsPad.keyFunc12);
+    m_ui->keyFunc13->setText(m_optionsPad.keyFunc13);
+    m_ui->keyFunc14->setText(m_optionsPad.keyFunc14);
+    m_ui->keyFunc15->setText(m_optionsPad.keyFunc15);
+    m_ui->keyFunc16->setText(m_optionsPad.keyFunc16);
+
 }
 
 void SettingsDialog::setPadSensitivity(int value)
@@ -255,7 +268,7 @@ void SettingsDialog::setPadAxisMapping(int id, int value)
         return;
 
     lineEdit->setText(IPadCalibrator::getAxisName(id));
-    registerKeyForEvent(id);
+    registerKeyIdForEvent(id);
 }
 
 void SettingsDialog::setPadButtonMapping(int id, bool value)
@@ -275,13 +288,14 @@ void SettingsDialog::setPadButtonMapping(int id, bool value)
         return;
 
     lineEdit->setText(IPadCalibrator::getButtonName(id));
-    registerKeyForEvent(id);
+    registerKeyIdForEvent(id);
 }
 
 void SettingsDialog::saveSettings()
 {
     saveLogsSettings();
     saveCommandsSettings();
+    savePadSettings();
 }
 
 void SettingsDialog::initLogsSettings()
@@ -346,6 +360,11 @@ void SettingsDialog::initPadControllerSettings()
     connect(m_ui->buttonConnectPad, SIGNAL(clicked()), this, SLOT(buttonConnectPadControllerClicked()));
 
     initInputDeviceCombo(m_ui->comboPadDevice);
+
+    m_optionsPad.loadDevice();
+    int defaultIndex = m_ui->comboPadDevice->findData(m_optionsPad.device);
+    if(defaultIndex != -1)
+        m_ui->comboPadDevice->setCurrentIndex(defaultIndex);
 }
 
 void SettingsDialog::initSerialPortsCombo(QComboBox* comboBox, QString defaultPort)
@@ -429,7 +448,7 @@ void SettingsDialog::initInputDeviceCombo(QComboBox* comboBox)
         comboBox->addItem(it.next());
 }
 
-void SettingsDialog::registerKeyForEvent(int keyId)
+void SettingsDialog::registerKeyIdForEvent(int keyId)
 {
     if(focusWidget() == m_ui->keyThrottle) {
         emit registerAxisEvent(keyId, SteeringController::AXIS_STEERING_THROTTLE);
@@ -493,8 +512,6 @@ void SettingsDialog::registerKeyForEvent(int keyId)
 
 void SettingsDialog::saveLogsSettings()
 {
-    m_optionsLogs.load();
-
     m_optionsLogs.serverOptions.serverType = m_ui->radioSerialLogs->isChecked() ? ServerOptions::SERVER_SERIAL : ServerOptions::SERVER_TCP;
     m_optionsLogs.logsPath = m_ui->editLogsDir->text();
 
@@ -515,8 +532,6 @@ void SettingsDialog::saveLogsSettings()
 
 void SettingsDialog::saveCommandsSettings()
 {
-    m_optionsCommands.load();
-
     m_optionsCommands.serverOptions.serverType = m_ui->radioSerialCommands->isChecked() ? ServerOptions::SERVER_SERIAL : ServerOptions::SERVER_TCP;
 
     SerialPortOptions& serialOptions = m_optionsCommands.serverOptions.serialServer;
@@ -532,4 +547,27 @@ void SettingsDialog::saveCommandsSettings()
     networkOptions.port = m_ui->editPortCommands->text().toUInt();
 
     m_optionsCommands.save();
+}
+
+void SettingsDialog::savePadSettings()
+{
+    m_optionsPad.device = m_ui->comboPadDevice->currentText();
+    m_optionsPad.keyThrottle = m_ui->keyThrottle->text();
+    m_optionsPad.keyRotate = m_ui->keyRotate->text();
+    m_optionsPad.keyFrontBack = m_ui->keyFrontBack->text();
+    m_optionsPad.keyLeftRight = m_ui->keyLeftRight->text();
+    m_optionsPad.keyLandingGear = m_ui->keyLandingGear->text();
+    m_optionsPad.keyMainLights = m_ui->keyMainLights->text();
+    m_optionsPad.keyBottomLights = m_ui->keyBottomLights->text();
+    m_optionsPad.keyReturnBase = m_ui->keyReturnBase->text();
+    m_optionsPad.keyStabilizeFlight = m_ui->keyStabilizeFlight->text();
+    m_optionsPad.keyFPV = m_ui->keyFPV->text();
+    m_optionsPad.keyFunc11 = m_ui->keyFunc11->text();
+    m_optionsPad.keyFunc12 = m_ui->keyFunc12->text();
+    m_optionsPad.keyFunc13 = m_ui->keyFunc13->text();
+    m_optionsPad.keyFunc14 = m_ui->keyFunc14->text();
+    m_optionsPad.keyFunc15 = m_ui->keyFunc15->text();
+    m_optionsPad.keyFunc16 = m_ui->keyFunc16->text();
+
+    m_optionsPad.save(m_ui->labelPadName->text());
 }
