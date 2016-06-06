@@ -54,6 +54,10 @@ void PadDriver::connect(QString device)
     if((m_controllerFd = open(device.toStdString().c_str(), O_RDONLY)) < 0)
         return;
 
+    // Set read on device descriptor to be non-blocking, to allow thread termination.
+    int flags = fcntl(m_controllerFd, F_GETFL, 0);
+    fcntl(m_controllerFd, F_SETFL, flags | O_NONBLOCK);
+
     unsigned int axesCount = 0;
     unsigned int buttonsCount = 0;
 
