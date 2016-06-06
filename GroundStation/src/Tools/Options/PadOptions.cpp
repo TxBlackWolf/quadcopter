@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "PadOptions.h"
+#include "Core/SteeringController.h"
 
 #include <QSettings>
 
@@ -28,12 +29,6 @@ void PadOptions::save(QString name)
     settings.setValue("keyReturnBase", keyReturnBase);
     settings.setValue("keyStabilizeFlight", keyStabilizeFlight);
     settings.setValue("keyFPV", keyFPV);
-    settings.setValue("keyFunc11", keyFunc11);
-    settings.setValue("keyFunc12", keyFunc12);
-    settings.setValue("keyFunc13", keyFunc13);
-    settings.setValue("keyFunc14", keyFunc14);
-    settings.setValue("keyFunc15", keyFunc15);
-    settings.setValue("keyFunc16", keyFunc16);
     settings.endGroup();
 }
 
@@ -48,21 +43,15 @@ void PadOptions::loadKeyMappings(QString name)
     QSettings settings;
 
     settings.beginGroup(name);
-    keyThrottle = settings.value("keyThrottle", "").toString();
-    keyRotate = settings.value("keyRotate", "").toString();
-    keyFrontBack = settings.value("keyFrontBack", "").toString();
-    keyLeftRight = settings.value("keyLeftRight", "").toString();
-    keyLandingGear = settings.value("keyLandingGear", "").toString();
-    keyMainLights = settings.value("keyMainLights", "").toString();
-    keyBottomLights = settings.value("keyBottomLights", "").toString();
-    keyReturnBase = settings.value("keyReturnBase", "").toString();
-    keyStabilizeFlight = settings.value("keyStabilizeFlight", "").toString();
-    keyFPV = settings.value("keyFPV", "").toString();
-    keyFunc11 = settings.value("keyFunc11", "").toString();
-    keyFunc12 = settings.value("keyFunc12", "").toString();
-    keyFunc13 = settings.value("keyFunc13", "").toString();
-    keyFunc14 = settings.value("keyFunc14", "").toString();
-    keyFunc15 = settings.value("keyFunc15", "").toString();
-    keyFunc16 = settings.value("keyFunc16", "").toString();
+    keyThrottle = settings.value("keyThrottle", UNDEFINED_KEY_ID).toInt();
+    keyRotate = settings.value("keyRotate", UNDEFINED_KEY_ID).toInt();
+    keyFrontBack = settings.value("keyFrontBack", UNDEFINED_KEY_ID).toInt();
+    keyLeftRight = settings.value("keyLeftRight", UNDEFINED_KEY_ID).toInt();
+    keyLandingGear = settings.value("keyLandingGear", UNDEFINED_KEY_ID).toInt();
+    keyMainLights = settings.value("keyMainLights", UNDEFINED_KEY_ID).toInt();
+    keyBottomLights = settings.value("keyBottomLights", UNDEFINED_KEY_ID).toInt();
+    keyReturnBase = settings.value("keyReturnBase", UNDEFINED_KEY_ID).toInt();
+    keyStabilizeFlight = settings.value("keyStabilizeFlight", UNDEFINED_KEY_ID).toInt();
+    keyFPV = settings.value("keyFPV", UNDEFINED_KEY_ID).toInt();
     settings.endGroup();
 }

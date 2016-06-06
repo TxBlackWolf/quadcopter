@@ -21,22 +21,16 @@ public:
 
 public:
     QString device;
-    QString keyThrottle;
-    QString keyRotate;
-    QString keyFrontBack;
-    QString keyLeftRight;
-    QString keyLandingGear;
-    QString keyMainLights;
-    QString keyBottomLights;
-    QString keyReturnBase;
-    QString keyStabilizeFlight;
-    QString keyFPV;
-    QString keyFunc11;
-    QString keyFunc12;
-    QString keyFunc13;
-    QString keyFunc14;
-    QString keyFunc15;
-    QString keyFunc16;
+    int keyThrottle;
+    int keyRotate;
+    int keyFrontBack;
+    int keyLeftRight;
+    int keyLandingGear;
+    int keyMainLights;
+    int keyBottomLights;
+    int keyReturnBase;
+    int keyStabilizeFlight;
+    int keyFPV;
 };
 
 #endif

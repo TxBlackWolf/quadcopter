@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "PadCalibrator.h"
+#include "Core/SteeringController.h"
 
 #include <cstring>
 
@@ -31,12 +32,32 @@ const char *IPadCalibrator::getAxisName(int id)
     return axesNames[id];
 }
 
+int IPadCalibrator::getAxisId(const char *name)
+{
+    for(int i = 0; i < AXES_MAX_COUNT; ++i) {
+        if(strcmp(name, axesNames[i]) == 0)
+            return i;
+    }
+
+    return UNDEFINED_KEY_ID;
+}
+
 const char *IPadCalibrator::getButtonName(int id)
 {
     if(!buttonsNames)
         return "";
 
     return buttonsNames[id];
+}
+
+int IPadCalibrator::getButtonId(const char *name)
+{
+    for(int i = 0; i < BUTTONS_MAX_COUNT; ++i) {
+        if(strcmp(name, buttonsNames[i]) == 0)
+            return i;
+    }
+
+    return UNDEFINED_KEY_ID;
 }
 
 const char *GenericPadCalibrator::genericAxes[AXES_MAX_COUNT] = {

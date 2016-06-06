@@ -195,22 +195,27 @@ void SettingsDialog::setPadControllerName(QString name)
     m_ui->labelPadName->setText(name);
 
     m_optionsPad.loadKeyMappings(name);
-    m_ui->keyThrottle->setText(m_optionsPad.keyThrottle);
-    m_ui->keyRotate->setText(m_optionsPad.keyRotate);
-    m_ui->keyFrontBack->setText(m_optionsPad.keyFrontBack);
-    m_ui->keyLeftRight->setText(m_optionsPad.keyLeftRight);
-    m_ui->keyLandingGear->setText(m_optionsPad.keyLandingGear);
-    m_ui->keyMainLights->setText(m_optionsPad.keyMainLights);
-    m_ui->keyBottomLights->setText(m_optionsPad.keyBottomLights);
-    m_ui->keyReturnBase->setText(m_optionsPad.keyReturnBase);
-    m_ui->keyStabilizeFlight->setText(m_optionsPad.keyStabilizeFlight);
-    m_ui->keyFPV->setText(m_optionsPad.keyFPV);
-    m_ui->keyFunc11->setText(m_optionsPad.keyFunc11);
-    m_ui->keyFunc12->setText(m_optionsPad.keyFunc12);
-    m_ui->keyFunc13->setText(m_optionsPad.keyFunc13);
-    m_ui->keyFunc14->setText(m_optionsPad.keyFunc14);
-    m_ui->keyFunc15->setText(m_optionsPad.keyFunc15);
-    m_ui->keyFunc16->setText(m_optionsPad.keyFunc16);
+    m_ui->keyThrottle->setText(IPadCalibrator::getAxisName(m_optionsPad.keyThrottle));
+    m_ui->keyRotate->setText(IPadCalibrator::getAxisName(m_optionsPad.keyRotate));
+    m_ui->keyFrontBack->setText(IPadCalibrator::getAxisName(m_optionsPad.keyFrontBack));
+    m_ui->keyLeftRight->setText(IPadCalibrator::getAxisName(m_optionsPad.keyLeftRight));
+    m_ui->keyLandingGear->setText(IPadCalibrator::getButtonName(m_optionsPad.keyLandingGear));
+    m_ui->keyMainLights->setText(IPadCalibrator::getButtonName(m_optionsPad.keyMainLights));
+    m_ui->keyBottomLights->setText(IPadCalibrator::getButtonName(m_optionsPad.keyBottomLights));
+    m_ui->keyReturnBase->setText(IPadCalibrator::getButtonName(m_optionsPad.keyReturnBase));
+    m_ui->keyStabilizeFlight->setText(IPadCalibrator::getButtonName(m_optionsPad.keyStabilizeFlight));
+    m_ui->keyFPV->setText(IPadCalibrator::getButtonName(m_optionsPad.keyFPV));
+
+    emit registerAxisEvent(m_optionsPad.keyThrottle, SteeringController::AXIS_STEERING_THROTTLE);
+    emit registerAxisEvent(m_optionsPad.keyRotate, SteeringController::AXIS_STEERING_ROTATE);
+    emit registerAxisEvent(m_optionsPad.keyFrontBack, SteeringController::AXIS_STEERING_FRONT_BACK);
+    emit registerAxisEvent(m_optionsPad.keyLeftRight, SteeringController::AXIS_STEERING_LEFT_RIGHT);
+    emit registerButtonEvent(m_optionsPad.keyLandingGear, SteeringController::BUTTON_STEERING_LANDING_GEAR);
+    emit registerButtonEvent(m_optionsPad.keyMainLights, SteeringController::BUTTON_STEERING_MAIN_LIGHTS);
+    emit registerButtonEvent(m_optionsPad.keyBottomLights, SteeringController::BUTTON_STEERING_BOTTOM_LIGHTS);
+    emit registerButtonEvent(m_optionsPad.keyReturnBase, SteeringController::BUTTON_STEERING_RETURN_BASE);
+    emit registerButtonEvent(m_optionsPad.keyStabilizeFlight, SteeringController::BUTTON_STEERING_STABILIZE_FLIGHT);
+    emit registerButtonEvent(m_optionsPad.keyFPV, SteeringController::BUTTON_STEERING_FPV);
 
 }
 
@@ -556,22 +561,15 @@ void SettingsDialog::saveCommandsSettings()
 void SettingsDialog::savePadSettings()
 {
     m_optionsPad.device = m_ui->comboPadDevice->currentText();
-    m_optionsPad.keyThrottle = m_ui->keyThrottle->text();
-    m_optionsPad.keyRotate = m_ui->keyRotate->text();
-    m_optionsPad.keyFrontBack = m_ui->keyFrontBack->text();
-    m_optionsPad.keyLeftRight = m_ui->keyLeftRight->text();
-    m_optionsPad.keyLandingGear = m_ui->keyLandingGear->text();
-    m_optionsPad.keyMainLights = m_ui->keyMainLights->text();
-    m_optionsPad.keyBottomLights = m_ui->keyBottomLights->text();
-    m_optionsPad.keyReturnBase = m_ui->keyReturnBase->text();
-    m_optionsPad.keyStabilizeFlight = m_ui->keyStabilizeFlight->text();
-    m_optionsPad.keyFPV = m_ui->keyFPV->text();
-    m_optionsPad.keyFunc11 = m_ui->keyFunc11->text();
-    m_optionsPad.keyFunc12 = m_ui->keyFunc12->text();
-    m_optionsPad.keyFunc13 = m_ui->keyFunc13->text();
-    m_optionsPad.keyFunc14 = m_ui->keyFunc14->text();
-    m_optionsPad.keyFunc15 = m_ui->keyFunc15->text();
-    m_optionsPad.keyFunc16 = m_ui->keyFunc16->text();
-
+    m_optionsPad.keyThrottle = IPadCalibrator::getAxisId(m_ui->keyThrottle->text().toStdString().c_str());
+    m_optionsPad.keyRotate = IPadCalibrator::getAxisId(m_ui->keyRotate->text().toStdString().c_str());
+    m_optionsPad.keyFrontBack = IPadCalibrator::getAxisId(m_ui->keyFrontBack->text().toStdString().c_str());
+    m_optionsPad.keyLeftRight = IPadCalibrator::getAxisId(m_ui->keyLeftRight->text().toStdString().c_str());
+    m_optionsPad.keyLandingGear = IPadCalibrator::getButtonId(m_ui->keyLandingGear->text().toStdString().c_str());
+    m_optionsPad.keyMainLights = IPadCalibrator::getButtonId(m_ui->keyMainLights->text().toStdString().c_str());
+    m_optionsPad.keyBottomLights = IPadCalibrator::getButtonId(m_ui->keyBottomLights->text().toStdString().c_str());
+    m_optionsPad.keyReturnBase = IPadCalibrator::getButtonId(m_ui->keyReturnBase->text().toStdString().c_str());
+    m_optionsPad.keyStabilizeFlight = IPadCalibrator::getButtonId(m_ui->keyStabilizeFlight->text().toStdString().c_str());
+    m_optionsPad.keyFPV = IPadCalibrator::getButtonId(m_ui->keyFPV->text().toStdString().c_str());
     m_optionsPad.save(m_ui->labelPadName->text());
 }

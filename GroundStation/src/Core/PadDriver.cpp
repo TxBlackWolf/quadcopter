@@ -71,6 +71,7 @@ void PadDriver::connect(QString device)
             return;
     }
 
+    m_calibrator = IPadCalibrator::create(m_name);
     emit detectedPadController(m_name.c_str());
     m_connected = true;
 
@@ -118,7 +119,6 @@ void PadDriver::run()
     QTime timer;
     timer.start();
 
-    m_calibrator = IPadCalibrator::create(m_name);
     int axesAngles[AXES_MAX_COUNT] = { 0 };
     bool buttonsStates[BUTTONS_MAX_COUNT] = { false };
 

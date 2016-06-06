@@ -15,8 +15,8 @@
 #include <memory>
 #include <string>
 
-static const int AXES_MAX_COUNT    = ABS_MAX + 1;
-static const int BUTTONS_MAX_COUNT = KEY_MAX - BTN_MISC + 1;
+static const int AXES_MAX_COUNT    = 31;
+static const int BUTTONS_MAX_COUNT = 79;
 
 class IPadCalibrator {
 public:
@@ -24,7 +24,9 @@ public:
     virtual ~IPadCalibrator() = default;
 
     static const char *getAxisName(int id);
+    static int getAxisId(const char *name);
     static const char *getButtonName(int id);
+    static int getButtonId(const char *name);
 
     virtual int normalizeAxisAngle(int originalAngle) = 0;
     virtual bool normalizeButtonState(int originalState) = 0;
