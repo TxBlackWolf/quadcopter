@@ -31,6 +31,15 @@ CommandsManager::~CommandsManager()
     catch(...) {}
 }
 
+void CommandsManager::sendCommand(uint8_t *buffer, int size)
+{
+    if(!m_server)
+        return;
+
+    QByteArray command = QByteArray::fromRawData(reinterpret_cast<char*>(buffer), size);
+    m_server->sendData(command);
+}
+
 void CommandsManager::setOperating(bool activate)
 {
     if(!activate && m_server) {

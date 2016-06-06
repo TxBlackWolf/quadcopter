@@ -14,7 +14,8 @@
 
 #include <cstdint>
 
-SteeringController::SteeringController()
+SteeringController::SteeringController(CommandsManager& commandsManager)
+    : m_commandsManager(commandsManager)
 {
     for(int i = 0; i < AXIS_STEERING_COUNT; ++i)
         m_axisMapping[i] = UNDEFINED_KEY_ID;
@@ -108,13 +109,11 @@ void SteeringController::handleButtonEvent(int id, bool value)
 
 void SteeringController::sendThrottleCommand(int value)
 {
-    qDebug() << "Sending throttle: " << value << " %";
-
     ControlCommandThrottle_t throttle_command;
     throttle_command.throttle = static_cast<int8_t>(value);
 
     uint8_t command[COMMAND_MAX_SIZE_BYTES];
     int command_size = commandEncoder_createControlCommand(command, CONTROL_EVENT_THROTTLE, &throttle_command);
 
-    //return commandsManager_send(command, command_size);
+    m_commandsManager.sendCommand(command, command_size);
 }

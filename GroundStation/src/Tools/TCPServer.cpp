@@ -37,6 +37,12 @@ void TCPServer::stop()
         m_tcpServer.close();
 }
 
+void TCPServer::sendData(const QByteArray& buffer)
+{
+    if(m_socket)
+        m_socket->write(buffer);
+}
+
 bool TCPServer::receiveDataPriv()
 {
     QTcpSocket* socket = dynamic_cast<QTcpSocket*>(sender());

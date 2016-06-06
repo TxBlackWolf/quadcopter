@@ -22,6 +22,7 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , m_ui(new Ui::MainWindow())
+    , m_steeringController(m_commandsManager)
 {
     m_ui->setupUi(this);
 

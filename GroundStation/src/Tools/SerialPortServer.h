@@ -22,6 +22,7 @@ public:
 
     virtual bool start(ServerOptions options);
     virtual void stop();
+    virtual void sendData(const QByteArray& buffer);
 
 private:
     void init();

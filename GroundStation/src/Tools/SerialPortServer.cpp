@@ -38,6 +38,12 @@ void SerialPortServer::stop()
         m_serialPort.close();
 }
 
+void SerialPortServer::sendData(const QByteArray& buffer)
+{
+    if(m_serialPort.isOpen())
+        m_serialPort.write(buffer);
+}
+
 bool SerialPortServer::receiveDataPriv()
 {
     if(m_firstIncomingData) {

@@ -26,6 +26,8 @@ public:
     CommandsManager();
     virtual ~CommandsManager();
 
+    void sendCommand(uint8_t *buffer, int size);
+
 signals:
     void geolocationStatus(SubsystemStatus);
     void telemetryStatus(SubsystemStatus);

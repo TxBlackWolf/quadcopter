@@ -26,6 +26,8 @@ public:
 
     virtual bool start(ServerOptions options) = 0;
     virtual void stop() = 0;
+    virtual void sendData(const QByteArray& buffer) = 0;
+
     void setOnClientConnectedCallback(std::function<void(const QString&)> onClientConnectedCallback);
     void setOnMessageCallback(std::function<void(const QByteArray&)> onMessageCallback);
     void setOnClientDisconnectedCallback(std::function<void(const QString&)> onClientDisconnectedCallback);

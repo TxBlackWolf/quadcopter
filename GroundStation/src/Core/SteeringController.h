@@ -11,6 +11,8 @@
 #ifndef STEERINGCONTROLLER_H
 #define STEERINGCONTROLLER_H
 
+#include "CommandsManager.h"
+
 #include <QObject>
 
 #define UNDEFINED_KEY_ID        -1
@@ -37,7 +39,7 @@ public:
         BUTTON_STEERING_COUNT
     } ButtonSteeringEvent;
 
-    SteeringController();
+    SteeringController(CommandsManager& commandsManager);
 
 public slots:
     void registerAxisEvent(int id, SteeringController::AxisSteeringEvent type);
@@ -49,6 +51,8 @@ private:
     void sendThrottleCommand(int value);
 
 private:
+    CommandsManager& m_commandsManager;
+
     int m_axisMapping[AXIS_STEERING_COUNT];
     int m_buttonMapping[BUTTON_STEERING_COUNT];
 };
