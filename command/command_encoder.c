@@ -67,3 +67,27 @@ int commandEncoder_createEmulatorCommand(uint8_t *buffer, EmulatedDevice_t devic
     commandEncoder_finish(buffer, idx);
     return idx;
 }
+
+int commandEncoder_createControlCommand(uint8_t *buffer, ControlEvent_t event, void *command)
+{
+    int idx = commandEncoder_initHeader(buffer, COMMAND_CONTROL);
+
+    ControlHeader_t *control_header = (ControlHeader_t *) &buffer[idx];
+    control_header->event = event;
+    idx += sizeof(EmulatorHeader_t);
+
+    switch(event) {
+    case CONTROL_EVENT_THROTTLE: {
+            ControlCommandThrottle_t *throttle_command = (ControlCommandThrottle_t *) &buffer[idx];
+            *throttle_command = *((ControlCommandThrottle_t *) command);
+            idx += sizeof(ControlCommandThrottle_t);
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    commandEncoder_finish(buffer, idx);
+    return idx;
+}

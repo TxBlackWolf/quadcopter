@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "command_decoder.h"
+#include "command_control.h"
 #include "command_emulator.h"
 #include "command_statistics.h"
 
@@ -197,6 +198,8 @@ CommandDecoderError_t commandDecoder_parse(CommandType_t *command_type)
         result = command_parseEmulator(decoder.buffer + sizeof(CommandHeader_t), header->payload_size);
         break;
     case COMMAND_CONTROL:
+        result = command_parseControl(decoder.buffer + sizeof(CommandHeader_t), header->payload_size);
+        break;
     case COMMAND_TELEMETRY:
     case COMMAND_SYS_STATUS:
     case COMMAND_DEBUG:

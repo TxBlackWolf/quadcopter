@@ -26,6 +26,13 @@ extern "C" {
 #define COMMAND_SYNC_BYTE_2                 0x69      ///< Second synchonizing byte.
 #define COMMAND_SYNC_BYTE_3                 0xa5      ///< Third synchonizing byte.
 
+/// @brief General callback for commands. It should be called by command framework, after it
+///        detects specific command.
+/// @param [in] buffer              Payload of detected command.
+/// @param [in] size                Size of command payload.
+/// @return None.
+typedef void (*CommandCallback_t)(uint8_t *buffer, uint32_t size);
+
 /// @brief Type of commands.
 typedef enum {
     COMMAND_EMULATOR,               ///< Commands related to emulator (ex. GPIO status, PWM wave width).

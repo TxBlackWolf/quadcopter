@@ -23,14 +23,7 @@ extern "C" {
 
 #define PIN_NAME_MAX_SIZE               16
 
-/// @brief General callback for commands. It should be called by command framework, after it
-///        detects specific command.
-/// @param [in] buffer                  Payload of detected command.
-/// @param [in] size                    Size of command payload.
-/// @return None.
-typedef void (*CommandCallback_t)(uint8_t *buffer, uint32_t size);
-
-/// @brief Type of emulated device, that this emulator command describes.
+/// @brief Type of emulated device, that this command describes.
 typedef enum {
     EMULATED_DEVICE_GPIO,               ///< GPIO pins.
     EMULATED_DEVICE_COUNT               ///< Number of values is this enum. SHOULD BE LAST.
