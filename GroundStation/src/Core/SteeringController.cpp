@@ -9,6 +9,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "SteeringController.h"
+#include "command/command_control.h"
+#include "command/command_encoder.h"
+
+#include <cstdint>
 
 SteeringController::SteeringController()
 {
@@ -105,4 +109,12 @@ void SteeringController::handleButtonEvent(int id, bool value)
 void SteeringController::sendThrottleCommand(int value)
 {
     qDebug() << "Sending throttle: " << value << " %";
+
+    ControlCommandThrottle_t throttle_command;
+    throttle_command.throttle = static_cast<int8_t>(value);
+
+    uint8_t command[COMMAND_MAX_SIZE_BYTES];
+    int command_size = commandEncoder_createControlCommand(command, CONTROL_EVENT_THROTTLE, &throttle_command);
+
+    //return commandsManager_send(command, command_size);
 }
