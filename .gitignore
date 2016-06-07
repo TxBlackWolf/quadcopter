@@ -1,3 +1,6 @@
+# General
+.vscode/
+
 # flight-controller
 flight-controller/build/*
 flight-controller/bin/*
