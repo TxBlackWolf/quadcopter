@@ -9,7 +9,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "board.h"
-#include "board_drivers_support.h"
 #include "clock.h"
 #include "console.h"
 #include "drivers/engines/engine.h"
@@ -38,52 +37,28 @@ bool board_init()
     if(!console_init())
         return false;
 
-    console_write("board: Console ready\n");
-    
-    if(!clock_initPeriodicTimer())
-        return false;
+    console_write("board: Console initialized\n");
 
-    console_write("board: Periodic timer ready\n");
+    console_write("board: Initializing periodic timer\n");    
+    if(!clock_initPeriodicTimer()) {
+        console_write("board: Failed to initialize periodic timer\n");
+        return false;
+    }
 
     board_showSystemClocks();
 
-#if ACCELEROMETER_ENABLED
-#endif
-
-#if BAROMETER_ENABLED
-#endif
-
-#if BUZZER_ENABLED
-#endif
-
-#if CAMERA_ENABLED
-#endif
-
-#if ENGINES_ENABLED
+    // Initialize drivers.
     console_write("board: Initializing engines\n");
     if(!engines_init()) {
         console_write("board: Failed to initialize engines\n");
         return false;
     }
 
-    console_write("board: Engines ready\n");
-#endif
-
-#if GYROSCOPE_ENABLED
-#endif
-
-#if LIGHTS_ENABLED
     console_write("board: Initializing lights\n");
     if(!strobe_init()) {
         console_write("board: Failed to initialize lights\n");
         return false;
     }
-
-    console_write("board: Lights ready\n");
-#endif
-
-#if MAGNETOMETER_ENABLED
-#endif
 
     console_write("board: Init procedure completed\n");
     return true;
