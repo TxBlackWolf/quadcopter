@@ -88,12 +88,18 @@ bool engines_init()
 
 void engines_enableOne(EngineId_t id)
 {
+    if(!engines[id].initialized)
+        return;
+
     pwm_activate(&engines[id].handle);
     gpio_activate(&engines[id].handle.gpio);
 }
 
 void engines_disableOne(EngineId_t id)
 {
+    if(!engines[id].initialized)
+        return;
+
     gpio_deactivate(&engines[id].handle.gpio);
     pwm_deactivate(&engines[id].handle);
 }
@@ -112,6 +118,9 @@ void engines_disableAll()
 
 void engines_setThrottle(EngineId_t id, uint32_t throttle_perc)
 {
+    if(!engines[id].initialized)
+        return;
+
     float scalled_perc = throttle_perc / 100.0f;
     uint32_t scalled_throttle = AFRO_ESC_MIN_PULSE_WIDTH_PERC + scalled_perc * AFRO_ESC_VALID_PULSE_WIDTH_DIFF;
 

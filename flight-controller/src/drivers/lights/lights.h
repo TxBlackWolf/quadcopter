@@ -21,6 +21,4 @@ bool strobe_init();
 void strobe_enable();
 void strobe_disable();
 
-void strobe_blink();
-
 #endif

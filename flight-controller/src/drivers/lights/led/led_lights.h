@@ -12,5 +12,15 @@
 #define LED_LIGHTS_H
 
 #include "drivers/lights/lights.h"
+#include "hal/gpio.h"
+
+#include <stdint.h>
+
+typedef struct {
+    GPIOHandle_t gpio;
+    uint8_t phase;
+	bool state;
+	bool initialized;
+} StrobeLight_t;
 
 #endif

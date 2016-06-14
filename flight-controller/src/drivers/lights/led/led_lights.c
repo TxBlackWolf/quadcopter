@@ -13,79 +13,85 @@
 #include "board/board_pinout.h"
 #include "board/clock.h"
 #include "board/console.h"
-#include "hal/gpio.h"
 #include "hal/timer.h"
 
 #define STROBE_DELAY_PERIOD_MSEC    2000
 #define STROBE_BLINK_PERIOD_MSEC    150
 
-typedef struct {
-    GPIOHandle_t gpio;
-    bool state;
-    uint8_t phase;
-} StrobeLight_t;
+static StrobeLight_t strobe;
 
-static StrobeLight_t blue_strobe;
+//=============================================================================================
+// HELPER FUNCTIONS
+//=============================================================================================
+
+static void strobe_blink()
+{
+    uint32_t period_ms = 0;
+
+    switch(strobe.phase) {
+    case 1:
+        gpio_writePin(&strobe.gpio, true);
+        period_ms = STROBE_BLINK_PERIOD_MSEC;
+        strobe.phase = 2;
+        break;
+    case 2:
+        gpio_writePin(&strobe.gpio, false);
+        period_ms = STROBE_BLINK_PERIOD_MSEC;
+        strobe.phase = 3;
+        break;
+    case 3:
+        gpio_writePin(&strobe.gpio, true);
+        period_ms = STROBE_BLINK_PERIOD_MSEC;
+        strobe.phase = 4;
+        break;
+    case 4:
+        gpio_writePin(&strobe.gpio, false);
+        period_ms = STROBE_DELAY_PERIOD_MSEC;
+        strobe.phase = 1;
+        break;
+    }
+
+     clock_addPeriodicCallbackAsync(strobe_blink, period_ms, 1);
+}
+
+//=============================================================================================
+// INTERFACE FUNCTIONS
+//=============================================================================================
 
 bool strobe_init()
 {
-    blue_strobe.gpio.port = BLUE_STROBE_PORT;
-    blue_strobe.gpio.pin = BLUE_STROBE_PIN;
-    blue_strobe.gpio.name = "blue strobe";
-    blue_strobe.state = false;
-    blue_strobe.phase = 1;
+    strobe.gpio.port = BLUE_STROBE_PORT;
+    strobe.gpio.pin = BLUE_STROBE_PIN;
+    strobe.gpio.name = "blue strobe";
+    strobe.state = false;
+    strobe.phase = 1;
 
     GPIOConfig_t gpio_config;
     gpio_config.direction = GPIO_DIRECTION_OUT;
     gpio_config.resistor_type = GPIO_RESISTOR_NONE;
 
-    if(!board_strobeInit(&blue_strobe.gpio, &gpio_config))
+    if(!board_strobeInit(&strobe.gpio, &gpio_config))
         return false;
 
-    strobe_enable();
-
-    console_write("lights: Initialized %s (GPIO P%d.%d)\n", blue_strobe.gpio.name, blue_strobe.gpio.port, blue_strobe.gpio.pin);
+    console_write("lights: Initialized %s (GPIO P%d.%d)\n", strobe.gpio.name, strobe.gpio.port, strobe.gpio.pin);
+    strobe.initialized = true;
     return true;
 }
 
 void strobe_enable()
 {
-    gpio_activate(&blue_strobe.gpio);
+    if(!strobe.initialized)
+        return;
+
+    gpio_activate(&strobe.gpio);
     clock_addPeriodicCallback(strobe_blink, STROBE_DELAY_PERIOD_MSEC, 1);
 }
 
 void strobe_disable()
 {
-    gpio_deactivate(&blue_strobe.gpio);
+    if(!strobe.initialized)
+        return;
+
+    gpio_deactivate(&strobe.gpio);
     clock_removePeriodicCallback(strobe_blink);
-}
-
-void strobe_blink()
-{
-    uint32_t period_ms = 0;
-
-    switch(blue_strobe.phase) {
-    case 1:
-        gpio_writePin(&blue_strobe.gpio, true);
-        period_ms = STROBE_BLINK_PERIOD_MSEC;
-        blue_strobe.phase = 2;
-        break;
-    case 2:
-        gpio_writePin(&blue_strobe.gpio, false);
-        period_ms = STROBE_BLINK_PERIOD_MSEC;
-        blue_strobe.phase = 3;
-        break;
-    case 3:
-        gpio_writePin(&blue_strobe.gpio, true);
-        period_ms = STROBE_BLINK_PERIOD_MSEC;
-        blue_strobe.phase = 4;
-        break;
-    case 4:
-        gpio_writePin(&blue_strobe.gpio, false);
-        period_ms = STROBE_DELAY_PERIOD_MSEC;
-        blue_strobe.phase = 1;
-        break;
-    }
-
-     clock_addPeriodicCallbackAsync(strobe_blink, period_ms, 1);
 }
