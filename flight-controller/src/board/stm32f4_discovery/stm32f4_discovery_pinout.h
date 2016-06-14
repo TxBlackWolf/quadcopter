@@ -48,10 +48,8 @@
 #define ENGINE_REAR_RIGHT_TIMER                 STM32F4_TIMER_3
 #define ENGINE_REAR_RIGHT_TIMER_CHANNEL         4
 
-#if LIGHTS_ENABLED
 // Strobe light.
 #define BLUE_STROBE_PORT                        STM32F4_GPIO_PORT_D
 #define BLUE_STROBE_PIN                         STM32F4_GPIO_PIN_15
-#endif
 
 #endif
