@@ -15,21 +15,21 @@
 
 #include <stdbool.h>
 
-typedef struct {
-    PWMHandle_t front_left;
-    PWMHandle_t front_right;
-    PWMHandle_t rear_left;
-    PWMHandle_t rear_right;
-} Engines_t;
+typedef enum {
+    ENGINE_FRONT_LEFT,
+    ENGINE_FRONT_RIGHT,
+    ENGINE_REAR_LEFT,
+    ENGINE_REAR_RIGHT,
+    ENGINE_COUNT
+} EngineId_t;
 
 bool engines_init();
-Engines_t *engines_getHandle();
 
-void engines_enableOne(PWMHandle_t *engine);
-void engines_disableOne(PWMHandle_t *engine);
+void engines_enableOne(EngineId_t engine);
+void engines_disableOne(EngineId_t engine);
 void engines_enableAll();
 void engines_disableAll();
 
-void engines_setThrottle(PWMHandle_t *engine, uint32_t throttle_perc);
+void engines_setThrottle(EngineId_t engine, uint32_t throttle_perc);
 
 #endif

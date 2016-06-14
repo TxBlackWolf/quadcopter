@@ -15,60 +15,32 @@
 #include "hal/gpio.h"
 #include "hal/pwm.h"
 
+#include <stdio.h>
+
 #define AFRO_ESC_MAX_PULSE_WIDTH_US         1860
 #define AFRO_ESC_MIN_PULSE_WIDTH_US         1060
 #define AFRO_ESC_MIN_PULSE_WIDTH_PERC       (((AFRO_ESC_MIN_PULSE_WIDTH_US * 100) / AFRO_ESC_MAX_PULSE_WIDTH_US) + 1)
 #define AFRO_ESC_VALID_PULSE_WIDTH_DIFF     (100 - AFRO_ESC_MIN_PULSE_WIDTH_PERC)
 
-static Engines_t engines;
+static Engine_t engines[ENGINE_COUNT];
 
 //=============================================================================================
 // HELPER FUNCTIONS
 //=============================================================================================
 
-static bool engines_initFrontLeft(GPIOConfig_t *gpio_config, PWMConfig_t *pwm_config)
-{
-    engines.front_left.gpio.port = ENGINE_FRONT_LEFT_PORT;
-    engines.front_left.gpio.pin = ENGINE_FRONT_LEFT_PIN;
-    engines.front_left.gpio.name = "front left engine";
-    engines.front_left.timer.device = ENGINE_FRONT_LEFT_TIMER;
-    engines.front_left.timer.channel = ENGINE_FRONT_LEFT_TIMER_CHANNEL;
-
-    return board_engineInit(&engines.front_left, pwm_config, gpio_config);
-}
-
-static bool engines_initFrontRight(GPIOConfig_t *gpio_config, PWMConfig_t *pwm_config)
-{
-    engines.front_right.gpio.port = ENGINE_FRONT_RIGHT_PORT;
-    engines.front_right.gpio.pin = ENGINE_FRONT_RIGHT_PIN;
-    engines.front_right.gpio.name = "front right engine";
-    engines.front_right.timer.device = ENGINE_FRONT_RIGHT_TIMER;
-    engines.front_right.timer.channel = ENGINE_FRONT_RIGHT_TIMER_CHANNEL;
-
-    return board_engineInit(&engines.front_right, pwm_config, gpio_config);
-}
-
-static bool engines_initRearLeft(GPIOConfig_t *gpio_config, PWMConfig_t *pwm_config)
-{
-    engines.rear_left.gpio.port = ENGINE_REAR_LEFT_PORT;
-    engines.rear_left.gpio.pin = ENGINE_REAR_LEFT_PIN;
-    engines.rear_left.gpio.name = "rear left engine";
-    engines.rear_left.timer.device = ENGINE_REAR_LEFT_TIMER;
-    engines.rear_left.timer.channel = ENGINE_REAR_LEFT_TIMER_CHANNEL;
-
-    return board_engineInit(&engines.rear_left, pwm_config, gpio_config);
-}
-
-static bool engines_initReartRight(GPIOConfig_t *gpio_config, PWMConfig_t *pwm_config)
-{
-    engines.rear_right.gpio.port = ENGINE_REAR_RIGHT_PORT;
-    engines.rear_right.gpio.pin = ENGINE_REAR_RIGHT_PIN;
-    engines.rear_right.gpio.name = "rear right engine";
-    engines.rear_right.timer.device = ENGINE_REAR_RIGHT_TIMER;
-    engines.rear_right.timer.channel = ENGINE_REAR_RIGHT_TIMER_CHANNEL;
-
-    return board_engineInit(&engines.rear_right, pwm_config, gpio_config);
-}
+/// @note This uses GCC's statement expressions, thus it is not portable.
+#define engines_initOne(id, gpio_config, pwm_config)                                \
+    ({                                                                              \
+        Engine_t *engine = &engines[id];                                            \
+        PWMHandle_t *handle = &engine->handle;                                      \
+        handle->gpio.port = GET_ENGINE_PORT(id);                                    \
+        handle->gpio.pin = GET_ENGINE_PIN(id);                                      \
+        handle->gpio.name = GET_ENGINE_NAME(id);                                    \
+        handle->timer.device = GET_ENGINE_TIMER(id);                                \
+        handle->timer.channel = GET_ENGINE_TIMER_CHANNEL(id);                       \
+        engine->initialized = board_engineInit(handle, pwm_config, gpio_config);    \
+        engine->initialized;                                                        \
+    })
 
 //=============================================================================================
 // INTERFACE FUNCTIONS
@@ -91,66 +63,57 @@ bool engines_init()
     console_write("engines: Afro ESC min pulse duration: %d us\n", AFRO_ESC_MIN_PULSE_WIDTH_US);
     console_write("engines: Afro ESC min pulse width: %d%%\n", AFRO_ESC_MIN_PULSE_WIDTH_PERC);
 
-    if(!engines_initFrontLeft(&gpio_config, &pwm_config)) {
-        console_write("engines: Failed to initialize %s\n", engines.front_left.gpio.name);
+    if(!engines_initOne(ENGINE_FRONT_LEFT, &gpio_config, &pwm_config)) {
+        console_write("engines: Failed to initialize %s\n", GET_ENGINE_NAME(ENGINE_FRONT_LEFT));
         return false;
     }
 
-    if(!engines_initFrontRight(&gpio_config, &pwm_config)) {
-        console_write("engines: Failed to initialize %s\n", engines.front_right.gpio.name);
+    if(!engines_initOne(ENGINE_FRONT_RIGHT, &gpio_config, &pwm_config)) {
+        console_write("engines: Failed to initialize %s\n", GET_ENGINE_NAME(ENGINE_FRONT_RIGHT));
         return false;
     }
 
-    if(!engines_initRearLeft(&gpio_config, &pwm_config)) {
-        console_write("engines: Failed to initialize %s\n", engines.rear_left.gpio.name);
+    if(!engines_initOne(ENGINE_REAR_LEFT, &gpio_config, &pwm_config)) {
+        console_write("engines: Failed to initialize %s\n", GET_ENGINE_NAME(ENGINE_REAR_LEFT));
         return false;
     }
 
-    if(!engines_initReartRight(&gpio_config, &pwm_config)) {
-        console_write("engines: Failed to initialize %s\n", engines.rear_right.gpio.name);
+    if(!engines_initOne(ENGINE_REAR_RIGHT, &gpio_config, &pwm_config)) {
+        console_write("engines: Failed to initialize %s\n", GET_ENGINE_NAME(ENGINE_REAR_RIGHT));
         return false;
     }
 
     return true;
 }
 
-Engines_t *engines_getHandle()
+void engines_enableOne(EngineId_t id)
 {
-    return &engines;
+    pwm_activate(&engines[id].handle);
+    gpio_activate(&engines[id].handle.gpio);
 }
 
-void engines_enableOne(PWMHandle_t *engine)
+void engines_disableOne(EngineId_t id)
 {
-    pwm_activate(engine);
-    gpio_activate(&engine->gpio);
-}
-
-void engines_disableOne(PWMHandle_t *engine)
-{
-    gpio_deactivate(&engine->gpio);
-    pwm_deactivate(engine);
+    gpio_deactivate(&engines[id].handle.gpio);
+    pwm_deactivate(&engines[id].handle);
 }
 
 void engines_enableAll()
 {
-    engines_enableOne(&engines.front_left);
-    engines_enableOne(&engines.front_right);
-    engines_enableOne(&engines.rear_left);
-    engines_enableOne(&engines.rear_right);
+    for(int i = ENGINE_FRONT_LEFT; i < ENGINE_COUNT; ++i)
+        engines_enableOne(i);
 }
 
 void engines_disableAll()
 {
-    engines_disableOne(&engines.front_left);
-    engines_disableOne(&engines.front_right);
-    engines_disableOne(&engines.rear_left);
-    engines_disableOne(&engines.rear_right);
+    for(int i = ENGINE_FRONT_LEFT; i < ENGINE_COUNT; ++i)
+        engines_disableOne(i);
 }
 
-void engines_setThrottle(PWMHandle_t *engine, uint32_t throttle_perc)
+void engines_setThrottle(EngineId_t id, uint32_t throttle_perc)
 {
     float scalled_perc = throttle_perc / 100.0f;
     uint32_t scalled_throttle = AFRO_ESC_MIN_PULSE_WIDTH_PERC + scalled_perc * AFRO_ESC_VALID_PULSE_WIDTH_DIFF;
 
-    pwm_setPulseWidthPerc(engine, scalled_throttle);
+    pwm_setPulseWidthPerc(&engines[id].handle, scalled_throttle);
 }
