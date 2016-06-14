@@ -16,7 +16,7 @@ static CommandCallback_t command_callbacks[EMULATED_DEVICE_COUNT];
 
 bool command_registerEmulatorCallback(EmulatedDevice_t device, CommandCallback_t callback)
 {
-    if(command_callbacks[device])
+    if (command_callbacks[device])
         return false;
 
     command_callbacks[device] = callback;
@@ -25,7 +25,7 @@ bool command_registerEmulatorCallback(EmulatedDevice_t device, CommandCallback_t
 
 bool command_unregisterEmulatorCallback(EmulatedDevice_t device)
 {
-    if(!command_callbacks[device])
+    if (!command_callbacks[device])
         return false;
 
     command_callbacks[device] = NULL;
@@ -35,7 +35,7 @@ bool command_unregisterEmulatorCallback(EmulatedDevice_t device)
 CommandDecoderError_t command_parseEmulator(uint8_t *payload, uint32_t size)
 {
     EmulatorHeader_t *header = (EmulatorHeader_t *) payload;
-    if(!command_callbacks[header->device])
+    if (!command_callbacks[header->device])
         return PARSING_INVALID_DATA;
 
     uint8_t *command = payload + sizeof(EmulatorHeader_t);

@@ -28,7 +28,7 @@ static void strobe_blink()
 {
     uint32_t period_ms = 0;
 
-    switch(strobe.phase) {
+    switch (strobe.phase) {
     case 1:
         gpio_writePin(&strobe.gpio, true);
         period_ms = STROBE_BLINK_PERIOD_MSEC;
@@ -70,7 +70,7 @@ bool strobe_init()
     gpio_config.direction = GPIO_DIRECTION_OUT;
     gpio_config.resistor_type = GPIO_RESISTOR_NONE;
 
-    if(!board_strobeInit(&strobe.gpio, &gpio_config))
+    if (!board_strobeInit(&strobe.gpio, &gpio_config))
         return false;
 
     console_write("lights: Initialized %s (GPIO P%d.%d)\n", strobe.gpio.name, strobe.gpio.port, strobe.gpio.pin);
@@ -80,7 +80,7 @@ bool strobe_init()
 
 void strobe_enable()
 {
-    if(!strobe.initialized)
+    if (!strobe.initialized)
         return;
 
     gpio_activate(&strobe.gpio);
@@ -89,7 +89,7 @@ void strobe_enable()
 
 void strobe_disable()
 {
-    if(!strobe.initialized)
+    if (!strobe.initialized)
         return;
 
     gpio_deactivate(&strobe.gpio);

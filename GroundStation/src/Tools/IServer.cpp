@@ -14,7 +14,7 @@
 
 IServer* IServer::create(ServerOptions::ServerType type)
 {
-    switch(type) {
+    switch (type) {
     case ServerOptions::SERVER_TCP      : return new TCPServer();
     case ServerOptions::SERVER_SERIAL   : return new SerialPortServer();
     }
@@ -39,9 +39,9 @@ void IServer::setOnClientDisconnectedCallback(std::function<void(const QString&)
 
 void IServer::receiveData()
 {
-    if(!receiveDataPriv())
+    if (!receiveDataPriv())
         return;
 
-    if(m_onMessageCallback)
+    if (m_onMessageCallback)
         m_onMessageCallback(m_data);
 }

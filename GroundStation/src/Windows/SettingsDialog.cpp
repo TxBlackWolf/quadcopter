@@ -149,10 +149,10 @@ void SettingsDialog::buttonStartCommandsClicked()
 
 void SettingsDialog::buttonStartAllClicked()
 {
-    if(m_allToBeStarted != m_logsStarted)
+    if (m_allToBeStarted != m_logsStarted)
         buttonStartLogsClicked();
 
-    if(m_allToBeStarted != m_commandsStarted)
+    if (m_allToBeStarted != m_commandsStarted)
         buttonStartCommandsClicked();
 
     setButtonAll();
@@ -172,15 +172,15 @@ void SettingsDialog::buttonConnectPadControllerClicked()
 
 void SettingsDialog::setButtonAll()
 {
-    if(m_allToBeStarted && !(m_logsStarted && m_commandsStarted))
+    if (m_allToBeStarted && !(m_logsStarted && m_commandsStarted))
         return;
 
-    if(!m_allToBeStarted && (m_logsStarted || m_commandsStarted))
+    if (!m_allToBeStarted && (m_logsStarted || m_commandsStarted))
         return;
 
-    if(m_allToBeStarted && m_logsStarted && m_commandsStarted)
+    if (m_allToBeStarted && m_logsStarted && m_commandsStarted)
         m_allToBeStarted = false;
-    else if(!m_allToBeStarted && !m_logsStarted && !m_commandsStarted)
+    else if (!m_allToBeStarted && !m_logsStarted && !m_commandsStarted)
         m_allToBeStarted = true;
 
     QString imageResourceAll = m_allToBeStarted ? ":/Icons/Icons/power-button-green.png" : ":/Icons/Icons/power-button-red.png";
@@ -236,7 +236,7 @@ void SettingsDialog::buttonAssignClicked()
 
     m_ui->keyThrottle->setFocus();
 
-    if(m_keyAssigning)
+    if (m_keyAssigning)
         m_ui->buttonAssign->setText("Save");
     else
         m_ui->buttonAssign->setText("Assign");
@@ -258,18 +258,18 @@ void SettingsDialog::buttonClearClicked()
 
 void SettingsDialog::setPadAxisMapping(int id, int value)
 {
-    if(!isVisible())
+    if (!isVisible())
         return;
 
-    if(!focusWidget()->objectName().startsWith("key"))
+    if (!focusWidget()->objectName().startsWith("key"))
         return;
 
     // This will prevent from accidental axis key overriding.
-    if(value != 100 && value != -100)
+    if (value != 100 && value != -100)
         return;
 
     QLineEdit *lineEdit = dynamic_cast<QLineEdit *>(focusWidget());
-    if(!lineEdit)
+    if (!lineEdit)
         return;
 
     lineEdit->setText(IPadCalibrator::getAxisName(id));
@@ -278,18 +278,18 @@ void SettingsDialog::setPadAxisMapping(int id, int value)
 
 void SettingsDialog::setPadButtonMapping(int id, bool value)
 {
-    if(!isVisible())
+    if (!isVisible())
         return;
 
-    if(!focusWidget()->objectName().startsWith("key"))
+    if (!focusWidget()->objectName().startsWith("key"))
         return;
 
     // This will prevent from accidental setting the same key for different events.
-    if(!value)
+    if (!value)
         return;
 
     QLineEdit *lineEdit = dynamic_cast<QLineEdit *>(focusWidget());
-    if(!lineEdit)
+    if (!lineEdit)
         return;
 
     lineEdit->setText(IPadCalibrator::getButtonName(id));
@@ -368,7 +368,7 @@ void SettingsDialog::initPadControllerSettings()
 
     m_optionsPad.loadDevice();
     int defaultIndex = m_ui->comboPadDevice->findData(m_optionsPad.device);
-    if(defaultIndex != -1)
+    if (defaultIndex != -1)
         m_ui->comboPadDevice->setCurrentIndex(defaultIndex);
 }
 
@@ -379,7 +379,7 @@ void SettingsDialog::initSerialPortsCombo(QComboBox* comboBox, QString defaultPo
         comboBox->addItem(info.portName(), info.description());
 
     int defaultIndex = comboBox->findText(defaultPort);
-    if(defaultIndex != -1)
+    if (defaultIndex != -1)
         comboBox->setCurrentIndex(defaultIndex);
 }
 
@@ -391,7 +391,7 @@ void SettingsDialog::initSpeedCombo(QComboBox* comboBox, unsigned int defaultSpe
         comboBox->addItem(QString::number(speed), speed);
 
     int defaultIndex = comboBox->findData(defaultSpeed);
-    if(defaultIndex != -1)
+    if (defaultIndex != -1)
         comboBox->setCurrentIndex(defaultIndex);
 }
 
@@ -404,7 +404,7 @@ void SettingsDialog::initDataBitsCombo(QComboBox* comboBox, unsigned int default
     comboBox->addItem(QString::number(QSerialPort::Data8), QSerialPort::Data8);
 
     int defaultIndex = comboBox->findData(defaultDataBits);
-    if(defaultIndex != -1)
+    if (defaultIndex != -1)
         comboBox->setCurrentIndex(defaultIndex);
 }
 
@@ -416,7 +416,7 @@ void SettingsDialog::initStopBitsCombo(QComboBox* comboBox, unsigned int default
     comboBox->addItem(QString::number(QSerialPort::TwoStop), QSerialPort::TwoStop);
 
     int defaultIndex = comboBox->findData(defaultStopBits);
-    if(defaultIndex != -1)
+    if (defaultIndex != -1)
         comboBox->setCurrentIndex(defaultIndex);
 }
 
@@ -430,7 +430,7 @@ void SettingsDialog::initPartityCombo(QComboBox* comboBox, unsigned int defaultP
     comboBox->addItem("Mark", QSerialPort::MarkParity);
 
     int defaultIndex = comboBox->findData(defaultPartity);
-    if(defaultIndex != -1)
+    if (defaultIndex != -1)
         comboBox->setCurrentIndex(defaultIndex);
 }
 
@@ -442,32 +442,32 @@ void SettingsDialog::initFlowControlCombo(QComboBox* comboBox, unsigned int defa
     comboBox->addItem("XON/XOFF", QSerialPort::SoftwareControl);
 
     int defaultIndex = comboBox->findData(defaultFlow);
-    if(defaultIndex != -1)
+    if (defaultIndex != -1)
         comboBox->setCurrentIndex(defaultIndex);
 }
 
 void SettingsDialog::initInputDeviceCombo(QComboBox* comboBox)
 {
     QDirIterator it("/dev/input",  QStringList() << "js*", QDir::System);
-    while(it.hasNext())
+    while (it.hasNext())
         comboBox->addItem(it.next());
 }
 
 void SettingsDialog::registerAxisIdForEvent(int axisId)
 {
-    if(focusWidget() == m_ui->keyThrottle) {
+    if (focusWidget() == m_ui->keyThrottle) {
         emit registerAxisEvent(axisId, SteeringController::AXIS_STEERING_THROTTLE);
         m_ui->keyRotate->setFocus();
     }
-    else if(focusWidget() == m_ui->keyRotate) {
+    else if (focusWidget() == m_ui->keyRotate) {
         emit registerAxisEvent(axisId, SteeringController::AXIS_STEERING_ROTATE);
         m_ui->keyFrontBack->setFocus();
     }
-    else if(focusWidget() == m_ui->keyFrontBack) {
+    else if (focusWidget() == m_ui->keyFrontBack) {
         emit registerAxisEvent(axisId, SteeringController::AXIS_STEERING_FRONT_BACK);
         m_ui->keyLeftRight->setFocus();
     }
-    else if(focusWidget() == m_ui->keyLeftRight) {
+    else if (focusWidget() == m_ui->keyLeftRight) {
         emit registerAxisEvent(axisId, SteeringController::AXIS_STEERING_LEFT_RIGHT);
         m_ui->keyLandingGear->setFocus();
     }
@@ -475,46 +475,46 @@ void SettingsDialog::registerAxisIdForEvent(int axisId)
 
 void SettingsDialog::registerButtonIdForEvent(int buttonId)
 {
-    if(focusWidget() == m_ui->keyLandingGear) {
+    if (focusWidget() == m_ui->keyLandingGear) {
         emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_LANDING_GEAR);
         m_ui->keyMainLights->setFocus();
     }
-    else if(focusWidget() == m_ui->keyMainLights) {
+    else if (focusWidget() == m_ui->keyMainLights) {
         emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_MAIN_LIGHTS);
         m_ui->keyBottomLights->setFocus();
     }
-    else if(focusWidget() == m_ui->keyBottomLights) {
+    else if (focusWidget() == m_ui->keyBottomLights) {
         emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_BOTTOM_LIGHTS);
         m_ui->keyReturnBase->setFocus();
     }
-    else if(focusWidget() == m_ui->keyReturnBase) {
+    else if (focusWidget() == m_ui->keyReturnBase) {
         emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_RETURN_BASE);
         m_ui->keyStabilizeFlight->setFocus();
     }
-    else if(focusWidget() == m_ui->keyStabilizeFlight) {
+    else if (focusWidget() == m_ui->keyStabilizeFlight) {
         emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_STABILIZE_FLIGHT);
         m_ui->keyFPV->setFocus();
     }
-    else if(focusWidget() == m_ui->keyFPV) {
+    else if (focusWidget() == m_ui->keyFPV) {
         emit registerButtonEvent(buttonId, SteeringController::BUTTON_STEERING_FPV);
         m_ui->keyFunc11->setFocus();
     }
-    else if(focusWidget() == m_ui->keyFunc11) {
+    else if (focusWidget() == m_ui->keyFunc11) {
         m_ui->keyFunc12->setFocus();
     }
-    else if(focusWidget() == m_ui->keyFunc12) {
+    else if (focusWidget() == m_ui->keyFunc12) {
         m_ui->keyFunc13->setFocus();
     }
-    else if(focusWidget() == m_ui->keyFunc13) {
+    else if (focusWidget() == m_ui->keyFunc13) {
         m_ui->keyFunc14->setFocus();
     }
-    else if(focusWidget() == m_ui->keyFunc14) {
+    else if (focusWidget() == m_ui->keyFunc14) {
         m_ui->keyFunc15->setFocus();
     }
-    else if(focusWidget() == m_ui->keyFunc15) {
+    else if (focusWidget() == m_ui->keyFunc15) {
         m_ui->keyFunc16->setFocus();
     }
-    else if(focusWidget() == m_ui->keyFunc16) {
+    else if (focusWidget() == m_ui->keyFunc16) {
         m_ui->buttonAssign->setFocus();
     }
 }

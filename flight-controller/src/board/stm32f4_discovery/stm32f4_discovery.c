@@ -55,12 +55,12 @@ bool board_periodicTimerInit(TimerHandle_t *timer_handle)
     timer_config.clock_division = CLOCK_DIVISION_1;
     timer_config.repetition_counter = 0;
 
-    if(!stm32f4_timerSetPeriodConfig(timer_handle, (float) CLOCK_PERIODIC_TIMER_PERIOD_MS, &timer_config)) {
+    if (!stm32f4_timerSetPeriodConfig(timer_handle, (float) CLOCK_PERIODIC_TIMER_PERIOD_MS, &timer_config)) {
         console_write("board: Failed to set config for timer event frequency\n");
         return false;
     }
 
-    if(!stm32f4_timerInit(timer_handle, &timer_config)) {
+    if (!stm32f4_timerInit(timer_handle, &timer_config)) {
         console_write("board: Failed to initialize periodic timer\n");
         return false;
     }
@@ -93,13 +93,13 @@ bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t *pwm_config, GPIOConf
     gpio_config.mode = GPIO_MODE_ALTERNATE;
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
-    if(!stm32f4_gpioInit(&pwm_handle->gpio, &gpio_config)) {
+    if (!stm32f4_gpioInit(&pwm_handle->gpio, &gpio_config)) {
         console_write("board: Failed to initialize GPIO for %s\n", pwm_handle->gpio.name);
         return false;
     }
 
     // Configure PWM.
-    if(!stm32f4_pwmInit(pwm_handle, pwm_config)) {
+    if (!stm32f4_pwmInit(pwm_handle, pwm_config)) {
         console_write("board: Failed to initialize PWM for %s\n", pwm_handle->gpio.name);
         return false;
     }
@@ -117,7 +117,7 @@ bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t *gpio_general_conf
     gpio_config.mode = GPIO_MODE_OUT;
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
-    if(!stm32f4_gpioInit(gpio_handle, &gpio_config)) {
+    if (!stm32f4_gpioInit(gpio_handle, &gpio_config)) {
         console_write("board: Failed to initialize GPIO for %s\n", gpio_handle->name);
         return false;
     }

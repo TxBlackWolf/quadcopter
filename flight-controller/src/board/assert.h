@@ -14,9 +14,9 @@
 #include "console.h"
 
 /// @brief Modified assert, that enters infinite loop after printing message to console.
-#define board_assert(x)     if((x) == 0) {                                                                      \
+#define board_assert(x)     if ((x) == 0) {                                                                      \
                                 console_write("Assertion failed (%s:%d): '%s'\n", __FILE__, __LINE__, #x);      \
-                                while(1);                                                                       \
+                                while (1);                                                                       \
                             }
 
 #endif

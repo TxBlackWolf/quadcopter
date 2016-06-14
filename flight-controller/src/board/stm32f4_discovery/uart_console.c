@@ -40,7 +40,7 @@ bool console_init()
     gpio_config.mode = GPIO_MODE_ALTERNATE;
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
-    if(!stm32f4_gpioInit(&uart_handle.uart_gpio, &gpio_config))
+    if (!stm32f4_gpioInit(&uart_handle.uart_gpio, &gpio_config))
         return false;
 
     // Configure UART.
@@ -54,7 +54,7 @@ bool console_init()
     uart_config.general_config.mode = UART_MODE_ASYNCHRONOUS;
 
     console_initialized = stm32f4_uartInit(&uart_handle, &uart_config);
-    if(console_initialized) {
+    if (console_initialized) {
         uart_activate(&uart_handle);
         console_write("\n");
     }
@@ -64,7 +64,7 @@ bool console_init()
 
 void console_write(const char *format, ...)
 {
-    if(!console_initialized)
+    if (!console_initialized)
         return;
 
     char buffer[CONSOLE_BUFFER_SIZE];
@@ -74,6 +74,6 @@ void console_write(const char *format, ...)
     vsprintf(buffer, format, args);
     va_end(args);
 
-    for(int i = 0; buffer[i]; ++i)
+    for (int i = 0; buffer[i]; ++i)
         uart_send(&uart_handle, buffer[i]);
 }

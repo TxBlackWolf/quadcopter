@@ -24,17 +24,17 @@ include(${FLIGHTCONTROLLER_PATH}/cmake/drivers.cmake)
 # PROJECT SETTINGS
 #################################################################################################################
 
-if(NOT FLIGHTCONTROLLER_APP)
+if (NOT FLIGHTCONTROLLER_APP)
     set(FLIGHTCONTROLLER_APP "flight-controller")
-endif()
+endif ()
 
-if(NOT FLIGHTCONTROLLER_BOARD)
+if (NOT FLIGHTCONTROLLER_BOARD)
     set(FLIGHTCONTROLLER_BOARD "emulator_board")
-endif()
+endif ()
 
-if(NOT CMAKE_BUILD_TYPE)
+if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
-endif()
+endif ()
 
 set(PROJECT_NAME ${FLIGHTCONTROLLER_APP})
 set(APP_NAME "flight-controller")
@@ -45,13 +45,13 @@ project(${PROJECT_NAME} C ASM)
 # TOOLCHAIN SETTINGS
 #################################################################################################################
 
-if(${FLIGHTCONTROLLER_BOARD} STREQUAL "emulator_board")
+if (${FLIGHTCONTROLLER_BOARD} STREQUAL "emulator_board")
     set_toolchain("x86")
     set(FLIGHTCONTROLLER_HAL "emulator_hal")
-elseif(${FLIGHTCONTROLLER_BOARD} STREQUAL "stm32f4_discovery")
+elseif (${FLIGHTCONTROLLER_BOARD} STREQUAL "stm32f4_discovery")
     set_toolchain("arm")
     set(FLIGHTCONTROLLER_HAL "stm32f4")
-endif()
+endif ()
 
 # Set common build options.
 set(EXECUTABLE_OUTPUT_PATH ${FLIGHTCONTROLLER_PATH}/bin/${FLIGHTCONTROLLER_BOARD}/${CMAKE_BUILD_TYPE})

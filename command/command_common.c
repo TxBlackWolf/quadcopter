@@ -37,8 +37,8 @@ void command_leaveCriticalSection()
 
 uint16_t command_getVersionMajor()
 {
-    for(int i = 0; ; ++i) {
-        if(COMMAND_VERSION[i] == '.')
+    for (int i = 0; ; ++i) {
+        if (COMMAND_VERSION[i] == '.')
             return command_atoi(COMMAND_VERSION, i);
     }
 }
@@ -48,9 +48,9 @@ uint16_t command_getVersionMinor()
     int dot_num = 0;
     int idx = 0;
 
-    for(int i = 0; ; ++i) {
-        if(COMMAND_VERSION[i] == '.') {
-            if(++dot_num < 2) {
+    for (int i = 0; ; ++i) {
+        if (COMMAND_VERSION[i] == '.') {
+            if (++dot_num < 2) {
                 idx = i + 1;
                 continue;
             }
@@ -66,13 +66,13 @@ uint16_t command_getVersionPatch()
 {
     int idx = 0;
 
-    for(int i = 0; ; ++i) {
-        if(COMMAND_VERSION[i] == '.') {
+    for (int i = 0; ; ++i) {
+        if (COMMAND_VERSION[i] == '.') {
             idx = i + 1;
             continue;
         }
 
-        if(COMMAND_VERSION[i] != '\0')
+        if (COMMAND_VERSION[i] != '\0')
             continue;
 
         return command_atoi(&COMMAND_VERSION[idx], i - idx);
@@ -89,7 +89,7 @@ uint32_t command_computeCRC(const uint8_t *buffer __attribute__((unused)), uint3
 
 void command_copyBuffer(uint8_t *to, const uint8_t *from, int size)
 {
-    for(int i = 0; i < size; ++i)
+    for (int i = 0; i < size; ++i)
         to[i] = from[i];
 }
 
@@ -104,7 +104,7 @@ int command_atoi(char *str, int size)
     int n = size;
     char *p = str;
 
-    while(n--) {
+    while (n--) {
         k = (k << 3) + (k << 1) + (*p) - '0';
         ++p;
     }

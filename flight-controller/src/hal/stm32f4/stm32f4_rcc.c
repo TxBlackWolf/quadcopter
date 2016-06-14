@@ -19,7 +19,7 @@ static uint8_t stm32f4_APBAHB_prescaler_table[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 
 
 void stm32f4_rccEnablePeripheralClockAHB1(uint32_t peripheral, bool enabled)
 {
-    if(enabled)
+    if (enabled)
         RCC->AHB1ENR |= peripheral;
     else
         RCC->AHB1ENR &= ~peripheral;
@@ -27,7 +27,7 @@ void stm32f4_rccEnablePeripheralClockAHB1(uint32_t peripheral, bool enabled)
 
 void stm32f4_rccEnablePeripheralClockAHB2(uint32_t peripheral, bool enabled)
 {
-    if(enabled)
+    if (enabled)
         RCC->AHB2ENR |= peripheral;
     else
         RCC->AHB2ENR &= ~peripheral;
@@ -35,7 +35,7 @@ void stm32f4_rccEnablePeripheralClockAHB2(uint32_t peripheral, bool enabled)
 
 void stm32f4_rccEnablePeripheralClockAHB3(uint32_t peripheral, bool enabled)
 {
-    if(enabled)
+    if (enabled)
         RCC->AHB3ENR |= peripheral;
     else
         RCC->AHB3ENR &= ~peripheral;
@@ -43,7 +43,7 @@ void stm32f4_rccEnablePeripheralClockAHB3(uint32_t peripheral, bool enabled)
 
 void stm32f4_rccEnablePeripheralClockAPB1(uint32_t peripheral, bool enabled)
 {
-    if(enabled)
+    if (enabled)
         RCC->APB1ENR |= peripheral;
     else
         RCC->APB1ENR &= ~peripheral;
@@ -51,7 +51,7 @@ void stm32f4_rccEnablePeripheralClockAPB1(uint32_t peripheral, bool enabled)
 
 void stm32f4_rccEnablePeripheralClockAPB2(uint32_t peripheral, bool enabled)
 {
-    if(enabled)
+    if (enabled)
         RCC->APB2ENR |= peripheral;
     else
         RCC->APB2ENR &= ~peripheral;
@@ -59,7 +59,7 @@ void stm32f4_rccEnablePeripheralClockAPB2(uint32_t peripheral, bool enabled)
 
 void stm32f4_rccResetPeripheralAHB1(uint32_t peripheral, bool enabled)
 {
-    if(enabled)
+    if (enabled)
         RCC->AHB1RSTR |= peripheral;
     else
         RCC->AHB1RSTR &= ~peripheral;
@@ -67,7 +67,7 @@ void stm32f4_rccResetPeripheralAHB1(uint32_t peripheral, bool enabled)
 
 void stm32f4_rccResetPeripheralAHB2(uint32_t peripheral, bool enabled)
 {
-    if(enabled)
+    if (enabled)
         RCC->AHB2RSTR |= peripheral;
     else
         RCC->AHB2RSTR &= ~peripheral;
@@ -75,7 +75,7 @@ void stm32f4_rccResetPeripheralAHB2(uint32_t peripheral, bool enabled)
 
 void stm32f4_rccResetPeripheralAHB3(uint32_t peripheral, bool enabled)
 {
-    if(enabled)
+    if (enabled)
         RCC->AHB3RSTR |= peripheral;
     else
         RCC->AHB3RSTR &= ~peripheral;
@@ -83,7 +83,7 @@ void stm32f4_rccResetPeripheralAHB3(uint32_t peripheral, bool enabled)
 
 void stm32f4_rccResetPeripheralAPB1(uint32_t peripheral, bool enabled)
 {
-    if(enabled)
+    if (enabled)
         RCC->APB1RSTR |= peripheral;
     else
         RCC->APB1RSTR &= ~peripheral;
@@ -91,7 +91,7 @@ void stm32f4_rccResetPeripheralAPB1(uint32_t peripheral, bool enabled)
 
 void stm32f4_rccResetPeripheralAPB2(uint32_t peripheral, bool enabled)
 {
-    if(enabled)
+    if (enabled)
         RCC->APB2RSTR |= peripheral;
     else
         RCC->APB2RSTR &= ~peripheral;
@@ -101,7 +101,7 @@ void stm32f4_rccGetClocksFrequencies(STM32F4_ClockFrequencies_t *clocks)
 {
     // SYSCLK.
     uint32_t sysclk_source = RCC->CFGR & RCC_CFGR_SWS;
-    switch(sysclk_source) {
+    switch (sysclk_source) {
     case RCC_SYSCLK_SOURCE_USED_HSI:
         clocks->sysclk_frequency_hz = HSI_VALUE;
         break;
@@ -114,7 +114,7 @@ void stm32f4_rccGetClocksFrequencies(STM32F4_ClockFrequencies_t *clocks)
         uint32_t pll_source = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
         uint32_t pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
         uint32_t pll_vco = 0;
-        if(pll_source != RCC_PLL_SOURCE_HSI)
+        if (pll_source != RCC_PLL_SOURCE_HSI)
             pll_vco = (HSE_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
         else
             pll_vco = (HSI_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);

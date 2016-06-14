@@ -22,7 +22,7 @@ typedef GPIO_TypeDef GPIO_t;
 
 static GPIO_t *stm32f4_gpioGetRegisters(GPIOPort_t port)
 {
-    switch(port) {
+    switch (port) {
     case STM32F4_GPIO_PORT_A:   return GPIOA;
     case STM32F4_GPIO_PORT_B:   return GPIOB;
     case STM32F4_GPIO_PORT_C:   return GPIOC;
@@ -53,7 +53,7 @@ static void stm32f4_gpioSetPinFunction(GPIOHandle_t *handle, uint8_t function)
 static void stm32f4_gpioEnableClock(GPIOPort_t port, bool value)
 {
     uint32_t ahb1_peripheral = 0;
-    switch(port) {
+    switch (port) {
     case STM32F4_GPIO_PORT_A:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOA; break;
     case STM32F4_GPIO_PORT_B:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOB; break;
     case STM32F4_GPIO_PORT_C:   ahb1_peripheral = RCC_AHB1_PERIPHERAL_GPIOC; break;
@@ -76,8 +76,8 @@ bool stm32f4_gpioInit(GPIOHandle_t *handle, STM32F4_GPIOConfig_t *config)
 {
     stm32f4_gpioEnableClock(handle->port, true);
 
-    if(config->function != GPIO_DIGITAL_PIN) {
-        if(config->function < 0) {
+    if (config->function != GPIO_DIGITAL_PIN) {
+        if (config->function < 0) {
             console_write("gpio: Bad alternate function number: %d\n", config->function);
             return false;
         }
@@ -89,7 +89,7 @@ bool stm32f4_gpioInit(GPIOHandle_t *handle, STM32F4_GPIOConfig_t *config)
 
     gpio->MODER |= (config->mode << (handle->pin * 2));
 
-    if(config->mode == GPIO_MODE_OUT || config->mode == GPIO_MODE_ALTERNATE) {
+    if (config->mode == GPIO_MODE_OUT || config->mode == GPIO_MODE_ALTERNATE) {
         gpio->OSPEEDR |= (config->speed << (handle->pin * 2));
         gpio->OTYPER |= (config->output_type << handle->pin);
     }
@@ -126,7 +126,7 @@ bool gpio_writePin(GPIOHandle_t *handle, bool value)
 {
     GPIO_t *gpio = stm32f4_gpioGetRegisters(handle->port);
     uint16_t pin_mask = stm32f4_gpioGetPinMask(handle->pin);
-    if(value)
+    if (value)
         gpio->ODR |= pin_mask;
     else
         gpio->ODR &= ~pin_mask;

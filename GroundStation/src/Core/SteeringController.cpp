@@ -39,9 +39,9 @@ void SteeringController::handleAxisEvent(int id, int value)
 {
     // Note: We allow mapping more than one event for the same key.
     for(int i = 0 ; i < AXIS_STEERING_COUNT; ++i) {
-        if(m_axisMapping[i] == id) {
+        if (m_axisMapping[i] == id) {
             AxisSteeringEvent type = static_cast<AxisSteeringEvent>(i);
-            switch(type) {
+            switch (type) {
             case AXIS_STEERING_THROTTLE:
                 sendThrottleCommand(value);
                 break;
@@ -68,14 +68,14 @@ void SteeringController::handleAxisEvent(int id, int value)
 void SteeringController::handleButtonEvent(int id, bool value)
 {
     // We want only "press" events, not "release" ones.
-    if(!value)
+    if (!value)
         return;
 
     // Note: We allow mapping more than one event for the same key.
     for(int i = 0 ; i < BUTTON_STEERING_COUNT; ++i) {
-        if(m_buttonMapping[i] == id) {
+        if (m_buttonMapping[i] == id) {
             ButtonSteeringEvent type = static_cast<ButtonSteeringEvent>(i);
-            switch(type) {
+            switch (type) {
             case BUTTON_STEERING_LANDING_GEAR:
                 qDebug() << "Sending landing gear";
                 break;

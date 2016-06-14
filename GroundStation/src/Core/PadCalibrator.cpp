@@ -18,7 +18,7 @@ const char **IPadCalibrator::buttonsNames = nullptr;
 
 std::unique_ptr<IPadCalibrator> IPadCalibrator::create(std::string name)
 {
-    if(strcmp(name.c_str(), XBoxOnePadCalibrator::name) == 0)
+    if (strcmp(name.c_str(), XBoxOnePadCalibrator::name) == 0)
         return std::unique_ptr<IPadCalibrator>(new XBoxOnePadCalibrator());
 
     return std::unique_ptr<IPadCalibrator>(new GenericPadCalibrator());
@@ -26,7 +26,7 @@ std::unique_ptr<IPadCalibrator> IPadCalibrator::create(std::string name)
 
 const char *IPadCalibrator::getAxisName(int id)
 {
-    if(!axesNames)
+    if (!axesNames)
         return "";
 
     return axesNames[id];
@@ -35,7 +35,7 @@ const char *IPadCalibrator::getAxisName(int id)
 int IPadCalibrator::getAxisId(const char *name)
 {
     for(int i = 0; i < AXES_MAX_COUNT; ++i) {
-        if(strcmp(name, axesNames[i]) == 0)
+        if (strcmp(name, axesNames[i]) == 0)
             return i;
     }
 
@@ -44,7 +44,7 @@ int IPadCalibrator::getAxisId(const char *name)
 
 const char *IPadCalibrator::getButtonName(int id)
 {
-    if(!buttonsNames)
+    if (!buttonsNames)
         return "";
 
     return buttonsNames[id];
@@ -53,7 +53,7 @@ const char *IPadCalibrator::getButtonName(int id)
 int IPadCalibrator::getButtonId(const char *name)
 {
     for(int i = 0; i < BUTTONS_MAX_COUNT; ++i) {
-        if(strcmp(name, buttonsNames[i]) == 0)
+        if (strcmp(name, buttonsNames[i]) == 0)
             return i;
     }
 

@@ -63,22 +63,22 @@ bool engines_init()
     console_write("engines: Afro ESC min pulse duration: %d us\n", AFRO_ESC_MIN_PULSE_WIDTH_US);
     console_write("engines: Afro ESC min pulse width: %d%%\n", AFRO_ESC_MIN_PULSE_WIDTH_PERC);
 
-    if(!engines_initOne(ENGINE_FRONT_LEFT, &gpio_config, &pwm_config)) {
+    if (!engines_initOne(ENGINE_FRONT_LEFT, &gpio_config, &pwm_config)) {
         console_write("engines: Failed to initialize %s\n", GET_ENGINE_NAME(ENGINE_FRONT_LEFT));
         return false;
     }
 
-    if(!engines_initOne(ENGINE_FRONT_RIGHT, &gpio_config, &pwm_config)) {
+    if (!engines_initOne(ENGINE_FRONT_RIGHT, &gpio_config, &pwm_config)) {
         console_write("engines: Failed to initialize %s\n", GET_ENGINE_NAME(ENGINE_FRONT_RIGHT));
         return false;
     }
 
-    if(!engines_initOne(ENGINE_REAR_LEFT, &gpio_config, &pwm_config)) {
+    if (!engines_initOne(ENGINE_REAR_LEFT, &gpio_config, &pwm_config)) {
         console_write("engines: Failed to initialize %s\n", GET_ENGINE_NAME(ENGINE_REAR_LEFT));
         return false;
     }
 
-    if(!engines_initOne(ENGINE_REAR_RIGHT, &gpio_config, &pwm_config)) {
+    if (!engines_initOne(ENGINE_REAR_RIGHT, &gpio_config, &pwm_config)) {
         console_write("engines: Failed to initialize %s\n", GET_ENGINE_NAME(ENGINE_REAR_RIGHT));
         return false;
     }
@@ -88,7 +88,7 @@ bool engines_init()
 
 void engines_enableOne(EngineId_t id)
 {
-    if(!engines[id].initialized)
+    if (!engines[id].initialized)
         return;
 
     pwm_activate(&engines[id].handle);
@@ -97,7 +97,7 @@ void engines_enableOne(EngineId_t id)
 
 void engines_disableOne(EngineId_t id)
 {
-    if(!engines[id].initialized)
+    if (!engines[id].initialized)
         return;
 
     gpio_deactivate(&engines[id].handle.gpio);
@@ -106,19 +106,19 @@ void engines_disableOne(EngineId_t id)
 
 void engines_enableAll()
 {
-    for(int i = ENGINE_FRONT_LEFT; i < ENGINE_COUNT; ++i)
+    for (int i = ENGINE_FRONT_LEFT; i < ENGINE_COUNT; ++i)
         engines_enableOne(i);
 }
 
 void engines_disableAll()
 {
-    for(int i = ENGINE_FRONT_LEFT; i < ENGINE_COUNT; ++i)
+    for (int i = ENGINE_FRONT_LEFT; i < ENGINE_COUNT; ++i)
         engines_disableOne(i);
 }
 
 void engines_setThrottle(EngineId_t id, uint32_t throttle_perc)
 {
-    if(!engines[id].initialized)
+    if (!engines[id].initialized)
         return;
 
     float scalled_perc = throttle_perc / 100.0f;

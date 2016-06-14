@@ -47,11 +47,11 @@ void show_welcome_message()
 /// @return Should never return.
 int main()
 {
-    if(board_isEmergencyBoot()) {
+    if (board_isEmergencyBoot()) {
         /// @todo React in a proper way.
     }
 
-    if(!board_init())
+    if (!board_init())
         panic("Failed to initialize board.");
 
     show_welcome_message();

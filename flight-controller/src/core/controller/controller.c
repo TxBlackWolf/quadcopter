@@ -19,7 +19,7 @@ int controller_run()
     commandsManager_init();
     console_write("Initialized commands manager.\n");
 
-    while(true);
+    while (true);
 
     return 0;
 }

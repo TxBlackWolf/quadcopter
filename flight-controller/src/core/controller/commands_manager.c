@@ -24,7 +24,7 @@ bool commandsManager_init()
     commandsManager_enableSystemStatus(true);
     commandsManager_enableDebug(board_isDebug());
 
-    if(!board_commandsInit(&uart_handle))
+    if (!board_commandsInit(&uart_handle))
         console_write("Failed to initialize commands communication link. Commands may not work now\n");
 
     return true;
@@ -32,8 +32,8 @@ bool commandsManager_init()
 
 bool commandsManager_send(uint8_t *command, int size)
 {
-    for(int i = 0; i < size; ++i) {
-        if(!uart_send(&uart_handle, command[i]))
+    for (int i = 0; i < size; ++i) {
+        if (!uart_send(&uart_handle, command[i]))
             return false;
     }
 

@@ -31,13 +31,13 @@ static struct {
 /// @return True if command is compatible, false otherwise.
 static bool commandDecoder_checkVersion(CommandHeader_t *header)
 {
-    if(header->version_major != command_getVersionMajor())
+    if (header->version_major != command_getVersionMajor())
         return false;
 
-    if(header->version_minor != command_getVersionMinor())
+    if (header->version_minor != command_getVersionMinor())
         return false;
 
-    if(header->version_patch != command_getVersionPatch())
+    if (header->version_patch != command_getVersionPatch())
         return false;
 
     return true;
@@ -48,7 +48,7 @@ static bool commandDecoder_checkVersion(CommandHeader_t *header)
 /// @return Difference between expected id and actual id. 
 static int commandDecoder_checkId(CommandHeader_t *header)
 {
-    if(!decoder.id_initialized) {
+    if (!decoder.id_initialized) {
         decoder.expected_id = header->command_id + 1;
         decoder.id_initialized = true;
         return 0; 
@@ -76,8 +76,8 @@ static __attribute__((unused)) bool commandDecoder_checkCRC(const uint8_t *buffe
 static int commandDecoder_findSync(int offset, uint8_t sync_byte)
 {
     uint8_t *buffer = decoder.buffer + offset; 
-    for(unsigned int i = 0; i < decoder.data_size; ++i) {
-        if(buffer[i] == sync_byte)
+    for (unsigned int i = 0; i < decoder.data_size; ++i) {
+        if (buffer[i] == sync_byte)
             return i;
     }
 
@@ -101,11 +101,11 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
 
     int command_offset = 0;
     int current_offset = 0;
-    while((uint32_t) current_offset < decoder.data_size) {
-        switch(decoder.state) {
+    while ((uint32_t) current_offset < decoder.data_size) {
+        switch (decoder.state) {
         case DECODER_NO_COMMAND:
             current_offset = commandDecoder_findSync(current_offset, COMMAND_SYNC_BYTE_1); 
-            if(current_offset < 0) {
+            if (current_offset < 0) {
                 // No SYNC1 byte found, so all data in buffer is invalid.
                 decoder.data_size = 0;
                 return decoder.state;
@@ -117,7 +117,7 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
             break;
 
         case DECODER_SYNC1:
-            if(decoder.buffer[current_offset] != COMMAND_SYNC_BYTE_2) {
+            if (decoder.buffer[current_offset] != COMMAND_SYNC_BYTE_2) {
                 decoder.state = DECODER_NO_COMMAND;
                 break;
             }
@@ -127,7 +127,7 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
             break;
 
         case DECODER_SYNC2:
-            if(decoder.buffer[current_offset] != COMMAND_SYNC_BYTE_3) {
+            if (decoder.buffer[current_offset] != COMMAND_SYNC_BYTE_3) {
                 decoder.state = DECODER_NO_COMMAND;
                 break;
             }
@@ -137,7 +137,7 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
             break;
 
         case DECODER_SYNC3: {
-            if((decoder.data_size - command_offset) < sizeof(CommandHeader_t))
+            if ((decoder.data_size - command_offset) < sizeof(CommandHeader_t))
                 goto feed_exit;
 
             CommandHeader_t *header = (CommandHeader_t *) (decoder.buffer + command_offset);
@@ -147,7 +147,7 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
         }
 
         case DECODER_COMMAND_INCOMPLETE:
-            if((decoder.data_size - command_offset) < decoder.expected_size)
+            if ((decoder.data_size - command_offset) < decoder.expected_size)
                 goto feed_exit;
 
             decoder.state = DECODER_COMMAND_COMPLETE;
@@ -159,7 +159,7 @@ CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size)
     }
 
 feed_exit:
-    if(command_offset > 0) {
+    if (command_offset > 0) {
         // Command starts in the middle of the buffer. Align it to the beginning of the buffer.
         command_shiftBuffer(decoder.buffer, decoder.data_size, command_offset);
         decoder.data_size -= command_offset;
@@ -174,26 +174,26 @@ CommandDecoderError_t commandDecoder_parse(CommandType_t *command_type)
     commandStatistics_markReceived();
 
     CommandDecoderError_t result = PARSING_OK;
-    if(!commandDecoder_checkVersion(header)) {
+    if (!commandDecoder_checkVersion(header)) {
         commandStatistics_markBroken();
         result = PARSING_BAD_VERSION;
         goto parse_exit;
     }
 
     int diff = commandDecoder_checkId(header);
-    if(diff > 0)
+    if (diff > 0)
         commandStatistics_markLost(diff);
 
-    //if(!commandDecoder_checkCRC(decoder.buffer)) {
+    //if (!commandDecoder_checkCRC(decoder.buffer)) {
     //    commandStatistics_markBroken();
     //    result =  PARSING_BAD_CRC;
     //    goto parse_exit;
     //}
 
-    if(command_type)
+    if (command_type)
         *command_type = header->type;
 
-    switch(header->type) {
+    switch (header->type) {
     case COMMAND_EMULATOR:
         result = command_parseEmulator(decoder.buffer + sizeof(CommandHeader_t), header->payload_size);
         break;
@@ -208,7 +208,7 @@ CommandDecoderError_t commandDecoder_parse(CommandType_t *command_type)
         break;
     }
 
-    if(result != PARSING_OK)
+    if (result != PARSING_OK)
         commandStatistics_markBroken();
 
 parse_exit:

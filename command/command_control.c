@@ -16,7 +16,7 @@ static CommandCallback_t command_callbacks[CONTROL_EVENT_COUNT];
 
 bool command_registerControlCallback(ControlEvent_t event, CommandCallback_t callback)
 {
-    if(command_callbacks[event])
+    if (command_callbacks[event])
         return false;
 
     command_callbacks[event] = callback;
@@ -25,7 +25,7 @@ bool command_registerControlCallback(ControlEvent_t event, CommandCallback_t cal
 
 bool command_unregisterControlCallback(ControlEvent_t event)
 {
-    if(!command_callbacks[event])
+    if (!command_callbacks[event])
         return false;
 
     command_callbacks[event] = NULL;
@@ -35,7 +35,7 @@ bool command_unregisterControlCallback(ControlEvent_t event)
 CommandDecoderError_t command_parseControl(uint8_t *payload, uint32_t size)
 {
     ControlHeader_t *header = (ControlHeader_t *) payload;
-    if(!command_callbacks[header->event])
+    if (!command_callbacks[header->event])
         return PARSING_INVALID_DATA;
 
     uint8_t *command = payload + sizeof(ControlHeader_t);

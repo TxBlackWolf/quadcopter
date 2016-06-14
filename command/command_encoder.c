@@ -52,7 +52,7 @@ int commandEncoder_createEmulatorCommand(uint8_t *buffer, EmulatedDevice_t devic
     emulator_header->device = device;
     idx += sizeof(EmulatorHeader_t);
 
-    switch(device) {
+    switch (device) {
     case EMULATED_DEVICE_GPIO: {
             EmulatorCommandGPIO_t *gpio_command = (EmulatorCommandGPIO_t *) &buffer[idx];
             *gpio_command = *((EmulatorCommandGPIO_t *) command);
@@ -76,7 +76,7 @@ int commandEncoder_createControlCommand(uint8_t *buffer, ControlEvent_t event, v
     control_header->event = event;
     idx += sizeof(EmulatorHeader_t);
 
-    switch(event) {
+    switch (event) {
     case CONTROL_EVENT_THROTTLE: {
             ControlCommandThrottle_t *throttle_command = (ControlCommandThrottle_t *) &buffer[idx];
             *throttle_command = *((ControlCommandThrottle_t *) command);

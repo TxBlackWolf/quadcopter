@@ -17,7 +17,7 @@
 
 void stm32f4_nvicInitIRQ(IRQConfig_t *config)
 {
-    if(!config->enabled) {
+    if (!config->enabled) {
         NVIC->ICER[config->channel >> 5] = 1 << (config->channel & 0x1f);
         return;
     }

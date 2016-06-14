@@ -17,8 +17,8 @@ static char *upper_digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 int vsprintf(char *buffer, const char *format, va_list args)
 {
     char *ptr;
-    for(ptr = buffer; *format; ++format) {
-        if(*format != '%') {
+    for (ptr = buffer; *format; ++format) {
+        if (*format != '%') {
             *ptr++ = *format;
             continue;
         }
@@ -29,7 +29,7 @@ process_flags:
         // Skip first '%' character and already processed specifier flags.
         ++format;
 
-        switch(*format) {
+        switch (*format) {
         case '-':   flags |= LEFT;      goto process_flags;
         case '+':   flags |= PLUS;      goto process_flags;
         case ' ':   flags |= SPACE;     goto process_flags;
@@ -40,13 +40,13 @@ process_flags:
         // Get field width.
         int field_width = -1;
 
-        if(is_digit(*format))
+        if (is_digit(*format))
             field_width = skip_atoi(&format);
-        else if(*format == '*') {
+        else if (*format == '*') {
             ++format;
 
             field_width = va_arg(args, int);
-            if(field_width < 0) {
+            if (field_width < 0) {
                 field_width = -field_width;
                 flags |= LEFT;
             }
@@ -58,14 +58,14 @@ process_flags:
         if (*format == '.') {
             ++format;
 
-            if(is_digit(*format))
+            if (is_digit(*format))
                 precision = skip_atoi(&format);
             else if (*format == '*') {
                 ++format;
                 precision = va_arg(args, int);
             }
 
-            if(precision < 0)
+            if (precision < 0)
                 precision = 0;
         }
 
@@ -82,31 +82,31 @@ process_flags:
 
         switch (*format) {
         case 'c':
-            if(!(flags & LEFT)) {
-                while(--field_width > 0)
+            if (!(flags & LEFT)) {
+                while (--field_width > 0)
                     *ptr++ = ' ';
             }
 
             *ptr++ = (unsigned char) va_arg(args, int);
 
-            while(--field_width > 0)
+            while (--field_width > 0)
                 *ptr++ = ' ';
 
             continue;
         //----------------------------------------------------------
         case 's': {
             char *string = va_arg(args, char *);
-            if(!string)
+            if (!string)
                 string = "<NULL>";
 
             int length = strnlen(string, precision);
-            if(!(flags & LEFT)) {
-                while(length < field_width--)
+            if (!(flags & LEFT)) {
+                while (length < field_width--)
                     *ptr++ = ' ';
             }
 
             int i;
-            for(i = 0; i < length; ++i)
+            for (i = 0; i < length; ++i)
                 *ptr++ = *string++;
 
             while (length < field_width--)
@@ -116,7 +116,7 @@ process_flags:
         }
         //----------------------------------------------------------
         case 'p':
-            if(field_width == -1) {
+            if (field_width == -1) {
                 field_width = 2 * sizeof(void *);
                 flags |= ZEROPAD;
             }
@@ -161,10 +161,10 @@ process_flags:
 #endif
         //----------------------------------------------------------
         default:
-            if(*format != '%')
+            if (*format != '%')
                 *ptr++ = '%';
 
-            if(*format)
+            if (*format)
                 *ptr++ = *format;
             else
                 --format;
@@ -173,7 +173,7 @@ process_flags:
         }
 
         unsigned long num;
-        if(qualifier == 'l')
+        if (qualifier == 'l')
             num = va_arg(args, unsigned long);
         else if (flags & SIGN)
             num = va_arg(args, int);
@@ -190,7 +190,7 @@ process_flags:
 int skip_atoi(const char **string)
 {
     int i = 0;
-    while(is_digit(**string))
+    while (is_digit(**string))
         i = i * 10 + *((*string)++) - '0';
 
     return i;
@@ -199,7 +199,7 @@ int skip_atoi(const char **string)
 size_t strnlen(const char *string, size_t count)
 {
     const char *ptr;
-    for(ptr = string; *ptr != '\0' && count--; ++ptr);
+    for (ptr = string; *ptr != '\0' && count--; ++ptr);
 
     return (ptr - string);
 }
@@ -207,65 +207,65 @@ size_t strnlen(const char *string, size_t count)
 char *number_to_string(char *string, long number, int base, int size, int precision, int type)
 {
     char *digits = lower_digits;
-    if(type & UPPERCASE)
+    if (type & UPPERCASE)
         digits = upper_digits;
 
-    if(type & LEFT)
+    if (type & LEFT)
         type &= ~ZEROPAD;
 
-    if(base < 2 || base > 36)
+    if (base < 2 || base > 36)
         return 0;
 
     // Prepare sign character.
     char sign = 0;
-    if(type & SIGN) {
-        if(number < 0) {
+    if (type & SIGN) {
+        if (number < 0) {
             sign = '-';
             number = -number;
             --size;
         }
-        else if(type & PLUS) {
+        else if (type & PLUS) {
             sign = '+';
             --size;
         }
-        else if(type & SPACE) {
+        else if (type & SPACE) {
             sign = ' ';
             --size;
         }
     }
 
-    if(type & HEX_PREP) {
-        if(base == 16)
+    if (type & HEX_PREP) {
+        if (base == 16)
             size -= 2;
-        else if(base == 8)
+        else if (base == 8)
             --size;
     }
 
     int i = 0;
     char tmp[66];
-    if(number == 0)
+    if (number == 0)
         tmp[i++] = '0';
     else {
-        while(number != 0) {
+        while (number != 0) {
             tmp[i++] = digits[((unsigned long) number) % (unsigned) base];
             number = ((unsigned long) number) / (unsigned) base;
         }
     }
 
-    if(i > precision)
+    if (i > precision)
         precision = i;
 
     size -= precision;
-    if(!(type & (ZEROPAD | LEFT))) {
-        while(size-- > 0)
+    if (!(type & (ZEROPAD | LEFT))) {
+        while (size-- > 0)
             *string++ = ' ';
     }
 
-    if(sign)
+    if (sign)
         *string++ = sign;
 
-    if(type & HEX_PREP) {
-        if(base == 8)
+    if (type & HEX_PREP) {
+        if (base == 8)
             *string++ = '0';
         else if (base == 16) {
             *string++ = '0';
@@ -275,18 +275,18 @@ char *number_to_string(char *string, long number, int base, int size, int precis
 
     char c = (type & ZEROPAD) ? '0' : ' ';
 
-    if(!(type & LEFT)) {
-        while(size-- > 0)
+    if (!(type & LEFT)) {
+        while (size-- > 0)
             *string++ = c;
     }
 
-    while(i < precision--)
+    while (i < precision--)
         *string++ = '0';
 
-    while(i-- > 0)
+    while (i-- > 0)
         *string++ = tmp[i];
 
-    while(size-- > 0)
+    while (size-- > 0)
         *string++ = ' ';
 
     return string;
@@ -295,28 +295,28 @@ char *number_to_string(char *string, long number, int base, int size, int precis
 char *eaddr(char *string, unsigned char *address, int size, int type)
 {
     char *digits = lower_digits;
-    if(type & UPPERCASE)
+    if (type & UPPERCASE)
         digits = upper_digits;
 
     int length = 0;
     char tmp[24];
-    for(int i = 0; i < 6; i++) {
-        if(i != 0)
+    for (int i = 0; i < 6; i++) {
+        if (i != 0)
             tmp[length++] = ':';
 
         tmp[length++] = digits[address[i] >> 4];
         tmp[length++] = digits[address[i] & 0x0F];
     }
 
-    if(!(type & LEFT)) {
-        while(length < size--)
+    if (!(type & LEFT)) {
+        while (length < size--)
             *string++ = ' ';
     }
 
-    for(int i = 0; i < length; ++i)
+    for (int i = 0; i < length; ++i)
         *string++ = tmp[i];
 
-    while(length < size--)
+    while (length < size--)
         *string++ = ' ';
 
     return string;
@@ -326,7 +326,7 @@ char *iaddr(char *string, unsigned char *address, int size, int type)
 {
     int length = 0;
     char tmp[24];
-    for(int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
         if (i != 0)
             tmp[length++] = '.';
 
@@ -335,13 +335,13 @@ char *iaddr(char *string, unsigned char *address, int size, int type)
         if (n == 0)
             tmp[length++] = lower_digits[0];
         else {
-            if(n >= 100) {
+            if (n >= 100) {
                 tmp[length++] = lower_digits[n / 100];
                 n = n % 100;
                 tmp[length++] = lower_digits[n / 10];
                 n = n % 10;
             }
-            else if(n >= 10) {
+            else if (n >= 10) {
                 tmp[length++] = lower_digits[n / 10];
                 n = n % 10;
             }
@@ -350,15 +350,15 @@ char *iaddr(char *string, unsigned char *address, int size, int type)
         }
     }
 
-    if(!(type & LEFT)) {
-        while(length < size--)
+    if (!(type & LEFT)) {
+        while (length < size--)
             *string++ = ' ';
     }
 
-    for(int i = 0; i < length; ++i)
+    for (int i = 0; i < length; ++i)
         *string++ = tmp[i];
 
-    while(length < size--)
+    while (length < size--)
         *string++ = ' ';
 
     return string;
@@ -369,7 +369,7 @@ void buffcpy(char *destination, char *source, int count)
 {
     char *end = source + count;
 
-    while(source != end)
+    while (source != end)
         *destination++ = *source++;
 }
 
@@ -381,15 +381,15 @@ void parse_float(double value, char *buffer, char format, int precision)
     char cvtbuf[80];
 
     int capexp = 0;
-    if(format == 'G' || format == 'E') {
+    if (format == 'G' || format == 'E') {
         capexp = 1;
         format += 'a' - 'A';
     }
 
-    if(format == 'g') {
+    if (format == 'g') {
         float_digits = ecvtbuf(value, precision, &decpt, &sign, cvtbuf);
         int magnitude = decpt - 1;
-        if(magnitude < -4  ||  magnitude > precision - 1) {
+        if (magnitude < -4  ||  magnitude > precision - 1) {
             format = 'e';
             precision -= 1;
         }
@@ -399,14 +399,14 @@ void parse_float(double value, char *buffer, char format, int precision)
         }
     }
 
-    if(format == 'e') {
+    if (format == 'e') {
         float_digits = ecvtbuf(value, precision + 1, &decpt, &sign, cvtbuf);
 
-        if(sign)
+        if (sign)
             *buffer++ = '-';
 
         *buffer++ = *float_digits;
-        if(precision > 0)
+        if (precision > 0)
             *buffer++ = '.';
 
         buffcpy(buffer, float_digits + 1, precision);
@@ -414,12 +414,12 @@ void parse_float(double value, char *buffer, char format, int precision)
         *buffer++ = capexp ? 'E' : 'e';
 
         int exponential;
-        if(decpt == 0)
+        if (decpt == 0)
             exponential = (value == 0.0) ? 0 : -1;
         else
             exponential = decpt - 1;
 
-        if(exponential < 0) {
+        if (exponential < 0) {
             *buffer++ = '-';
             exponential = -exponential;
         }
@@ -433,25 +433,25 @@ void parse_float(double value, char *buffer, char format, int precision)
         buffer[0] = (exponential % 10) + '0';
         buffer += 3;
     }
-    else if(format == 'f') {
+    else if (format == 'f') {
         float_digits = fcvtbuf(value, precision, &decpt, &sign, cvtbuf);
-        if(sign)
+        if (sign)
             *buffer++ = '-';
 
-        if(*float_digits) {
+        if (*float_digits) {
             if (decpt <= 0) {
                 *buffer++ = '0';
                 *buffer++ = '.';
-                for(int pos = 0; pos < -decpt; pos++)
+                for (int pos = 0; pos < -decpt; pos++)
                     *buffer++ = '0';
 
-                while(*float_digits)
+                while (*float_digits)
                     *buffer++ = *float_digits++;
             }
             else {
                 int pos = 0;
-                while(*float_digits) {
-                    if(pos++ == decpt)
+                while (*float_digits) {
+                    if (pos++ == decpt)
                         *buffer++ = '.';
 
                     *buffer++ = *float_digits++;
@@ -460,9 +460,9 @@ void parse_float(double value, char *buffer, char format, int precision)
         }
         else {
             *buffer++ = '0';
-            if(precision > 0) {
+            if (precision > 0) {
                 *buffer++ = '.';
-                for(int pos = 0; pos < precision; pos++)
+                for (int pos = 0; pos < precision; pos++)
                     *buffer++ = '0';
             }
         }
@@ -473,19 +473,19 @@ void parse_float(double value, char *buffer, char format, int precision)
 
 void decimal_point(char *buffer)
 {
-    while(*buffer) {
-        if(*buffer == '.')
+    while (*buffer) {
+        if (*buffer == '.')
             return;
 
-        if(*buffer == 'e' || *buffer == 'E')
+        if (*buffer == 'e' || *buffer == 'E')
             break;
 
         buffer++;
     }
 
-    if(*buffer) {
+    if (*buffer) {
         int n = strnlen(buffer, 256);
-        while(n > 0) {
+        while (n > 0) {
             buffer[n + 1] = buffer[n];
             --n;
         }
@@ -505,16 +505,16 @@ void cropzeros(char *buffer)
     while (*buffer && *buffer != '.')
         ++buffer;
 
-    if(*buffer++) {
-        while(*buffer && *buffer != 'e' && *buffer != 'E')
+    if (*buffer++) {
+        while (*buffer && *buffer != 'e' && *buffer != 'E')
             ++buffer;
 
         stop = buffer--;
 
-        while(*buffer == '0')
+        while (*buffer == '0')
             --buffer;
 
-        if(*buffer == '.')
+        if (*buffer == '.')
             --buffer;
 
         while (buffer!=stop)
@@ -525,24 +525,24 @@ void cropzeros(char *buffer)
 char *float_to_string(char *string, double number, int size, int precision, char format, int flags)
 {
     // Left align means no zero padding.
-    if(flags & LEFT)
+    if (flags & LEFT)
         flags &= ~ZEROPAD;
 
     // Determine padding and sign char.
     char c = (flags & ZEROPAD) ? '0' : ' ';
 
     char sign = 0;
-    if(flags & SIGN) {
-        if(number < 0.0) {
+    if (flags & SIGN) {
+        if (number < 0.0) {
             sign = '-';
             number = -number;
             --size;
         }
-        else if(flags & PLUS) {
+        else if (flags & PLUS) {
             sign = '+';
             --size;
         }
-        else if(flags & SPACE) {
+        else if (flags & SPACE) {
             sign = ' ';
             size--;
         }
@@ -556,10 +556,10 @@ char *float_to_string(char *string, double number, int size, int precision, char
     char tmp[80];
     parse_float(number, tmp, format, precision);
 
-    if((flags & HEX_PREP) && precision == 0)
+    if ((flags & HEX_PREP) && precision == 0)
         decimal_point(tmp);
 
-    if(format == 'g' && !(flags & HEX_PREP))
+    if (format == 'g' && !(flags & HEX_PREP))
         cropzeros(tmp);
 
     int n = strnlen(tmp,256);
@@ -567,23 +567,23 @@ char *float_to_string(char *string, double number, int size, int precision, char
     // Output number with alignment and padding.
     size -= n;
 
-    if(!(flags & (ZEROPAD | LEFT))) {
+    if (!(flags & (ZEROPAD | LEFT))) {
         while (size-- > 0)
             *string++ = ' ';
     }
 
-    if(sign)
+    if (sign)
         *string++ = sign;
 
-    if(!(flags & LEFT)) {
-        while(size-- > 0)
+    if (!(flags & LEFT)) {
+        while (size-- > 0)
             *string++ = c;
     }
 
     for (int i = 0; i < n; ++i)
         *string++ = tmp[i];
 
-    while(size-- > 0)
+    while (size-- > 0)
         *string++ = ' ';
 
     return string;

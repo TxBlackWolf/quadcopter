@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget* parent)
 MainWindow::~MainWindow()
 {
     try {
-        if(centralWidget()) {
+        if (centralWidget()) {
             // This prevents QMainWindow from deleting central widget (because it takes ownership of it).
             centralWidget()->setParent(nullptr);
         }
@@ -130,7 +130,7 @@ void MainWindow::emulatorStatus(SubsystemStatus status)
 
 void MainWindow::keyAssigning(bool enabled)
 {
-    if(enabled) {
+    if (enabled) {
         // Disable passing key events to steering controller.
         disconnect(&m_padDriver, SIGNAL(padControllerAxisPressed(int,int)), &m_steeringController, SLOT(handleAxisEvent(int,int)));
         disconnect(&m_padDriver, SIGNAL(padControllerButtonPressed(int,bool)), &m_steeringController, SLOT(handleButtonEvent(int,bool)));
@@ -217,12 +217,12 @@ void MainWindow::initCentralWidgets()
 
 void MainWindow::setCentralView(CentralView centralView)
 {
-    if(centralWidget()) {
+    if (centralWidget()) {
         // This prevents QMainWindow from deleting central widget (because it takes ownership of it).
         centralWidget()->setParent(nullptr);
     }
 
-    switch(centralView) {
+    switch (centralView) {
     case CENTRAL_VIEW_LOGS:
         m_ui->lineEdit->setText("Logs");
         setCentralWidget(m_consoleLogsWidget);
@@ -262,7 +262,7 @@ void MainWindow::setCentralView(CentralView centralView)
 
 QString MainWindow::getSubsystemStatusImage(SubsystemStatus status)
 {
-    switch(status) {
+    switch (status) {
     case SUBSYSTEM_DISABLED:    return ":/Icons/Icons/led-off.png";
     case SUBSYSTEM_ENABLED:     return ":/Icons/Icons/led-red.png";
     case SUBSYSTEM_CONNECTED:   return ":/Icons/Icons/led-green.png";

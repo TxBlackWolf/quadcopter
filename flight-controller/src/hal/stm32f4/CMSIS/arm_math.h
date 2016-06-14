@@ -444,7 +444,7 @@ extern "C"
 	  uint32_t count = 0;
 	  uint32_t mask = 0x80000000;
 
-	  while((data & mask) ==  0)
+	  while ((data & mask) ==  0)
 	  {
 		  count += 1u;
 		  mask = mask >> 1u;
@@ -470,7 +470,7 @@ extern "C"
     uint32_t index, i;
     uint32_t signBits;
 
-    if(in > 0)
+    if (in > 0)
       {
 	signBits = __CLZ(in) - 1;
       }
@@ -521,7 +521,7 @@ extern "C"
     uint32_t index = 0, i = 0;
     uint32_t signBits = 0;
 
-    if(in > 0)
+    if (in > 0)
       {
 	signBits = __CLZ(in) - 17;
       }
@@ -577,11 +577,11 @@ extern "C"
 	posMax = posMax * 2;
       }
 
-    if(x > 0)
+    if (x > 0)
       {
 	posMax = (posMax - 1);
 
-	if(x > posMax)
+	if (x > posMax)
 	  {
 	    x = posMax;
 	  }
@@ -590,7 +590,7 @@ extern "C"
       {
 	negMin = -posMax;
 
-	if(x < negMin)
+	if (x < negMin)
 	  {
 	    x = negMin;
 	  }
@@ -5389,12 +5389,12 @@ extern "C"
 	  /* Calculation of index */
 	  i =   (x - S->x1) / xSpacing;
 
-	  if(i < 0)
+	  if (i < 0)
 	  {
 	     /* Iniatilize output for below specified range as least output value of table */
 		 y = pYData[0];
 	  }
-	  else if(i >= S->nValues)
+	  else if (i >= S->nValues)
 	  {
 	  	  /* Iniatilize output for above specified range as last output value of table */
 	  	  y = pYData[S->nValues-1];	
@@ -5446,11 +5446,11 @@ extern "C"
     /* Index value calculation */
     index = ((x & 0xFFF00000) >> 20);
 
-	if(index >= (nValues - 1))
+	if (index >= (nValues - 1))
 	{
 		return(pYData[nValues - 1]);
 	}
-	else if(index < 0)
+	else if (index < 0)
 	{
 		return(pYData[0]);
 	}
@@ -5505,11 +5505,11 @@ extern "C"
     /* Index value calculation */
     index = ((x & 0xFFF00000) >> 20u); 
 
-	if(index >= (nValues - 1))
+	if (index >= (nValues - 1))
 	{
 		return(pYData[nValues - 1]);
 	}
-	else if(index < 0)
+	else if (index < 0)
 	{
 		return(pYData[0]);
 	}
@@ -5563,11 +5563,11 @@ extern "C"
     index = ((x & 0xFFF00000) >> 20u);
 
 
-    if(index >= (nValues - 1))
+    if (index >= (nValues - 1))
 	{
 		return(pYData[nValues - 1]);
 	}
-	else if(index < 0)
+	else if (index < 0)
 	{
 		return(pYData[0]);
 	}
@@ -5695,7 +5695,7 @@ extern "C"
   static __INLINE arm_status  arm_sqrt_f32(
 					  float32_t in, float32_t *pOut)
   {
-  	if(in > 0)
+  	if (in > 0)
 	{
 
 //	#if __FPU_USED
@@ -5768,7 +5768,7 @@ extern "C"
     /* Loop over the blockSize */
     i = blockSize;
 
-    while(i > 0u)
+    while (i > 0u)
       {
 	/* copy the input sample to the circular buffer */
 	circBuffer[wOffset] = *src;
@@ -5778,7 +5778,7 @@ extern "C"
 
 	/* Circularly update wOffset.  Watch out for positive and negative value */
 	wOffset += bufferInc;
-	if(wOffset >= L)
+	if (wOffset >= L)
 	  wOffset -= L;
 
 	/* Decrement the loop counter */
@@ -5816,7 +5816,7 @@ extern "C"
     /* Loop over the blockSize */
     i = blockSize;
 
-    while(i > 0u)
+    while (i > 0u)
       {
 	/* copy the sample from the circular buffer to the destination buffer */
 	*dst = circBuffer[rOffset];
@@ -5824,7 +5824,7 @@ extern "C"
 	/* Update the input pointer */
 	dst += dstInc;
 
-	if(dst == (int32_t *) dst_end)
+	if (dst == (int32_t *) dst_end)
 	  {
 	    dst = dst_base;
 	  }
@@ -5832,7 +5832,7 @@ extern "C"
 	/* Circularly update rOffset.  Watch out for positive and negative value  */
 	rOffset += bufferInc;
 
-	if(rOffset >= L)
+	if (rOffset >= L)
 	  {
 	    rOffset -= L;
 	  }
@@ -5868,7 +5868,7 @@ extern "C"
     /* Loop over the blockSize */
     i = blockSize;
 
-    while(i > 0u)
+    while (i > 0u)
       {
 	/* copy the input sample to the circular buffer */
 	circBuffer[wOffset] = *src;
@@ -5878,7 +5878,7 @@ extern "C"
 
 	/* Circularly update wOffset.  Watch out for positive and negative value */
 	wOffset += bufferInc;
-	if(wOffset >= L)
+	if (wOffset >= L)
 	  wOffset -= L;
 
 	/* Decrement the loop counter */
@@ -5917,7 +5917,7 @@ extern "C"
     /* Loop over the blockSize */
     i = blockSize;
 
-    while(i > 0u)
+    while (i > 0u)
       {
 	/* copy the sample from the circular buffer to the destination buffer */
 	*dst = circBuffer[rOffset];
@@ -5925,7 +5925,7 @@ extern "C"
 	/* Update the input pointer */
 	dst += dstInc;
 
-	if(dst == (q15_t *) dst_end)
+	if (dst == (q15_t *) dst_end)
 	  {
 	    dst = dst_base;
 	  }
@@ -5933,7 +5933,7 @@ extern "C"
 	/* Circularly update wOffset.  Watch out for positive and negative value */
 	rOffset += bufferInc;
 
-	if(rOffset >= L)
+	if (rOffset >= L)
 	  {
 	    rOffset -= L;
 	  }
@@ -5970,7 +5970,7 @@ extern "C"
     /* Loop over the blockSize */
     i = blockSize;
 
-    while(i > 0u)
+    while (i > 0u)
       {
 	/* copy the input sample to the circular buffer */
 	circBuffer[wOffset] = *src;
@@ -5980,7 +5980,7 @@ extern "C"
 
 	/* Circularly update wOffset.  Watch out for positive and negative value */
 	wOffset += bufferInc;
-	if(wOffset >= L)
+	if (wOffset >= L)
 	  wOffset -= L;
 
 	/* Decrement the loop counter */
@@ -6019,7 +6019,7 @@ extern "C"
     /* Loop over the blockSize */
     i = blockSize;
 
-    while(i > 0u)
+    while (i > 0u)
       {
 	/* copy the sample from the circular buffer to the destination buffer */
 	*dst = circBuffer[rOffset];
@@ -6027,7 +6027,7 @@ extern "C"
 	/* Update the input pointer */
 	dst += dstInc;
 
-	if(dst == (q7_t *) dst_end)
+	if (dst == (q7_t *) dst_end)
 	  {
 	    dst = dst_base;
 	  }
@@ -6035,7 +6035,7 @@ extern "C"
 	/* Circularly update rOffset.  Watch out for positive and negative value */
 	rOffset += bufferInc;
 
-	if(rOffset >= L)
+	if (rOffset >= L)
 	  {
 	    rOffset -= L;
 	  }
@@ -6754,7 +6754,7 @@ extern "C"
 
 	/* Care taken for table outside boundary */
 	/* Returns zero output when values are outside table boundary */
-	if(xIndex < 0 || xIndex > (S->numRows-1) || yIndex < 0  || yIndex > ( S->numCols-1))
+	if (xIndex < 0 || xIndex > (S->numRows-1) || yIndex < 0  || yIndex > ( S->numCols-1))
 	{
 		return(0);
 	}
@@ -6830,7 +6830,7 @@ extern "C"
 
 	/* Care taken for table outside boundary */
 	/* Returns zero output when values are outside table boundary */
-	if(rI < 0 || rI > (S->numRows-1) || cI < 0  || cI > ( S->numCols-1))
+	if (rI < 0 || rI > (S->numRows-1) || cI < 0  || cI > ( S->numCols-1))
 	{
 		return(0);
 	}
@@ -6905,7 +6905,7 @@ extern "C"
 
 	/* Care taken for table outside boundary */
 	/* Returns zero output when values are outside table boundary */
-	if(rI < 0 || rI > (S->numRows-1) || cI < 0  || cI > ( S->numCols-1))
+	if (rI < 0 || rI > (S->numRows-1) || cI < 0  || cI > ( S->numCols-1))
 	{
 		return(0);
 	}
@@ -6985,7 +6985,7 @@ extern "C"
 
 	/* Care taken for table outside boundary */
 	/* Returns zero output when values are outside table boundary */
-	if(rI < 0 || rI > (S->numRows-1) || cI < 0  || cI > ( S->numCols-1))
+	if (rI < 0 || rI > (S->numRows-1) || cI < 0  || cI > ( S->numCols-1))
 	{
 		return(0);
 	}

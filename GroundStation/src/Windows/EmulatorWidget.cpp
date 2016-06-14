@@ -47,7 +47,7 @@ void EmulatorWidget::initCommandsFramework()
 void EmulatorWidget::gpioCallback(uint8_t* buffer, uint32_t size __attribute__((unused)))
 {
     EmulatorCommandGPIO_t* gpioCommand = reinterpret_cast<EmulatorCommandGPIO_t*>(buffer);
-    switch(gpioCommand->port) {
+    switch (gpioCommand->port) {
     case 4:
         globalEmulatorWidget->gpioPort4Handler(gpioCommand);
         break;
@@ -56,7 +56,7 @@ void EmulatorWidget::gpioCallback(uint8_t* buffer, uint32_t size __attribute__((
 
 void EmulatorWidget::gpioPort4Handler(EmulatorCommandGPIO_t *gpioCommand)
 {
-    switch(gpioCommand->pin) {
+    switch (gpioCommand->pin) {
     case 15:
         setStrobeLight(gpioCommand->value);
         break;

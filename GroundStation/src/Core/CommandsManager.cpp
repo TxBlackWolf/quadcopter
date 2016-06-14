@@ -33,7 +33,7 @@ CommandsManager::~CommandsManager()
 
 void CommandsManager::sendCommand(uint8_t *buffer, int size)
 {
-    if(!m_server)
+    if (!m_server)
         return;
 
     QByteArray command = QByteArray::fromRawData(reinterpret_cast<char*>(buffer), size);
@@ -42,7 +42,7 @@ void CommandsManager::sendCommand(uint8_t *buffer, int size)
 
 void CommandsManager::setOperating(bool activate)
 {
-    if(!activate && m_server) {
+    if (!activate && m_server) {
         m_server->stop();
         m_server.release();
         emit geolocationStatus(SubsystemStatus::SUBSYSTEM_DISABLED);
@@ -59,7 +59,7 @@ void CommandsManager::setOperating(bool activate)
     m_server->setOnMessageCallback(std::bind(&CommandsManager::parseCommand, this, _1));
     m_server->setOnClientDisconnectedCallback(std::bind(&CommandsManager::commandSessionClosed, this, _1));
 
-    if(!m_server->start(options.serverOptions))
+    if (!m_server->start(options.serverOptions))
         return;
 
     emit geolocationStatus(SubsystemStatus::SUBSYSTEM_ENABLED);
@@ -78,13 +78,13 @@ void CommandsManager::init()
 void CommandsManager::parseCommand(const QByteArray& command)
 {
     const uint8_t* data = reinterpret_cast<const uint8_t *>(command.data());
-    if(commandDecoder_feed(data, command.size()) != DECODER_COMMAND_COMPLETE)
+    if (commandDecoder_feed(data, command.size()) != DECODER_COMMAND_COMPLETE)
         return;
 
     CommandType_t commandType;
     commandDecoder_parse(&commandType);
 
-    switch(commandType) {
+    switch (commandType) {
     case COMMAND_EMULATOR:
         emit emulatorStatus(SubsystemStatus::SUBSYSTEM_CONNECTED);
         break;

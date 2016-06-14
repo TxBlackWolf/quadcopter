@@ -52,8 +52,8 @@ bool clock_addPeriodicCallbackAsync(ClockEventCallback_t callback, uint32_t peri
 {
     clock_updateEventsDeadline();
 
-    for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
-        if(periodic_events[i].callback != NULL)
+    for (int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
+        if (periodic_events[i].callback != NULL)
             continue;
 
         periodic_events[i].callback = callback;
@@ -61,7 +61,7 @@ bool clock_addPeriodicCallbackAsync(ClockEventCallback_t callback, uint32_t peri
         periodic_events[i].deadline_ms = period_ms;
         periodic_events[i].count = count;
 
-        if(earliest_deadline_ms > periodic_events[i].deadline_ms || earliest_deadline_ms == 0)
+        if (earliest_deadline_ms > periodic_events[i].deadline_ms || earliest_deadline_ms == 0)
             earliest_deadline_ms = periodic_events[i].deadline_ms;
 
         return true;
@@ -82,8 +82,8 @@ bool clock_removePeriodicCallback(ClockEventCallback_t callback)
 
 bool clock_removePeriodicCallbackAsync(ClockEventCallback_t callback)
 {
-    for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
-        if(periodic_events[i].callback != callback)
+    for (int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
+        if (periodic_events[i].callback != callback)
             continue;
 
         clock_removePeriodicEvent(i);
@@ -104,8 +104,8 @@ void clock_removePeriodicEvent(int index)
 
 void clock_updateEventsDeadline()
 {
-    for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
-        if(periodic_events[i].callback == NULL)
+    for (int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
+        if (periodic_events[i].callback == NULL)
             continue;
 
         periodic_events[i].deadline_ms -= tick_counter_ms;
@@ -118,8 +118,8 @@ void clock_updateEventsDeadline()
 void clock_updateEarliestDeadline()
 {
     uint32_t next_earliest_deadline_ms = UINT32_MAX;
-    for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
-        if(periodic_events[i].callback == NULL)
+    for (int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
+        if (periodic_events[i].callback == NULL)
             continue;
 
         next_earliest_deadline_ms = MIN(next_earliest_deadline_ms, periodic_events[i].deadline_ms);
@@ -130,22 +130,22 @@ void clock_updateEarliestDeadline()
 
 void clock_processPeriodicEvents()
 {
-    if(earliest_deadline_ms == 0)
+    if (earliest_deadline_ms == 0)
         return;
 
     ++tick_counter_ms;
-    if(tick_counter_ms < earliest_deadline_ms)
+    if (tick_counter_ms < earliest_deadline_ms)
         return;
 
     timer_deactivate(&periodic_timer_handle);
     clock_updateEventsDeadline();
 
     // Launch & remove all callbacks, that expired.
-    for(int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
-        if(periodic_events[i].callback == NULL)
+    for (int i = 0; i < CLOCK_MAX_PERIODIC_EVENTS_COUNT; ++i) {
+        if (periodic_events[i].callback == NULL)
             continue;
 
-        if(periodic_events[i].deadline_ms != 0)
+        if (periodic_events[i].deadline_ms != 0)
             continue;
 
         // Launch event callback.
@@ -155,13 +155,13 @@ void clock_processPeriodicEvents()
         // Restore event deadline.
         periodic_events[i].deadline_ms = periodic_events[i].period_ms;
 
-        if(periodic_events[i].count == -1) {
+        if (periodic_events[i].count == -1) {
             // This is an infinite periodic event.
             continue;
         }
 
         periodic_events[i].count--;
-        if(periodic_events[i].count == 0)
+        if (periodic_events[i].count == 0)
             clock_removePeriodicEvent(i);
     }
 

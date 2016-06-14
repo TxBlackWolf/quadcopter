@@ -41,7 +41,7 @@ ConsoleLogsWidget::~ConsoleLogsWidget()
 
 void ConsoleLogsWidget::setOperating(bool activate)
 {
-    if(!activate && m_server) {
+    if (!activate && m_server) {
         m_server->stop();
         m_server.release();
         endLogSession();
@@ -56,7 +56,7 @@ void ConsoleLogsWidget::setOperating(bool activate)
     m_server->setOnMessageCallback(std::bind(&ConsoleLogsWidget::appendLogs, this, _1));
     m_server->setOnClientDisconnectedCallback(std::bind(&ConsoleLogsWidget::endLogSession, this, _1));
 
-    if(!m_server->start(options.serverOptions)) {
+    if (!m_server->start(options.serverOptions)) {
         QMessageBox::critical(this, "Error", "Couldn't start logs server!");
         return;
     }
@@ -90,12 +90,12 @@ void ConsoleLogsWidget::appendLogs(const QByteArray& data)
     QString currentTimestamp = QDateTime::currentDateTime().toString("[dd.MM.yyyy HH:mm] ");
 
     do {
-        if(m_messageBuffer.isEmpty())
+        if (m_messageBuffer.isEmpty())
             m_messageBuffer = currentTimestamp;
 
         int n = message.indexOf("\n");
         m_messageBuffer += message.left(n);
-        if(n == -1)
+        if (n == -1)
             break;
 
         m_messageBuffer += "\n";
@@ -107,14 +107,14 @@ void ConsoleLogsWidget::appendLogs(const QByteArray& data)
         m_messageBuffer.clear();
         message = message.right(message.size() - n - 1);
     }
-    while(true);
+    while (true);
 
     m_ui->textEditLogs->ensureCursorVisible();
 }
 
 void ConsoleLogsWidget::endLogSession(const QString&)
 {
-    if(m_logFile.isOpen())
+    if (m_logFile.isOpen())
         m_logFile.close();
 
     emit logsStatus(SubsystemStatus::SUBSYSTEM_ENABLED);

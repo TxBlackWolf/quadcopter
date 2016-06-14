@@ -34,13 +34,13 @@ bool board_init()
 {
     /// @todo Init panic LED.
 
-    if(!console_init())
+    if (!console_init())
         return false;
 
     console_write("board: Console initialized\n");
 
     console_write("board: Initializing periodic timer\n");    
-    if(!clock_initPeriodicTimer()) {
+    if (!clock_initPeriodicTimer()) {
         console_write("board: Failed to initialize periodic timer\n");
         return false;
     }
@@ -49,13 +49,13 @@ bool board_init()
 
     // Initialize drivers.
     console_write("board: Initializing engines\n");
-    if(!engines_init()) {
+    if (!engines_init()) {
         console_write("board: Failed to initialize engines\n");
         return false;
     }
 
     console_write("board: Initializing lights\n");
-    if(!strobe_init()) {
+    if (!strobe_init()) {
         console_write("board: Failed to initialize lights\n");
         return false;
     }

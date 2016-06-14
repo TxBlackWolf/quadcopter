@@ -26,20 +26,20 @@ bool TCPServer::start(ServerOptions options)
 
 void TCPServer::stop()
 {
-    if(m_socket) {
+    if (m_socket) {
         disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(receiveData()));
         disconnect(m_socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
         m_socket->close();
         m_socket = nullptr;
     }
 
-    if(m_tcpServer.isListening())
+    if (m_tcpServer.isListening())
         m_tcpServer.close();
 }
 
 void TCPServer::sendData(const QByteArray& buffer)
 {
-    if(m_socket)
+    if (m_socket)
         m_socket->write(buffer);
 }
 
@@ -58,7 +58,7 @@ void TCPServer::init()
 void TCPServer::acceptConnection()
 {
     m_socket = m_tcpServer.nextPendingConnection();
-    if(!m_socket)
+    if (!m_socket)
         return;
 
     connect(m_socket, SIGNAL(readyRead()), this, SLOT(receiveData()));
@@ -66,7 +66,7 @@ void TCPServer::acceptConnection()
 
     m_tcpServer.close();
 
-    if(m_onClientConnectedCallback)
+    if (m_onClientConnectedCallback)
         m_onClientConnectedCallback(getClientName());
 }
 
@@ -77,7 +77,7 @@ void TCPServer::clientDisconnected()
 
     m_tcpServer.listen(QHostAddress::Any, m_options.port);
 
-    if(m_onClientDisconnectedCallback)
+    if (m_onClientDisconnectedCallback)
         m_onClientDisconnectedCallback(getClientName());
 
     m_socket = nullptr;

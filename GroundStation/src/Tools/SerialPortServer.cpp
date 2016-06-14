@@ -34,20 +34,20 @@ bool SerialPortServer::start(ServerOptions options)
 
 void SerialPortServer::stop()
 {
-    if(m_serialPort.isOpen())
+    if (m_serialPort.isOpen())
         m_serialPort.close();
 }
 
 void SerialPortServer::sendData(const QByteArray& buffer)
 {
-    if(m_serialPort.isOpen())
+    if (m_serialPort.isOpen())
         m_serialPort.write(buffer);
 }
 
 bool SerialPortServer::receiveDataPriv()
 {
-    if(m_firstIncomingData) {
-        if(m_onClientConnectedCallback)
+    if (m_firstIncomingData) {
+        if (m_onClientConnectedCallback)
             m_onClientConnectedCallback(getClientName());
 
         m_firstIncomingData = false;

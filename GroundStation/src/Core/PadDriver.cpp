@@ -46,12 +46,12 @@ PadDriver::~PadDriver()
 
 void PadDriver::connect(QString device)
 {
-    if(m_connected) {
+    if (m_connected) {
         disconnect();
         return;
     }
 
-    if((m_controllerFd = open(device.toStdString().c_str(), O_RDONLY)) < 0)
+    if ((m_controllerFd = open(device.toStdString().c_str(), O_RDONLY)) < 0)
         return;
 
     // Set read on device descriptor to be non-blocking, to allow thread termination.
@@ -71,7 +71,7 @@ void PadDriver::connect(QString device)
 
     // Determine whether the button map is usable.
     for(unsigned int i = 0; i < buttonsCount; ++i) {
-        if(m_buttonsMap[i] < BTN_MISC || m_buttonsMap[i] > KEY_MAX)
+        if (m_buttonsMap[i] < BTN_MISC || m_buttonsMap[i] > KEY_MAX)
             return;
     }
 
@@ -84,13 +84,13 @@ void PadDriver::connect(QString device)
 
 void PadDriver::disconnect()
 {
-    if(!m_connected)
+    if (!m_connected)
         return;
 
     m_connected = false;
     usleep(1000);
 
-    if(m_controllerFd > 0)
+    if (m_controllerFd > 0)
         close(m_controllerFd);
 
     m_controllerFd = -1;
@@ -98,7 +98,7 @@ void PadDriver::disconnect()
 
 void PadDriver::setSensitivity(int sensitivity)
 {
-    if(m_calibrator)
+    if (m_calibrator)
         m_calibrator->setSensitivity(sensitivity);
 }
 
@@ -108,10 +108,10 @@ void PadDriver::getButtonsMap()
 
     // Try each ioctl in turn.
     for(int i = 0; ioctls[i]; ++i) {
-        if(ioctl(m_controllerFd, ioctls[i], m_buttonsMap) >= 0) {
+        if (ioctl(m_controllerFd, ioctls[i], m_buttonsMap) >= 0) {
             // The ioctl did something.
             break;
-        } else if(errno != -EINVAL) {
+        } else if (errno != -EINVAL) {
             // Some other error occurred.
             break;
         }
@@ -126,19 +126,19 @@ void PadDriver::run()
     int axesAngles[AXES_MAX_COUNT] = { 0 };
     bool buttonsStates[BUTTONS_MAX_COUNT] = { false };
 
-    while(m_connected) {
+    while (m_connected) {
         struct js_event js;
-        if(read(m_controllerFd, &js, sizeof(struct js_event)) != sizeof(struct js_event))
+        if (read(m_controllerFd, &js, sizeof(struct js_event)) != sizeof(struct js_event))
             continue;
 
         // This delay will prevent from initial axis movement readings.
-        if(timer.elapsed() < PAD_CONTROLLER_CONNECT_DELAY_MS)
+        if (timer.elapsed() < PAD_CONTROLLER_CONNECT_DELAY_MS)
             continue;
 
-        switch(js.type & ~JS_EVENT_INIT) {
+        switch (js.type & ~JS_EVENT_INIT) {
         case JS_EVENT_AXIS: {
                 int anglePerc = m_calibrator->normalizeAxisAngle(js.value);
-                if(axesAngles[js.number] == anglePerc)
+                if (axesAngles[js.number] == anglePerc)
                     break;
 
                 axesAngles[js.number] = anglePerc;
@@ -148,7 +148,7 @@ void PadDriver::run()
 
         case JS_EVENT_BUTTON: {
                 bool buttonState = m_calibrator->normalizeButtonState(js.value);
-                if(buttonsStates[js.number] == buttonState)
+                if (buttonsStates[js.number] == buttonState)
                     break;
 
                 buttonsStates[js.number] = buttonState;

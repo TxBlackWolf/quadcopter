@@ -18,7 +18,7 @@
 
 static Timer_t *stm32f4_timerGetRegisters(TimerDevice_t device)
 {
-    switch(device) {
+    switch (device) {
     case STM32F4_TIMER_1:   return TIM1;
     case STM32F4_TIMER_2:   return TIM2;
     case STM32F4_TIMER_3:   return TIM3;
@@ -40,7 +40,7 @@ static Timer_t *stm32f4_timerGetRegisters(TimerDevice_t device)
 
 static void stm32f4_timerEnableClock(TimerDevice_t device, bool value)
 {
-    switch(device) {
+    switch (device) {
     case STM32F4_TIMER_1:   stm32f4_rccEnablePeripheralClockAPB2(RCC_APB2_PERIPHERAL_TIM1, value);  break;
     case STM32F4_TIMER_2:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM2, value);  break;
     case STM32F4_TIMER_3:   stm32f4_rccEnablePeripheralClockAPB1(RCC_APB1_PERIPHERAL_TIM3, value);  break;
@@ -67,16 +67,16 @@ bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t *config)
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
     stm32f4_timerEnableClock(handle->device, true);
 
-    if((timer == TIM1) || (timer == TIM8) || (timer == TIM2) || (timer == TIM3) || (timer == TIM4) || (timer == TIM5))
+    if ((timer == TIM1) || (timer == TIM8) || (timer == TIM2) || (timer == TIM3) || (timer == TIM4) || (timer == TIM5))
         timer->CR1 |= config->counter_mode;
 
-    if((timer != TIM6) && (timer != TIM7))
+    if ((timer != TIM6) && (timer != TIM7))
         timer->CR1 |= config->clock_division;
 
     timer->ARR = config->period;
     timer->PSC = config->prescaler;
 
-    if((timer == TIM1) || (timer == TIM8))
+    if ((timer == TIM1) || (timer == TIM8))
         timer->RCR = config->repetition_counter;
 
     timer->EGR = PRESCALER_RELOAD_MODE_IMMEDIATE;
@@ -85,7 +85,7 @@ bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t *config)
 
 int stm32f4_timerToPinFunction(TimerHandle_t *handle)
 {
-    switch(handle->device) {
+    switch (handle->device) {
     case STM32F4_TIMER_1:   return GPIO_AF_TIM1;
     case STM32F4_TIMER_2:   return GPIO_AF_TIM2;
     case STM32F4_TIMER_3:   return GPIO_AF_TIM3;
@@ -112,7 +112,7 @@ bool stm32f4_timerSetPeriodConfig(TimerHandle_t *handle, float period_ms, STM32F
 
     // Timers have internal PLLs, that double bus frequency.
     uint32_t base_freq_hz = 0;
-    switch(handle->device) {
+    switch (handle->device) {
     // APB1 bus.
     case STM32F4_TIMER_2:
     case STM32F4_TIMER_3:
@@ -141,14 +141,14 @@ bool stm32f4_timerSetPeriodConfig(TimerHandle_t *handle, float period_ms, STM32F
     float timer_freq_hz = 0.0f;
     float timer_period_ms = 0.0f;
 
-    for(prescaler = 0; prescaler != UINT16_MAX; ++prescaler) {
+    for (prescaler = 0; prescaler != UINT16_MAX; ++prescaler) {
         // Add 1, because this is what MCU will do (and avoid dividing by 0);
         timer_freq_hz = base_freq_hz / (prescaler + 1);
         timer_period_ms = (UINT16_MAX / timer_freq_hz) * 1000;
-        if(timer_period_ms >= period_ms)
+        if (timer_period_ms >= period_ms)
             break;
 
-        if(prescaler + 1 == UINT16_MAX)
+        if (prescaler + 1 == UINT16_MAX)
             return false;
     }
     config->prescaler = prescaler;
@@ -161,7 +161,7 @@ bool stm32f4_timerSetPeriodConfig(TimerHandle_t *handle, float period_ms, STM32F
 
 bool stm32f4_outputCompareInit(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t *config)
 {
-    switch(handle->channel) {
+    switch (handle->channel) {
     case 1:     return stm32f4_outputCompareChannel1Init(handle, config);
     case 2:     return stm32f4_outputCompareChannel2Init(handle, config);
     case 3:     return stm32f4_outputCompareChannel3Init(handle, config);
@@ -174,7 +174,7 @@ bool stm32f4_outputCompareInit(TimerHandle_t *handle, STM32F4_OutputCompareConfi
 bool stm32f4_outputCompareChannel1Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t *config)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    if(timer == TIM6 || timer == TIM7)
+    if (timer == TIM6 || timer == TIM7)
         return false;
 
     // Disable channel 1.
@@ -184,7 +184,7 @@ bool stm32f4_outputCompareChannel1Init(TimerHandle_t *handle, STM32F4_OutputComp
     timer->CCER |= config->polarity;
     timer->CCER |= config->output_state;
 
-    if(timer == TIM1 || timer == TIM8) {
+    if (timer == TIM1 || timer == TIM8) {
         timer->CCER |= config->n_polarity;
         timer->CCER |= config->output_n_state;
         timer->CCR2 |= config->idle_state;
@@ -199,7 +199,7 @@ bool stm32f4_outputCompareChannel1Init(TimerHandle_t *handle, STM32F4_OutputComp
 bool stm32f4_outputCompareChannel2Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t *config)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    if(timer == TIM6 || timer == TIM7 || timer == TIM10 || timer == TIM11 || timer == TIM13 || timer == TIM14)
+    if (timer == TIM6 || timer == TIM7 || timer == TIM10 || timer == TIM11 || timer == TIM13 || timer == TIM14)
         return false;
 
     // Disable channel 2.
@@ -209,7 +209,7 @@ bool stm32f4_outputCompareChannel2Init(TimerHandle_t *handle, STM32F4_OutputComp
     timer->CCER |= (config->polarity << 4);
     timer->CCER |= (config->output_state << 4);
 
-    if(timer == TIM1 || timer == TIM8) {
+    if (timer == TIM1 || timer == TIM8) {
         timer->CCER |= (config->n_polarity << 4);
         timer->CCER |= (config->output_n_state << 4);
         timer->CCR2 |= (config->idle_state << 2);
@@ -224,7 +224,7 @@ bool stm32f4_outputCompareChannel2Init(TimerHandle_t *handle, STM32F4_OutputComp
 bool stm32f4_outputCompareChannel3Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t *config)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    if(timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
+    if (timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
         return false;
 
     // Disable channel 3.
@@ -234,7 +234,7 @@ bool stm32f4_outputCompareChannel3Init(TimerHandle_t *handle, STM32F4_OutputComp
     timer->CCER |= (config->polarity << 8);
     timer->CCER |= (config->output_state << 8);
 
-    if(timer == TIM1 || timer == TIM8) {
+    if (timer == TIM1 || timer == TIM8) {
         timer->CCER |= (config->n_polarity << 8);
         timer->CCER |= (config->output_n_state << 8);
         timer->CCR2 |= (config->idle_state << 4);
@@ -249,7 +249,7 @@ bool stm32f4_outputCompareChannel3Init(TimerHandle_t *handle, STM32F4_OutputComp
 bool stm32f4_outputCompareChannel4Init(TimerHandle_t *handle, STM32F4_OutputCompareConfig_t *config)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    if(timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
+    if (timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
         return false;
 
     // Disable channel 4.
@@ -259,7 +259,7 @@ bool stm32f4_outputCompareChannel4Init(TimerHandle_t *handle, STM32F4_OutputComp
     timer->CCER |= (config->polarity << 12);
     timer->CCER |= (config->output_state << 12);
 
-    if(timer == TIM1 || timer == TIM8)
+    if (timer == TIM1 || timer == TIM8)
         timer->CCR2 |= (config->idle_state << 6);
 
     timer->CCR4 = config->pulse;
@@ -269,7 +269,7 @@ bool stm32f4_outputCompareChannel4Init(TimerHandle_t *handle, STM32F4_OutputComp
 
 void stm32f4_outputComparePreloadConfig(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state)
 {
-    switch(handle->channel) {
+    switch (handle->channel) {
     case 1:     stm32f4_outputComparePreload1Config(handle, preload_state); break;
     case 2:     stm32f4_outputComparePreload2Config(handle, preload_state); break;
     case 3:     stm32f4_outputComparePreload3Config(handle, preload_state); break;
@@ -280,7 +280,7 @@ void stm32f4_outputComparePreloadConfig(TimerHandle_t *handle, STM32F4_OutputCom
 void stm32f4_outputComparePreload1Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    if(timer == TIM6 || timer == TIM7)
+    if (timer == TIM6 || timer == TIM7)
         return;
 
     timer->CCMR1 |= preload_state;
@@ -289,7 +289,7 @@ void stm32f4_outputComparePreload1Config(TimerHandle_t *handle, STM32F4_OutputCo
 void stm32f4_outputComparePreload2Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    if(timer == TIM6 || timer == TIM7 || timer == TIM10 || timer == TIM11 || timer == TIM13 || timer == TIM14)
+    if (timer == TIM6 || timer == TIM7 || timer == TIM10 || timer == TIM11 || timer == TIM13 || timer == TIM14)
         return;
 
     timer->CCMR1 |= (preload_state << 8);
@@ -298,7 +298,7 @@ void stm32f4_outputComparePreload2Config(TimerHandle_t *handle, STM32F4_OutputCo
 void stm32f4_outputComparePreload3Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    if(timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
+    if (timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
         return;
 
     timer->CCMR2 |= preload_state;
@@ -307,7 +307,7 @@ void stm32f4_outputComparePreload3Config(TimerHandle_t *handle, STM32F4_OutputCo
 void stm32f4_outputComparePreload4Config(TimerHandle_t *handle, STM32F4_OutputComparePreloadState_t preload_state)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    if(timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
+    if (timer == TIM6 || timer == TIM7 || timer == TIM9 || timer == TIM10 || timer == TIM11 || timer == TIM12 || timer == TIM13 || timer == TIM14)
         return;
 
     timer->CCMR2 |= (preload_state << 8);
@@ -323,7 +323,7 @@ void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint16_t pulse)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
 
-    switch(handle->channel) {
+    switch (handle->channel) {
     case 1:     timer->CCR1 = pulse; break;
     case 2:     timer->CCR2 = pulse; break;
     case 3:     timer->CCR3 = pulse; break;
@@ -334,7 +334,7 @@ void stm32f4_setOutputComparePulse(TimerHandle_t *handle, uint16_t pulse)
 void stm32f4_timerEnableIRQ(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, bool enabled)
 {
     Timer_t *timer = stm32f4_timerGetRegisters(handle->device);
-    if(enabled)
+    if (enabled)
         timer->DIER |= irq_source;
     else
         timer->DIER &= ~irq_source;
