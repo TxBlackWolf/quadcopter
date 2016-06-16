@@ -18,7 +18,7 @@
 #define STROBE_DELAY_PERIOD_MSEC    2000
 #define STROBE_BLINK_PERIOD_MSEC    150
 
-static StrobeLight_t strobe;
+static LEDStrobe_t strobe;
 
 //=============================================================================================
 // HELPER FUNCTIONS

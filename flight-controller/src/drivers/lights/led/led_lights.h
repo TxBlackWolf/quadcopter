@@ -21,6 +21,6 @@ typedef struct {
     uint8_t phase;
 	bool state;
 	bool initialized;
-} StrobeLight_t;
+} LEDStrobe_t;
 
 #endif
