@@ -12,14 +12,12 @@
 #define STM32F4_TIMER_H
 
 #include "hal/timer.h"
+#include "stm32f4.h"
 #include "CMSIS/stm32f4xx.h"
 
 #include <stdint.h>
 
 typedef TIM_TypeDef Timer_t;
-
-// General timer event callback.
-typedef void (*TimerEventCallback_t)(void);
 
 // Timer device.
 #define STM32F4_TIMER_1     1
@@ -167,7 +165,7 @@ uint8_t stm32f4_timerToIRQChannel(TimerHandle_t *handle, STM32F4_TimerIRQSource_
 void stm32f4_timerEnableIRQ(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, bool enabled);
 void stm32f4_timerClearIRQPending(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source);
 
-bool stm32f4_registerEventCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, TimerEventCallback_t callback);
-bool stm32f4_unregisterEventCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, TimerEventCallback_t callback);
+bool stm32f4_timerRegisterCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, HALEventCallback_t callback);
+bool stm32f4_timerUnregisterCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, HALEventCallback_t callback);
 
 #endif

@@ -105,7 +105,7 @@ void TIM1_BRK_TIM9_IRQHandler()
         }
 
         handle.device = STM32F4_TIMER_9;
-        stm32f4_timerClearIRQPending(&handle, TIMER_IRQ_UPDATE);    // TODO: check if overcapture flag is on.
+        stm32f4_timerClearIRQPending(&handle, TIMER_IRQ_UPDATE);    /// @todo Check if overcapture flag is on.
     }
 }
 
@@ -250,7 +250,7 @@ uint8_t stm32f4_timerToIRQChannel(TimerHandle_t *handle, STM32F4_TimerIRQSource_
     return 0;
 }
 
-bool stm32f4_registerEventCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, TimerEventCallback_t callback)
+bool stm32f4_timerRegisterCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, TimerEventCallback_t callback)
 {
     TimerEventCallback_t *callback_set = NULL;
 
@@ -302,7 +302,7 @@ bool stm32f4_registerEventCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource
     return status;
 }
 
-bool stm32f4_unregisterEventCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, TimerEventCallback_t callback)
+bool stm32f4_timerUnregisterCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, TimerEventCallback_t callback)
 {
     TimerEventCallback_t *callback_set = NULL;
 

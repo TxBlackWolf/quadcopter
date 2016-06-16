@@ -74,7 +74,7 @@ bool board_periodicTimerInit(TimerHandle_t *timer_handle)
     stm32f4_nvicInitIRQ(&nvic_config);
 
     timer_activate(timer_handle);
-    return stm32f4_registerEventCallback(timer_handle, TIMER_IRQ_UPDATE, clock_processPeriodicEvents);
+    return stm32f4_timerRegisterCallback(timer_handle, TIMER_IRQ_UPDATE, clock_processPeriodicEvents);
 }
 
 bool board_commandsInit(UARTHandle_t *uart_handle __attribute__((unused)))

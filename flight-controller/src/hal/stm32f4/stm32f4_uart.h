@@ -12,6 +12,9 @@
 #define STM32F4_UART_H
 
 #include "hal/uart.h"
+#include "stm32f4.h"
+
+#include <stdbool.h>
 
 // UART device.
 #define STM32F4_USART_1     1
@@ -61,5 +64,12 @@ typedef struct {
 
 bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t *config);
 int stm32f4_uartToPinFunction(UARTHandle_t *handle);
+
+uint8_t stm32f4_uartToIRQChannel(UARTHandle_t *handle, STM32F4_TimerIRQSource_t irq_source);
+void stm32f4_uartEnableIRQ(UARTHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, bool enabled);
+void stm32f4_uartClearIRQPending(UARTHandle_t *handle, STM32F4_TimerIRQSource_t irq_source);
+
+bool stm32f4_uartRegisterCallback(UARTHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, HALEventCallback_t callback);
+bool stm32f4_uartUnregisterCallback(UARTHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, HALEventCallback_t callback);
 
 #endif

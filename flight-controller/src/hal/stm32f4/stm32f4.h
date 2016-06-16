@@ -13,4 +13,7 @@
 
 #include "hal/hal.h"
 
+// General HAL event callback.
+typedef void (*HALEventCallback_t)(void);
+
 #endif
