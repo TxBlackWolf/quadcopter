@@ -18,13 +18,13 @@
 #define HAS_FLOAT 0
 
 // Format flags.
-#define ZEROPAD         (1 << 0)	// Pad with zero.
-#define SIGN            (1 << 1)	// Unsigned/signed long.
-#define PLUS            (1 << 2)	// Show plus.
-#define SPACE           (1 << 3)	// Spacer.
-#define LEFT            (1 << 4 )	// Left justified.
-#define HEX_PREP        (1 << 5 )	// 0x prefix.
-#define UPPERCASE       (1 << 6 )	// Uppercase for hex letters 'ABCDEF'.
+#define ZEROPAD         (1 << 0)    // Pad with zero.
+#define SIGN            (1 << 1)    // Unsigned/signed long.
+#define PLUS            (1 << 2)    // Show plus.
+#define SPACE           (1 << 3)    // Spacer.
+#define LEFT            (1 << 4 )   // Left justified.
+#define HEX_PREP        (1 << 5 )   // 0x prefix.
+#define UPPERCASE       (1 << 6 )   // Uppercase for hex letters 'ABCDEF'.
 
 #define is_digit(c)     ((c) >= '0' && (c) <= '9')
 

@@ -19,8 +19,8 @@
 typedef struct {
     GPIOHandle_t gpio;
     uint8_t phase;
-	bool state;
-	bool initialized;
+    bool state;
+    bool initialized;
 } LEDStrobe_t;
 
 #endif

@@ -231,7 +231,7 @@ void MainWindow::setCentralView(CentralView centralView)
         m_ui->lineEdit->setText("Geolocation");
         setCentralWidget(m_googleMapsView);
         break;
-	case CENTRAL_VIEW_TELEMETRY:
+    case CENTRAL_VIEW_TELEMETRY:
         m_ui->lineEdit->setText("Telemetry");
         setCentralWidget(m_telemetryTabWidget);
         break;

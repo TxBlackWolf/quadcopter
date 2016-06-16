@@ -61,7 +61,7 @@ bool board_commandsInit(UARTHandle_t *uart_handle);
 bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t *pwm_config, GPIOConfig_t *gpio_general_config);
 
 /// @brief Initializes strobe light.
-/// @param [in/out] gpio_handle	        Handle to GPIO, that should be used.
+/// @param [in/out] gpio_handle         Handle to GPIO, that should be used.
 /// @param [in] gpio_general_config     GPIO configuration.
 /// @return True on success, false otherwise.
 bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t *gpio_general_config);

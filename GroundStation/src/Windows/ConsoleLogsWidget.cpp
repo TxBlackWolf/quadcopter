@@ -36,7 +36,7 @@ ConsoleLogsWidget::~ConsoleLogsWidget()
     }
     catch(...) {}
 
-	delete m_ui;
+    delete m_ui;
 }
 
 void ConsoleLogsWidget::setOperating(bool activate)
@@ -66,7 +66,7 @@ void ConsoleLogsWidget::setOperating(bool activate)
 
 void ConsoleLogsWidget::init()
 {
-	connect(m_ui->buttonClear, SIGNAL(clicked()), m_ui->textEditLogs, SLOT(clear()));
+    connect(m_ui->buttonClear, SIGNAL(clicked()), m_ui->textEditLogs, SLOT(clear()));
 }
 
 void ConsoleLogsWidget::startLogSession(const QString&)
