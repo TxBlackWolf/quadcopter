@@ -21,6 +21,7 @@ typedef struct {
 
 bool commandsManager_init();
 bool commandsManager_send(uint8_t *command, int size);
+void commandsManager_receive();
 
 void commandsManager_enableEmulator(bool enabled);
 void commandsManager_enableControl(bool enabled);

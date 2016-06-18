@@ -10,7 +10,6 @@
 
 #include "led_lights.h"
 #include "board/board.h"
-#include "board/board_pinout.h"
 #include "board/clock.h"
 #include "board/console.h"
 #include "hal/timer.h"
@@ -60,9 +59,6 @@ static void strobe_blink()
 
 bool strobe_init()
 {
-    strobe.gpio.port = LED_STROBE_PORT;
-    strobe.gpio.pin = LED_STROBE_PIN;
-    strobe.gpio.name = "blue strobe";
     strobe.state = false;
     strobe.phase = 1;
 

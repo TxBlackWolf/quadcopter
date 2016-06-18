@@ -159,7 +159,7 @@ bool stm32f4_uartRegisterCallback(UARTHandle_t *handle, STM32F4_UARTIRQSource_t 
     return status;
 }
 
-bool stm32f4_timerUnregisterCallback(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_source, HALEventCallback_t callback)
+bool stm32f4_uartUnregisterCallback(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_source, HALEventCallback_t callback)
 {
     HALEventCallback_t *callback_set = NULL;
     int idx = stm32f4_uartIRQToIndex(irq_source);

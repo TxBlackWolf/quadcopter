@@ -24,9 +24,10 @@ bool commandsManager_init()
     commandsManager_enableSystemStatus(true);
     commandsManager_enableDebug(board_isDebug());
 
-    if (!board_commandsInit(&uart_handle))
+    if (!board_commandsInit(&uart_handle, commandsManager_receive))
         console_write("Failed to initialize commands communication link. Commands will not work\n");
 
+    console_write("Configured commands communication link\n");
     return true;
 }
 
@@ -38,6 +39,11 @@ bool commandsManager_send(uint8_t *command, int size)
     }
 
     return true;
+}
+
+void commandsManager_receive()
+{
+    /// @todo Implement.
 }
 
 void commandsManager_enableEmulator(bool enabled)

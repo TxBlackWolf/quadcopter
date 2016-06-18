@@ -12,6 +12,7 @@
 #define BOARD_H
 
 #include "hal/gpio.h"
+#include "hal/hal.h"
 #include "hal/pwm.h"
 #include "hal/timer.h"
 #include "hal/uart.h"
@@ -50,8 +51,9 @@ bool board_periodicTimerInit(TimerHandle_t *timer_handle);
 
 /// @brief Initializes communication link used in commands subsystem.
 /// @param [in/out] uard_handle         Handle to uart, that should be used.
+/// @param [in] callback                Callback, which will read received data.
 /// @return True on success, false otherwise.
-bool board_commandsInit(UARTHandle_t *uart_handle);
+bool board_commandsInit(UARTHandle_t *uart_handle, HALEventCallback_t callback);
 
 /// @brief Initializes single engine.
 /// @param [in/out] pwm_handle          Handle to PWM, that should be used.

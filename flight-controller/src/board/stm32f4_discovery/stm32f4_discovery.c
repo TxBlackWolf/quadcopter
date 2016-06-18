@@ -79,7 +79,7 @@ bool board_periodicTimerInit(TimerHandle_t *timer_handle)
     return stm32f4_timerRegisterCallback(timer_handle, TIMER_IRQ_UPDATE, clock_processPeriodicEvents);
 }
 
-bool board_commandsInit(UARTHandle_t *uart_handle)
+bool board_commandsInit(UARTHandle_t *uart_handle, HALEventCallback_t callback)
 {
     uart_handle->device = COMMANDS_UART_DEVICE;
     uart_handle->gpio_tx.port = COMMANDS_GPIO_TX_PORT;
@@ -89,16 +89,17 @@ bool board_commandsInit(UARTHandle_t *uart_handle)
 
     // Configure GPIO TX and RX.
     STM32F4_GPIOConfig_t gpio_config;
-    gpio_config.general_config.direction = GPIO_DIRECTION_OUT;
     gpio_config.general_config.resistor_type = GPIO_RESISTOR_PULLUP;
     gpio_config.function = stm32f4_uartToPinFunction(uart_handle);
     gpio_config.speed = GPIO_SPEED_100MHz;
     gpio_config.mode = GPIO_MODE_ALTERNATE;
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
+    gpio_config.general_config.direction = GPIO_DIRECTION_OUT;
     if (!stm32f4_gpioInit(&uart_handle->gpio_tx, &gpio_config))
         return false;
 
+    gpio_config.general_config.direction = GPIO_DIRECTION_IN;
     if (!stm32f4_gpioInit(&uart_handle->gpio_rx, &gpio_config))
         return false;
 
@@ -109,14 +110,22 @@ bool board_commandsInit(UARTHandle_t *uart_handle)
     uart_config.general_config.protocol.stop_bits = UART_STOP_BITS_1;
     uart_config.general_config.protocol.parity = UART_PARTITY_NONE;
     uart_config.general_config.protocol.flow_control = UART_FLOW_CONTROL_NONE;
-    uart_config.general_config.direction = UART_DIRECTION_WRITE;
+    uart_config.general_config.direction = UART_DIRECTION_BIDIRECTIONAL;
     uart_config.general_config.mode = UART_MODE_ASYNCHRONOUS;
 
-    bool status = stm32f4_uartInit(uart_handle, &uart_config);
-    if (status)
-        uart_activate(uart_handle);
+    if (!stm32f4_uartInit(uart_handle, &uart_config))
+        return false;
 
-    return status;
+    // Configure NVIC.
+    IRQConfig_t nvic_config;
+    nvic_config.channel = stm32f4_uartToIRQChannel(uart_handle);
+    nvic_config.channel_preemption_priority = 0;
+    nvic_config.channel_subpriority = 0;
+    nvic_config.enabled = true;
+    stm32f4_nvicInitIRQ(&nvic_config);
+
+    uart_activate(uart_handle);
+    return stm32f4_uartRegisterCallback(uart_handle, UART_IRQ_RXNE_OVERRUN, callback);
 }
 
 bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t *pwm_config, GPIOConfig_t *gpio_general_config)
@@ -145,6 +154,10 @@ bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t *pwm_config, GPIOConf
 
 bool board_strobeInit(GPIOHandle_t *gpio_handle, GPIOConfig_t *gpio_general_config)
 {
+    gpio_handle->port = LED_STROBE_PORT;
+    gpio_handle->pin = LED_STROBE_PIN;
+    gpio_handle->name = "led strobe";
+
     // Configure GPIO.
     STM32F4_GPIOConfig_t gpio_config;
     gpio_config.general_config = *gpio_general_config;
