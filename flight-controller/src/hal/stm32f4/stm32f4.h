@@ -13,7 +13,14 @@
 
 #include "hal/hal.h"
 
+#include <stdbool.h>
+
+#define STM32F4_MAX_CALLBACK_COUNT      5
+
 // General HAL event callback.
 typedef void (*HALEventCallback_t)(void);
+
+bool stm32f4_addCallback(HALEventCallback_t *callback_set, HALEventCallback_t callback);
+bool stm32f4_removeCallback(HALEventCallback_t *callback_set, HALEventCallback_t callback, int *slots_used);
 
 #endif

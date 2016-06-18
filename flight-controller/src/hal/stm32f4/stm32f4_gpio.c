@@ -12,30 +12,10 @@
 #include "stm32f4_gpio_functions.h"
 #include "stm32f4_rcc.h"
 #include "board/console.h"
-#include "CMSIS/stm32f4xx.h"
-
-typedef GPIO_TypeDef GPIO_t;
 
 //=============================================================================================
 // HELPER FUNCTIONS
 //=============================================================================================
-
-static GPIO_t *stm32f4_gpioGetRegisters(GPIOPort_t port)
-{
-    switch (port) {
-    case STM32F4_GPIO_PORT_A:   return GPIOA;
-    case STM32F4_GPIO_PORT_B:   return GPIOB;
-    case STM32F4_GPIO_PORT_C:   return GPIOC;
-    case STM32F4_GPIO_PORT_D:   return GPIOD;
-    case STM32F4_GPIO_PORT_E:   return GPIOE;
-    case STM32F4_GPIO_PORT_F:   return GPIOF;
-    case STM32F4_GPIO_PORT_G:   return GPIOG;
-    case STM32F4_GPIO_PORT_H:   return GPIOH;
-    case STM32F4_GPIO_PORT_I:   return GPIOI;
-    }
-
-    return 0;
-}
 
 static uint32_t stm32f4_gpioGetPinMask(GPIOPin_t pin)
 {
@@ -71,6 +51,23 @@ static void stm32f4_gpioEnableClock(GPIOPort_t port, bool value)
 //=============================================================================================
 // INTERFACE FUNCTIONS
 //=============================================================================================
+
+GPIO_t *stm32f4_gpioGetRegisters(GPIOPort_t port)
+{
+    switch (port) {
+    case STM32F4_GPIO_PORT_A:   return GPIOA;
+    case STM32F4_GPIO_PORT_B:   return GPIOB;
+    case STM32F4_GPIO_PORT_C:   return GPIOC;
+    case STM32F4_GPIO_PORT_D:   return GPIOD;
+    case STM32F4_GPIO_PORT_E:   return GPIOE;
+    case STM32F4_GPIO_PORT_F:   return GPIOF;
+    case STM32F4_GPIO_PORT_G:   return GPIOG;
+    case STM32F4_GPIO_PORT_H:   return GPIOH;
+    case STM32F4_GPIO_PORT_I:   return GPIOI;
+    }
+
+    return 0;
+}
 
 bool stm32f4_gpioInit(GPIOHandle_t *handle, STM32F4_GPIOConfig_t *config)
 {

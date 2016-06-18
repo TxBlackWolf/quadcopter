@@ -16,28 +16,6 @@
 // HELPER FUNCTIONS
 //=============================================================================================
 
-static Timer_t *stm32f4_timerGetRegisters(TimerDevice_t device)
-{
-    switch (device) {
-    case STM32F4_TIMER_1:   return TIM1;
-    case STM32F4_TIMER_2:   return TIM2;
-    case STM32F4_TIMER_3:   return TIM3;
-    case STM32F4_TIMER_4:   return TIM4;
-    case STM32F4_TIMER_5:   return TIM5;
-    case STM32F4_TIMER_6:   return TIM6;
-    case STM32F4_TIMER_7:   return TIM7;
-    case STM32F4_TIMER_8:   return TIM8;
-    case STM32F4_TIMER_9:   return TIM9;
-    case STM32F4_TIMER_10:  return TIM10;
-    case STM32F4_TIMER_11:  return TIM11;
-    case STM32F4_TIMER_12:  return TIM12;
-    case STM32F4_TIMER_13:  return TIM13;
-    case STM32F4_TIMER_14:  return TIM14;
-    }
-
-    return 0;
-}
-
 static void stm32f4_timerEnableClock(TimerDevice_t device, bool value)
 {
     switch (device) {
@@ -61,6 +39,28 @@ static void stm32f4_timerEnableClock(TimerDevice_t device, bool value)
 //=============================================================================================
 // INTERFACE FUNCTIONS
 //=============================================================================================
+
+Timer_t *stm32f4_timerGetRegisters(TimerDevice_t device)
+{
+    switch (device) {
+    case STM32F4_TIMER_1:   return TIM1;
+    case STM32F4_TIMER_2:   return TIM2;
+    case STM32F4_TIMER_3:   return TIM3;
+    case STM32F4_TIMER_4:   return TIM4;
+    case STM32F4_TIMER_5:   return TIM5;
+    case STM32F4_TIMER_6:   return TIM6;
+    case STM32F4_TIMER_7:   return TIM7;
+    case STM32F4_TIMER_8:   return TIM8;
+    case STM32F4_TIMER_9:   return TIM9;
+    case STM32F4_TIMER_10:  return TIM10;
+    case STM32F4_TIMER_11:  return TIM11;
+    case STM32F4_TIMER_12:  return TIM12;
+    case STM32F4_TIMER_13:  return TIM13;
+    case STM32F4_TIMER_14:  return TIM14;
+    }
+
+    return 0;
+}
 
 bool stm32f4_timerInit(TimerHandle_t *handle, STM32F4_TimerConfig_t *config)
 {

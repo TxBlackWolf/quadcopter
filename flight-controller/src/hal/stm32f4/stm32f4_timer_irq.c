@@ -9,78 +9,42 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "hal/timer.h"
+#include "stm32f4.h"
 #include "stm32f4_timer.h"
 #include "CMSIS/stm32f4xx.h"
 
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 
-#define STM32F4_TIMER_MAX_CALLBACK_COUNT    5
-
-static TimerEventCallback_t tim1_brk_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim1_up_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim1_com_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim1_trig_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim1_cc1_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim1_cc2_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim1_cc3_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim1_cc4_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim2_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim3_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim4_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim5_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim6_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim7_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim8_brk_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim8_up_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim8_com_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim8_trig_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim8_cc1_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim8_cc2_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim8_cc3_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim8_cc4_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim9_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim10_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim11_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim12_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim13_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-static TimerEventCallback_t tim14_callbacks[STM32F4_TIMER_MAX_CALLBACK_COUNT];
-
-//=============================================================================================
-// HELPER FUNCTIONS
-//=============================================================================================
-
-bool stm32f4_timerAddCallback(TimerEventCallback_t *callback_set, TimerEventCallback_t callback)
-{
-    for (int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
-        if (callback_set[i] != NULL)
-            continue;
-
-        callback_set[i] = callback;
-        return true;
-    }
-
-    return false;
-}
-
-bool stm32f4_timerRemoveCallback(TimerEventCallback_t *callback_set, TimerEventCallback_t callback, int *slots_used)
-{
-    for (int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
-        if (callback_set[i] == NULL) {
-            (*slots_used)--;
-            continue;
-        }
-
-        if (callback_set[i] != callback)
-            continue;
-
-        callback_set[i] = NULL;
-        (*slots_used)--;
-        return true;
-    }
-
-    return false;
-}
+static HALEventCallback_t tim1_brk_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim1_up_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim1_com_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim1_trig_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim1_cc1_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim1_cc2_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim1_cc3_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim1_cc4_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim2_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim3_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim4_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim5_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim6_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim7_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim8_brk_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim8_up_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim8_com_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim8_trig_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim8_cc1_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim8_cc2_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim8_cc3_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim8_cc4_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim9_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim10_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim11_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim12_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim13_callbacks[STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t tim14_callbacks[STM32F4_MAX_CALLBACK_COUNT];
 
 //=============================================================================================
 // TIMER INTERRUPT HANDLERS
@@ -90,7 +54,7 @@ void TIM1_BRK_TIM9_IRQHandler()
 {
     TimerHandle_t handle;
     if (TIM1->SR & TIMER_IRQ_BREAK){
-        for (int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+        for (int i = 0; i < STM32F4_MAX_CALLBACK_COUNT; ++i) {
             if (tim1_brk_callbacks[i])
                 tim1_brk_callbacks[i]();
         }
@@ -99,7 +63,7 @@ void TIM1_BRK_TIM9_IRQHandler()
         stm32f4_timerClearIRQPending(&handle, TIMER_IRQ_BREAK);
     }
     else {
-        for (int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+        for (int i = 0; i < STM32F4_MAX_CALLBACK_COUNT; ++i) {
             if (tim9_callbacks[i])
                 tim9_callbacks[i]();
         }
@@ -123,7 +87,7 @@ void TIM1_CC_IRQHandler()
 
 void TIM2_IRQHandler()
 {
-    for (int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+    for (int i = 0; i < STM32F4_MAX_CALLBACK_COUNT; ++i) {
         if (tim2_callbacks[i])
             tim2_callbacks[i]();
     }
@@ -135,7 +99,7 @@ void TIM2_IRQHandler()
 
 void TIM3_IRQHandler()
 {
-    for (int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+    for (int i = 0; i < STM32F4_MAX_CALLBACK_COUNT; ++i) {
         if (tim3_callbacks[i])
             tim3_callbacks[i]();
     }
@@ -147,7 +111,7 @@ void TIM3_IRQHandler()
 
 void TIM4_IRQHandler()
 {
-    for (int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+    for (int i = 0; i < STM32F4_MAX_CALLBACK_COUNT; ++i) {
         if (tim4_callbacks[i])
             tim4_callbacks[i]();
     }
@@ -175,7 +139,7 @@ void TIM8_CC_IRQHandler()
 
 void TIM5_IRQHandler()
 {
-    for (int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+    for (int i = 0; i < STM32F4_MAX_CALLBACK_COUNT; ++i) {
         if (tim5_callbacks[i])
             tim5_callbacks[i]();
     }
@@ -191,7 +155,7 @@ void TIM6_DAC_IRQHandler()
 
 void TIM7_IRQHandler()
 {
-    for (int i = 0; i < STM32F4_TIMER_MAX_CALLBACK_COUNT; ++i) {
+    for (int i = 0; i < STM32F4_MAX_CALLBACK_COUNT; ++i) {
         if (tim7_callbacks[i])
             tim7_callbacks[i]();
     }
@@ -250,9 +214,9 @@ uint8_t stm32f4_timerToIRQChannel(TimerHandle_t *handle, STM32F4_TimerIRQSource_
     return 0;
 }
 
-bool stm32f4_timerRegisterCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, TimerEventCallback_t callback)
+bool stm32f4_timerRegisterCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, HALEventCallback_t callback)
 {
-    TimerEventCallback_t *callback_set = NULL;
+    HALEventCallback_t *callback_set = NULL;
 
     switch (handle->device) {
     case STM32F4_TIMER_1: {
@@ -296,15 +260,15 @@ bool stm32f4_timerRegisterCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource
     default:                return false;
     }
 
-    bool status = stm32f4_timerAddCallback(callback_set, callback);
+    bool status = stm32f4_addCallback(callback_set, callback);
     stm32f4_timerEnableIRQ(handle, irq_source, true);
 
     return status;
 }
 
-bool stm32f4_timerUnregisterCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, TimerEventCallback_t callback)
+bool stm32f4_timerUnregisterCallback(TimerHandle_t *handle, STM32F4_TimerIRQSource_t irq_source, HALEventCallback_t callback)
 {
-    TimerEventCallback_t *callback_set = NULL;
+    HALEventCallback_t *callback_set = NULL;
 
     switch (handle->device) {
     case STM32F4_TIMER_1: {
@@ -348,8 +312,8 @@ bool stm32f4_timerUnregisterCallback(TimerHandle_t *handle, STM32F4_TimerIRQSour
     default:                return false;
     }
 
-    int used_slots = STM32F4_TIMER_MAX_CALLBACK_COUNT;
-    bool status = stm32f4_timerRemoveCallback(callback_set, callback, &used_slots);
+    int used_slots = STM32F4_MAX_CALLBACK_COUNT;
+    bool status = stm32f4_removeCallback(callback_set, callback, &used_slots);
     if (used_slots == 0)
         stm32f4_timerEnableIRQ(handle, irq_source, false);
 

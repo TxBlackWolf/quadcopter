@@ -7,6 +7,7 @@ set(SOURCES
     stm32f4_timer.c
     stm32f4_timer_irq.c
     stm32f4_uart.c
+    stm32f4_uart_irq.c
 )
 
 # Needed by Drivers.

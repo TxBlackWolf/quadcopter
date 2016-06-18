@@ -11,27 +11,10 @@
 #include "stm32f4_uart.h"
 #include "stm32f4_rcc.h"
 #include "stm32f4_gpio_functions.h"
-#include "CMSIS/stm32f4xx.h"
-
-typedef USART_TypeDef UART_t;
 
 //=============================================================================================
 // HELPER FUNCTIONS
 //=============================================================================================
-
-static UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
-{
-    switch (device) {
-    case STM32F4_USART_1:   return USART1;
-    case STM32F4_USART_2:   return USART2;
-    case STM32F4_USART_3:   return USART3;
-    case STM32F4_UART_4:    return UART4;
-    case STM32F4_UART_5:    return UART5;
-    case STM32F4_USART_6:   return USART6;
-    }
-
-    return 0;
-}
 
 static void stm32f4_uartClockInit(UARTHandle_t *handle, STM32F4_UARTClockConfig_t *clock_config)
 {
@@ -115,6 +98,20 @@ static void stm32f4_uartEnableClock(UARTDevice_t device, bool value)
 // INTERFACE FUNCTIONS
 //=============================================================================================
 
+UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
+{
+    switch (device) {
+    case STM32F4_USART_1:   return USART1;
+    case STM32F4_USART_2:   return USART2;
+    case STM32F4_USART_3:   return USART3;
+    case STM32F4_UART_4:    return UART4;
+    case STM32F4_UART_5:    return UART5;
+    case STM32F4_USART_6:   return USART6;
+    }
+
+    return 0;
+}
+
 bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t *config)
 {
     if (config->general_config.protocol.flow_control != UART_FLOW_CONTROL_NONE) {
@@ -182,6 +179,47 @@ int stm32f4_uartToPinFunction(UARTHandle_t *handle)
     }
 
     return -1;
+}
+
+void stm32f4_uartEnableIRQ(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_source, bool enabled)
+{
+    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
+    if (irq_source & UART_IRQ_CR2_FLAG) {
+        uint32_t mask = irq_source & ~UART_IRQ_CR2_FLAG;
+        if (enabled)
+            uart->CR2 |= mask;
+        else
+            uart->CR2 &= ~mask;
+    }
+    else if (irq_source & UART_IRQ_CR3_FLAG) {
+        uint32_t mask = irq_source & ~UART_IRQ_CR3_FLAG;
+        if (enabled)
+            uart->CR3 |= mask;
+        else
+            uart->CR3 &= ~mask;
+    }
+    else {
+        if (enabled)
+            uart->CR1 |= irq_source;
+        else
+            uart->CR1 &= ~irq_source;
+    }
+}
+
+void stm32f4_uartClearIRQPending(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_source)
+{
+    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
+    switch (irq_source) {
+    case UART_IRQ_LINE_IDLE:        uart->SR &= ~USART_SR_IDLE; break;
+    case UART_IRQ_RXNE_OVERRUN:     uart->SR &= ~USART_SR_RXNE; uart->SR &= ~USART_SR_ORE; break;
+    case UART_IRQ_TX_COMPLETE:      uart->SR &= ~USART_SR_TC; break;
+    case UART_IRQ_TX_EMPTY:         uart->SR &= ~USART_SR_TXE; break;
+    case UART_IRQ_PARTITY_ERROR:    uart->SR &= ~USART_SR_PE; break;
+    case UART_IRQ_LINE_BREAK:       uart->SR &= ~USART_SR_LBD; break;
+    case UART_IRQ_NOISE_FRAMING:    uart->SR &= ~USART_SR_NE; uart->SR &= ~USART_SR_FE; break;
+    case UART_IRQ_CTS_CHANGE:       uart->SR &= ~USART_SR_CTS; break;
+    default:                        break;
+    }
 }
 
 void uart_activate(UARTHandle_t *handle)

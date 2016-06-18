@@ -12,8 +12,11 @@
 #define STM32F4_GPIO_H
 
 #include "hal/gpio.h"
+#include "CMSIS/stm32f4xx.h"
 
 #include <stdint.h>
+
+typedef GPIO_TypeDef GPIO_t;
 
 // Pin port.
 #define STM32F4_GPIO_PORT_A     0
@@ -75,6 +78,7 @@ typedef struct {
     STM32F4_GPIOOutputType_t output_type;
 } STM32F4_GPIOConfig_t;
 
+GPIO_t *stm32f4_gpioGetRegisters(GPIOPort_t port);
 bool stm32f4_gpioInit(GPIOHandle_t *handle, STM32F4_GPIOConfig_t *config);
 
 #endif
