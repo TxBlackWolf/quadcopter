@@ -11,13 +11,18 @@
 #include "commands_manager.h"
 #include "board/board.h"
 #include "board/console.h"
+#include "command/command_decoder.h"
 #include "hal/uart.h"
+
+#include <stdio.h>
 
 static CommandsManager_t manager_settings;
 static UARTHandle_t uart_handle;
 
 bool commandsManager_init()
 {
+    commandDecoder_init(manager_settings.buffer);
+
     commandsManager_enableEmulator(board_isEmulator());
     commandsManager_enableControl(true);
     commandsManager_enableTelemetry(true);
@@ -27,7 +32,7 @@ bool commandsManager_init()
     if (!board_commandsInit(&uart_handle, commandsManager_receive))
         console_write("Failed to initialize commands communication link. Commands will not work\n");
 
-    console_write("Configured commands communication link\n");
+    console_write("Configured commands receive buffer and communication link\n");
     return true;
 }
 
@@ -43,7 +48,22 @@ bool commandsManager_send(uint8_t *command, int size)
 
 void commandsManager_receive()
 {
-    /// @todo Implement.
+    uint16_t data;
+    if (uart_receive(&uart_handle, &data))
+        return;
+
+    uint8_t byte = (uint8_t) data;
+    if (commandDecoder_feed(&byte, 1) != DECODER_COMMAND_COMPLETE)
+        return;
+
+    CommandType_t commandType;
+    commandDecoder_checkType(&commandType);
+    if (!commandsManager_isEnabled(commandType)) {
+        commandDecoder_drop();
+        return;
+    }
+
+    commandDecoder_parse(NULL);
 }
 
 void commandsManager_enableEmulator(bool enabled)
@@ -76,27 +96,7 @@ void commandsManager_enableDebug(bool enabled)
     console_write("%s support for debug commands\n", enabled ? "Enabled" : "Disabled");
 }
 
-bool commandsManager_isEmulatorEnabled()
+bool commandsManager_isEnabled(CommandType_t type)
 {
-    return manager_settings.active_commands[COMMAND_EMULATOR];
-}
-
-bool commandsManager_isControlEnabled()
-{
-    return manager_settings.active_commands[COMMAND_CONTROL];
-}
-
-bool commandsManager_isTelemetryEnabled()
-{
-    return manager_settings.active_commands[COMMAND_TELEMETRY];
-}
-
-bool commandsManager_isSystemStatusEnabled()
-{
-    return manager_settings.active_commands[COMMAND_SYS_STATUS];
-}
-
-bool commandsManager_isDebugEnabled()
-{
-    return manager_settings.active_commands[COMMAND_DEBUG];
+    return manager_settings.active_commands[type];
 }

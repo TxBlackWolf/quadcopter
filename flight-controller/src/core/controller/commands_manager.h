@@ -14,9 +14,11 @@
 #include "command/command_common.h"
 
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef struct {
     bool active_commands[COMMAND_TYPE_COUNT];
+    uint8_t buffer[2 * COMMAND_MAX_SIZE_BYTES];
 } CommandsManager_t;
 
 bool commandsManager_init();
@@ -29,10 +31,6 @@ void commandsManager_enableTelemetry(bool enabled);
 void commandsManager_enableSystemStatus(bool enabled);
 void commandsManager_enableDebug(bool enabled);
 
-bool commandsManager_isEmulatorEnabled();
-bool commandsManager_isControlEnabled();
-bool commandsManager_isTelemetryEnabled();
-bool commandsManager_isSystemStatusEnabled();
-bool commandsManager_isDebugEnabled();
+bool commandsManager_isEnabled(CommandType_t type);
 
 #endif
