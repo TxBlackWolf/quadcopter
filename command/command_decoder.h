@@ -50,10 +50,18 @@ void commandDecoder_init(uint8_t *buffer);
 /// @return Decoder state.
 CommandDecoderState_t commandDecoder_feed(const uint8_t *buffer, int size);
 
+/// @brief Parses command header and returns its type.
+/// @param [out] command_type       Type of parsed command.
+/// @return Parsing error code.
+CommandDecoderError_t commandDecoder_checkType(CommandType_t *command_type);
+
 /// @brief Parses command header to recognize concrete command and call appropriate handler.
 /// @param [out] command_type       Type of parsed command.
 /// @return Parsing error code.
 CommandDecoderError_t commandDecoder_parse(CommandType_t *command_type);
+
+/// @brief Drops current command.
+void commandDecoder_drop();
 
 #ifdef __cplusplus
 }

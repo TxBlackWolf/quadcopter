@@ -168,6 +168,24 @@ feed_exit:
     return decoder.state;
 }
 
+CommandDecoderError_t commandDecoder_checkType(CommandType_t *command_type)
+{
+    CommandHeader_t *header = (CommandHeader_t *) decoder.buffer;
+    if (!commandDecoder_checkVersion(header))
+        return PARSING_BAD_VERSION;
+
+    //if (!commandDecoder_checkCRC(decoder.buffer)) {
+    //    commandStatistics_markBroken();
+    //    result =  PARSING_BAD_CRC;
+    //    goto parse_exit;
+    //}
+
+    if (command_type)
+        *command_type = header->type;
+
+    return PARSING_OK;
+}
+
 CommandDecoderError_t commandDecoder_parse(CommandType_t *command_type)
 {
     CommandHeader_t *header = (CommandHeader_t *) decoder.buffer;
@@ -217,4 +235,11 @@ parse_exit:
     decoder.data_size -= decoder.expected_size;
 
     return result;
+}
+
+void commandDecoder_drop()
+{
+    decoder.state = DECODER_NO_COMMAND;
+    command_shiftBuffer(decoder.buffer, decoder.data_size, decoder.expected_size);
+    decoder.data_size -= decoder.expected_size;
 }
