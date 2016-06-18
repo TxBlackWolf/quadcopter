@@ -27,9 +27,9 @@ static bool console_initialized = false;
 
 bool console_init()
 {
-    uart_handle.device = UART_CONSOLE_DEVICE;
-    uart_handle.uart_gpio.port = UART_CONSOLE_PORT;
-    uart_handle.uart_gpio.pin = UART_CONSOLE_PIN;
+    uart_handle.device = CONSOLE_UART_DEVICE;
+    uart_handle.gpio_tx.port = CONSOLE_GPIO_TX_PORT;
+    uart_handle.gpio_tx.pin =CONSOLE_GPIO_TX_PIN;
 
     // Configure GPIO.
     STM32F4_GPIOConfig_t gpio_config;
@@ -40,7 +40,7 @@ bool console_init()
     gpio_config.mode = GPIO_MODE_ALTERNATE;
     gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
 
-    if (!stm32f4_gpioInit(&uart_handle.uart_gpio, &gpio_config))
+    if (!stm32f4_gpioInit(&uart_handle.gpio_tx, &gpio_config))
         return false;
 
     // Configure UART.

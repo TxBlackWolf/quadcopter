@@ -16,9 +16,16 @@
 #include "hal/stm32f4/stm32f4_uart.h"
 
 // UART console.
-#define UART_CONSOLE_DEVICE                     STM32F4_UART_4
-#define UART_CONSOLE_PORT                       STM32F4_GPIO_PORT_C
-#define UART_CONSOLE_PIN                        STM32F4_GPIO_PIN_10
+#define CONSOLE_UART_DEVICE                     STM32F4_UART_4
+#define CONSOLE_GPIO_TX_PORT                    STM32F4_GPIO_PORT_C
+#define CONSOLE_GPIO_TX_PIN                     STM32F4_GPIO_PIN_10
+
+// UART commands.
+#define COMMANDS_UART_DEVICE                    STM32F4_UART_5
+#define COMMANDS_GPIO_TX_PORT                   STM32F4_GPIO_PORT_C
+#define COMMANDS_GPIO_TX_PIN                    STM32F4_GPIO_PIN_12
+#define COMMANDS_GPIO_RX_PORT                   STM32F4_GPIO_PORT_D
+#define COMMANDS_GPIO_RX_PIN                    STM32F4_GPIO_PIN_2
 
 // Periodic timer.
 #define PERIODIC_EVENT_TIMER                    STM32F4_TIMER_4

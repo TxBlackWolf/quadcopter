@@ -21,6 +21,8 @@
 #include "hal/stm32f4/stm32f4_timer.h"
 #include "hal/timer.h"
 
+#define COMMANDS_BAUD_RATE       115200
+
 bool board_isEmergencyBoot()
 {
     /// @todo Implement.
@@ -77,10 +79,44 @@ bool board_periodicTimerInit(TimerHandle_t *timer_handle)
     return stm32f4_timerRegisterCallback(timer_handle, TIMER_IRQ_UPDATE, clock_processPeriodicEvents);
 }
 
-bool board_commandsInit(UARTHandle_t *uart_handle __attribute__((unused)))
+bool board_commandsInit(UARTHandle_t *uart_handle)
 {
-    /// @todo Implement.
-    return false;
+    uart_handle->device = COMMANDS_UART_DEVICE;
+    uart_handle->gpio_tx.port = COMMANDS_GPIO_TX_PORT;
+    uart_handle->gpio_tx.pin = COMMANDS_GPIO_TX_PIN;
+    uart_handle->gpio_rx.port = COMMANDS_GPIO_RX_PORT;
+    uart_handle->gpio_rx.pin = COMMANDS_GPIO_RX_PIN;
+
+    // Configure GPIO TX and RX.
+    STM32F4_GPIOConfig_t gpio_config;
+    gpio_config.general_config.direction = GPIO_DIRECTION_OUT;
+    gpio_config.general_config.resistor_type = GPIO_RESISTOR_PULLUP;
+    gpio_config.function = stm32f4_uartToPinFunction(uart_handle);
+    gpio_config.speed = GPIO_SPEED_100MHz;
+    gpio_config.mode = GPIO_MODE_ALTERNATE;
+    gpio_config.output_type = GPIO_OUTPUT_PUSHPULL;
+
+    if (!stm32f4_gpioInit(&uart_handle->gpio_tx, &gpio_config))
+        return false;
+
+    if (!stm32f4_gpioInit(&uart_handle->gpio_rx, &gpio_config))
+        return false;
+
+    // Configure UART.
+    STM32F4_UARTConfig_t uart_config;
+    uart_config.general_config.protocol.baud_rate = COMMANDS_BAUD_RATE;
+    uart_config.general_config.protocol.data_bits = UART_DATA_BITS_8;
+    uart_config.general_config.protocol.stop_bits = UART_STOP_BITS_1;
+    uart_config.general_config.protocol.parity = UART_PARTITY_NONE;
+    uart_config.general_config.protocol.flow_control = UART_FLOW_CONTROL_NONE;
+    uart_config.general_config.direction = UART_DIRECTION_WRITE;
+    uart_config.general_config.mode = UART_MODE_ASYNCHRONOUS;
+
+    bool status = stm32f4_uartInit(uart_handle, &uart_config);
+    if (status)
+        uart_activate(uart_handle);
+
+    return status;
 }
 
 bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t *pwm_config, GPIOConfig_t *gpio_general_config)

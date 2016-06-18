@@ -13,7 +13,7 @@
 #include "board/console.h"
 #include "hal/uart.h"
 
-static CommandsManagerSettings_t manager_settings;
+static CommandsManager_t manager_settings;
 static UARTHandle_t uart_handle;
 
 bool commandsManager_init()
@@ -25,7 +25,7 @@ bool commandsManager_init()
     commandsManager_enableDebug(board_isDebug());
 
     if (!board_commandsInit(&uart_handle))
-        console_write("Failed to initialize commands communication link. Commands may not work now\n");
+        console_write("Failed to initialize commands communication link. Commands will not work\n");
 
     return true;
 }
@@ -42,55 +42,55 @@ bool commandsManager_send(uint8_t *command, int size)
 
 void commandsManager_enableEmulator(bool enabled)
 {
-    manager_settings.supported_commands[COMMAND_EMULATOR] = enabled;
+    manager_settings.active_commands[COMMAND_EMULATOR] = enabled;
     console_write("%s support for emulator commands\n", enabled ? "Enabled" : "Disabled");
 }
 
 void commandsManager_enableControl(bool enabled)
 {
-    manager_settings.supported_commands[COMMAND_CONTROL] = enabled;
+    manager_settings.active_commands[COMMAND_CONTROL] = enabled;
     console_write("%s support for control commands\n", enabled ? "Enabled" : "Disabled");
 }
 
 void commandsManager_enableTelemetry(bool enabled)
 {
-    manager_settings.supported_commands[COMMAND_TELEMETRY] = enabled;
+    manager_settings.active_commands[COMMAND_TELEMETRY] = enabled;
     console_write("%s support for telemetry commands\n", enabled ? "Enabled" : "Disabled");
 }
 
 void commandsManager_enableSystemStatus(bool enabled)
 {
-    manager_settings.supported_commands[COMMAND_SYS_STATUS] = enabled;
+    manager_settings.active_commands[COMMAND_SYS_STATUS] = enabled;
     console_write("%s support for system status commands\n", enabled ? "Enabled" : "Disabled");
 }
 
 void commandsManager_enableDebug(bool enabled)
 {
-    manager_settings.supported_commands[COMMAND_DEBUG] = enabled;
+    manager_settings.active_commands[COMMAND_DEBUG] = enabled;
     console_write("%s support for debug commands\n", enabled ? "Enabled" : "Disabled");
 }
 
 bool commandsManager_isEmulatorEnabled()
 {
-    return manager_settings.supported_commands[COMMAND_EMULATOR];
+    return manager_settings.active_commands[COMMAND_EMULATOR];
 }
 
 bool commandsManager_isControlEnabled()
 {
-    return manager_settings.supported_commands[COMMAND_CONTROL];
+    return manager_settings.active_commands[COMMAND_CONTROL];
 }
 
 bool commandsManager_isTelemetryEnabled()
 {
-    return manager_settings.supported_commands[COMMAND_TELEMETRY];
+    return manager_settings.active_commands[COMMAND_TELEMETRY];
 }
 
 bool commandsManager_isSystemStatusEnabled()
 {
-    return manager_settings.supported_commands[COMMAND_SYS_STATUS];
+    return manager_settings.active_commands[COMMAND_SYS_STATUS];
 }
 
 bool commandsManager_isDebugEnabled()
 {
-    return manager_settings.supported_commands[COMMAND_DEBUG];
+    return manager_settings.active_commands[COMMAND_DEBUG];
 }

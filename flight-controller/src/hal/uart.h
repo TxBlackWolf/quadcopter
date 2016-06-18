@@ -80,7 +80,8 @@ typedef struct {
 // UART handle.
 typedef struct {
     UARTDevice_t device;
-    GPIOHandle_t uart_gpio;
+    GPIOHandle_t gpio_tx;
+    GPIOHandle_t gpio_rx;
     void *private_data;
 } UARTHandle_t;
 

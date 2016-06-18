@@ -16,8 +16,8 @@
 #include <stdbool.h>
 
 typedef struct {
-    bool supported_commands[COMMAND_TYPE_COUNT];
-} CommandsManagerSettings_t;
+    bool active_commands[COMMAND_TYPE_COUNT];
+} CommandsManager_t;
 
 bool commandsManager_init();
 bool commandsManager_send(uint8_t *command, int size);
