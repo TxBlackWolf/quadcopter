@@ -14,10 +14,19 @@
 #include "command/command_decoder.h"
 #include "hal/uart.h"
 
+// @todo Only for test.
+#include "command/command_control.h"
+
 #include <stdio.h>
 
 static CommandsManager_t manager_settings;
 static UARTHandle_t uart_handle;
+
+void throttle_cb(uint8_t *buffer, uint32_t size)
+{
+    ControlCommandThrottle_t *throttle_command = (ControlCommandThrottle_t *) buffer;
+    console_write("throttle: %d %%\n", throttle_command->throttle);
+}
 
 bool commandsManager_init()
 {
@@ -33,6 +42,9 @@ bool commandsManager_init()
         console_write("Failed to initialize commands communication link. Commands will not work\n");
 
     console_write("Configured commands receive buffer and communication link\n");
+
+    // @todo Only for test.
+    command_registerControlCallback(CONTROL_EVENT_THROTTLE, throttle_cb);
     return true;
 }
 
@@ -49,7 +61,7 @@ bool commandsManager_send(uint8_t *command, int size)
 void commandsManager_receive()
 {
     uint16_t data;
-    if (uart_receive(&uart_handle, &data))
+    if (!uart_receive(&uart_handle, &data))
         return;
 
     uint8_t byte = (uint8_t) data;
