@@ -3,7 +3,7 @@
 # Author      : Kuba Sejdak <kuba.sejdak@gmail.com>
 # Description : Starts debugging session for STM32Discovery.
 
-FLIGHTCONTROLLER_PATH="/home/kuba/Projects/SkyViper/flight-controller"
+FLIGHTCONTROLLER_PATH="/home/kuba/Projects/quadcopter/flight-controller"
 FLIGHTCONTROLLER_FIRMWARE_PATH="$FLIGHTCONTROLLER_PATH/bin/stm32f4_discovery/Debug/flight-controller.elf"
 FLIGHTCONTROLLER_GDBINIT_PATH="$FLIGHTCONTROLLER_PATH/src/board/stm32f4_discovery/stm32f4_discovery.gdbinit"
 

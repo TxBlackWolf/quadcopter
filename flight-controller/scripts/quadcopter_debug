@@ -1,9 +1,9 @@
 #!/bin/bash
 #
 # Author      : Kuba Sejdak <kuba.sejdak@gmail.com>
-# Description : Flashed new firmware using OpenOCD and immediately starts debugging session.
+# Description : Flashes new firmware using OpenOCD and immediately starts debugging session.
 
-FLIGHTCONTROLLER_PATH="/home/kuba/Projects/SkyViper/flight-controller"
+FLIGHTCONTROLLER_PATH="/home/kuba/Projects/quadcopter/flight-controller"
 FLIGHTCONTROLLER_FIRMWARE_PATH="$FLIGHTCONTROLLER_PATH/bin/stm32f4_discovery/Debug/flight-controller.elf"
 
 openocd -f /usr/share/openocd/scripts/board/stm32f4discovery.cfg -c init \
