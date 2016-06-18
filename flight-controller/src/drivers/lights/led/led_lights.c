@@ -60,8 +60,8 @@ static void strobe_blink()
 
 bool strobe_init()
 {
-    strobe.gpio.port = BLUE_STROBE_PORT;
-    strobe.gpio.pin = BLUE_STROBE_PIN;
+    strobe.gpio.port = LED_STROBE_PORT;
+    strobe.gpio.pin = LED_STROBE_PIN;
     strobe.gpio.name = "blue strobe";
     strobe.state = false;
     strobe.phase = 1;
