@@ -15,12 +15,12 @@
 
 #include <stdio.h>
 
-static HALEventCallback_t usart1_callbacks[STM32F4_MAX_CALLBACK_COUNT][UART_IRQ_COUNT];
-static HALEventCallback_t usart2_callbacks[STM32F4_MAX_CALLBACK_COUNT][UART_IRQ_COUNT];
-static HALEventCallback_t usart3_callbacks[STM32F4_MAX_CALLBACK_COUNT][UART_IRQ_COUNT];
-static HALEventCallback_t uart4_callbacks[STM32F4_MAX_CALLBACK_COUNT][UART_IRQ_COUNT];
-static HALEventCallback_t uart5_callbacks[STM32F4_MAX_CALLBACK_COUNT][UART_IRQ_COUNT];
-static HALEventCallback_t usart6_callbacks[STM32F4_MAX_CALLBACK_COUNT][UART_IRQ_COUNT];
+static HALEventCallback_t usart1_callbacks[UART_IRQ_COUNT][STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t usart2_callbacks[UART_IRQ_COUNT][STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t usart3_callbacks[UART_IRQ_COUNT][STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t uart4_callbacks[UART_IRQ_COUNT][STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t uart5_callbacks[UART_IRQ_COUNT][STM32F4_MAX_CALLBACK_COUNT];
+static HALEventCallback_t usart6_callbacks[UART_IRQ_COUNT][STM32F4_MAX_CALLBACK_COUNT];
 
 //=============================================================================================
 // HELPER FUNCTIONS
@@ -43,7 +43,7 @@ static int stm32f4_uartIRQToIndex(STM32F4_UARTIRQSource_t irq_source)
     return -1;
 }
 
-static void stm32f4_uartHandleInterrupt(UARTHandle_t *handle, HALEventCallback_t callback_set[][UART_IRQ_COUNT])
+static void stm32f4_uartHandleInterrupt(UARTHandle_t *handle, HALEventCallback_t callback_set[][STM32F4_MAX_CALLBACK_COUNT])
 {
     UART_t *uart = stm32f4_uartGetRegisters(handle->device);
     STM32F4_UARTIRQSource_t irq_source;
