@@ -209,17 +209,25 @@ void stm32f4_uartEnableIRQ(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_sou
 void stm32f4_uartClearIRQPending(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_source)
 {
     UART_t *uart = stm32f4_uartGetRegisters(handle->device);
+    uint16_t mask = 0;
     switch (irq_source) {
-    case UART_IRQ_LINE_IDLE:        uart->SR &= ~USART_SR_IDLE; break;
-    case UART_IRQ_RXNE_OVERRUN:     uart->SR &= ~USART_SR_RXNE; uart->SR &= ~USART_SR_ORE; break;
-    case UART_IRQ_TX_COMPLETE:      uart->SR &= ~USART_SR_TC; break;
-    case UART_IRQ_TX_EMPTY:         uart->SR &= ~USART_SR_TXE; break;
-    case UART_IRQ_PARTITY_ERROR:    uart->SR &= ~USART_SR_PE; break;
-    case UART_IRQ_LINE_BREAK:       uart->SR &= ~USART_SR_LBD; break;
-    case UART_IRQ_NOISE_FRAMING:    uart->SR &= ~USART_SR_NE; uart->SR &= ~USART_SR_FE; break;
-    case UART_IRQ_CTS_CHANGE:       uart->SR &= ~USART_SR_CTS; break;
-    default:                        break;
+    case UART_IRQ_LINE_IDLE:        uart_receive(handle, &mask); return;    // Clear by sequence of reading SR and DR registers.
+    case UART_IRQ_RXNE_OVERRUN:     return;                                 // Clear by reading DR register.
+    case UART_IRQ_TX_COMPLETE:      mask = ~USART_SR_TC; break;             // Clear by writing 0.
+    case UART_IRQ_TX_EMPTY:         return;                                 // Clear by writing to DR register.
+    case UART_IRQ_PARTITY_ERROR:                                            // Clear by sequence of reading SR and DR registers (RXNE bit must be set).
+        if (uart->SR & USART_SR_RXNE) {
+            mask = ~USART_SR_PE;
+            uart_receive(handle, &mask);
+        }
+        return;
+    case UART_IRQ_LINE_BREAK:       mask = ~USART_SR_LBD; break;            // Clear by writing 0.
+    case UART_IRQ_NOISE_FRAMING:    uart_receive(handle, &mask); return;    // Clear by sequence of reading SR and DR registers.
+    case UART_IRQ_CTS_CHANGE:       mask  = ~USART_SR_CTS; break;           // Clear by writing 0.
+    default:                        return;
     }
+
+    uart->SR &= mask;
 }
 
 void uart_activate(UARTHandle_t *handle)
