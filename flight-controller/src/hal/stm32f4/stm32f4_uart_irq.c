@@ -48,9 +48,7 @@ static void stm32f4_uartHandleInterrupt(UARTHandle_t *handle, HALEventCallback_t
     UART_t *uart = stm32f4_uartGetRegisters(handle->device);
     STM32F4_UARTIRQSource_t irq_source;
 
-    if (uart->SR & USART_SR_IDLE)
-        irq_source = UART_IRQ_LINE_IDLE;
-    else if (uart->SR & USART_SR_RXNE || USART1->SR & USART_SR_ORE)
+    if (uart->SR & USART_SR_RXNE || USART1->SR & USART_SR_ORE)
         irq_source = UART_IRQ_RXNE_OVERRUN;
     else if (uart->SR & USART_SR_TC)
         irq_source = UART_IRQ_TX_COMPLETE;
@@ -64,6 +62,8 @@ static void stm32f4_uartHandleInterrupt(UARTHandle_t *handle, HALEventCallback_t
         irq_source = UART_IRQ_NOISE_FRAMING;
     else if (handle->device != STM32F4_UART_4 && handle->device != STM32F4_UART_4 && uart->SR & USART_SR_CTS)
         irq_source = UART_IRQ_CTS_CHANGE;
+    else if (uart->SR & USART_SR_IDLE)
+        irq_source = UART_IRQ_LINE_IDLE;
 
     int idx = stm32f4_uartIRQToIndex(irq_source);
     for (int i = 0; i < STM32F4_MAX_CALLBACK_COUNT; ++i) {
