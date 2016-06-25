@@ -12,6 +12,8 @@
 #include "stm32f4_rcc.h"
 #include "stm32f4_gpio_functions.h"
 
+static STM32F4_UARTPrivateData_t uarts_privateData[STM32F4_UART_COUNT];
+
 //=============================================================================================
 // HELPER FUNCTIONS
 //=============================================================================================
@@ -164,6 +166,7 @@ bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t *config)
 
     uart->BRR = baud_rate_value;
 
+    handle->private_data = &uarts_privateData[handle->device - 1];
     return true;
 }
 
@@ -204,6 +207,13 @@ void stm32f4_uartEnableIRQ(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_sou
         else
             uart->CR1 &= ~irq_source;
     }
+
+    STM32F4_UARTPrivateData_t *private_data = handle->private_data;
+    uint16_t mask = stm32f4_uartIRQToStatusFlag(irq_source);
+    if (enabled)
+        private_data->irq_flags |= mask;
+    else
+        private_data->irq_flags |= ~mask;
 }
 
 void stm32f4_uartClearIRQPending(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_source)

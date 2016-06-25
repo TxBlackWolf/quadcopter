@@ -43,27 +43,36 @@ static int stm32f4_uartIRQToIndex(STM32F4_UARTIRQSource_t irq_source)
     return -1;
 }
 
+static bool stm32f4_uartCheckIRQSource(UARTHandle_t *handle, uint16_t flag)
+{
+    STM32F4_UARTPrivateData_t *private_data = handle->private_data;
+    if ((private_data->irq_flags & flag) == 0)
+        return false;
+
+    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
+    return (uart->SR & flag);
+}
+
 static void stm32f4_uartHandleInterrupt(UARTHandle_t *handle, HALEventCallback_t callback_set[][STM32F4_MAX_CALLBACK_COUNT])
 {
-    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
     STM32F4_UARTIRQSource_t irq_source;
 
-    if (uart->SR & USART_SR_RXNE || USART1->SR & USART_SR_ORE)
-        irq_source = UART_IRQ_RXNE_OVERRUN;
-    else if (uart->SR & USART_SR_TC)
-        irq_source = UART_IRQ_TX_COMPLETE;
-    else if (uart->SR & USART_SR_TXE)
-        irq_source = UART_IRQ_TX_EMPTY;
-    else if (uart->SR & USART_SR_PE)
-        irq_source = UART_IRQ_PARTITY_ERROR;
-    else if (uart->SR & USART_SR_LBD)
-        irq_source = UART_IRQ_LINE_BREAK;
-    else if (uart->SR & USART_SR_NE || USART1->SR & USART_SR_FE)
-        irq_source = UART_IRQ_NOISE_FRAMING;
-    else if (handle->device != STM32F4_UART_4 && handle->device != STM32F4_UART_4 && uart->SR & USART_SR_CTS)
-        irq_source = UART_IRQ_CTS_CHANGE;
-    else if (uart->SR & USART_SR_IDLE)
+    if (stm32f4_uartCheckIRQSource(handle, USART_SR_IDLE))
         irq_source = UART_IRQ_LINE_IDLE;
+    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_IDLE || USART_SR_ORE))
+        irq_source = UART_IRQ_RXNE_OVERRUN;
+    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_TC))
+        irq_source = UART_IRQ_TX_COMPLETE;
+    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_TXE))
+        irq_source = UART_IRQ_TX_EMPTY;
+    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_PE))
+        irq_source = UART_IRQ_PARTITY_ERROR;
+    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_LBD))
+        irq_source = UART_IRQ_LINE_BREAK;
+    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_NE || USART_SR_FE))
+        irq_source = UART_IRQ_NOISE_FRAMING;
+    else if (handle->device != STM32F4_UART_4 && handle->device != STM32F4_UART_5 && stm32f4_uartCheckIRQSource(handle, USART_SR_CTS))
+        irq_source = UART_IRQ_CTS_CHANGE;
 
     int idx = stm32f4_uartIRQToIndex(irq_source);
     for (int i = 0; i < STM32F4_MAX_CALLBACK_COUNT; ++i) {
@@ -133,6 +142,23 @@ uint8_t stm32f4_uartToIRQChannel(UARTHandle_t *handle)
     case STM32F4_UART_4:    return UART4_IRQn;
     case STM32F4_UART_5:    return UART5_IRQn;
     case STM32F4_USART_6:   return USART6_IRQn;
+    }
+
+    return 0;
+}
+
+uint16_t stm32f4_uartIRQToStatusFlag(STM32F4_UARTIRQSource_t irq_source)
+{
+    switch (irq_source) {
+    case UART_IRQ_LINE_IDLE:        return USART_SR_IDLE;
+    case UART_IRQ_RXNE_OVERRUN:     return USART_SR_RXNE || USART_SR_ORE;
+    case UART_IRQ_TX_COMPLETE:      return USART_SR_TC;
+    case UART_IRQ_TX_EMPTY:         return USART_SR_TXE;
+    case UART_IRQ_PARTITY_ERROR:    return USART_SR_PE;
+    case UART_IRQ_LINE_BREAK:       return USART_SR_LBD;
+    case UART_IRQ_NOISE_FRAMING:    return USART_SR_NE || USART_SR_FE;
+    case UART_IRQ_CTS_CHANGE:       return USART_SR_CTS;
+    default:                        break;
     }
 
     return 0;

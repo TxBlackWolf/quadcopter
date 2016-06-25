@@ -20,12 +20,14 @@
 typedef USART_TypeDef UART_t;
 
 // UART device.
-#define STM32F4_USART_1     1
-#define STM32F4_USART_2     2
-#define STM32F4_USART_3     3
-#define STM32F4_UART_4      4
-#define STM32F4_UART_5      5
-#define STM32F4_USART_6     6
+#define STM32F4_USART_1         1
+#define STM32F4_USART_2         2
+#define STM32F4_USART_3         3
+#define STM32F4_UART_4          4
+#define STM32F4_UART_5          5
+#define STM32F4_USART_6         6
+
+#define STM32F4_UART_COUNT      6
 
 // UART clock enabled.
 typedef enum {
@@ -81,11 +83,16 @@ typedef enum {
     UART_IRQ_COUNT          = 8
 } STM32F4_UARTIRQSource_t;
 
+typedef struct {
+    uint16_t irq_flags;
+} STM32F4_UARTPrivateData_t;
+
 UART_t *stm32f4_uartGetRegisters(UARTDevice_t device);
 bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t *config);
 int stm32f4_uartToPinFunction(UARTHandle_t *handle);
 
 uint8_t stm32f4_uartToIRQChannel(UARTHandle_t *handle);
+uint16_t stm32f4_uartIRQToStatusFlag(STM32F4_UARTIRQSource_t irq_source);
 void stm32f4_uartEnableIRQ(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_source, bool enabled);
 void stm32f4_uartClearIRQPending(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_source);
 
