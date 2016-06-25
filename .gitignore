@@ -10,4 +10,4 @@ flight-controller/board/board_pinout.h
 CMakeLists.txt.user
 
 # GroundStation
-GroundStation/src/GroundStation.pro.user
+GroundStation/GroundStation.pro.user

@@ -14,23 +14,21 @@ TEMPLATE        = app
 RC_FILE         = GroundStation.rc
 
 CONFIG(debug, debug|release) {
-    DESTDIR     = $$PWD/../bin/Debug
-    OBJECTS_DIR = $$PWD/../build/Debug/obj
-    MOC_DIR     = $$PWD/../build/Debug/moc
-    RCC_DIR     = $$PWD/../build/Debug/rcc
-    UI_DIR      = $$PWD/../build/Debug/ui
+    DESTDIR     = $$PWD/../bin/debug
+    OBJECTS_DIR = $$PWD/../build/GroundStation/debug/obj
+    MOC_DIR     = $$PWD/../build/GroundStation/debug/moc
+    RCC_DIR     = $$PWD/../build/GroundStation/debug/rcc
+    UI_DIR      = $$PWD/../build/GroundStation/debug/ui
 }
 else {
-    DESTDIR     = $$PWD/../bin/Release
-    OBJECTS_DIR = $$PWD/../build/Release/obj
-    MOC_DIR     = $$PWD/../build/Release/moc
-    RCC_DIR     = $$PWD/../build/Release/rcc
-    UI_DIR      = $$PWD/../build/Release/ui
+    DESTDIR     = $$PWD/../bin/release
+    OBJECTS_DIR = $$PWD/../build/GroundStation/release/obj
+    MOC_DIR     = $$PWD/../build/GroundStation/release/moc
+    RCC_DIR     = $$PWD/../build/GroundStation/release/rcc
+    UI_DIR      = $$PWD/../build/GroundStation/release/ui
 }
 
-Release:DESTDIR = $$PWD/../bin/Release
-
-INCLUDEPATH     += $$PWD/../.. $$PWD/.
+INCLUDEPATH     += $$PWD/.. $$PWD/.
 
 SOURCES         += \
                 main.cpp \
@@ -58,15 +56,15 @@ SOURCES         += \
                 Windows/SettingsDialog.cpp \
                 Windows/SystemInfoWidget.cpp \
                 Windows/TelemetryTabWidget.cpp \
-                ../../command/command_common.c \
-                ../../command/command_control.c \
-                ../../command/command_debugInfo.c \
-                ../../command/command_decoder.c \
-                ../../command/command_emulator.c \
-                ../../command/command_encoder.c \
-                ../../command/command_statistics.c \
-                ../../command/command_systemStatus.c \
-                ../../command/command_telemetry.c
+                ../command/command_common.c \
+                ../command/command_control.c \
+                ../command/command_debugInfo.c \
+                ../command/command_decoder.c \
+                ../command/command_emulator.c \
+                ../command/command_encoder.c \
+                ../command/command_statistics.c \
+                ../command/command_systemStatus.c \
+                ../command/command_telemetry.c
 
 HEADERS         += \
                 Core/CommandsManager.h \
@@ -95,15 +93,15 @@ HEADERS         += \
                 Windows/SettingsDialog.h \
                 Windows/SystemInfoWidget.h \
                 Windows/TelemetryTabWidget.h \
-                ../../command/command_common.h \
-                ../../command/command_control.h \
-                ../../command/command_debugInfo.h \
-                ../../command/command_decoder.h \
-                ../../command/command_emulator.h \
-                ../../command/command_encoder.h \
-                ../../command/command_statistics.h \
-                ../../command/command_systemStatus.h \
-                ../../command/command_telemetry.h
+                ../command/command_common.h \
+                ../command/command_control.h \
+                ../command/command_debugInfo.h \
+                ../command/command_decoder.h \
+                ../command/command_emulator.h \
+                ../command/command_encoder.h \
+                ../command/command_statistics.h \
+                ../command/command_systemStatus.h \
+                ../command/command_telemetry.h
 
 FORMS           += \
                 Windows/AboutDialog.ui \
