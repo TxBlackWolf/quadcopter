@@ -1,15 +1,13 @@
 # General
 .vscode/
+build/
+bin/
 
 # flight-controller
-flight-controller/build/*
-flight-controller/bin/*
 flight-controller/index.html
-flight-controller/src/board/board_drivers_support.h
-flight-controller/src/board/board_pinout.h
+flight-controller/board/board_drivers_support.h
+flight-controller/board/board_pinout.h
 CMakeLists.txt.user
 
 # GroundStation
 GroundStation/src/GroundStation.pro.user
-GroundStation/build/*
-GroundStation/bin/*

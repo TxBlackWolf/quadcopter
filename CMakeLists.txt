@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 2.8.12)
 # Project paths.
 set(SKYVIPER_COMMAND_PATH ${CMAKE_SOURCE_DIR}/command)
 set(FLIGHTCONTROLLER_PATH ${CMAKE_SOURCE_DIR}/flight-controller)
-set(FLIGHTCONTROLLER_SRC_PATH ${APP_PATH}/src)
+set(FLIGHTCONTROLLER_SRC_PATH flight-controller)
 set(FLIGHTCONTROLLER_BOARD_PATH ${FLIGHTCONTROLLER_SRC_PATH}/board)
 set(FLIGHTCONTROLLER_CORE_PATH ${FLIGHTCONTROLLER_SRC_PATH}/core)
 set(FLIGHTCONTROLLER_DRIVERS_PATH ${FLIGHTCONTROLLER_SRC_PATH}/drivers)
@@ -54,13 +54,14 @@ elseif (${FLIGHTCONTROLLER_BOARD} STREQUAL "stm32f4_discovery")
 endif ()
 
 # Set common build options.
-set(EXECUTABLE_OUTPUT_PATH ${FLIGHTCONTROLLER_PATH}/bin/${FLIGHTCONTROLLER_BOARD}/${CMAKE_BUILD_TYPE})
+string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/${BUILD_TYPE})
 
 # List project configuration.
 message(STATUS "FlightController project configuration:")
 message(STATUS "  Board: " ${FLIGHTCONTROLLER_BOARD})
 message(STATUS "  Application: " ${SUBAPP_NAME})
-message(STATUS "  Build type: " ${CMAKE_BUILD_TYPE})
+message(STATUS "  Build type: " ${BUILD_TYPE})
 
 #################################################################################################################
 # OTHER SETTINGS
@@ -72,4 +73,4 @@ configure_drivers()
 
 include_directories(.)
 add_subdirectory(command)
-add_subdirectory(${APP_NAME})
+add_subdirectory(flight-controller)
