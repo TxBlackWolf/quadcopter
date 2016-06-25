@@ -11,6 +11,7 @@
 #ifndef LINUX_TIMER_H
 #define LINUX_TIMER_H
 
+#include "hal/hal.h"
 #include "hal/timer.h"
 
 #include <signal.h>
@@ -18,7 +19,6 @@
 #include <stdint.h>
 
 typedef void (*signal_handler_t)(int, siginfo_t *, void *);
-typedef void (*timer_callback_t)();
 
 // Timer config structure.
 typedef struct {
@@ -29,8 +29,8 @@ typedef struct {
 
 typedef struct {
     bool enabled;
-    timer_callback_t callback;
-} LinuxTimerPrivateData_t;
+    HALEventCallback_t callback;
+} Emulator_TimerPrivateData_t;
 
 bool emulator_timerInit(TimerHandle_t *handle, Emulator_TimerConfig_t *config);
 

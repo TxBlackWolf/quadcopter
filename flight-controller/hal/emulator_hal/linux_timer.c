@@ -61,7 +61,7 @@ bool emulator_timerInit(TimerHandle_t *handle, Emulator_TimerConfig_t *config)
     }
 
     // Allocate and init private data.
-    LinuxTimerPrivateData_t *private_data = (LinuxTimerPrivateData_t *) malloc(sizeof(LinuxTimerPrivateData_t));
+    Emulator_TimerPrivateData_t *private_data = (Emulator_TimerPrivateData_t *) malloc(sizeof(Emulator_TimerPrivateData_t));
     if(!private_data) {
         console_write("linux_timer: Failed to alloc Linux timer private data: %s.\n", strerror(errno));
         return false;
@@ -77,14 +77,14 @@ bool emulator_timerInit(TimerHandle_t *handle, Emulator_TimerConfig_t *config)
 
 void timer_activate(TimerHandle_t *handle)
 {
-    LinuxTimerPrivateData_t *private_data = (LinuxTimerPrivateData_t *) handle->private_data;
+    Emulator_TimerPrivateData_t *private_data = (Emulator_TimerPrivateData_t *) handle->private_data;
     assert(private_data);
     private_data->enabled = true;
 }
 
 void timer_deactivate(TimerHandle_t *handle)
 {
-    LinuxTimerPrivateData_t *private_data = (LinuxTimerPrivateData_t *) handle->private_data;
+    Emulator_TimerPrivateData_t *private_data = (Emulator_TimerPrivateData_t *) handle->private_data;
     assert(private_data);
     private_data->enabled = false;
 }

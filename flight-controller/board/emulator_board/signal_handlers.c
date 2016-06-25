@@ -19,7 +19,7 @@ void sigalrm_handler(int sig_num, siginfo_t *sig_info, void *unused __attribute_
     assert(sig_num == SIGALRM);
 
     TimerHandle_t *timer_handle = (TimerHandle_t *) sig_info->si_value.sival_ptr;
-    LinuxTimerPrivateData_t *private_data = (LinuxTimerPrivateData_t *) timer_handle->private_data;
+    Emulator_TimerPrivateData_t *private_data = (Emulator_TimerPrivateData_t *) timer_handle->private_data;
     assert(private_data);
     if(private_data->enabled) {
         assert(private_data->callback);
