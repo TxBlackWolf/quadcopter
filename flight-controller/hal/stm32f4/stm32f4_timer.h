@@ -20,20 +20,20 @@
 typedef TIM_TypeDef Timer_t;
 
 // Timer device.
-#define STM32F4_TIMER_1     1
-#define STM32F4_TIMER_2     2
-#define STM32F4_TIMER_3     3
-#define STM32F4_TIMER_4     4
-#define STM32F4_TIMER_5     5
-#define STM32F4_TIMER_6     6
-#define STM32F4_TIMER_7     7
-#define STM32F4_TIMER_8     8
-#define STM32F4_TIMER_9     9
-#define STM32F4_TIMER_10    10
-#define STM32F4_TIMER_11    11
-#define STM32F4_TIMER_12    12
-#define STM32F4_TIMER_13    13
-#define STM32F4_TIMER_14    14
+#define STM32F4_TIMER_1         1
+#define STM32F4_TIMER_2         2
+#define STM32F4_TIMER_3         3
+#define STM32F4_TIMER_4         4
+#define STM32F4_TIMER_5         5
+#define STM32F4_TIMER_6         6
+#define STM32F4_TIMER_7         7
+#define STM32F4_TIMER_8         8
+#define STM32F4_TIMER_9         9
+#define STM32F4_TIMER_10        10
+#define STM32F4_TIMER_11        11
+#define STM32F4_TIMER_12        12
+#define STM32F4_TIMER_13        13
+#define STM32F4_TIMER_14        14
 
 // Timer counter mode.
 typedef enum {
