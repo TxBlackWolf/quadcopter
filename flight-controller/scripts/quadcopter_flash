@@ -3,8 +3,8 @@
 # Author      : Kuba Sejdak <kuba.sejdak@gmail.com>
 # Description : Flashes new firmware using OpenOCD.
 
-FLIGHTCONTROLLER_PATH="/home/kuba/Projects/quadcopter/flight-controller"
-FLIGHTCONTROLLER_FIRMWARE_PATH="$FLIGHTCONTROLLER_PATH/bin/stm32f4_discovery/Debug/flight-controller.elf"
+QUADCOPTER_PATH="/home/kuba/Projects/quadcopter"
+FLIGHTCONTROLLER_FIRMWARE_PATH="$QUADCOPTER_PATH/bin/debug/flight-controller.elf"
 
 openocd -f /usr/share/openocd/scripts/board/stm32f4discovery.cfg -c init \
                                                                  -c targets \
