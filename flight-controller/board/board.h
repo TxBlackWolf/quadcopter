@@ -21,7 +21,6 @@
 
 /// @brief System panic function.
 /// @param [in]                         Panic message.
-/// @return None.
 void panic(const char *format, ...);
 
 /// @brief Checks if this build is in debug mode.
@@ -37,7 +36,6 @@ bool board_isEmulator();
 bool board_isEmergencyBoot();
 
 /// @brief Prints current system-wide clock settings.
-/// @return None.
 void board_showSystemClocks();
 
 /// @brief Initializes all board specific features.
@@ -58,9 +56,8 @@ bool board_commandsInit(UARTHandle_t *uart_handle, HALEventCallback_t callback);
 /// @brief Initializes single engine.
 /// @param [in/out] pwm_handle          Handle to PWM, that should be used.
 /// @param [in] pwm_config              PWM configuration.
-/// @param [in] gpio_general_config     GPIO configuration.
 /// @return True on success, false otherwise.
-bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t *pwm_config, GPIOConfig_t *gpio_general_config);
+bool board_engineInit(PWMHandle_t *pwm_handle, PWMConfig_t *pwm_config);
 
 /// @brief Initializes strobe light.
 /// @param [in/out] gpio_handle         Handle to GPIO, that should be used.

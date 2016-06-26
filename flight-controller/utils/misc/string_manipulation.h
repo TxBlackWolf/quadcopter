@@ -15,7 +15,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-#define HAS_FLOAT 0
+#define HAS_FLOAT       0
 
 // Format flags.
 #define ZEROPAD         (1 << 0)    // Pad with zero.

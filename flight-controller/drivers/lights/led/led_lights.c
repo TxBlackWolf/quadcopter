@@ -14,8 +14,8 @@
 #include "board/console.h"
 #include "hal/timer.h"
 
-#define STROBE_DELAY_PERIOD_MSEC    2000
-#define STROBE_BLINK_PERIOD_MSEC    150
+#define STROBE_DELAY_PERIOD_MSEC    2000        ///< Delay between strobe blinking actions.
+#define STROBE_BLINK_PERIOD_MSEC    150         ///< Delay between strobe on/off states when blinking.
 
 static LEDStrobe_t strobe;
 
@@ -23,6 +23,7 @@ static LEDStrobe_t strobe;
 // HELPER FUNCTIONS
 //=============================================================================================
 
+/// @brief Callback, that switches LED strobe states and sets delay for next action.
 static void strobe_blink()
 {
     uint32_t period_ms = 0;

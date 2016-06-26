@@ -16,11 +16,12 @@
 
 #include <stdint.h>
 
+/// @brief LED strobe meta data.
 typedef struct {
-    GPIOHandle_t gpio;
-    uint8_t phase;
-    bool state;
-    bool initialized;
+    GPIOHandle_t gpio;          ///< GPIO handle for strobe pin.
+    uint8_t phase;              ///< Current strobe phase in blinking action.
+    bool state;                 ///< Flag indicating if strobe is currently on or off.
+    bool initialized;           ///< Flag indicating if strobe LED is initialized.
 } LEDStrobe_t;
 
 #endif

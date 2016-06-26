@@ -11,6 +11,9 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+/// @brief Starts controller main loop.
+/// @note This function should return its value directly to main() exit point.
+/// @return O on success, otherwise values greater than 0.
 int controller_run();
 
 #endif

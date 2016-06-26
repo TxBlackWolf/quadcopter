@@ -19,8 +19,8 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-#define CONSOLE_BUFFER_SIZE     1024
-#define CONSOLE_BAUD_RATE       115200
+#define CONSOLE_BUFFER_SIZE     1024            ///< Size of internal console buffer.
+#define CONSOLE_BAUD_RATE       115200          ///< Serial console baud rate.
 
 static UARTHandle_t uart_handle;
 static bool console_initialized = false;
@@ -45,11 +45,11 @@ bool console_init()
 
     // Configure UART.
     STM32F4_UARTConfig_t uart_config;
-    uart_config.general_config.protocol.baud_rate = CONSOLE_BAUD_RATE;
-    uart_config.general_config.protocol.data_bits = UART_DATA_BITS_8;
-    uart_config.general_config.protocol.stop_bits = UART_STOP_BITS_1;
-    uart_config.general_config.protocol.parity = UART_PARTITY_NONE;
-    uart_config.general_config.protocol.flow_control = UART_FLOW_CONTROL_NONE;
+    uart_config.general_config.baud_rate = CONSOLE_BAUD_RATE;
+    uart_config.general_config.data_bits = UART_DATA_BITS_8;
+    uart_config.general_config.stop_bits = UART_STOP_BITS_1;
+    uart_config.general_config.parity = UART_PARTITY_NONE;
+    uart_config.general_config.flow_control = UART_FLOW_CONTROL_NONE;
     uart_config.general_config.direction = UART_DIRECTION_WRITE;
     uart_config.general_config.mode = UART_MODE_ASYNCHRONOUS;
 

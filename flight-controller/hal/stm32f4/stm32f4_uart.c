@@ -116,7 +116,7 @@ UART_t *stm32f4_uartGetRegisters(UARTDevice_t device)
 
 bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t *config)
 {
-    if (config->general_config.protocol.flow_control != UART_FLOW_CONTROL_NONE) {
+    if (config->general_config.flow_control != UART_FLOW_CONTROL_NONE) {
         // Hardware flow control is available only for USART1, USART2, USART3 and USART6.
         if (handle->device == STM32F4_UART_4 || handle->device == STM32F4_UART_5)
             return false;
@@ -132,10 +132,10 @@ bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t *config)
 
     UART_t *uart = stm32f4_uartGetRegisters(handle->device);
 
-    uart->CR1 |= stm32f4_uartGetDataBitsValue(config->general_config.protocol.data_bits);
-    uart->CR2 |= stm32f4_uartGetStopBitsValue(config->general_config.protocol.stop_bits);
-    uart->CR1 |= stm32f4_uartGetPartityValue(config->general_config.protocol.parity);
-    uart->CR3 |= stm32f4_uartGetFlowControlValue(config->general_config.protocol.flow_control);
+    uart->CR1 |= stm32f4_uartGetDataBitsValue(config->general_config.data_bits);
+    uart->CR2 |= stm32f4_uartGetStopBitsValue(config->general_config.stop_bits);
+    uart->CR1 |= stm32f4_uartGetPartityValue(config->general_config.parity);
+    uart->CR3 |= stm32f4_uartGetFlowControlValue(config->general_config.flow_control);
     uart->CR1 |= stm32f4_uartGetDirectionValue(config->general_config.direction);
 
     // Configure baud rate.
@@ -151,9 +151,9 @@ bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t *config)
     // Determine the integer part.
     uint32_t integer_divider = 0;
     if ((uart->CR1 & USART_CR1_OVER8) != 0)
-        integer_divider = (25 * uart_freq) / (2 * config->general_config.protocol.baud_rate);
+        integer_divider = (25 * uart_freq) / (2 * config->general_config.baud_rate);
     else
-        integer_divider = (25 * uart_freq) / (4 * config->general_config.protocol.baud_rate);
+        integer_divider = (25 * uart_freq) / (4 * config->general_config.baud_rate);
 
     uint32_t baud_rate_value = (integer_divider / 100) << 4;
 

@@ -11,7 +11,7 @@
 #ifndef HAL_H
 #define HAL_H
 
-// General HAL event callback.
+/// @brief General HAL event callback.
 typedef void (*HALEventCallback_t)(void);
 
 #endif

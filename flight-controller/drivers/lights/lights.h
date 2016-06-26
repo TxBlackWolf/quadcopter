@@ -17,8 +17,16 @@
 // STROBE LIGHT
 //=============================================================================================
 
+/// @brief Initializes strobe light.
+/// @note Initializing requires enabling it to start working.
+/// @see strobe_enable()
+/// @return True on success, false otherwise.
 bool strobe_init();
+
+/// @brief Enables strobe light.
 void strobe_enable();
+
+/// @brief Disables strobe light.
 void strobe_disable();
 
 #endif
