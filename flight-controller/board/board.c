@@ -11,6 +11,7 @@
 #include "board.h"
 #include "clock.h"
 #include "console.h"
+#include "core/controller/system_status.h"
 #include "drivers/engines/engine.h"
 #include "drivers/lights/lights.h"
 
@@ -32,7 +33,7 @@ bool board_isDebug()
 
 bool board_init()
 {
-    /// @todo Init panic LED.
+    systemStatus_init();
 
     if (!console_init())
         return false;
@@ -60,6 +61,7 @@ bool board_init()
         return false;
     }
 
+    systemStatus_bootingCompleted();
     console_write("board: Init procedure completed\n");
     return true;
 }

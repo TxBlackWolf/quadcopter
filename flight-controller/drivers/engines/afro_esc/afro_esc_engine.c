@@ -12,10 +12,13 @@
 #include "board/board.h"
 #include "board/board_pinout.h"
 #include "board/console.h"
+#include "core/controller/system_status.h"
 #include "hal/gpio.h"
 #include "hal/pwm.h"
 
 #include <stdio.h>
+
+#define AFRO_ESC_ENGINES_NAME               "Afro ESC engines"
 
 #define AFRO_ESC_MAX_PULSE_WIDTH_US         1860                                                                        ///< Maximal pulse width in ms for engine ESC.
 #define AFRO_ESC_MIN_PULSE_WIDTH_US         1060                                                                        ///< Minimal pulse width in ms for engine ESC.
@@ -84,6 +87,7 @@ bool engines_init()
         return false;
     }
 
+    systemStatus_setEnginesName(AFRO_ESC_ENGINES_NAME);
     return true;
 }
 

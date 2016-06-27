@@ -1,6 +1,7 @@
 set(SOURCES
     commands_manager.c
     controller.c
+    system_status.c
 )
 
 register_module()
