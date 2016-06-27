@@ -17,19 +17,17 @@
 typedef uint32_t GPIOPort_t;            ///< GPIO port id.
 typedef uint32_t GPIOPin_t;             ///< GPIO pin id.
 
-/// @todo Remove implicit value and add converting functions in specific hal.
 /// @brief Possible GPIO pin directions.
 typedef enum {
-    GPIO_DIRECTION_IN  = 0x0,           ///< GPIO input pin (relative to MCU).
-    GPIO_DIRECTION_OUT = 0x1            ///< GPIO output pin (relative to MCU).
+    GPIO_DIRECTION_IN,                  ///< GPIO input pin (relative to MCU).
+    GPIO_DIRECTION_OUT                  ///< GPIO output pin (relative to MCU).
 } GPIODirection_t;
 
-/// @todo Remove implicit value and add converting functions in specific hal.
 /// @brief GPIO pullup/pulldown resistors settings.
 typedef enum {
-    GPIO_RESISTOR_NONE     = 0x1,       ///< Pin has no internal pullup/pulldown resistor.
-    GPIO_RESISTOR_PULLUP   = 0x2,       ///< Pin in internally pulled-up.
-    GPIO_RESISTOR_PULLDOWN = 0x3        ///< Pin in internally pulled-down.
+    GPIO_RESISTOR_NONE,                 ///< Pin has no internal pullup/pulldown resistor.
+    GPIO_RESISTOR_PULLUP,               ///< Pin in internally pulled-up.
+    GPIO_RESISTOR_PULLDOWN              ///< Pin in internally pulled-down.
 } GPIOResistorType_t;
 
 /// @brief GPIO configuration structure.

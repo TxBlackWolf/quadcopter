@@ -48,6 +48,17 @@ static void stm32f4_gpioEnableClock(GPIOPort_t port, bool value)
     stm32f4_rccEnablePeripheralClockAHB1(ahb1_peripheral, value);
 }
 
+static uint32_t stm32f4_gpioGetRegistorTypeValue(GPIOResistorType_t resistor_type)
+{
+    switch (resistor_type) {
+    case GPIO_RESISTOR_NONE:        return 1;
+    case GPIO_RESISTOR_PULLUP:      return 2;
+    case GPIO_RESISTOR_PULLDOWN:    return 3;
+    }
+
+    return 0;
+}
+
 //=============================================================================================
 // INTERFACE FUNCTIONS
 //=============================================================================================
@@ -71,6 +82,17 @@ GPIO_t *stm32f4_gpioGetRegisters(GPIOPort_t port)
 
 bool stm32f4_gpioInit(GPIOHandle_t *handle, STM32F4_GPIOConfig_t *config)
 {
+    // Dummy check if general config matches concrete config.
+    if (config->general_config.direction == GPIO_DIRECTION_IN && config->mode == GPIO_MODE_OUT) {
+        console_write("gpio: General config sets pin as INPUT and concrete config sets pin as OUTPUT\n");
+        return false;
+    }
+
+    if (config->general_config.direction == GPIO_DIRECTION_OUT && config->mode == GPIO_MODE_IN) {
+        console_write("gpio: General config sets pin as OUTPUT and concrete config sets pin as INPUT\n");
+        return false;
+    }
+
     stm32f4_gpioEnableClock(handle->port, true);
 
     if (config->function != GPIO_DIGITAL_PIN) {
@@ -91,7 +113,8 @@ bool stm32f4_gpioInit(GPIOHandle_t *handle, STM32F4_GPIOConfig_t *config)
         gpio->OTYPER |= (config->output_type << handle->pin);
     }
 
-    gpio->PUPDR |= (config->general_config.resistor_type << (handle->pin * 2));
+    uint32_t resistor_type = stm32f4_gpioGetRegistorTypeValue(config->general_config.resistor_type);
+    gpio->PUPDR |= (resistor_type << (handle->pin * 2));
 
     return true;
 }
