@@ -1,7 +1,7 @@
 set(SOURCES
     command_common.c
     command_control.c
-    command_debugInfo.c
+    command_debug.c
     command_decoder.c
     command_emulator.c
     command_encoder.c
