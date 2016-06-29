@@ -58,7 +58,7 @@ SOURCES         += \
                 Windows/TelemetryTabWidget.cpp \
                 ../command/command_common.c \
                 ../command/command_control.c \
-                ../command/command_debugInfo.c \
+                ../command/command_debug.c \
                 ../command/command_decoder.c \
                 ../command/command_emulator.c \
                 ../command/command_encoder.c \
@@ -95,7 +95,7 @@ HEADERS         += \
                 Windows/TelemetryTabWidget.h \
                 ../command/command_common.h \
                 ../command/command_control.h \
-                ../command/command_debugInfo.h \
+                ../command/command_debug.h \
                 ../command/command_decoder.h \
                 ../command/command_emulator.h \
                 ../command/command_encoder.h \
