@@ -46,7 +46,7 @@ static int stm32f4_uartIRQToIndex(STM32F4_UARTIRQSource_t irq_source)
 static bool stm32f4_uartCheckIRQSource(UARTHandle_t *handle, uint16_t flag)
 {
     STM32F4_UARTPrivateData_t *private_data = handle->private_data;
-    if ((private_data->irq_flags & flag) == 0)
+    if ((private_data->irq_flags & flag) != flag)
         return false;
 
     UART_t *uart = stm32f4_uartGetRegisters(handle->device);
@@ -59,7 +59,7 @@ static void stm32f4_uartHandleInterrupt(UARTHandle_t *handle, HALEventCallback_t
 
     if (stm32f4_uartCheckIRQSource(handle, USART_SR_IDLE))
         irq_source = UART_IRQ_LINE_IDLE;
-    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_IDLE || USART_SR_ORE))
+    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_RXNE | USART_SR_ORE))
         irq_source = UART_IRQ_RXNE_OVERRUN;
     else if (stm32f4_uartCheckIRQSource(handle, USART_SR_TC))
         irq_source = UART_IRQ_TX_COMPLETE;
@@ -69,7 +69,7 @@ static void stm32f4_uartHandleInterrupt(UARTHandle_t *handle, HALEventCallback_t
         irq_source = UART_IRQ_PARTITY_ERROR;
     else if (stm32f4_uartCheckIRQSource(handle, USART_SR_LBD))
         irq_source = UART_IRQ_LINE_BREAK;
-    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_NE || USART_SR_FE))
+    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_NE | USART_SR_FE))
         irq_source = UART_IRQ_NOISE_FRAMING;
     else if (handle->device != STM32F4_UART_4 && handle->device != STM32F4_UART_5 && stm32f4_uartCheckIRQSource(handle, USART_SR_CTS))
         irq_source = UART_IRQ_CTS_CHANGE;
@@ -151,12 +151,12 @@ uint16_t stm32f4_uartIRQToStatusFlag(STM32F4_UARTIRQSource_t irq_source)
 {
     switch (irq_source) {
     case UART_IRQ_LINE_IDLE:        return USART_SR_IDLE;
-    case UART_IRQ_RXNE_OVERRUN:     return USART_SR_RXNE || USART_SR_ORE;
+    case UART_IRQ_RXNE_OVERRUN:     return (USART_SR_RXNE | USART_SR_ORE);
     case UART_IRQ_TX_COMPLETE:      return USART_SR_TC;
     case UART_IRQ_TX_EMPTY:         return USART_SR_TXE;
     case UART_IRQ_PARTITY_ERROR:    return USART_SR_PE;
     case UART_IRQ_LINE_BREAK:       return USART_SR_LBD;
-    case UART_IRQ_NOISE_FRAMING:    return USART_SR_NE || USART_SR_FE;
+    case UART_IRQ_NOISE_FRAMING:    return (USART_SR_NE | USART_SR_FE);
     case UART_IRQ_CTS_CHANGE:       return USART_SR_CTS;
     default:                        break;
     }

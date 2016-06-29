@@ -209,11 +209,11 @@ void stm32f4_uartEnableIRQ(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_sou
     }
 
     STM32F4_UARTPrivateData_t *private_data = handle->private_data;
-    uint16_t mask = stm32f4_uartIRQToStatusFlag(irq_source);
+    uint16_t flag = stm32f4_uartIRQToStatusFlag(irq_source);
     if (enabled)
-        private_data->irq_flags |= mask;
+        private_data->irq_flags |= flag;
     else
-        private_data->irq_flags |= ~mask;
+        private_data->irq_flags |= ~flag;
 }
 
 void stm32f4_uartClearIRQPending(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_source)
