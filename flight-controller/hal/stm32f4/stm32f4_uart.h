@@ -87,6 +87,8 @@ typedef struct {
     uint16_t irq_flags;
 } STM32F4_UARTPrivateData_t;
 
+extern STM32F4_UARTPrivateData_t uarts_privateData[STM32F4_UART_COUNT];
+
 UART_t *stm32f4_uartGetRegisters(UARTDevice_t device);
 bool stm32f4_uartInit(UARTHandle_t *handle, STM32F4_UARTConfig_t *config);
 int stm32f4_uartToPinFunction(UARTHandle_t *handle);
