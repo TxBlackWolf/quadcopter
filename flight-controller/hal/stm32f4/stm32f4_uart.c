@@ -12,7 +12,7 @@
 #include "stm32f4_rcc.h"
 #include "stm32f4_gpio_functions.h"
 
-static STM32F4_UARTPrivateData_t uarts_privateData[STM32F4_UART_COUNT];
+STM32F4_UARTPrivateData_t uarts_privateData[STM32F4_UART_COUNT];
 
 //=============================================================================================
 // HELPER FUNCTIONS
@@ -213,7 +213,7 @@ void stm32f4_uartEnableIRQ(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_sou
     if (enabled)
         private_data->irq_flags |= flag;
     else
-        private_data->irq_flags |= ~flag;
+        private_data->irq_flags &= ~flag;
 }
 
 void stm32f4_uartClearIRQPending(UARTHandle_t *handle, STM32F4_UARTIRQSource_t irq_source)
