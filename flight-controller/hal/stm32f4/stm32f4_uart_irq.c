@@ -43,35 +43,35 @@ static int stm32f4_uartIRQToIndex(STM32F4_UARTIRQSource_t irq_source)
     return -1;
 }
 
-static bool stm32f4_uartCheckIRQSource(UARTHandle_t *handle, uint16_t flag)
+static bool stm32f4_uartCheckIRQSource(UARTDevice_t device, uint16_t flag)
 {
-    STM32F4_UARTPrivateData_t *private_data = handle->private_data;
-    if ((private_data->irq_flags & flag) != flag)
+    STM32F4_UARTPrivateData_t *private_data = &uarts_privateData[device - 1];
+    if ((private_data->irq_flags & flag) == 0)
         return false;
 
-    UART_t *uart = stm32f4_uartGetRegisters(handle->device);
+    UART_t *uart = stm32f4_uartGetRegisters(device);
     return (uart->SR & flag);
 }
 
-static void stm32f4_uartHandleInterrupt(UARTHandle_t *handle, HALEventCallback_t callback_set[][STM32F4_MAX_CALLBACK_COUNT])
+static void stm32f4_uartHandleInterrupt(UARTDevice_t device, HALEventCallback_t callback_set[][STM32F4_MAX_CALLBACK_COUNT])
 {
     STM32F4_UARTIRQSource_t irq_source;
 
-    if (stm32f4_uartCheckIRQSource(handle, USART_SR_IDLE))
+    if (stm32f4_uartCheckIRQSource(device, USART_SR_IDLE))
         irq_source = UART_IRQ_LINE_IDLE;
-    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_RXNE | USART_SR_ORE))
+    else if (stm32f4_uartCheckIRQSource(device, USART_SR_RXNE | USART_SR_ORE))
         irq_source = UART_IRQ_RXNE_OVERRUN;
-    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_TC))
+    else if (stm32f4_uartCheckIRQSource(device, USART_SR_TC))
         irq_source = UART_IRQ_TX_COMPLETE;
-    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_TXE))
+    else if (stm32f4_uartCheckIRQSource(device, USART_SR_TXE))
         irq_source = UART_IRQ_TX_EMPTY;
-    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_PE))
+    else if (stm32f4_uartCheckIRQSource(device, USART_SR_PE))
         irq_source = UART_IRQ_PARTITY_ERROR;
-    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_LBD))
+    else if (stm32f4_uartCheckIRQSource(device, USART_SR_LBD))
         irq_source = UART_IRQ_LINE_BREAK;
-    else if (stm32f4_uartCheckIRQSource(handle, USART_SR_NE | USART_SR_FE))
+    else if (stm32f4_uartCheckIRQSource(device, USART_SR_NE | USART_SR_FE))
         irq_source = UART_IRQ_NOISE_FRAMING;
-    else if (handle->device != STM32F4_UART_4 && handle->device != STM32F4_UART_5 && stm32f4_uartCheckIRQSource(handle, USART_SR_CTS))
+    else if (device != STM32F4_UART_4 && device != STM32F4_UART_5 && stm32f4_uartCheckIRQSource(device, USART_SR_CTS))
         irq_source = UART_IRQ_CTS_CHANGE;
 
     int idx = stm32f4_uartIRQToIndex(irq_source);
@@ -80,7 +80,9 @@ static void stm32f4_uartHandleInterrupt(UARTHandle_t *handle, HALEventCallback_t
             callback_set[idx][i]();
     }
 
-    stm32f4_uartClearIRQPending(handle, irq_source);
+    UARTHandle_t handle;
+    handle.device = device;
+    stm32f4_uartClearIRQPending(&handle, irq_source);
 }
 
 //=============================================================================================
@@ -89,44 +91,32 @@ static void stm32f4_uartHandleInterrupt(UARTHandle_t *handle, HALEventCallback_t
 
 void USART1_IRQHandler()
 {
-    UARTHandle_t handle;
-    handle.device = STM32F4_USART_1;
-    stm32f4_uartHandleInterrupt(&handle, usart1_callbacks);
+    stm32f4_uartHandleInterrupt(STM32F4_USART_1, usart1_callbacks);
 }
 
 void USART2_IRQHandler()
 {
-    UARTHandle_t handle;
-    handle.device = STM32F4_USART_2;
-    stm32f4_uartHandleInterrupt(&handle, usart2_callbacks);
+    stm32f4_uartHandleInterrupt(STM32F4_USART_2, usart2_callbacks);
 }
 
 void USART3_IRQHandler()
 {
-    UARTHandle_t handle;
-    handle.device = STM32F4_USART_3;
-    stm32f4_uartHandleInterrupt(&handle, usart3_callbacks);
+    stm32f4_uartHandleInterrupt(STM32F4_USART_3, usart3_callbacks);
 }
 
 void UART4_IRQHandler()
 {
-    UARTHandle_t handle;
-    handle.device = STM32F4_UART_4;
-    stm32f4_uartHandleInterrupt(&handle, uart4_callbacks);
+    stm32f4_uartHandleInterrupt(STM32F4_UART_4, uart4_callbacks);
 }
 
 void UART5_IRQHandler()
 {
-    UARTHandle_t handle;
-    handle.device = STM32F4_UART_5;
-    stm32f4_uartHandleInterrupt(&handle, uart5_callbacks);
+    stm32f4_uartHandleInterrupt(STM32F4_UART_5, uart5_callbacks);
 }
 
 void USART6_IRQHandler()
 {
-    UARTHandle_t handle;
-    handle.device = STM32F4_USART_6;
-    stm32f4_uartHandleInterrupt(&handle, usart6_callbacks);
+    stm32f4_uartHandleInterrupt(STM32F4_USART_6, usart6_callbacks);
 }
 
 //=============================================================================================
