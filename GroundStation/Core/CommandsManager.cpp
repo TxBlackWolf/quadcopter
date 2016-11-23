@@ -31,11 +31,14 @@ CommandsManager::~CommandsManager()
     catch(...) {}
 }
 
+#include <QDebug>
+
 void CommandsManager::sendCommand(uint8_t *buffer, int size)
 {
     if (!m_server)
         return;
 
+    qDebug() << "Sending " << size << " bytes";
     QByteArray command = QByteArray::fromRawData(reinterpret_cast<char*>(buffer), size);
     m_server->sendData(command);
 }

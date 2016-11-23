@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT              += core gui serialport webkitwidgets
-CONFIG          += c++11 qwt
+CONFIG          += c++14 qwt
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
