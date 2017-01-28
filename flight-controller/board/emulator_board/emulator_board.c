@@ -55,7 +55,7 @@ bool board_periodicTimerInit(TimerHandle_t *timer_handle)
     return true;
 }
 
-bool board_commandsInit(UARTHandle_t *uart_handle)
+bool board_commandsInit(UARTHandle_t *uart_handle, HALEventCallback_t callback)
 {
     Emulator_UARTConfig_t uart_config;
     strcpy((char *) uart_config.ip, NETWORK_COMMANDS_IP);
